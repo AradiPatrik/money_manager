@@ -9,6 +9,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val businessRunner = DaggerAppComponent.create().businessRunner
+        businessRunner.runBusiness()
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         binding.welcomeText = "Databinding Works!"
     }
