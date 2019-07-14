@@ -1,12 +1,13 @@
-package hu.aradipatrik.chatapp
+package hu.aradipatrik.chatapp.di
 
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
+import hu.aradipatrik.chatapp.MainViewModel
 import javax.inject.Singleton
 
-@Component
 @Singleton
+@Component(modules = [AssistedInjectModule::class])
 interface AppComponent {
 
     @Component.Factory
