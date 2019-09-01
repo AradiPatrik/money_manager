@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/nav_graph">
+            android:id="@+id/nav_graph"
+            app:startDestination="@id/historyFragment">
 
+    <fragment
+            android:id="@+id/historyFragment"
+            android:name="hu.aradipatrik.chatapp.HistoryFragment"
+            android:label="History"/>
+    <fragment
+            android:id="@+id/diagramsFragment"
+            android:name="hu.aradipatrik.chatapp.DiagramsFragment"
+            android:label="Diagrams"/>
 </navigation>
