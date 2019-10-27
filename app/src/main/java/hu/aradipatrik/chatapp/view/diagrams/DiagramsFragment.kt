@@ -1,4 +1,4 @@
-package hu.aradipatrik.chatapp.view
+package hu.aradipatrik.chatapp.view.diagrams
 
 import android.os.Bundle
 import android.view.LayoutInflater

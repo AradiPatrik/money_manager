@@ -1,4 +1,4 @@
-package hu.aradipatrik.chatapp.view.bottom_navigation
+package hu.aradipatrik.chatapp.view.bottomnav
 
 import android.os.Bundle
 import android.view.LayoutInflater

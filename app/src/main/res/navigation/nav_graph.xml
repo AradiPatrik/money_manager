@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/nav_graph"
-            app:startDestination="@id/historyFragment">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/nav_graph"
+        app:startDestination="@id/historyFragment">
 
     <fragment
             android:id="@+id/historyFragment"
-            android:name="hu.aradipatrik.chatapp.HistoryFragment"
+            tools:layout="@layout/fragment_history"
+            android:name="hu.aradipatrik.chatapp.view.history.HistoryFragment"
             android:label="History"/>
     <fragment
             android:id="@+id/diagramsFragment"
-            android:name="hu.aradipatrik.chatapp.DiagramsFragment"
+            tools:layout="@layout/fragment_diagrams"
+            android:name="hu.aradipatrik.chatapp.view.diagrams.DiagramsFragment"
             android:label="Diagrams"/>
+    <action
+            android:id="@+id/action_global_diagramsFragment"
+            app:destination="@id/diagramsFragment"/>
+    <action
+            android:id="@+id/action_global_historyFragment"
+            app:destination="@id/historyFragment"/>
 </navigation>
