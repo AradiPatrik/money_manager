@@ -17,4 +17,13 @@
         <item name="tint">@color/primaryTextColor</item>
     </style>
 
+    <style name="ListSubtitle" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/listSubtitle</item>
+    </style>
+
+    <style name="ListTitle">
+        <item name="android:textColor">@color/listTitle</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

@@ -21,6 +21,7 @@ val incomeCategories = listOf(
 class TransactionRepository @Inject constructor() {
     private val _expenses = MutableLiveData<List<Income>>()
     val expenses: LiveData<List<Income>> = _expenses
+    val allTransactions = expenses
 
     init {
         _expenses.value = (0..10).map {
