@@ -5,6 +5,7 @@ import org.joda.time.Instant
 import java.util.*
 
 sealed class Transaction {
+    abstract val uid: Int
     abstract val amount: Int
     abstract val date: DateTime
     abstract val memo: String
@@ -12,6 +13,7 @@ sealed class Transaction {
 }
 
 data class Expense(
+    override val uid: Int,
     override val amount: Int,
     override val date: DateTime,
     override val memo: String,
@@ -19,6 +21,7 @@ data class Expense(
 ) : Transaction()
 
 data class Income(
+    override val uid: Int,
     override val amount: Int,
     override val date: DateTime,
     override val memo: String,
@@ -26,16 +29,19 @@ data class Income(
 ) : Transaction()
 
 sealed class Category {
+    abstract val colorName: String
     abstract val iconName: String
     abstract val name: String
 }
 
 data class ExpenseCategory(
+    override val colorName: String,
     override val iconName: String,
     override val name: String
 ): Category()
 
 data class IncomeCategory(
+    override val colorName: String,
     override val iconName: String,
     override val name: String
 ): Category()

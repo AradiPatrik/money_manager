@@ -1,16 +1,18 @@
 package hu.aradipatrik.chatapp.view.history
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.observe
 import hu.aradipatrik.chatapp.databinding.FragmentHistoryBinding
 import hu.aradipatrik.chatapp.di.viewModel
 import hu.aradipatrik.chatapp.injector
 
 class HistoryFragment : Fragment() {
-    val viewmodel by viewModel { injector.historyViewModel }
+    private val viewmodel by viewModel { injector.historyViewModel }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -18,6 +20,11 @@ class HistoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentHistoryBinding.inflate(inflater, container, false)
+        val adapter = HistoryAdapter()
+        binding.historyList.adapter = adapter
+        viewmodel.historyItems.observe(this) {
+            adapter.submitList(mapCategorisedTransactionsToItems(it))
+        }
         return binding.root
     }
 }
