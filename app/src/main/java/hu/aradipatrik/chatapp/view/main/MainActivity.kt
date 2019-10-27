@@ -15,11 +15,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewmodel.runBusiness()
-        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        val binding =
+            DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         val navController = findNavController(R.id.nav_host_fragment)
-        binding.collapsingToolbarLayout.setupWithNavController(
-            binding.toolbar, navController, AppBarConfiguration(navController.graph))
+        binding.toolbar.setupWithNavController(
+            navController,
+            AppBarConfiguration(setOf(R.id.historyFragment, R.id.diagramsFragment))
+        )
+        viewmodel.foo()
         binding.bottomNav.setupWithNavController(navController)
     }
 }
