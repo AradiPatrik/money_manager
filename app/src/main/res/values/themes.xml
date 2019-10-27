@@ -26,4 +26,10 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="TotalTitle">
+        <item name="android:textColor">@color/listSubtitle</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
 </resources>

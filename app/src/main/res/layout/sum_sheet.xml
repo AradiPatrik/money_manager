@@ -1,40 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.card.MaterialCardView
             android:id="@+id/sum_sheet"
             android:layout_width="match_parent"
-            android:layout_height="340dp"
-            android:background="@android:color/darker_gray"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             app:behavior_hideable="true"
+            app:cardElevation="8dp"
+            app:cardCornerRadius="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             app:behavior_skipCollapsed="true"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-        <TextView
-                android:id="@+id/textView"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:background="@color/secondaryDarkColor"
-                android:gravity="center"
-                android:text="Peek bottom sheet"
-                android:textColor="@android:color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView2" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <TextView
-                android:id="@+id/textView2"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:gravity="center"
-                android:text="Content"
-                android:textColor="@android:color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView" />
+            <TextView
+                    android:id="@+id/year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="2019"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                    android:id="@+id/rightChevron"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:tint="@color/defaultForegroundColor"
+                    app:layout_constraintBottom_toBottomOf="@+id/month"
+                    app:layout_constraintStart_toEndOf="@+id/month"
+                    app:layout_constraintTop_toTopOf="@+id/month"
+                    app:srcCompat="@drawable/ic_chevron_right_24dp" />
+
+            <ImageView
+                    android:id="@+id/leftChevron"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:tint="@color/defaultForegroundColor"
+                    app:layout_constraintBottom_toBottomOf="@+id/month"
+                    app:layout_constraintEnd_toStartOf="@+id/month"
+                    app:layout_constraintTop_toTopOf="@+id/month"
+                    app:srcCompat="@drawable/ic_chevron_left_24dp" />
+
+            <TextView
+                    android:id="@+id/month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:includeFontPadding="false"
+                    android:text="January"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/year"
+                    tools:text="January" />
+
+            <View
+                    android:id="@+id/view"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/dividerColor"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/month" />
+
+            <TextView
+                    android:id="@+id/total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Total"
+                    android:textAppearance="@style/TotalTitle"
+                    app:layout_constraintBottom_toBottomOf="@+id/yearlyAmount"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/yearlyAmount"
+                    tools:text="Total" />
+
+            <TextView
+                    android:id="@+id/yearlyAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:textSize="24dp"
+                    android:text="2 280 000"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view" />
+
+            <TextView
+                    android:id="@+id/monthly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Monthly"
+                    android:textAppearance="@style/TotalTitle"
+                    app:layout_constraintBottom_toBottomOf="@+id/monthlyAmount"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/monthlyAmount"
+                    tools:text="Monthly" />
+
+            <TextView
+                    android:id="@+id/monthlyAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="174 000"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/yearlyAmount" />
+
+            <TextView
+                    android:id="@+id/income"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Income"
+                    android:textAppearance="@style/ListTitle"
+                    app:layout_constraintBottom_toBottomOf="@+id/incomeAmount"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/incomeAmount" />
+
+            <TextView
+                    android:id="@+id/incomeAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="610 000"
+                    android:textAppearance="@style/ListSubtitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/monthlyAmount" />
+
+            <TextView
+                    android:id="@+id/expense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="40dp"
+                    android:text="420 000"
+                    android:textAppearance="@style/ListSubtitle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/incomeAmount" />
+
+            <TextView
+                    android:id="@+id/income2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Expense"
+                    android:textAppearance="@style/ListTitle"
+                    app:layout_constraintBottom_toBottomOf="@+id/expense"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/expense" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

@@ -11,4 +11,5 @@
     <color name="listSubtitle">@color/grey_300</color>
     <color name="listTitle">@color/grey_50</color>
     <color name="dividerColor">@color/grey_700</color>
+    <color name="defaultForegroundColor">@color/grey_300</color>
 </resources>
