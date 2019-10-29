@@ -144,7 +144,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/monthlyAmount" />
 
             <TextView
-                    android:id="@+id/expense"
+                    android:id="@+id/expenseAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -157,15 +157,15 @@
                     app:layout_constraintTop_toBottomOf="@+id/incomeAmount" />
 
             <TextView
-                    android:id="@+id/income2"
+                    android:id="@+id/expense"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="Expense"
                     android:textAppearance="@style/ListTitle"
-                    app:layout_constraintBottom_toBottomOf="@+id/expense"
+                    app:layout_constraintBottom_toBottomOf="@+id/expenseAmount"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/expense" />
+                    app:layout_constraintTop_toTopOf="@+id/expenseAmount" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

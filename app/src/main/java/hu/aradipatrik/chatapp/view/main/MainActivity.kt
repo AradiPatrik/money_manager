@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -21,7 +21,7 @@ import hu.aradipatrik.chatapp.view.viewext.onStateChange
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewmodel by viewModel { injector.mainViewModel }
+    private val historyViewModel by viewModel { injector.historyViewModel }
 
     private val binding: ActivityMainBinding by lazy {
         DataBindingUtil.setContentView<ActivityMainBinding>(
@@ -50,13 +50,41 @@ class MainActivity : AppCompatActivity() {
                 )
             )
         )
+
         binding.bottomAppBar.setOnMenuItemClickListener {
             Log.d(this::class.java.simpleName, "${it.title}")
             true
         }
+
         binding.fab.setOnClickListener {
             binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
         }
+
+        binding.sumSheet.rightChevron.setOnClickListener {
+            historyViewModel.nextMonth()
+        }
+        binding.sumSheet.leftChevron.setOnClickListener {
+            historyViewModel.previousMonth()
+        }
+
+        historyViewModel.selectedDate.observe(this) {
+            binding.toolbar.title = it.toString("MMMM")
+            binding.sumSheet.month.text = it.toString("MMMM")
+            binding.sumSheet.year.text = it.toString("YYYY")
+        }
+
+        historyViewModel.monthlySaving.observe(this) {
+            binding.sumSheet.monthlyAmount.text = it.toString()
+        }
+
+        historyViewModel.monthlyExpense.observe(this) {
+            binding.sumSheet.expenseAmount.text = it.toString()
+        }
+
+        historyViewModel.monthlyIncome.observe(this) {
+            binding.sumSheet.incomeAmount.text = it.toString()
+        }
+
         setSupportActionBar(binding.bottomAppBar)
         walletSheet.onStateChange {
             if (it == BottomSheetBehavior.STATE_HIDDEN) {

@@ -19,7 +19,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:textAppearance="@style/ListTitle"
-                android:textAllCaps="true"
                 android:text="@{title}"
                 tools:text="Today"
                 app:layout_constraintBottom_toBottomOf="parent"

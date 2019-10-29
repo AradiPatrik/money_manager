@@ -22,8 +22,11 @@ class HistoryFragment : Fragment() {
         val binding = FragmentHistoryBinding.inflate(inflater, container, false)
         val adapter = HistoryAdapter()
         binding.historyList.adapter = adapter
-        viewmodel.historyItems.observe(this) {
-            adapter.submitList(mapCategorisedTransactionsToItems(it))
+
+        viewmodel.historyItemsThisMonth.observe(this) {
+            val list = mapCategorisedTransactionsToItems(it)
+            Log.d(this::class.java.simpleName, "$it")
+            adapter.submitList(list)
         }
         return binding.root
     }

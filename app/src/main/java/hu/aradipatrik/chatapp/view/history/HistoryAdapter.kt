@@ -116,7 +116,7 @@ class HeaderItemViewHolder(val binding: ListItemHistoryHeaderBinding) :
         require(item is HeaderItem) {
             "Tried to bind transaction item to header item view holder"
         }
-        binding.title = item.date.toString(DateTimeFormat.shortDate())
+        binding.title = item.date.toString("YYYY, MMMMM, dd")
         binding.executePendingBindings()
     }
 }
