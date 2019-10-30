@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -33,8 +32,8 @@ class MainActivity : AppCompatActivity() {
     findNavController(R.id.nav_host_fragment)
   }
 
-  private val walletSheet by lazy {
-    BottomSheetBehavior.from(binding.sumSheet.sumSheet)
+  private val sumSheet by lazy {
+    BottomSheetBehavior.from(binding.sumSheetCardView.sumSheetCardView)
   }
 
 
@@ -49,51 +48,56 @@ class MainActivity : AppCompatActivity() {
         )
       )
     )
+    binding.lifecycleOwner = this
+    setupListeners()
+    setupAppFrame()
+    setupSumSheet()
+    setSupportActionBar(binding.bottomAppBar)
+    showHideFabOnSumSheetStateChange()
+    hideSumSheet()
+  }
 
+  private fun setupAppFrame() {
+    binding.toolbarTitle = historyViewModel.selectedMonth
+  }
+
+  private fun setupListeners() {
     binding.fab.setOnClickListener {
       binding.bottomAppBar.fabAlignmentMode =
         BottomAppBar.FAB_ALIGNMENT_MODE_END
     }
 
-    binding.sumSheet.rightChevron.setOnClickListener {
+    binding.sumSheetCardView.rightChevron.setOnClickListener {
       historyViewModel.nextMonth()
     }
-    binding.sumSheet.leftChevron.setOnClickListener {
+
+    binding.sumSheetCardView.leftChevron.setOnClickListener {
       historyViewModel.previousMonth()
     }
+  }
 
-    historyViewModel.selectedDate.observe(this) {
-      binding.toolbar.title = it.toString("MMMM")
-      binding.sumSheet.month.text = it.toString("MMMM")
-      binding.sumSheet.year.text = it.toString("YYYY")
-    }
+  private fun hideSumSheet() {
+    sumSheet.state = BottomSheetBehavior.STATE_HIDDEN
+  }
 
-    historyViewModel.monthlySaving.observe(this) {
-      binding.sumSheet.monthlyAmount.text = it.toString()
-    }
-
-    historyViewModel.monthlyExpense.observe(this) {
-      binding.sumSheet.expenseAmount.text = it.toString()
-    }
-
-    historyViewModel.monthlyIncome.observe(this) {
-      binding.sumSheet.incomeAmount.text = it.toString()
-    }
-
-    historyViewModel.totalTillSelectedMonth.observe(this) {
-      require(it != null) { "Null returned when asked for total savings" }
-      binding.sumSheet.totalAmount.text = it.toString()
-    }
-
-    setSupportActionBar(binding.bottomAppBar)
-    walletSheet.onStateChange {
+  private fun showHideFabOnSumSheetStateChange() {
+    sumSheet.onStateChange {
       if (it == BottomSheetBehavior.STATE_HIDDEN) {
         binding.fab.show()
       } else {
         binding.fab.hide()
       }
     }
-    walletSheet.state = BottomSheetBehavior.STATE_HIDDEN
+  }
+
+  private fun setupSumSheet() {
+    binding.sumSheetCardView.month = historyViewModel.selectedMonth
+    binding.sumSheetCardView.year = historyViewModel.selectedYear
+    binding.sumSheetCardView.monthlyTotal = historyViewModel.monthlySaving
+    binding.sumSheetCardView.monthlyExpense = historyViewModel.monthlyExpense
+    binding.sumSheetCardView.monthlyIncome = historyViewModel.monthlyIncome
+    binding.sumSheetCardView.totalAmount =
+      historyViewModel.totalTillSelectedMonth
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -112,6 +116,6 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun showWalletBottomSheet() {
-    walletSheet.state = BottomSheetBehavior.STATE_EXPANDED
+    sumSheet.state = BottomSheetBehavior.STATE_EXPANDED
   }
 }

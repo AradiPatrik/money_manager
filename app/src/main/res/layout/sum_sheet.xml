@@ -1,19 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+                name="year"
+                type="androidx.lifecycle.LiveData&lt;String>" />
+
+        <variable
+                name="month"
+                type="androidx.lifecycle.LiveData&lt;String>" />
+
+        <variable
+                name="totalAmount"
+                type="androidx.lifecycle.LiveData&lt;String>" />
+
+        <variable
+                name="monthlyTotal"
+                type="androidx.lifecycle.LiveData&lt;String>" />
+
+        <variable
+                name="monthlyIncome"
+                type="androidx.lifecycle.LiveData&lt;String>" />
+
+        <variable
+                name="monthlyExpense"
+                type="androidx.lifecycle.LiveData&lt;String>" />
+    </data>
 
     <com.google.android.material.card.MaterialCardView
-            android:id="@+id/sum_sheet"
+            android:id="@+id/sum_sheet_card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:behavior_hideable="true"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="16dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            app:behavior_skipCollapsed="true"
+            android:orientation="vertical"
+            app:behavior_hideable="true"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,48 +47,48 @@
                 android:layout_height="match_parent">
 
             <TextView
-                    android:id="@+id/year"
+                    android:id="@+id/year_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="2019"
+                    android:text="@{year}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                    android:id="@+id/rightChevron"
+                    android:id="@+id/right_chevron"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:tint="@color/defaultForegroundColor"
-                    app:layout_constraintBottom_toBottomOf="@+id/month"
-                    app:layout_constraintStart_toEndOf="@+id/month"
-                    app:layout_constraintTop_toTopOf="@+id/month"
+                    app:layout_constraintBottom_toBottomOf="@+id/month_text_view"
+                    app:layout_constraintStart_toEndOf="@+id/month_text_view"
+                    app:layout_constraintTop_toTopOf="@+id/month_text_view"
                     app:srcCompat="@drawable/ic_chevron_right_24dp" />
 
             <ImageView
-                    android:id="@+id/leftChevron"
+                    android:id="@+id/left_chevron"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:tint="@color/defaultForegroundColor"
-                    app:layout_constraintBottom_toBottomOf="@+id/month"
-                    app:layout_constraintEnd_toStartOf="@+id/month"
-                    app:layout_constraintTop_toTopOf="@+id/month"
+                    app:layout_constraintBottom_toBottomOf="@+id/month_text_view"
+                    app:layout_constraintEnd_toStartOf="@+id/month_text_view"
+                    app:layout_constraintTop_toTopOf="@+id/month_text_view"
                     app:srcCompat="@drawable/ic_chevron_left_24dp" />
 
             <TextView
-                    android:id="@+id/month"
+                    android:id="@+id/month_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:includeFontPadding="false"
-                    android:text="January"
+                    android:text="@{month}"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/year"
+                    app:layout_constraintTop_toBottomOf="@+id/year_text_view"
                     tools:text="January" />
 
             <View
@@ -73,99 +99,103 @@
                     android:background="@color/dividerColor"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/month" />
+                    app:layout_constraintTop_toBottomOf="@id/month_text_view" />
 
             <TextView
-                    android:id="@+id/total"
+                    android:id="@+id/total_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:text="Total"
+                    android:text="@string/sum_sheet_total"
                     android:textAppearance="@style/TotalTitle"
-                    app:layout_constraintBottom_toBottomOf="@+id/totalAmount"
+                    app:layout_constraintBottom_toBottomOf="@+id/total_amount_text_view"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/totalAmount"
+                    app:layout_constraintTop_toTopOf="@+id/total_amount_text_view"
                     tools:text="Total" />
 
             <TextView
-                    android:id="@+id/totalAmount"
+                    android:id="@+id/total_amount_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:textSize="24dp"
-                    android:text="2 280 000"
+                    android:text="@{totalAmount}"
+                    tools:text="2 280 000"
+                    android:textSize="24sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view" />
 
             <TextView
-                    android:id="@+id/monthly"
+                    android:id="@+id/monthly_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:text="Monthly"
+                    android:text="@string/sum_sheet_monthly"
                     android:textAppearance="@style/TotalTitle"
-                    app:layout_constraintBottom_toBottomOf="@+id/monthlyAmount"
+                    app:layout_constraintBottom_toBottomOf="@+id/monthly_amount_text_view"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/monthlyAmount"
+                    app:layout_constraintTop_toTopOf="@+id/monthly_amount_text_view"
                     tools:text="Monthly" />
 
             <TextView
-                    android:id="@+id/monthlyAmount"
+                    android:id="@+id/monthly_amount_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    android:text="174 000"
+                    android:text="@{monthlyTotal}"
+                    tools:text="174 000"
                     android:textSize="24sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/totalAmount" />
+                    app:layout_constraintTop_toBottomOf="@+id/total_amount_text_view" />
 
             <TextView
-                    android:id="@+id/income"
+                    android:id="@+id/income_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:text="Income"
+                    android:text="@string/sum_sheet_income"
                     android:textAppearance="@style/ListTitle"
-                    app:layout_constraintBottom_toBottomOf="@+id/incomeAmount"
+                    app:layout_constraintBottom_toBottomOf="@+id/income_amount_text_view"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/incomeAmount" />
+                    app:layout_constraintTop_toTopOf="@+id/income_amount_text_view" />
 
             <TextView
-                    android:id="@+id/incomeAmount"
+                    android:id="@+id/income_amount_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="16dp"
-                    android:text="610 000"
+                    android:text="@{monthlyIncome}"
+                    tools:text="610 000"
                     android:textAppearance="@style/ListSubtitle"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/monthlyAmount" />
+                    app:layout_constraintTop_toBottomOf="@+id/monthly_amount_text_view" />
 
             <TextView
-                    android:id="@+id/expenseAmount"
+                    android:id="@+id/expense_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/sum_sheet_expense"
+                    android:textAppearance="@style/ListTitle"
+                    app:layout_constraintBottom_toBottomOf="@+id/expense_amount_text_view"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/expense_amount_text_view" />
+
+            <TextView
+                    android:id="@+id/expense_amount_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="40dp"
-                    android:text="420 000"
+                    tools:text="420 000"
+                    android:text="@{monthlyExpense}"
                     android:textAppearance="@style/ListSubtitle"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/incomeAmount" />
-
-            <TextView
-                    android:id="@+id/expense"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="Expense"
-                    android:textAppearance="@style/ListTitle"
-                    app:layout_constraintBottom_toBottomOf="@+id/expenseAmount"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/expenseAmount" />
+                    app:layout_constraintTop_toBottomOf="@+id/income_amount_text_view" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

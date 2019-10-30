@@ -3,6 +3,12 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+                name="toolbarTitle"
+                type="androidx.lifecycle.LiveData&lt;String>" />
+    </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:fitsSystemWindows="true"
             android:layout_width="match_parent"
@@ -15,6 +21,7 @@
 
                     <androidx.appcompat.widget.Toolbar
                             android:id="@+id/toolbar"
+                            app:title="@{toolbarTitle}"
                             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                             android:layout_width="match_parent"
                             android:layout_height="?attr/actionBarSize"
@@ -28,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:defaultNavHost="true"
-                app:layout_anchor="@+id/sum_sheet"
+                app:layout_anchor="@+id/sum_sheet_card_view"
                 app:layout_anchorGravity="top|center"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
                 app:navGraph="@navigation/nav_graph"
@@ -51,7 +58,7 @@
                 android:src="@drawable/ic_add_white_24dp"
                 app:layout_anchor="@id/bottom_app_bar" />
 
-        <include layout="@layout/sum_sheet" android:id="@+id/sum_sheet"
+        <include layout="@layout/sum_sheet" android:id="@+id/sum_sheet_card_view"
                 tools:visibility="invisible"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -18,11 +18,9 @@ import kotlin.Comparator
 import kotlin.collections.set
 
 @Singleton
-class HistoryViewModel @Inject constructor(private val repository: TransactionRepository) :
-  ViewModel() {
-  private var lastAllHistoryResult: TreeMap<DateTime, TreeSet<Transaction>>? =
-    null
-
+class HistoryViewModel @Inject constructor(
+  private val repository: TransactionRepository
+) : ViewModel() {
   private val _allHistoryItems =
     Transformations.map(repository.allTransactions) { transactions ->
       val dayComparator = Comparator<DateTime> { lhs, rhs ->
@@ -55,7 +53,8 @@ class HistoryViewModel @Inject constructor(private val repository: TransactionRe
     _historyItemsThisMonth
 
   private val _selectedDate = MutableLiveData(DateTime.now())
-  val selectedDate: LiveData<DateTime> = _selectedDate
+  val selectedMonth = Transformations.map(_selectedDate) { it.toString("MMMM") }
+  val selectedYear = Transformations.map(_selectedDate) { it.toString("YYYY") }
 
   val monthlySaving =
     Transformations.map(_historyItemsThisMonth) { dateToTransactions ->
@@ -67,7 +66,7 @@ class HistoryViewModel @Inject constructor(private val repository: TransactionRe
             -it.amount
           }
         }
-      }
+      }.toString()
     }
 
   val monthlyIncome =
@@ -80,7 +79,7 @@ class HistoryViewModel @Inject constructor(private val repository: TransactionRe
             0
           }
         }
-      }
+      }.toString()
     }
 
   val monthlyExpense =
@@ -93,14 +92,15 @@ class HistoryViewModel @Inject constructor(private val repository: TransactionRe
             0
           }
         }
-      }
+      }.toString()
     }
 
   private val _totalTillSelectedMonth = MediatorLiveData<Int>()
-  val totalTillSelectedMonth = _totalTillSelectedMonth
+  val totalTillSelectedMonth: LiveData<String> =
+    Transformations.map(_totalTillSelectedMonth) { it.toString() }
 
   private fun calculateTotalTillSelectedMonth(transactions: List<Transaction>) =
-    selectedDate.value?.let { selectedDate ->
+    _selectedDate.value?.let { selectedDate ->
       transactions.filter {
         it.date.isBefore(
           selectedDate.dayOfMonth()
@@ -120,10 +120,9 @@ class HistoryViewModel @Inject constructor(private val repository: TransactionRe
 
   init {
     _historyItemsThisMonth.addSource(_allHistoryItems) { monthsToTransactions ->
-      lastAllHistoryResult = monthsToTransactions
       _historyItemsThisMonth.value = filterHistoryItems(monthsToTransactions)
     }
-    _totalTillSelectedMonth.addSource(repository._allTransactions) { transactions ->
+    _totalTillSelectedMonth.addSource(repository.allTransactions) { transactions ->
       _totalTillSelectedMonth.value =
         calculateTotalTillSelectedMonth(transactions)
     }

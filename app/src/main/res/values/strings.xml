@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ChatApp</string>
+    <string name="sum_sheet_total">Total</string>
+    <string name="sum_sheet_monthly">Monthly</string>
+    <string name="sum_sheet_income">Income</string>
+    <string name="sum_sheet_expense">Expense</string>
 </resources>

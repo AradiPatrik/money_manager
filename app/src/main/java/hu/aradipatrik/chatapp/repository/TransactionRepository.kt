@@ -51,7 +51,7 @@ val incomeDays = listOf(
 )
 
 class TransactionRepository @Inject constructor() {
-  val _allTransactions = MutableLiveData<List<Transaction>>()
+  private val _allTransactions = MutableLiveData<List<Transaction>>()
   val allTransactions = _allTransactions
 
   init {
