@@ -8,16 +8,17 @@ import hu.aradipatrik.chatapp.di.DaggerAppComponent
 
 @Suppress("unused")
 class ChatApplication : Application(), ComponentProvider {
-    override val component: AppComponent by lazy {
-        DaggerAppComponent.factory().create(this)
-    }
+  override val component: AppComponent by lazy {
+    DaggerAppComponent.factory().create(this)
+  }
 }
 
 interface ComponentProvider {
-    val component: AppComponent
+  val component: AppComponent
 }
 
-val Activity.injector get() =
+val Activity.injector
+  get() =
     (application as ComponentProvider).component
 
 val Fragment.injector get() = activity!!.injector

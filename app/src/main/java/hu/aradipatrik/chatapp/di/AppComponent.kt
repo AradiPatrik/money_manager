@@ -12,14 +12,14 @@ import javax.inject.Singleton
 @Component(modules = [AssistedInjectModule::class])
 interface AppComponent {
 
-    @Component.Factory
-    interface Factory {
-        fun create(
-            @BindsInstance applicationContext: Context
-        ): AppComponent
-    }
+  @Component.Factory
+  interface Factory {
+    fun create(
+      @BindsInstance applicationContext: Context
+    ): AppComponent
+  }
 
-    val mainViewModel: MainViewModel
-    val historyViewModel: HistoryViewModel
-    val createTransactionViewModel: CreateTransactionViewModel
+  val mainViewModel: MainViewModel
+  val historyViewModel: HistoryViewModel
+  val createTransactionViewModel: CreateTransactionViewModel
 }
