@@ -51,11 +51,6 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
-        binding.bottomAppBar.setOnMenuItemClickListener {
-            Log.d(this::class.java.simpleName, "${it.title}")
-            true
-        }
-
         binding.fab.setOnClickListener {
             binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
         }
@@ -83,6 +78,11 @@ class MainActivity : AppCompatActivity() {
 
         historyViewModel.monthlyIncome.observe(this) {
             binding.sumSheet.incomeAmount.text = it.toString()
+        }
+
+        historyViewModel.totalTillSelectedMonth.observe(this) {
+            require(it != null) { "Null returned when asked for total savings" }
+            binding.sumSheet.totalAmount.text = it.toString()
         }
 
         setSupportActionBar(binding.bottomAppBar)

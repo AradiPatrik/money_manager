@@ -1,6 +1,5 @@
 package hu.aradipatrik.chatapp.view.history
 
-import android.util.Log
 import androidx.lifecycle.*
 import hu.aradipatrik.chatapp.model.Expense
 import hu.aradipatrik.chatapp.model.Income
@@ -85,14 +84,35 @@ class HistoryViewModel @Inject constructor(private val repository: TransactionRe
         }
     }
 
-    val totalTillSelectedMonth = Transformations.map(repository._allTransactions) {
+    private val _totalTillSelectedMonth = MediatorLiveData<Int>()
+    val totalTillSelectedMonth = _totalTillSelectedMonth
 
-    }
+    private fun calculateTotalTillSelectedMonth(transactions: List<Transaction>) =
+        selectedDate.value?.let { selectedDate ->
+            transactions.filter {
+                it.date.isBefore(
+                    selectedDate.dayOfMonth()
+                        .withMaximumValue()
+                        .withHourOfDay(23)
+                        .withMinuteOfHour(59)
+                        .withSecondOfMinute(59)
+                )
+            }.sumBy {
+                if (it is Income) {
+                    it.amount
+                } else {
+                    -it.amount
+                }
+            }
+        }
 
     init {
         _historyItemsThisMonth.addSource(_allHistoryItems) { monthsToTransactions ->
             lastAllHistoryResult = monthsToTransactions
             _historyItemsThisMonth.value = filterHistoryItems(monthsToTransactions)
+        }
+        _totalTillSelectedMonth.addSource(repository._allTransactions) { transactions ->
+            _totalTillSelectedMonth.value = calculateTotalTillSelectedMonth(transactions)
         }
     }
 
@@ -105,11 +125,17 @@ class HistoryViewModel @Inject constructor(private val repository: TransactionRe
     fun nextMonth() {
         _selectedDate.value = _selectedDate.value?.plus(Period.months(1))
         updateMonthFilter()
+        val allTransactions = repository.allTransactions.value
+        require(allTransactions != null) { "Transactinos were null when updating list" }
+        _totalTillSelectedMonth.value = calculateTotalTillSelectedMonth(allTransactions)
     }
 
     fun previousMonth() {
         _selectedDate.value = _selectedDate.value?.minus(Period.months(1))
         updateMonthFilter()
+        val allTransactions = repository.allTransactions.value
+        require(allTransactions != null) { "Transactinos were null when updating list" }
+        _totalTillSelectedMonth.value = calculateTotalTillSelectedMonth(allTransactions)
     }
 
     private fun updateMonthFilter() {
