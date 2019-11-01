@@ -7,6 +7,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+        <View
+                android:id="@+id/profile_divider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@color/dividerColor"/>
 
         <com.google.android.material.navigation.NavigationView
                 android:id="@+id/navigation_view"

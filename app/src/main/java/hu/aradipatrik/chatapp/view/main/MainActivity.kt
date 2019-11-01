@@ -1,6 +1,7 @@
 package hu.aradipatrik.chatapp.view.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ import hu.aradipatrik.chatapp.R
 import hu.aradipatrik.chatapp.databinding.ActivityMainBinding
 import hu.aradipatrik.chatapp.di.viewModel
 import hu.aradipatrik.chatapp.injector
+import hu.aradipatrik.chatapp.view.bottomcalc.showCreateTransactionBottomSheet
 import hu.aradipatrik.chatapp.view.bottomnav.showBottomSheetNavigation
 import hu.aradipatrik.chatapp.view.viewext.onStateChange
 
@@ -63,8 +65,9 @@ class MainActivity : AppCompatActivity() {
 
   private fun setupListeners() {
     binding.fab.setOnClickListener {
-      binding.bottomAppBar.fabAlignmentMode =
-        BottomAppBar.FAB_ALIGNMENT_MODE_END
+      showCreateTransactionBottomSheet { _, _, _ ->
+        Log.d(this::class.java.simpleName, "TODO: Create transaction")
+      }
     }
 
     binding.sumSheetCardView.rightChevron.setOnClickListener {

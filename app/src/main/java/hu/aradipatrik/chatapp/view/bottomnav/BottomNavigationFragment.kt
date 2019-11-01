@@ -9,8 +9,9 @@ import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import hu.aradipatrik.chatapp.databinding.FragmentBottomNavigationBinding
 
-class BottomNavigationFragment(private val onMenuItemClick: (MenuItem) -> Unit) :
-  BottomSheetDialogFragment() {
+class BottomNavigationFragment(
+  private val onMenuItemClick: (MenuItem) -> Unit
+) : BottomSheetDialogFragment() {
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
@@ -27,7 +28,9 @@ class BottomNavigationFragment(private val onMenuItemClick: (MenuItem) -> Unit) 
   }
 }
 
-fun FragmentActivity.showBottomSheetNavigation(onMenuItemClick: (MenuItem) -> Unit) {
+fun FragmentActivity.showBottomSheetNavigation(
+  onMenuItemClick: (MenuItem) -> Unit
+) {
   BottomNavigationFragment(onMenuItemClick).show(
     supportFragmentManager,
     BottomNavigationFragment::class.java.simpleName
