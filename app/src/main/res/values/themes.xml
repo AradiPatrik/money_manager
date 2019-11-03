@@ -2,7 +2,7 @@
 <resources xmlns:app="http://schemas.android.com/apk/res-auto">
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Customize your theme here. -->
+        <!-- Colors -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorPrimaryVariant">@color/primaryLightColor</item>
@@ -10,6 +10,20 @@
         <item name="colorSecondaryVariant">@color/secondaryLightColor</item>
         <item name="android:textColorSecondary">@color/secondaryTextColor</item>
         <item name="android:textColorPrimary">@color/primaryTextColor</item>
+
+        <!-- Material widgets -->
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetStyle</item>
+    </style>
+
+    <style name="AppBottomSheetStyle" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="bottomSheetStyle">@style/AppBottomModalStyle</item>
+    </style>
+
+    <style name="AppBottomModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/background_bottom_sheet</item>
     </style>
 
     <style name="AppFloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
@@ -32,13 +46,10 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
-    <style name="NumberPadButton" parent="Widget.MaterialComponents.Button">
+    <style name="NumberPadButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="cornerRadius">0dp</item>
-        <item name="android:layout_margin">8dp</item>
-        <item name="android:layout_width">64dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">64dp</item>
-        <item name="android:textColor">@color/defaultForegroundColor</item>
-        <item name="android:backgroundTint">@color/design_default_color_surface</item>
     </style>
-
 </resources>

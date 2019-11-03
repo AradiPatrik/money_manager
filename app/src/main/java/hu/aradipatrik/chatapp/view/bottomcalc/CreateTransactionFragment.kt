@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import hu.aradipatrik.chatapp.databinding.CalculatorSheetBinding
+import hu.aradipatrik.chatapp.databinding.CreateTransactionSheetBinding
 
 class CreateTransactionFragment(
   onAdd: (
@@ -21,9 +22,6 @@ class CreateTransactionFragment(
     savedInstanceState: Bundle?
   ): View? {
     val binding = CalculatorSheetBinding.inflate(inflater, container, false)
-
-
-
     return binding.root
   }
 }
