@@ -6,10 +6,11 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.observe
+import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import hu.aradipatrik.chatapp.R
 import hu.aradipatrik.chatapp.databinding.ActivityMainBinding
@@ -17,11 +18,13 @@ import hu.aradipatrik.chatapp.di.viewModel
 import hu.aradipatrik.chatapp.injector
 import hu.aradipatrik.chatapp.view.bottomcalc.showCreateTransactionBottomSheet
 import hu.aradipatrik.chatapp.view.bottomnav.showBottomSheetNavigation
+import hu.aradipatrik.chatapp.view.categoryselect.CategoryListAdapter
 import hu.aradipatrik.chatapp.view.viewext.onStateChange
 
 class MainActivity : AppCompatActivity() {
 
   private val historyViewModel by viewModel { injector.historyViewModel }
+  private val categorySelectViewModel by viewModel { injector.categorySelectViewModel }
 
   private val binding: ActivityMainBinding by lazy {
     DataBindingUtil.setContentView<ActivityMainBinding>(
@@ -35,9 +38,12 @@ class MainActivity : AppCompatActivity() {
   }
 
   private val sumSheet by lazy {
-    BottomSheetBehavior.from(binding.sumSheetCardView.sumSheetCardView)
+    BottomSheetBehavior.from(binding.sumSheetContainer.sumSheetContainer)
   }
 
+  private val calculatorSheet by lazy {
+    BottomSheetBehavior.from(binding.calculatorSheet.calculatorSheet)
+  }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -51,12 +57,21 @@ class MainActivity : AppCompatActivity() {
       )
     )
     binding.lifecycleOwner = this
+    val adapter = CategoryListAdapter {
+      Log.d(this::class.java.simpleName, it)
+    }
+    binding.calculatorSheet.categorySelectRecyclerView.adapter = adapter
+    categorySelectViewModel.allCategories.observe(this) {
+      if (it != null) {
+        adapter.submitList(it)
+      }
+    }
     setupListeners()
     setupAppFrame()
     setupSumSheet()
     setSupportActionBar(binding.bottomAppBar)
     showHideFabOnSumSheetStateChange()
-    hideSumSheet()
+    hideSheets()
   }
 
   private fun setupAppFrame() {
@@ -65,22 +80,22 @@ class MainActivity : AppCompatActivity() {
 
   private fun setupListeners() {
     binding.fab.setOnClickListener {
-      showCreateTransactionBottomSheet { _, _, _ ->
-        Log.d(this::class.java.simpleName, "TODO: Create transaction")
-      }
+//      navController.navigate(R.id.action_historyFragment_to_categorySelectFragment)
+      showCalculatorBottomSheet()
     }
 
-    binding.sumSheetCardView.rightChevron.setOnClickListener {
+    binding.sumSheetContainer.rightChevron.setOnClickListener {
       historyViewModel.nextMonth()
     }
 
-    binding.sumSheetCardView.leftChevron.setOnClickListener {
+    binding.sumSheetContainer.leftChevron.setOnClickListener {
       historyViewModel.previousMonth()
     }
   }
 
-  private fun hideSumSheet() {
+  private fun hideSheets() {
     sumSheet.state = BottomSheetBehavior.STATE_HIDDEN
+    calculatorSheet.state = BottomSheetBehavior.STATE_HIDDEN
   }
 
   private fun showHideFabOnSumSheetStateChange() {
@@ -91,15 +106,23 @@ class MainActivity : AppCompatActivity() {
         binding.fab.hide()
       }
     }
+
+    calculatorSheet.onStateChange {
+      if (it == BottomSheetBehavior.STATE_HIDDEN) {
+        binding.fab.show()
+      } else {
+        binding.fab.hide()
+      }
+    }
   }
 
   private fun setupSumSheet() {
-    binding.sumSheetCardView.month = historyViewModel.selectedMonth
-    binding.sumSheetCardView.year = historyViewModel.selectedYear
-    binding.sumSheetCardView.monthlyTotal = historyViewModel.monthlySaving
-    binding.sumSheetCardView.monthlyExpense = historyViewModel.monthlyExpense
-    binding.sumSheetCardView.monthlyIncome = historyViewModel.monthlyIncome
-    binding.sumSheetCardView.totalAmount =
+    binding.sumSheetContainer.month = historyViewModel.selectedMonth
+    binding.sumSheetContainer.year = historyViewModel.selectedYear
+    binding.sumSheetContainer.monthlyTotal = historyViewModel.monthlySaving
+    binding.sumSheetContainer.monthlyExpense = historyViewModel.monthlyExpense
+    binding.sumSheetContainer.monthlyIncome = historyViewModel.monthlyIncome
+    binding.sumSheetContainer.totalAmount =
       historyViewModel.totalTillSelectedMonth
   }
 
@@ -120,5 +143,9 @@ class MainActivity : AppCompatActivity() {
 
   private fun showWalletBottomSheet() {
     sumSheet.state = BottomSheetBehavior.STATE_EXPANDED
+  }
+
+  private fun showCalculatorBottomSheet() {
+    calculatorSheet.state = BottomSheetBehavior.STATE_EXPANDED
   }
 }

@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:defaultNavHost="true"
-                app:layout_anchor="@+id/sum_sheet_card_view"
+                app:layout_anchor="@+id/sum_sheet_container"
                 app:layout_anchorGravity="top|center"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
                 app:navGraph="@navigation/nav_graph"
@@ -57,7 +57,11 @@
                 android:src="@drawable/ic_add_white_24dp"
                 app:layout_anchor="@id/bottom_app_bar" />
 
-        <include layout="@layout/sum_sheet" android:id="@+id/sum_sheet_card_view"
+        <include layout="@layout/sum_sheet"
+                android:id="@+id/sum_sheet_container"
                 tools:visibility="invisible"/>
+
+        <include layout="@layout/calculator_sheet"
+                android:id="@+id/calculator_sheet"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

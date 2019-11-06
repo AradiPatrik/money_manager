@@ -30,173 +30,165 @@
                 type="androidx.lifecycle.LiveData&lt;String>" />
     </data>
 
-    <com.google.android.material.card.MaterialCardView
-            android:id="@+id/sum_sheet_card_view"
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sum_sheet_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:orientation="vertical"
+            android:elevation="8dp"
+            android:background="@drawable/background_bottom_sheet"
             app:behavior_hideable="true"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="8dp"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+        <TextView
+                android:id="@+id/year_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@{year}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                    android:id="@+id/year_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@{year}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+                android:id="@+id/right_chevron"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:tint="@color/defaultForegroundColor"
+                app:layout_constraintBottom_toBottomOf="@+id/month_text_view"
+                app:layout_constraintStart_toEndOf="@+id/month_text_view"
+                app:layout_constraintTop_toTopOf="@+id/month_text_view"
+                app:srcCompat="@drawable/ic_chevron_right_24dp" />
 
-            <ImageView
-                    android:id="@+id/right_chevron"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:tint="@color/defaultForegroundColor"
-                    app:layout_constraintBottom_toBottomOf="@+id/month_text_view"
-                    app:layout_constraintStart_toEndOf="@+id/month_text_view"
-                    app:layout_constraintTop_toTopOf="@+id/month_text_view"
-                    app:srcCompat="@drawable/ic_chevron_right_24dp" />
+        <ImageView
+                android:id="@+id/left_chevron"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:tint="@color/defaultForegroundColor"
+                app:layout_constraintBottom_toBottomOf="@+id/month_text_view"
+                app:layout_constraintEnd_toStartOf="@+id/month_text_view"
+                app:layout_constraintTop_toTopOf="@+id/month_text_view"
+                app:srcCompat="@drawable/ic_chevron_left_24dp" />
 
-            <ImageView
-                    android:id="@+id/left_chevron"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:tint="@color/defaultForegroundColor"
-                    app:layout_constraintBottom_toBottomOf="@+id/month_text_view"
-                    app:layout_constraintEnd_toStartOf="@+id/month_text_view"
-                    app:layout_constraintTop_toTopOf="@+id/month_text_view"
-                    app:srcCompat="@drawable/ic_chevron_left_24dp" />
+        <TextView
+                android:id="@+id/month_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:includeFontPadding="false"
+                android:text="@{month}"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/year_text_view"
+                tools:text="January" />
 
-            <TextView
-                    android:id="@+id/month_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:includeFontPadding="false"
-                    android:text="@{month}"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/year_text_view"
-                    tools:text="January" />
+        <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/dividerColor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/month_text_view" />
 
-            <View
-                    android:id="@+id/view"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@color/dividerColor"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/month_text_view" />
+        <TextView
+                android:id="@+id/total_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/sum_sheet_total"
+                android:textAppearance="@style/TotalTitle"
+                app:layout_constraintBottom_toBottomOf="@+id/total_amount_text_view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/total_amount_text_view"
+                tools:text="Total" />
 
-            <TextView
-                    android:id="@+id/total_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="@string/sum_sheet_total"
-                    android:textAppearance="@style/TotalTitle"
-                    app:layout_constraintBottom_toBottomOf="@+id/total_amount_text_view"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/total_amount_text_view"
-                    tools:text="Total" />
+        <TextView
+                android:id="@+id/total_amount_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@{totalAmount}"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view"
+                tools:text="2 280 000" />
 
-            <TextView
-                    android:id="@+id/total_amount_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:text="@{totalAmount}"
-                    tools:text="2 280 000"
-                    android:textSize="24sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view" />
+        <TextView
+                android:id="@+id/monthly_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/sum_sheet_monthly"
+                android:textAppearance="@style/TotalTitle"
+                app:layout_constraintBottom_toBottomOf="@+id/monthly_amount_text_view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/monthly_amount_text_view"
+                tools:text="Monthly" />
 
-            <TextView
-                    android:id="@+id/monthly_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="@string/sum_sheet_monthly"
-                    android:textAppearance="@style/TotalTitle"
-                    app:layout_constraintBottom_toBottomOf="@+id/monthly_amount_text_view"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/monthly_amount_text_view"
-                    tools:text="Monthly" />
+        <TextView
+                android:id="@+id/monthly_amount_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="@{monthlyTotal}"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/total_amount_text_view"
+                tools:text="174 000" />
 
-            <TextView
-                    android:id="@+id/monthly_amount_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:text="@{monthlyTotal}"
-                    tools:text="174 000"
-                    android:textSize="24sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/total_amount_text_view" />
+        <TextView
+                android:id="@+id/income_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/sum_sheet_income"
+                android:textAppearance="@style/ListTitle"
+                app:layout_constraintBottom_toBottomOf="@+id/income_amount_text_view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/income_amount_text_view" />
 
-            <TextView
-                    android:id="@+id/income_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="@string/sum_sheet_income"
-                    android:textAppearance="@style/ListTitle"
-                    app:layout_constraintBottom_toBottomOf="@+id/income_amount_text_view"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/income_amount_text_view" />
+        <TextView
+                android:id="@+id/income_amount_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:text="@{monthlyIncome}"
+                android:textAppearance="@style/ListSubtitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/monthly_amount_text_view"
+                tools:text="610 000" />
 
-            <TextView
-                    android:id="@+id/income_amount_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="16dp"
-                    android:text="@{monthlyIncome}"
-                    tools:text="610 000"
-                    android:textAppearance="@style/ListSubtitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/monthly_amount_text_view" />
+        <TextView
+                android:id="@+id/expense_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/sum_sheet_expense"
+                android:textAppearance="@style/ListTitle"
+                app:layout_constraintBottom_toBottomOf="@+id/expense_amount_text_view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/expense_amount_text_view" />
 
-            <TextView
-                    android:id="@+id/expense_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="@string/sum_sheet_expense"
-                    android:textAppearance="@style/ListTitle"
-                    app:layout_constraintBottom_toBottomOf="@+id/expense_amount_text_view"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/expense_amount_text_view" />
+        <TextView
+                android:id="@+id/expense_amount_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="40dp"
+                android:text="@{monthlyExpense}"
+                android:textAppearance="@style/ListSubtitle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/income_amount_text_view"
+                tools:text="420 000" />
 
-            <TextView
-                    android:id="@+id/expense_amount_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="40dp"
-                    tools:text="420 000"
-                    android:text="@{monthlyExpense}"
-                    android:textAppearance="@style/ListSubtitle"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/income_amount_text_view" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
