@@ -148,4 +148,14 @@ class MainActivity : AppCompatActivity() {
   private fun showCalculatorBottomSheet() {
     calculatorSheet.state = BottomSheetBehavior.STATE_EXPANDED
   }
+
+  override fun onBackPressed() {
+    if (calculatorSheet.state != BottomSheetBehavior.STATE_HIDDEN) {
+      calculatorSheet.state = BottomSheetBehavior.STATE_HIDDEN
+    }
+
+    if (sumSheet.state != BottomSheetBehavior.STATE_HIDDEN) {
+      sumSheet.state = BottomSheetBehavior.STATE_HIDDEN
+    }
+  }
 }
