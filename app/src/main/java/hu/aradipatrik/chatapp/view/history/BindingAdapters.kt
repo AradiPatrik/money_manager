@@ -7,18 +7,18 @@ import androidx.core.widget.ImageViewCompat
 import androidx.databinding.BindingAdapter
 
 object BindingAdapters {
-  @JvmStatic
-  @BindingAdapter("srcRes")
-  fun ImageView.srcRes(resId: Int) {
-    setImageResource(resId)
-  }
+    @JvmStatic
+    @BindingAdapter("srcRes")
+    fun ImageView.srcRes(resId: Int) {
+        setImageResource(resId)
+    }
 
-  @JvmStatic
-  @BindingAdapter("tint")
-  fun ImageView.tint(tintResId: Int) {
-    ImageViewCompat.setImageTintList(
-      this,
-      ColorStateList.valueOf(ContextCompat.getColor(context, tintResId))
-    )
-  }
+    @JvmStatic
+    @BindingAdapter("tint")
+    fun ImageView.tint(tintResId: Int) {
+        ImageViewCompat.setImageTintList(
+                this,
+                ColorStateList.valueOf(ContextCompat.getColor(context, tintResId))
+        )
+    }
 }

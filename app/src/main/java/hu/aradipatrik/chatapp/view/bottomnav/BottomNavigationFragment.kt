@@ -10,29 +10,29 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import hu.aradipatrik.chatapp.databinding.FragmentBottomNavigationBinding
 
 class BottomNavigationFragment(
-  private val onMenuItemClick: (MenuItem) -> Unit
+        private val onMenuItemClick: (MenuItem) -> Unit
 ) : BottomSheetDialogFragment() {
-  override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View? {
-    val binding =
-      FragmentBottomNavigationBinding.inflate(inflater, container, false)
-    binding.navigationView.setNavigationItemSelectedListener {
-      onMenuItemClick(it)
-      dismiss()
-      true
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+        val binding =
+                FragmentBottomNavigationBinding.inflate(inflater, container, false)
+        binding.navigationView.setNavigationItemSelectedListener {
+            onMenuItemClick(it)
+            dismiss()
+            true
+        }
+        return binding.root
     }
-    return binding.root
-  }
 }
 
 fun FragmentActivity.showBottomSheetNavigation(
-  onMenuItemClick: (MenuItem) -> Unit
+        onMenuItemClick: (MenuItem) -> Unit
 ) {
-  BottomNavigationFragment(onMenuItemClick).show(
-    supportFragmentManager,
-    BottomNavigationFragment::class.java.simpleName
-  )
+    BottomNavigationFragment(onMenuItemClick).show(
+            supportFragmentManager,
+            BottomNavigationFragment::class.java.simpleName
+    )
 }

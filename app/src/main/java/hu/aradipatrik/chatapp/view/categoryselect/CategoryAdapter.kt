@@ -9,56 +9,56 @@ import hu.aradipatrik.chatapp.R
 import hu.aradipatrik.chatapp.databinding.ListItemCategoryBinding
 
 class CategoryItem(
-  val categoryName: String,
-  val iconResId: Int,
-  val isSelected: Boolean
+        val categoryName: String,
+        val iconResId: Int,
+        val isSelected: Boolean
 )
 
 object CategoryItemDiffUtilCallback : DiffUtil.ItemCallback<CategoryItem>() {
-  override fun areItemsTheSame(oldItem: CategoryItem, newItem: CategoryItem) =
-    oldItem.categoryName == newItem.categoryName
+    override fun areItemsTheSame(oldItem: CategoryItem, newItem: CategoryItem) =
+            oldItem.categoryName == newItem.categoryName
 
-  override fun areContentsTheSame(
-    oldItem: CategoryItem,
-    newItem: CategoryItem
-  ) =
-    oldItem.iconResId == newItem.iconResId &&
-      oldItem.isSelected == newItem.isSelected
+    override fun areContentsTheSame(
+            oldItem: CategoryItem,
+            newItem: CategoryItem
+    ) =
+            oldItem.iconResId == newItem.iconResId &&
+                    oldItem.isSelected == newItem.isSelected
 }
 
 class CategoryListAdapter(private val onSelect: (categoryName: String) -> Unit) :
-  ListAdapter<CategoryItem, IconItemViewHolder>(CategoryItemDiffUtilCallback) {
-  override fun onCreateViewHolder(
-    parent: ViewGroup,
-    viewType: Int
-  ) = IconItemViewHolder(
-    ListItemCategoryBinding.inflate(
-      LayoutInflater.from(parent.context),
-      parent,
-      false
-    ), onSelect = onSelect
-  )
+        ListAdapter<CategoryItem, IconItemViewHolder>(CategoryItemDiffUtilCallback) {
+    override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int
+    ) = IconItemViewHolder(
+            ListItemCategoryBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+            ), onSelect = onSelect
+    )
 
-  override fun onBindViewHolder(holder: IconItemViewHolder, position: Int) {
-    holder.bind(getItem(position))
-  }
+    override fun onBindViewHolder(holder: IconItemViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
 
 }
 
 class IconItemViewHolder(
-  val binding: ListItemCategoryBinding,
-  val onSelect: (categoryName: String) -> Unit
+        val binding: ListItemCategoryBinding,
+        val onSelect: (categoryName: String) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
-  fun bind(item: CategoryItem) {
-    binding.iconResId = item.iconResId
-    binding.name = item.categoryName
-    binding.tintResId = if (item.isSelected)
-      R.color.primaryColor
-    else
-      R.color.defaultForegroundColor
-    binding.listItemCategoryContainer.setOnClickListener {
-      onSelect(item.categoryName)
+    fun bind(item: CategoryItem) {
+        binding.iconResId = item.iconResId
+        binding.name = item.categoryName
+        binding.tintResId = if (item.isSelected)
+            R.color.primaryColor
+        else
+            R.color.defaultForegroundColor
+        binding.listItemCategoryContainer.setOnClickListener {
+            onSelect(item.categoryName)
+        }
+        binding.executePendingBindings()
     }
-    binding.executePendingBindings()
-  }
 }
