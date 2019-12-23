@@ -1,0 +1,23 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm"
+}
+
+dependencies {
+    def moduleDependencies = rootProject.ext.domainDependencies
+    def moduleTestDependencies = rootProject.ext.domainTestDependencies
+
+    implementation moduleDependencies.javaxAnnotation
+    implementation moduleDependencies.javaxInject
+    implementation moduleDependencies.rxJava
+    implementation moduleDependencies.rxKotlin
+    implementation moduleDependencies.kotlinStdLib
+    implementation moduleDependencies.jodaTime
+
+    testImplementation moduleTestDependencies.junit
+    testImplementation moduleTestDependencies.mockk
+    testImplementation moduleTestDependencies.strikt
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
