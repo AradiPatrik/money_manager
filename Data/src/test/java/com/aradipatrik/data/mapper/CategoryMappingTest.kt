@@ -11,6 +11,7 @@ import org.junit.Before
 import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
+import strikt.assertions.isFalse
 
 class CategoryMappingTest {
     private val categoryMapper = CategoryMapper()
@@ -28,6 +29,7 @@ class CategoryMappingTest {
         val entity = categoryMapper.mapToEntity(testDomain)
         assertEqualsDomainEntity(testDomain, entity)
         expectThat(entity.lastUpdateTimestamp).isEqualTo(testTimestamp)
+        expectThat(entity.isDeleted).isFalse()
     }
 
     @Test

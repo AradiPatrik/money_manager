@@ -10,6 +10,6 @@ class CategoryMapper @Inject constructor() : EntityMapper<CategoryEntity, Catego
 
     override fun mapToEntity(domain: Category) = CategoryEntity(
         domain.id, domain.name, domain.iconId,
-        lastUpdateTimestamp = TimestampProvider.now()
+        lastUpdateTimestamp = TimestampProvider.now(), isDeleted = false
     )
 }

@@ -14,6 +14,7 @@ import org.junit.Before
 import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
+import strikt.assertions.isFalse
 
 class TransactionMappingTest {
     private val testCategory = category()
@@ -46,6 +47,7 @@ class TransactionMappingTest {
         assertEqualsDomainEntity(testDomain, entity)
         expectThat(entity.category).isEqualTo(testCategoryEntity)
         expectThat(entity.updatedTimeStamp).isEqualTo(testTimestamp)
+        expectThat(entity.isDeleted).isFalse()
     }
 
     private fun assertEqualsDomainEntity(domain: Transaction, entity: TransactionEntity) {

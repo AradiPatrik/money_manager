@@ -5,10 +5,10 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import org.joda.time.Interval
 
-interface TransactionsDataSource {
+interface TransactionDataStore {
     fun getAllTransactions(): Observable<List<TransactionEntity>>
     fun getTransactionsInInterval(interval: Interval): Observable<List<TransactionEntity>>
-    fun deleteTransactions(id: String): Completable
+    fun deleteTransaction(id: String): Completable
     fun addTransaction(transaction: TransactionEntity): Completable
-    fun editTransaction(transaction: TransactionEntity): Completable
+    fun updateTransaction(transaction: TransactionEntity): Completable
 }
