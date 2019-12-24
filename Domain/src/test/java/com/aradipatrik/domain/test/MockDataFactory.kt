@@ -1,4 +1,4 @@
-package util
+package com.aradipatrik.domain.test
 
 import com.aradipatrik.domain.model.Category
 import com.aradipatrik.domain.model.Transaction
@@ -11,6 +11,8 @@ import kotlin.random.Random
 object MockDataFactory {
     fun string() = UUID.randomUUID().toString()
     fun int() = Random.nextInt()
+    fun long() = Random.nextLong()
+    fun boolean() = Random.nextBoolean()
     fun year() = Random.nextInt(1900, 2500)
     fun month() = Random.nextInt(1, 12)
     fun day() = Random.nextInt(1, 28)
@@ -26,7 +28,14 @@ object MockDataFactory {
         date: DateTime = date()
     ) = Transaction(id, category, amount, memo, date)
 
-    fun date() = DateTime(year(), month(), day(), hour(), minute(), second())
+    fun date() = DateTime(
+        year(),
+        month(),
+        day(),
+        hour(),
+        minute(),
+        second()
+    )
 
     fun interval(
         startDate: DateTime = DateTime.now(),

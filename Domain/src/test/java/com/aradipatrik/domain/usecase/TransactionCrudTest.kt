@@ -9,9 +9,9 @@ import io.mockk.verify
 import io.reactivex.Completable
 import io.reactivex.Observable
 import org.junit.Test
-import util.MockDataFactory.interval
-import util.MockDataFactory.string
-import util.MockDataFactory.transaction
+import com.aradipatrik.domain.test.MockDataFactory.interval
+import com.aradipatrik.domain.test.MockDataFactory.string
+import com.aradipatrik.domain.test.MockDataFactory.transaction
 
 class TransactionCrudTest {
     private val postExecutionThread = mockk<PostExecutionThread>()

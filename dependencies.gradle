@@ -27,6 +27,21 @@ ext {
     domainTestDependencies = [
             junit : "junit:junit:${junitVersion}",
             strikt: "io.strikt:strikt-core:${striktVersion}",
+            mockk : "io.mockk:mockk:${mockkVersion}"
+    ]
+
+    dataDependencies = [
+            rxJava         : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxKotlin       : "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
+            javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}",
+            javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            kotlinStdLib   : "org.jetbrains.kotlin:kotlin-stdlib-jdk8",
+            jodaTime       : "joda-time:joda-time:${jodaTimeVersion}"
+    ]
+
+    dataTestDependencies = [
+            junit : "junit:junit:${junitVersion}",
+            strikt: "io.strikt:strikt-core:${striktVersion}",
             mockk : "io.mockk:mockk:1.9"
     ]
 
