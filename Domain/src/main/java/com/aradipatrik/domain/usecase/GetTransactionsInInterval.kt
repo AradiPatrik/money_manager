@@ -20,6 +20,6 @@ class GetTransactionsInInterval @Inject constructor(
 
     override fun buildUseCaseObservable(params: Params?): Observable<List<Transaction>> {
         require(params != null) { "${this::class.java.simpleName} parameters can't be null" }
-        return transferRepository.getTransactionsInInterval(params.interval)
+        return transferRepository.getInInterval(params.interval)
     }
 }

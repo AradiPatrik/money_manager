@@ -34,7 +34,7 @@ class TransactionCrudTest {
         addTransaction.buildUseCaseCompletable(
             AddTransaction.Params.forTransaction(transactionToAdd)
         )
-        verify { transactionRepository.addTransaction(transactionToAdd) }
+        verify { transactionRepository.add(transactionToAdd) }
     }
 
     @Test(expected = IllegalArgumentException::class)
@@ -61,7 +61,7 @@ class TransactionCrudTest {
         deleteTransaction.buildUseCaseCompletable(
             DeleteTransaction.Params.forTransaction(transactionIdToDelete)
         )
-        verify { transactionRepository.deleteTransaction(transactionIdToDelete) }
+        verify { transactionRepository.delete(transactionIdToDelete) }
     }
 
     @Test(expected = IllegalArgumentException::class)
@@ -88,7 +88,7 @@ class TransactionCrudTest {
         updateTransaction.buildUseCaseCompletable(
             UpdateTransaction.Params.forTransaction(transactionToUpdate)
         )
-        verify { transactionRepository.updateTransaction(transactionToUpdate) }
+        verify { transactionRepository.update(transactionToUpdate) }
     }
 
     @Test(expected = IllegalArgumentException::class)
@@ -113,7 +113,7 @@ class TransactionCrudTest {
         stubGetAllTransactions(testTransactions)
         val getTransactions = GetTransactions(transactionRepository, postExecutionThread)
         val transactionsObservable = getTransactions.buildUseCaseObservable().test()
-        verify { transactionRepository.getAllTransactions() }
+        verify { transactionRepository.getAll() }
         transactionsObservable.assertValue(testTransactions)
     }
 
@@ -138,7 +138,7 @@ class TransactionCrudTest {
         val transactionsObservable = getTransactionsInInterval.buildUseCaseObservable(
             GetTransactionsInInterval.Params.forInterval(testInterval)
         ).test()
-        verify { transactionRepository.getTransactionsInInterval(testInterval) }
+        verify { transactionRepository.getInInterval(testInterval) }
         transactionsObservable.assertValue(testTransactions)
     }
 
@@ -150,23 +150,23 @@ class TransactionCrudTest {
     }
 
     private fun stubAddTransaction(completable: Completable) {
-        every { transactionRepository.addTransaction(any()) } returns completable
+        every { transactionRepository.add(any()) } returns completable
     }
 
     private fun stubDeleteTransaction(completable: Completable) {
-        every { transactionRepository.deleteTransaction(any()) } returns completable
+        every { transactionRepository.delete(any()) } returns completable
     }
 
     private fun stubUpdateTransaction(completable: Completable) {
-        every { transactionRepository.updateTransaction(any()) } returns completable
+        every { transactionRepository.update(any()) } returns completable
     }
 
     private fun stubGetAllTransactions(transactions: List<Transaction>) {
-        every { transactionRepository.getAllTransactions() } returns Observable.just(transactions)
+        every { transactionRepository.getAll() } returns Observable.just(transactions)
     }
 
     private fun stubGetTransactionsInInterval(transactions: List<Transaction>) {
-        every { transactionRepository.getTransactionsInInterval(any()) } returns
+        every { transactionRepository.getInInterval(any()) } returns
                 Observable.just(transactions)
     }
 }

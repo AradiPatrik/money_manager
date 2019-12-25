@@ -6,9 +6,9 @@ import io.reactivex.Observable
 import org.joda.time.Interval
 
 interface TransactionRepository {
-    fun getAllTransactions(): Observable<List<Transaction>>
-    fun getTransactionsInInterval(interval: Interval): Observable<List<Transaction>>
-    fun addTransaction(transaction: Transaction): Completable
-    fun updateTransaction(transaction: Transaction): Completable
-    fun deleteTransaction(id: String): Completable
+    fun getAll(): Observable<List<Transaction>>
+    fun getInInterval(interval: Interval): Observable<List<Transaction>>
+    fun add(transaction: Transaction): Completable
+    fun update(transaction: Transaction): Completable
+    fun delete(id: String): Completable
 }

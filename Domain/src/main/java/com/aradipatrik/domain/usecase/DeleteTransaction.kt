@@ -18,6 +18,6 @@ class DeleteTransaction @Inject constructor(
 
     override fun buildUseCaseCompletable(params: Params?): Completable {
         require(params != null) { "${this::class.java.simpleName} params can't be null" }
-        return transactionRepository.deleteTransaction(params.transactionId)
+        return transactionRepository.delete(params.transactionId)
     }
 }

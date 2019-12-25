@@ -19,6 +19,6 @@ class UpdateTransaction @Inject constructor(
 
     override fun buildUseCaseCompletable(params: Params?): Completable {
         require(params != null) { "${this::class.java.simpleName} params can't be null" }
-        return transactionRepository.updateTransaction(params.transaction)
+        return transactionRepository.update(params.transaction)
     }
 }

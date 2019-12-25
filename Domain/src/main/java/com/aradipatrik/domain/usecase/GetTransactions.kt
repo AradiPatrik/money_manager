@@ -11,5 +11,5 @@ class GetTransactions @Inject constructor(
     postExecutionThread: PostExecutionThread
 ) : ObservableUseCase<List<Transaction>, Nothing>(postExecutionThread) {
     override fun buildUseCaseObservable(params: Nothing?) =
-        transactionRepository.getAllTransactions()
+        transactionRepository.getAll()
 }
