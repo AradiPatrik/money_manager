@@ -26,9 +26,10 @@ class CategoryRepositoryImpl @Inject constructor(
 
     override fun update(category: Category): Completable =
         localDataStore.update(mapper.mapToEntity(category))
+            .andThen(synchronise())
 
     override fun delete(id: String): Completable =
-        localDataStore.delete(id)
+        localDataStore.delete(id).andThen(synchronise())
 
     private fun synchronise(): Completable = syncer.sync(localDataStore, remoteDataStore)
 }

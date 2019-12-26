@@ -11,6 +11,7 @@ import com.aradipatrik.data.test.common.MethodStubFactory
 import com.aradipatrik.domain.model.Category
 import com.aradipatrik.domain.repository.CategoryRepository
 import com.aradipatrik.domain.test.MockDataFactory.category
+import com.aradipatrik.domain.test.MockDataFactory.string
 import io.mockk.*
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -57,6 +58,56 @@ class CategoryRepositoryImplTest {
     @Test
     fun `Add completes`() {
         setupStubs()
+        repository.add(category()).test().assertComplete()
+    }
+
+    @Test
+    fun `Add should add to local, then it should synchronise`() {
+        val category = category()
+        setupStubs()
+        repository.add(category).test()
+        verifyOrder {
+            mockMapper.mapToEntity(category)
+            mockLocal.add(any())
+            mockSyncer.sync(mockLocal, mockRemote)
+        }
+    }
+
+    @Test
+    fun `Delete completes`() {
+        setupStubs()
+        val idToDelete = string()
+        repository.delete(idToDelete).test().assertComplete()
+    }
+
+    @Test
+    fun `Delete should first delete from local, then sync`() {
+        setupStubs()
+        val idToDelete = string()
+        repository.delete(idToDelete).test()
+        verifyOrder {
+            mockLocal.delete(idToDelete)
+            mockSyncer.sync(mockLocal, mockRemote)
+        }
+    }
+
+    @Test
+    fun `Update completes`() {
+        setupStubs()
+        val toUpdate = category()
+        repository.update(toUpdate).test().assertComplete()
+    }
+
+    @Test
+    fun `Update should update local, then synchronise`() {
+        setupStubs()
+        val toUpdate = category()
+        repository.update(toUpdate).test()
+        verify {
+            mockMapper.mapToEntity(toUpdate)
+            mockLocal.update(any())
+            mockSyncer.sync(mockLocal, mockRemote)
+        }
     }
 
     private fun setupStubs(
