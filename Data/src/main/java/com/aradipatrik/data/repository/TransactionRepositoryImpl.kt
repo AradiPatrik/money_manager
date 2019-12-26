@@ -3,7 +3,7 @@ package com.aradipatrik.data.repository
 import com.aradipatrik.data.mapper.TransactionMapper
 import com.aradipatrik.data.model.TransactionEntity
 import com.aradipatrik.data.repository.transaction.LocalTransactionDataStore
-import com.aradipatrik.data.repository.transaction.RemoteTransactionRemoteDataStore
+import com.aradipatrik.data.repository.transaction.RemoteTransactionDataStore
 import com.aradipatrik.domain.model.Transaction
 import com.aradipatrik.domain.repository.TransactionRepository
 import io.reactivex.Completable
@@ -14,7 +14,7 @@ class TransactionRepositoryImpl @Inject constructor(
     private val syncer: Syncer<TransactionEntity>,
     private val transactionMapper: TransactionMapper,
     private val localTransactionDataStore: LocalTransactionDataStore,
-    private val remoteTransactionDataStore: RemoteTransactionRemoteDataStore
+    private val transactionDataStore: RemoteTransactionDataStore
 ) : TransactionRepository {
     override fun getAll() = synchronise().andThen(
         localTransactionDataStore.getAll()
@@ -40,6 +40,6 @@ class TransactionRepositoryImpl @Inject constructor(
         localTransactionDataStore.delete(id).andThen(synchronise())
 
     private fun synchronise(): Completable = syncer.sync(
-        localTransactionDataStore, remoteTransactionDataStore
+        localTransactionDataStore, transactionDataStore
     )
 }

@@ -1,5 +1,6 @@
 package com.aradipatrik.data.test.common
 
+import com.aradipatrik.data.mapper.EntityMapper
 import com.aradipatrik.data.repository.common.CrudDataStore
 import com.aradipatrik.data.repository.common.LocalTimestampedDataStore
 import com.aradipatrik.data.repository.common.RemoteTimestampedDataStore
