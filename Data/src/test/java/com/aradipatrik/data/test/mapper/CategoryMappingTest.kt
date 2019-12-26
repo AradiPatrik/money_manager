@@ -1,7 +1,9 @@
-package com.aradipatrik.data.mapper
+package com.aradipatrik.data.test.mapper
 
+import com.aradipatrik.data.mapper.CategoryMapper
+import com.aradipatrik.data.mapper.TimestampProvider
 import com.aradipatrik.data.model.CategoryEntity
-import com.aradipatrik.data.test.MockDataFactory.categoryEntity
+import com.aradipatrik.data.test.common.MockDataFactory.categoryEntity
 import com.aradipatrik.domain.model.Category
 import com.aradipatrik.domain.test.MockDataFactory.category
 import com.aradipatrik.domain.test.MockDataFactory.long

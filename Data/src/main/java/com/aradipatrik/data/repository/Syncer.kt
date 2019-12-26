@@ -5,8 +5,8 @@ import com.aradipatrik.data.repository.common.RemoteTimestampedDataStore
 import io.reactivex.Completable
 import io.reactivex.Single
 
-object Syncer {
-    fun <E> sync(
+class Syncer<E> {
+    fun sync(
         local: LocalTimestampedDataStore<E>,
         remote: RemoteTimestampedDataStore<E>
     ): Completable =

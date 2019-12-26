@@ -1,8 +1,11 @@
-package com.aradipatrik.data.mapper
+package com.aradipatrik.data.test.mapper
 
+import com.aradipatrik.data.mapper.CategoryMapper
+import com.aradipatrik.data.mapper.TimestampProvider
+import com.aradipatrik.data.mapper.TransactionMapper
 import com.aradipatrik.data.model.TransactionEntity
-import com.aradipatrik.data.test.MockDataFactory.categoryEntity
-import com.aradipatrik.data.test.MockDataFactory.transactionEntity
+import com.aradipatrik.data.test.common.MockDataFactory.categoryEntity
+import com.aradipatrik.data.test.common.MockDataFactory.transactionEntity
 import com.aradipatrik.domain.model.Transaction
 import com.aradipatrik.domain.test.MockDataFactory.category
 import com.aradipatrik.domain.test.MockDataFactory.long
@@ -23,7 +26,8 @@ class TransactionMappingTest {
         every { mapFromEntity(any()) } returns testCategory
         every { mapToEntity(any()) } returns testCategoryEntity
     }
-    private val transactionMapper = TransactionMapper(mockCategoryMapper)
+    private val transactionMapper =
+        TransactionMapper(mockCategoryMapper)
     private val testTimestamp = long()
 
     @Before

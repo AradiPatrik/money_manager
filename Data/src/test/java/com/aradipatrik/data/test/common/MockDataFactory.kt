@@ -1,4 +1,4 @@
-package com.aradipatrik.data.test
+package com.aradipatrik.data.test.common
 
 import com.aradipatrik.data.model.CategoryEntity
 import com.aradipatrik.data.model.TransactionEntity

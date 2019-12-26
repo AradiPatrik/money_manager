@@ -1,4 +1,4 @@
-package com.aradipatrik.data.mapper
+package com.aradipatrik.data.test
 
 import com.aradipatrik.data.repository.Syncer
 import com.aradipatrik.data.repository.common.LocalTimestampedDataStore
@@ -21,19 +21,19 @@ class SyncerTest {
     private val mockRemote = mockk<RemoteTimestampedDataStore<String>>()
 
     @Test
-    fun syncShouldComplete() {
+    fun `Sync should complete`() {
         stubLocal()
         stubRemote()
-        Syncer.sync(mockLocal, mockRemote)
+        Syncer<String>().sync(mockLocal, mockRemote)
             .test()
             .assertComplete()
     }
 
     @Test
-    fun nothingToSync() {
+    fun `Nothing to sync`() {
         stubLocal()
         stubRemote()
-        Syncer.sync(mockLocal, mockRemote).test()
+        Syncer<String>().sync(mockLocal, mockRemote).test()
         verify {
             mockLocal.getLastSyncTime()
             mockRemote.getAfter(DEFAULT_LAST_SYNC_TIME)
@@ -45,11 +45,11 @@ class SyncerTest {
     }
 
     @Test
-    fun remoteHasMoreRecentData() {
+    fun `Remote has more recent data`() {
         val remoteData = listOf(string())
         stubLocal()
         stubRemote(getAfterResult = Single.just(remoteData))
-        Syncer.sync(mockLocal, mockRemote).test()
+        Syncer<String>().sync(mockLocal, mockRemote).test()
         verify {
             mockRemote.updateWith(emptyList())
             mockLocal.updateWith(remoteData)
@@ -58,11 +58,11 @@ class SyncerTest {
     }
 
     @Test
-    fun localHasMoreRecentData() {
+    fun `Local has more recent data`() {
         val localData = listOf(string())
         stubLocal(unsyncedResult = Single.just(localData))
         stubRemote()
-        Syncer.sync(mockLocal, mockRemote).test()
+        Syncer<String>().sync(mockLocal, mockRemote).test()
         verify {
             mockRemote.updateWith(localData)
             mockLocal.updateWith(emptyList())
@@ -71,12 +71,12 @@ class SyncerTest {
     }
 
     @Test
-    fun bothLocalAndRemoteHasUnsyncedData() {
+    fun `Both local and remote has unsynced data`() {
         val localData = listOf(string())
         val remoteData = listOf(string())
         stubLocal(unsyncedResult = Single.just(localData))
         stubRemote(getAfterResult = Single.just(remoteData))
-        Syncer.sync(mockLocal, mockRemote).test()
+        Syncer<String>().sync(mockLocal, mockRemote).test()
         verify {
             mockRemote.updateWith(localData)
             mockLocal.updateWith(remoteData)
@@ -85,10 +85,10 @@ class SyncerTest {
     }
 
     @Test
-    fun remoteUnreachableFromTheBeginning() {
+    fun `Remote unreachable from teh beginning`() {
         stubLocal()
         stubRemote(getAfterResult = Single.error(Throwable()))
-        Syncer.sync(mockLocal, mockRemote).test()
+        Syncer<String>().sync(mockLocal, mockRemote).test()
         verify {
             mockRemote.getAfter(any())
         }
@@ -100,10 +100,10 @@ class SyncerTest {
     }
 
     @Test
-    fun remoteUnreachableAtUpdateCall() {
+    fun `Remote unreachable at update call`() {
         stubLocal()
         stubRemote(updateWithResult = Completable.error(Throwable()))
-        Syncer.sync(mockLocal, mockRemote).test()
+        Syncer<String>().sync(mockLocal, mockRemote).test()
         verify {
             mockRemote.getAfter(DEFAULT_LAST_SYNC_TIME)
             mockLocal.updateWith(any())

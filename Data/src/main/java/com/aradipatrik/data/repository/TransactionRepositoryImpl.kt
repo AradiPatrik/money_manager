@@ -1,6 +1,7 @@
 package com.aradipatrik.data.repository
 
 import com.aradipatrik.data.mapper.TransactionMapper
+import com.aradipatrik.data.model.TransactionEntity
 import com.aradipatrik.data.repository.transaction.LocalTransactionDataStore
 import com.aradipatrik.data.repository.transaction.RemoteTransactionRemoteDataStore
 import com.aradipatrik.domain.model.Transaction
@@ -10,9 +11,10 @@ import org.joda.time.Interval
 import javax.inject.Inject
 
 class TransactionRepositoryImpl @Inject constructor(
+    private val syncer: Syncer<TransactionEntity>,
+    private val transactionMapper: TransactionMapper,
     private val localTransactionDataStore: LocalTransactionDataStore,
-    private val remoteTransactionDataStore: RemoteTransactionRemoteDataStore,
-    private val transactionMapper: TransactionMapper
+    private val remoteTransactionDataStore: RemoteTransactionRemoteDataStore
 ) : TransactionRepository {
     override fun getAll() = synchronise().andThen(
         localTransactionDataStore.getAll()
@@ -37,7 +39,7 @@ class TransactionRepositoryImpl @Inject constructor(
     override fun delete(id: String): Completable =
         localTransactionDataStore.delete(id).andThen(synchronise())
 
-    private fun synchronise(): Completable = Syncer.sync(
+    private fun synchronise(): Completable = syncer.sync(
         localTransactionDataStore, remoteTransactionDataStore
     )
 }

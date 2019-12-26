@@ -1,7 +1,7 @@
 package com.aradipatrik.data.repository
 
 import com.aradipatrik.data.mapper.CategoryMapper
-import com.aradipatrik.data.repository.Syncer.sync
+import com.aradipatrik.data.model.CategoryEntity
 import com.aradipatrik.data.repository.category.LocalCategoryDataStore
 import com.aradipatrik.data.repository.category.RemoteCategoryDataStore
 import com.aradipatrik.domain.model.Category
@@ -10,7 +10,8 @@ import io.reactivex.Completable
 import javax.inject.Inject
 
 class CategoryRepositoryImpl @Inject constructor(
-    val mapper: CategoryMapper,
+    private val syncer: Syncer<CategoryEntity>,
+    private val mapper: CategoryMapper,
     private val localDataStore: LocalCategoryDataStore,
     private val remoteDataStore: RemoteCategoryDataStore
 ) : CategoryRepository {
@@ -29,5 +30,5 @@ class CategoryRepositoryImpl @Inject constructor(
     override fun delete(id: String): Completable =
         localDataStore.delete(id)
 
-    private fun synchronise(): Completable = sync(localDataStore, remoteDataStore)
+    private fun synchronise(): Completable = syncer.sync(localDataStore, remoteDataStore)
 }
