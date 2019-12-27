@@ -1,0 +1,33 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm"
+}
+
+dependencies {
+    def moduleDependencies = rootProject.ext.remoteDependencies
+    def moduleTestDependencies = rootProject.ext.remoteTestDependencies
+
+    compile project(":Data")
+    testCompile project(":Data")
+
+    implementation moduleDependencies.javaxAnnotation
+    implementation moduleDependencies.javaxInject
+    implementation moduleDependencies.rxJava
+    implementation moduleDependencies.rxKotlin
+    implementation moduleDependencies.kotlinStdLib
+    implementation moduleDependencies.androidAnnotations
+    implementation moduleDependencies.okHttp
+    implementation moduleDependencies.okHttpLogger
+    implementation moduleDependencies.retrofit
+    implementation moduleDependencies.retrofitConverter
+    implementation moduleDependencies.retrofitAdapter
+    implementation moduleDependencies.dagger
+    implementation moduleDependencies.gson
+
+    testImplementation moduleTestDependencies.junit
+    testImplementation moduleTestDependencies.mockk
+    testImplementation moduleTestDependencies.strikt
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}

@@ -10,6 +10,11 @@ ext {
     javaxAnnotationVersion = '1.0'
     javaxInjectVersion = '1'
     jodaTimeVersion = '2.10.5'
+    androidAnnotationsVersion = '4.2.0'
+    okHttpVersion = '4.2.1'
+    daggerVersion = '2.25.3'
+    retrofitVersion = '2.7.0'
+    gsonVersion = '2.8.6'
 
     junitVersion = '4.12'
     mockkVersion = '1.9'
@@ -42,7 +47,28 @@ ext {
     dataTestDependencies = [
             junit : "junit:junit:${junitVersion}",
             strikt: "io.strikt:strikt-core:${striktVersion}",
-            mockk : "io.mockk:mockk:1.9"
+            mockk : "io.mockk:mockk:${mockkVersion}"
     ]
 
+    remoteDependencies = [
+            rxJava            : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxKotlin          : "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
+            javaxInject       : "javax.inject:javax.inject:${javaxInjectVersion}",
+            javaxAnnotation   : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            androidAnnotations: "com.github.androidannotations:androidannotations:androidannotations-${androidAnnotationsVersion}",
+            okHttp            : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+            okHttpLogger      : "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
+            retrofit          : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            retrofitConverter : "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
+            retrofitAdapter   : "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
+            dagger            : "com.google.dagger:dagger:${daggerVersion}",
+            gson              : "com.google.code.gson:gson:${gsonVersion}",
+            kotlinStdLib      : "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    ]
+
+    remoteTestDependencies = [
+            junit : "junit:junit:${junitVersion}",
+            strikt: "io.strikt:strikt-core:${striktVersion}",
+            mockk : "io.mockk:mockk:${mockkVersion}"
+    ]
 }
