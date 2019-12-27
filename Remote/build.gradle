@@ -14,12 +14,6 @@ dependencies {
     implementation moduleDependencies.rxJava
     implementation moduleDependencies.rxKotlin
     implementation moduleDependencies.kotlinStdLib
-    implementation moduleDependencies.androidAnnotations
-    implementation moduleDependencies.okHttp
-    implementation moduleDependencies.okHttpLogger
-    implementation moduleDependencies.retrofit
-    implementation moduleDependencies.retrofitConverter
-    implementation moduleDependencies.retrofitAdapter
     implementation moduleDependencies.dagger
     implementation moduleDependencies.gson
 

@@ -8,7 +8,7 @@
     <fragment
             android:id="@+id/historyFragment"
             tools:layout="@layout/fragment_history"
-            android:name="hu.aradipatrik.chatapp.view.history.HistoryFragment"
+            android:name="hu.aradipatrik.yamm.view.history.HistoryFragment"
             android:label="History">
         <action
                 android:id="@+id/action_historyFragment_to_categorySelectFragment"
@@ -17,12 +17,12 @@
     <fragment
             android:id="@+id/diagramsFragment"
             tools:layout="@layout/fragment_diagrams"
-            android:name="hu.aradipatrik.chatapp.view.diagrams.DiagramsFragment"
+            android:name="hu.aradipatrik.yamm.view.diagrams.DiagramsFragment"
             android:label="Diagrams"/>
     <fragment
             android:id="@+id/categorySelectFragment"
             tools:layout="@layout/fragment_category_list"
-            android:name="hu.aradipatrik.chatapp.view.categoryselect.CategorySelectFragment"
+            android:name="hu.aradipatrik.yamm.view.categoryselect.CategorySelectFragment"
             android:label="Create Transaction" />
     <action
             android:id="@+id/action_global_diagramsFragment"

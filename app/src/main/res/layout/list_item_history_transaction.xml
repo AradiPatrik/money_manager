@@ -3,7 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <import type="hu.aradipatrik.chatapp.view.history.HistoryItem.TransactionItem" />
+        <import type="hu.aradipatrik.yamm.view.history.HistoryItem.TransactionItem" />
         <variable
                 name="transaction"
                 type="TransactionItem" />

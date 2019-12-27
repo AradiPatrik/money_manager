@@ -55,7 +55,6 @@ ext {
             rxKotlin          : "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
             javaxInject       : "javax.inject:javax.inject:${javaxInjectVersion}",
             javaxAnnotation   : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-            androidAnnotations: "com.github.androidannotations:androidannotations:androidannotations-${androidAnnotationsVersion}",
             okHttp            : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
             okHttpLogger      : "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
             retrofit          : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
