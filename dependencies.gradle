@@ -4,6 +4,8 @@ ext {
     minSdkVersion = 24
     targetSdkVersion = 29
     compileSdkVersion = 29
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 
     rxJavaVersion = '2.2.16'
     rxKotlinVersion = '2.4.0'
@@ -15,6 +17,7 @@ ext {
     daggerVersion = '2.25.3'
     retrofitVersion = '2.7.0'
     gsonVersion = '2.8.6'
+    firestoreVersion = '21.3.1'
 
     junitVersion = '4.12'
     mockkVersion = '1.9'
@@ -51,13 +54,13 @@ ext {
     ]
 
     remoteDependencies = [
-            rxJava            : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
-            rxKotlin          : "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
-            javaxInject       : "javax.inject:javax.inject:${javaxInjectVersion}",
-            javaxAnnotation   : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-            dagger            : "com.google.dagger:dagger:${daggerVersion}",
-            gson              : "com.google.code.gson:gson:${gsonVersion}",
-            kotlinStdLib      : "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            rxJava         : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxKotlin       : "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
+            javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}",
+            javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            firestore      : "com.google.firebase:firebase-firestore:${firestoreVersion}",
+            firestoreKtx   : "com.google.firebase:firebase-firestore-ktx:${firestoreVersion}",
+            kotlinStdLib   : "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     ]
 
     remoteTestDependencies = [

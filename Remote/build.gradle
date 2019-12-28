@@ -1,27 +1,47 @@
-plugins {
-    id "org.jetbrains.kotlin.jvm"
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.google.gms:google-services:4.3.2'
+    }
+}
+
+apply plugin: "com.android.library"
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+    }
+
+    compileOptions {
+        sourceCompatibility = rootProject.ext.sourceCompatibility
+        targetCompatibility = rootProject.ext.targetCompatibility
+    }
 }
 
 dependencies {
     def moduleDependencies = rootProject.ext.remoteDependencies
     def moduleTestDependencies = rootProject.ext.remoteTestDependencies
 
-    compile project(":Data")
-    testCompile project(":Data")
+    implementation project(":Data")
+    testImplementation project(":Data")
 
-    implementation moduleDependencies.javaxAnnotation
     implementation moduleDependencies.javaxInject
     implementation moduleDependencies.rxJava
     implementation moduleDependencies.rxKotlin
     implementation moduleDependencies.kotlinStdLib
-    implementation moduleDependencies.dagger
-    implementation moduleDependencies.gson
+    implementation moduleDependencies.firestore
+    implementation moduleDependencies.firestoreKtx
 
     testImplementation moduleTestDependencies.junit
     testImplementation moduleTestDependencies.mockk
     testImplementation moduleTestDependencies.strikt
 }
 
-compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
+apply plugin: 'com.google.gms.google-services'
