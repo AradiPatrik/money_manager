@@ -1,15 +1,16 @@
 package com.aradipatrik.data.test.mapper
 
 import com.aradipatrik.data.mapper.CategoryMapper
+import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.mapper.TimestampProvider
 import com.aradipatrik.data.mapper.TransactionMapper
 import com.aradipatrik.data.model.TransactionEntity
 import com.aradipatrik.data.test.common.MockDataFactory.categoryEntity
 import com.aradipatrik.data.test.common.MockDataFactory.transactionEntity
 import com.aradipatrik.domain.model.Transaction
-import com.aradipatrik.domain.test.MockDataFactory.category
-import com.aradipatrik.domain.test.MockDataFactory.long
-import com.aradipatrik.domain.test.MockDataFactory.transaction
+import com.aradipatrik.testing.MockDomainDataFactory.category
+import com.aradipatrik.testing.MockDomainDataFactory.long
+import com.aradipatrik.testing.MockDomainDataFactory.transaction
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
@@ -51,7 +52,7 @@ class TransactionMappingTest {
         assertEqualsDomainEntity(testDomain, entity)
         expectThat(entity.category).isEqualTo(testCategoryEntity)
         expectThat(entity.updatedTimeStamp).isEqualTo(testTimestamp)
-        expectThat(entity.isDeleted).isFalse()
+        expectThat(entity.syncStatus).isEqualTo(SyncStatus.None)
     }
 
     private fun assertEqualsDomainEntity(domain: Transaction, entity: TransactionEntity) {

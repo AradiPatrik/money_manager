@@ -4,7 +4,7 @@ import com.aradipatrik.data.mapper.EntityMapper
 import com.aradipatrik.data.repository.common.CrudDataStore
 import com.aradipatrik.data.repository.common.LocalTimestampedDataStore
 import com.aradipatrik.data.repository.common.RemoteTimestampedDataStore
-import com.aradipatrik.domain.test.MockDataFactory.long
+import com.aradipatrik.testing.MockDomainDataFactory.long
 import io.mockk.every
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -26,7 +26,7 @@ object MethodStubFactory {
 
     fun <T> stubRemoteTimestampedDataStore(
         remoteTimestampedDataStore: RemoteTimestampedDataStore<T>,
-        updateWithResponse: Completable = Completable.complete(),
+        updateWithResponse: Single<List<T>> = Single.just(emptyList()),
         getAfterResponse: Single<List<T>> = Single.just(emptyList())
     ) {
         every { remoteTimestampedDataStore.updateWith(any()) } returns updateWithResponse

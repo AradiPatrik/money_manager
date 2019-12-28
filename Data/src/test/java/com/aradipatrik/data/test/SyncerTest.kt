@@ -3,7 +3,7 @@ package com.aradipatrik.data.test
 import com.aradipatrik.data.repository.Syncer
 import com.aradipatrik.data.repository.common.LocalTimestampedDataStore
 import com.aradipatrik.data.repository.common.RemoteTimestampedDataStore
-import com.aradipatrik.domain.test.MockDataFactory.string
+import com.aradipatrik.testing.MockDomainDataFactory.string
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -61,7 +61,7 @@ class SyncerTest {
     fun `Local has more recent data`() {
         val localData = listOf(string())
         stubLocal(unsyncedResult = Single.just(localData))
-        stubRemote()
+        stubRemote(updateWithResult = Single.just(localData))
         Syncer<String>().sync(mockLocal, mockRemote).test()
         verify {
             mockRemote.updateWith(localData)
@@ -75,7 +75,8 @@ class SyncerTest {
         val localData = listOf(string())
         val remoteData = listOf(string())
         stubLocal(unsyncedResult = Single.just(localData))
-        stubRemote(getAfterResult = Single.just(remoteData))
+        stubRemote(getAfterResult = Single.just(remoteData),
+            updateWithResult = Single.just(localData))
         Syncer<String>().sync(mockLocal, mockRemote).test()
         verify {
             mockRemote.updateWith(localData)
@@ -102,7 +103,7 @@ class SyncerTest {
     @Test
     fun `Remote unreachable at update call`() {
         stubLocal()
-        stubRemote(updateWithResult = Completable.error(Throwable()))
+        stubRemote(updateWithResult = Single.error(Throwable()))
         Syncer<String>().sync(mockLocal, mockRemote).test()
         verify {
             mockRemote.getAfter(DEFAULT_LAST_SYNC_TIME)
@@ -126,8 +127,8 @@ class SyncerTest {
     }
 
     private fun stubRemote(
-        getAfterResult: Single<List<String>> = Single.just(listOf()),
-        updateWithResult: Completable = Completable.complete()
+        getAfterResult: Single<List<String>> = Single.just(emptyList()),
+        updateWithResult: Single<List<String>> = Single.just(emptyList())
     ) {
         every { mockRemote.getAfter(any()) } returns getAfterResult
         every { mockRemote.updateWith(any()) } returns updateWithResult

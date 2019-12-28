@@ -8,9 +8,9 @@ import com.aradipatrik.data.repository.transaction.LocalTransactionDataStore
 import com.aradipatrik.data.repository.transaction.RemoteTransactionDataStore
 import com.aradipatrik.data.test.common.MethodStubFactory
 import com.aradipatrik.data.test.common.MockDataFactory.transactionEntity
-import com.aradipatrik.domain.test.MockDataFactory.interval
-import com.aradipatrik.domain.test.MockDataFactory.string
-import com.aradipatrik.domain.test.MockDataFactory.transaction
+import com.aradipatrik.testing.MockDomainDataFactory.interval
+import com.aradipatrik.testing.MockDomainDataFactory.string
+import com.aradipatrik.testing.MockDomainDataFactory.transaction
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

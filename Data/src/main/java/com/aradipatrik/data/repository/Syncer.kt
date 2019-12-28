@@ -18,7 +18,6 @@ class Syncer<E> {
             }
             .flatMap {
                 remote.updateWith(it)
-                    .andThen(Single.just(it))
             }
             .flatMapCompletable {
                 local.setSynced(it)

@@ -29,8 +29,8 @@ dependencies {
     def moduleDependencies = rootProject.ext.remoteDependencies
     def moduleTestDependencies = rootProject.ext.remoteTestDependencies
 
-    implementation project(":Data")
-    testImplementation project(":Data")
+    compile project(":Domain")
+    compile project(":Data")
 
     implementation moduleDependencies.javaxInject
     implementation moduleDependencies.rxJava

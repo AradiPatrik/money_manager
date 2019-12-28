@@ -9,9 +9,9 @@ import io.mockk.verify
 import io.reactivex.Completable
 import io.reactivex.Observable
 import org.junit.Test
-import com.aradipatrik.domain.test.MockDataFactory.interval
-import com.aradipatrik.domain.test.MockDataFactory.string
-import com.aradipatrik.domain.test.MockDataFactory.transaction
+import com.aradipatrik.testing.MockDomainDataFactory.interval
+import com.aradipatrik.testing.MockDomainDataFactory.string
+import com.aradipatrik.testing.MockDomainDataFactory.transaction
 import com.aradipatrik.domain.usecase.*
 
 class TransactionCrudTest {

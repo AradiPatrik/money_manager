@@ -10,8 +10,8 @@ import com.aradipatrik.data.test.common.MockDataFactory.categoryEntity
 import com.aradipatrik.data.test.common.MethodStubFactory
 import com.aradipatrik.domain.model.Category
 import com.aradipatrik.domain.repository.CategoryRepository
-import com.aradipatrik.domain.test.MockDataFactory.category
-import com.aradipatrik.domain.test.MockDataFactory.string
+import com.aradipatrik.testing.MockDomainDataFactory.category
+import com.aradipatrik.testing.MockDomainDataFactory.string
 import io.mockk.*
 import io.reactivex.Completable
 import io.reactivex.Observable

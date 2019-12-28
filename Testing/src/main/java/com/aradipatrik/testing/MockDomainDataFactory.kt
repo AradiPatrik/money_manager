@@ -1,4 +1,4 @@
-package com.aradipatrik.domain.test
+package com.aradipatrik.testing
 
 import com.aradipatrik.domain.model.Category
 import com.aradipatrik.domain.model.Transaction
@@ -8,7 +8,7 @@ import java.util.*
 import kotlin.random.Random
 
 @Suppress("MemberVisibilityCanBePrivate") // because we want to be able to use them later
-object MockDataFactory {
+object MockDomainDataFactory {
     fun string() = UUID.randomUUID().toString()
     fun int() = Random.nextInt()
     fun long() = Random.nextLong()

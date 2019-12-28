@@ -20,14 +20,8 @@ class RemoteTransactionDatastoreImpl @Inject constructor(
         internal const val TEST_USER_DOCUMENT_ID = "test-user"
     }
 
-    override fun updateWith(items: List<TransactionEntity>): Completable {
-        return Completable.create {
-            items.forEach {
-                db.collection(USERS_COLLECTION_KEY)
-                    .document(TEST_USER_DOCUMENT_ID)
-                    .collection(TRANSACTIONS_COLLECTION_KEY)
-            }
-        }
+    override fun updateWith(items: List<TransactionEntity>): Single<List<TransactionEntity>> {
+        TODO()
     }
 
     override fun getAfter(time: Long): Single<List<TransactionEntity>> {

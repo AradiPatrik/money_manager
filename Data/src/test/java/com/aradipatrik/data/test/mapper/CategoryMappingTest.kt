@@ -1,19 +1,19 @@
 package com.aradipatrik.data.test.mapper
 
 import com.aradipatrik.data.mapper.CategoryMapper
+import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.mapper.TimestampProvider
 import com.aradipatrik.data.model.CategoryEntity
 import com.aradipatrik.data.test.common.MockDataFactory.categoryEntity
 import com.aradipatrik.domain.model.Category
-import com.aradipatrik.domain.test.MockDataFactory.category
-import com.aradipatrik.domain.test.MockDataFactory.long
+import com.aradipatrik.testing.MockDomainDataFactory.category
+import com.aradipatrik.testing.MockDomainDataFactory.long
 import io.mockk.every
 import io.mockk.mockkObject
 import org.junit.Before
 import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
-import strikt.assertions.isFalse
 
 class CategoryMappingTest {
     private val categoryMapper = CategoryMapper()
@@ -31,7 +31,7 @@ class CategoryMappingTest {
         val entity = categoryMapper.mapToEntity(testDomain)
         assertEqualsDomainEntity(testDomain, entity)
         expectThat(entity.lastUpdateTimestamp).isEqualTo(testTimestamp)
-        expectThat(entity.isDeleted).isFalse()
+        expectThat(entity.syncStatus).isEqualTo(SyncStatus.None)
     }
 
     @Test

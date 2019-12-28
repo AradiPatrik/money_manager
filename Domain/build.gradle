@@ -6,6 +6,8 @@ dependencies {
     def moduleDependencies = rootProject.ext.domainDependencies
     def moduleTestDependencies = rootProject.ext.domainTestDependencies
 
+    testImplementation project(":Testing")
+
     implementation moduleDependencies.javaxAnnotation
     implementation moduleDependencies.javaxInject
     implementation moduleDependencies.rxJava

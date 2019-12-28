@@ -22,6 +22,6 @@ class TransactionMapper @Inject constructor(
         memo = domain.memo,
         date = domain.date,
         updatedTimeStamp = TimestampProvider.now(),
-        isDeleted = false
+        syncStatus = SyncStatus.None
     )
 }
