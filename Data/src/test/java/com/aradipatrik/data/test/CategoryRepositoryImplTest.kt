@@ -6,12 +6,12 @@ import com.aradipatrik.data.repository.CategoryRepositoryImpl
 import com.aradipatrik.data.repository.Syncer
 import com.aradipatrik.data.repository.category.LocalCategoryDataStore
 import com.aradipatrik.data.repository.category.RemoteCategoryDataStore
-import com.aradipatrik.data.test.common.MockDataFactory.categoryEntity
+import com.aradipatrik.testing.DataLayerMocks.categoryEntity
 import com.aradipatrik.data.test.common.MethodStubFactory
 import com.aradipatrik.domain.model.Category
 import com.aradipatrik.domain.repository.CategoryRepository
-import com.aradipatrik.testing.MockDomainDataFactory.category
-import com.aradipatrik.testing.MockDomainDataFactory.string
+import com.aradipatrik.testing.DomainLayerMocks.category
+import com.aradipatrik.testing.DomainLayerMocks.string
 import io.mockk.*
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -23,12 +23,12 @@ class CategoryRepositoryImplTest {
         private val DEFAULT_CATEGORY_ENTITY = categoryEntity()
     }
 
-    private val mockSyncer = mockk<Syncer<CategoryEntity>>()
+    private val mockSyncer = mockk<Syncer>()
     private val mockMapper = mockk<CategoryMapper>()
     private val mockRemote = mockk<RemoteCategoryDataStore>()
     private val mockLocal = mockk<LocalCategoryDataStore>()
     private val repository: CategoryRepository = CategoryRepositoryImpl(
-        mockSyncer, mockMapper, mockLocal, mockRemote
+        mockSyncer, mockMapper, mockLocal
     )
 
     @Test
@@ -49,7 +49,7 @@ class CategoryRepositoryImplTest {
         )
         repository.getAll().test()
         verifyOrder {
-            mockSyncer.sync(any(), any())
+            mockSyncer.syncAll()
             mockLocal.getAll()
             mockMapper.mapFromEntity(categories[0])
         }
@@ -69,7 +69,7 @@ class CategoryRepositoryImplTest {
         verifyOrder {
             mockMapper.mapToEntity(category)
             mockLocal.add(any())
-            mockSyncer.sync(mockLocal, mockRemote)
+            mockSyncer.syncAll()
         }
     }
 
@@ -87,7 +87,7 @@ class CategoryRepositoryImplTest {
         repository.delete(idToDelete).test()
         verifyOrder {
             mockLocal.delete(idToDelete)
-            mockSyncer.sync(mockLocal, mockRemote)
+            mockSyncer.syncAll()
         }
     }
 
@@ -106,7 +106,7 @@ class CategoryRepositoryImplTest {
         verify {
             mockMapper.mapToEntity(toUpdate)
             mockLocal.update(any())
-            mockSyncer.sync(mockLocal, mockRemote)
+            mockSyncer.syncAll()
         }
     }
 
@@ -139,6 +139,6 @@ class CategoryRepositoryImplTest {
     private fun stubSyncer(
         syncResponse: Completable = Completable.complete()
     ) {
-        every { mockSyncer.sync(mockLocal, mockRemote) } returns syncResponse
+        every { mockSyncer.syncAll() } returns syncResponse
     }
 }

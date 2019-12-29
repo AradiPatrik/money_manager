@@ -60,6 +60,7 @@ ext {
             javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             firestore      : "com.google.firebase:firebase-firestore:${firestoreVersion}",
             firestoreKtx   : "com.google.firebase:firebase-firestore-ktx:${firestoreVersion}",
+            jodaTime       : "joda-time:joda-time:${jodaTimeVersion}",
             kotlinStdLib   : "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     ]
 

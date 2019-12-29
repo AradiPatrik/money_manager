@@ -1,10 +1,9 @@
 package com.aradipatrik.data.test.common
 
-import com.aradipatrik.data.mapper.EntityMapper
 import com.aradipatrik.data.repository.common.CrudDataStore
 import com.aradipatrik.data.repository.common.LocalTimestampedDataStore
 import com.aradipatrik.data.repository.common.RemoteTimestampedDataStore
-import com.aradipatrik.testing.MockDomainDataFactory.long
+import com.aradipatrik.testing.DomainLayerMocks.long
 import io.mockk.every
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -26,7 +25,7 @@ object MethodStubFactory {
 
     fun <T> stubRemoteTimestampedDataStore(
         remoteTimestampedDataStore: RemoteTimestampedDataStore<T>,
-        updateWithResponse: Single<List<T>> = Single.just(emptyList()),
+        updateWithResponse: Completable = Completable.complete(),
         getAfterResponse: Single<List<T>> = Single.just(emptyList())
     ) {
         every { remoteTimestampedDataStore.updateWith(any()) } returns updateWithResponse
@@ -41,8 +40,8 @@ object MethodStubFactory {
         setSyncedResponse: Completable = Completable.complete()
     ) {
         every { localTimestampedDataStore.getLastSyncTime() } returns lastSyncTimeResponse
-        every { localTimestampedDataStore.getUnsynced() } returns getUnsyncedResponse
+        every { localTimestampedDataStore.getPending() } returns getUnsyncedResponse
         every { localTimestampedDataStore.updateWith(any()) } returns updateWithResponse
-        every { localTimestampedDataStore.setSynced(any()) } returns setSyncedResponse
+        every { localTimestampedDataStore.clearPending() } returns setSyncedResponse
     }
 }

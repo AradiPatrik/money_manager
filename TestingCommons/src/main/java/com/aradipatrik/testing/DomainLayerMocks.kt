@@ -8,7 +8,7 @@ import java.util.*
 import kotlin.random.Random
 
 @Suppress("MemberVisibilityCanBePrivate") // because we want to be able to use them later
-object MockDomainDataFactory {
+object DomainLayerMocks {
     fun string() = UUID.randomUUID().toString()
     fun int() = Random.nextInt()
     fun long() = Random.nextLong()

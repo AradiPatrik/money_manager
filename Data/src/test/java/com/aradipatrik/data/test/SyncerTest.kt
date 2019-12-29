@@ -1,15 +1,24 @@
 package com.aradipatrik.data.test
 
 import com.aradipatrik.data.repository.Syncer
+import com.aradipatrik.data.repository.category.LocalCategoryDataStore
+import com.aradipatrik.data.repository.category.RemoteCategoryDataStore
 import com.aradipatrik.data.repository.common.LocalTimestampedDataStore
 import com.aradipatrik.data.repository.common.RemoteTimestampedDataStore
-import com.aradipatrik.testing.MockDomainDataFactory.string
+import com.aradipatrik.data.repository.transaction.LocalTransactionDataStore
+import com.aradipatrik.data.repository.transaction.RemoteTransactionDataStore
+import com.aradipatrik.testing.DomainLayerMocks.string
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import io.mockk.verifyOrder
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.subjects.CompletableSubject
 import org.junit.Test
+import strikt.api.expectThat
+import strikt.assertions.hasSize
+import strikt.assertions.isFalse
 
 class SyncerTest {
 
@@ -22,51 +31,53 @@ class SyncerTest {
 
     @Test
     fun `Sync should complete`() {
-        stubLocal()
-        stubRemote()
-        Syncer<String>().sync(mockLocal, mockRemote)
+        stubLocal(mockLocal)
+        stubRemote(mockRemote)
+        mockSyncer().sync(mockLocal, mockRemote)
             .test()
             .assertComplete()
     }
 
     @Test
     fun `Nothing to sync`() {
-        stubLocal()
-        stubRemote()
-        Syncer<String>().sync(mockLocal, mockRemote).test()
+        stubLocal(mockLocal)
+        stubRemote(mockRemote)
+        mockSyncer().sync(mockLocal, mockRemote).test()
         verify {
             mockLocal.getLastSyncTime()
             mockRemote.getAfter(DEFAULT_LAST_SYNC_TIME)
             mockLocal.updateWith(emptyList())
-            mockLocal.getUnsynced()
+            mockLocal.getPending()
             mockRemote.updateWith(emptyList())
-            mockLocal.setSynced(emptyList())
+            mockLocal.clearPending()
         }
     }
 
     @Test
     fun `Remote has more recent data`() {
         val remoteData = listOf(string())
-        stubLocal()
-        stubRemote(getAfterResult = Single.just(remoteData))
-        Syncer<String>().sync(mockLocal, mockRemote).test()
+        stubLocal(mockLocal)
+        stubRemote(mockRemote, getAfterResult = Single.just(remoteData))
+        mockSyncer().sync(mockLocal, mockRemote).test()
         verify {
             mockRemote.updateWith(emptyList())
             mockLocal.updateWith(remoteData)
-            mockLocal.setSynced(emptyList())
+            mockLocal.clearPending()
         }
     }
 
     @Test
     fun `Local has more recent data`() {
         val localData = listOf(string())
-        stubLocal(unsyncedResult = Single.just(localData))
-        stubRemote(updateWithResult = Single.just(localData))
-        Syncer<String>().sync(mockLocal, mockRemote).test()
+        stubLocal(mockLocal, unsyncedResult = Single.just(localData))
+        stubRemote(mockRemote)
+        val testObserver = mockSyncer().sync(mockLocal, mockRemote).test()
+        testObserver.assertNoErrors()
+        testObserver.assertComplete()
         verify {
             mockRemote.updateWith(localData)
             mockLocal.updateWith(emptyList())
-            mockLocal.setSynced(localData)
+            mockLocal.clearPending()
         }
     }
 
@@ -74,63 +85,92 @@ class SyncerTest {
     fun `Both local and remote has unsynced data`() {
         val localData = listOf(string())
         val remoteData = listOf(string())
-        stubLocal(unsyncedResult = Single.just(localData))
-        stubRemote(getAfterResult = Single.just(remoteData),
-            updateWithResult = Single.just(localData))
-        Syncer<String>().sync(mockLocal, mockRemote).test()
+        stubLocal(mockLocal, unsyncedResult = Single.just(localData))
+        stubRemote(mockRemote, getAfterResult = Single.just(remoteData))
+        mockSyncer().sync(mockLocal, mockRemote).test()
         verify {
             mockRemote.updateWith(localData)
             mockLocal.updateWith(remoteData)
-            mockLocal.setSynced(localData)
+            mockLocal.clearPending()
         }
     }
 
     @Test
     fun `Remote unreachable from teh beginning`() {
-        stubLocal()
-        stubRemote(getAfterResult = Single.error(Throwable()))
-        Syncer<String>().sync(mockLocal, mockRemote).test()
+        stubLocal(mockLocal)
+        stubRemote(mockRemote, getAfterResult = Single.error(Throwable()))
+        val testObserver = mockSyncer().sync(mockLocal, mockRemote).test()
+        expectThat(testObserver.errors()).hasSize(1)
+        testObserver.assertNotComplete()
         verify {
             mockRemote.getAfter(any())
         }
-        verify (inverse = true) {
+        verify(inverse = true) {
             mockRemote.updateWith(any())
             mockLocal.updateWith(any())
-            mockLocal.setSynced(any())
+            mockLocal.clearPending()
         }
     }
 
     @Test
     fun `Remote unreachable at update call`() {
-        stubLocal()
-        stubRemote(updateWithResult = Single.error(Throwable()))
-        Syncer<String>().sync(mockLocal, mockRemote).test()
+        val clearPendingResult = CompletableSubject.create()
+        stubLocal(mockLocal, clearPendingResult = clearPendingResult)
+        stubRemote(mockRemote, updateWithResult = Completable.error(Throwable()))
+        val testObserver = mockSyncer().sync(mockLocal, mockRemote).test()
+        expectThat(testObserver.errors()).hasSize(1)
+        testObserver.assertNotComplete()
+        expectThat(clearPendingResult.hasObservers()).isFalse()
         verify {
             mockRemote.getAfter(DEFAULT_LAST_SYNC_TIME)
             mockLocal.updateWith(any())
         }
-        verify(inverse = true) {
-            mockLocal.setSynced(any())
+    }
+
+    @Test
+    fun `Syncer should first sync categories, then it should sync transactions`() {
+        val mockLocalTransactionDataStore = mockk<LocalTransactionDataStore>()
+        val mockRemoteTransactionDataStore = mockk<RemoteTransactionDataStore>()
+        val mockLocalCategoryDataStore = mockk<LocalCategoryDataStore>()
+        val mockRemoteCategoryDataStore = mockk<RemoteCategoryDataStore>()
+        stubLocal(mockLocalTransactionDataStore)
+        stubLocal(mockLocalCategoryDataStore)
+        stubRemote(mockRemoteTransactionDataStore)
+        stubRemote(mockRemoteCategoryDataStore)
+        val testObserver = Syncer(
+            mockRemoteTransactionDataStore, mockLocalTransactionDataStore,
+            mockRemoteCategoryDataStore, mockLocalCategoryDataStore
+        ).syncAll().test()
+        testObserver.assertComplete()
+        verifyOrder {
+            mockLocalCategoryDataStore.updateWith(any())
+            mockLocalTransactionDataStore.updateWith(any())
         }
     }
 
-    private fun stubLocal(
-        lastSyncTimeResult: Single<Long> = Single.just(DEFAULT_LAST_SYNC_TIME),
-        updateWithResult: Completable = Completable.complete(),
-        setSyncedResult: Completable = Completable.complete(),
-        unsyncedResult: Single<List<String>> = Single.just(listOf())
-    ) {
-        every { mockLocal.updateWith(any()) } returns updateWithResult
-        every { mockLocal.setSynced(any()) } returns setSyncedResult
-        every { mockLocal.getLastSyncTime() } returns lastSyncTimeResult
-        every { mockLocal.getUnsynced() } returns unsyncedResult
+    private fun mockSyncer(): Syncer {
+        return Syncer(mockk(), mockk(), mockk(), mockk())
     }
 
-    private fun stubRemote(
-        getAfterResult: Single<List<String>> = Single.just(emptyList()),
-        updateWithResult: Single<List<String>> = Single.just(emptyList())
+    private fun <E> stubLocal(
+        local: LocalTimestampedDataStore<E>,
+        lastSyncTimeResult: Single<Long> = Single.just(DEFAULT_LAST_SYNC_TIME),
+        updateWithResult: Completable = Completable.complete(),
+        clearPendingResult: Completable = Completable.complete(),
+        unsyncedResult: Single<List<E>> = Single.just(listOf())
     ) {
-        every { mockRemote.getAfter(any()) } returns getAfterResult
-        every { mockRemote.updateWith(any()) } returns updateWithResult
+        every { local.updateWith(any()) } returns updateWithResult
+        every { local.clearPending() } returns clearPendingResult
+        every { local.getLastSyncTime() } returns lastSyncTimeResult
+        every { local.getPending() } returns unsyncedResult
+    }
+
+    private fun <E> stubRemote(
+        remote: RemoteTimestampedDataStore<E>,
+        getAfterResult: Single<List<E>> = Single.just(emptyList()),
+        updateWithResult: Completable = Completable.complete()
+    ) {
+        every { remote.getAfter(any()) } returns getAfterResult
+        every { remote.updateWith(any()) } returns updateWithResult
     }
 }

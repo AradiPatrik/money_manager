@@ -1,16 +1,13 @@
 package com.aradipatrik.data.test.mapper
 
-import com.aradipatrik.data.mapper.CategoryMapper
-import com.aradipatrik.data.mapper.SyncStatus
-import com.aradipatrik.data.mapper.TimestampProvider
-import com.aradipatrik.data.mapper.TransactionMapper
-import com.aradipatrik.data.model.TransactionEntity
-import com.aradipatrik.data.test.common.MockDataFactory.categoryEntity
-import com.aradipatrik.data.test.common.MockDataFactory.transactionEntity
+import com.aradipatrik.data.mapper.*
+import com.aradipatrik.data.model.TransactionJoinedEntity
+import com.aradipatrik.testing.DataLayerMocks.categoryEntity
+import com.aradipatrik.testing.DataLayerMocks.joinedTransactionEntity
 import com.aradipatrik.domain.model.Transaction
-import com.aradipatrik.testing.MockDomainDataFactory.category
-import com.aradipatrik.testing.MockDomainDataFactory.long
-import com.aradipatrik.testing.MockDomainDataFactory.transaction
+import com.aradipatrik.testing.DomainLayerMocks.category
+import com.aradipatrik.testing.DomainLayerMocks.long
+import com.aradipatrik.testing.DomainLayerMocks.transaction
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
@@ -18,9 +15,8 @@ import org.junit.Before
 import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
-import strikt.assertions.isFalse
 
-class TransactionMappingTest {
+class JoinedTransactionMapperTest {
     private val testCategory = category()
     private val testCategoryEntity = categoryEntity()
     private val mockCategoryMapper = mockk<CategoryMapper> {
@@ -28,7 +24,7 @@ class TransactionMappingTest {
         every { mapToEntity(any()) } returns testCategoryEntity
     }
     private val transactionMapper =
-        TransactionMapper(mockCategoryMapper)
+        JoinedTransactionMapper(mockCategoryMapper)
     private val testTimestamp = long()
 
     @Before
@@ -39,7 +35,7 @@ class TransactionMappingTest {
 
     @Test
     fun mapFromEntityMapsData() {
-        val testEntity = transactionEntity()
+        val testEntity = joinedTransactionEntity()
         val domain = transactionMapper.mapFromEntity(testEntity)
         assertEqualsDomainEntity(domain, testEntity)
         expectThat(domain.category).isEqualTo(testCategory)
@@ -55,10 +51,10 @@ class TransactionMappingTest {
         expectThat(entity.syncStatus).isEqualTo(SyncStatus.None)
     }
 
-    private fun assertEqualsDomainEntity(domain: Transaction, entity: TransactionEntity) {
-        expectThat(domain.amount).isEqualTo(entity.amount)
-        expectThat(domain.date).isEqualTo(entity.date)
-        expectThat(domain.id).isEqualTo(entity.id)
-        expectThat(domain.memo).isEqualTo(entity.memo)
+    private fun assertEqualsDomainEntity(domain: Transaction, joinedEntity: TransactionJoinedEntity) {
+        expectThat(domain.amount).isEqualTo(joinedEntity.amount)
+        expectThat(domain.date).isEqualTo(joinedEntity.date)
+        expectThat(domain.id).isEqualTo(joinedEntity.id)
+        expectThat(domain.memo).isEqualTo(joinedEntity.memo)
     }
 }

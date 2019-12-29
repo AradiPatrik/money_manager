@@ -4,10 +4,10 @@ import com.aradipatrik.data.mapper.CategoryMapper
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.mapper.TimestampProvider
 import com.aradipatrik.data.model.CategoryEntity
-import com.aradipatrik.data.test.common.MockDataFactory.categoryEntity
+import com.aradipatrik.testing.DataLayerMocks.categoryEntity
 import com.aradipatrik.domain.model.Category
-import com.aradipatrik.testing.MockDomainDataFactory.category
-import com.aradipatrik.testing.MockDomainDataFactory.long
+import com.aradipatrik.testing.DomainLayerMocks.category
+import com.aradipatrik.testing.DomainLayerMocks.long
 import io.mockk.every
 import io.mockk.mockkObject
 import org.junit.Before

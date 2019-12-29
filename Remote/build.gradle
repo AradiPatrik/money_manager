@@ -29,8 +29,9 @@ dependencies {
     def moduleDependencies = rootProject.ext.remoteDependencies
     def moduleTestDependencies = rootProject.ext.remoteTestDependencies
 
-    compile project(":Domain")
-    compile project(":Data")
+    implementation project(":Domain")
+    implementation project(":Data")
+    testImplementation project(":TestingCommons")
 
     implementation moduleDependencies.javaxInject
     implementation moduleDependencies.rxJava
@@ -38,6 +39,7 @@ dependencies {
     implementation moduleDependencies.kotlinStdLib
     implementation moduleDependencies.firestore
     implementation moduleDependencies.firestoreKtx
+    implementation moduleDependencies.jodaTime
 
     testImplementation moduleTestDependencies.junit
     testImplementation moduleTestDependencies.mockk

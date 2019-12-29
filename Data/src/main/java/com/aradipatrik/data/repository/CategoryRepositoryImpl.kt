@@ -10,10 +10,9 @@ import io.reactivex.Completable
 import javax.inject.Inject
 
 class CategoryRepositoryImpl @Inject constructor(
-    private val syncer: Syncer<CategoryEntity>,
+    private val syncer: Syncer,
     private val mapper: CategoryMapper,
-    private val localDataStore: LocalCategoryDataStore,
-    private val remoteDataStore: RemoteCategoryDataStore
+    private val localDataStore: LocalCategoryDataStore
 ) : CategoryRepository {
     override fun getAll() = synchronise().andThen(
         localDataStore.getAll()
@@ -31,5 +30,5 @@ class CategoryRepositoryImpl @Inject constructor(
     override fun delete(id: String): Completable =
         localDataStore.delete(id).andThen(synchronise())
 
-    private fun synchronise(): Completable = syncer.sync(localDataStore, remoteDataStore)
+    private fun synchronise(): Completable = syncer.syncAll()
 }

@@ -9,9 +9,9 @@ import io.mockk.verify
 import io.reactivex.Completable
 import io.reactivex.Observable
 import org.junit.Test
-import com.aradipatrik.testing.MockDomainDataFactory.interval
-import com.aradipatrik.testing.MockDomainDataFactory.string
-import com.aradipatrik.testing.MockDomainDataFactory.transaction
+import com.aradipatrik.testing.DomainLayerMocks.interval
+import com.aradipatrik.testing.DomainLayerMocks.string
+import com.aradipatrik.testing.DomainLayerMocks.transaction
 import com.aradipatrik.domain.usecase.*
 
 class TransactionCrudTest {
@@ -139,31 +139,6 @@ class TransactionCrudTest {
     }
 
     @Test
-    fun `Get transaction should complete`() {
-        stubGetAllTransactions(listOf(transaction()))
-        GetTransactions(
-            transactionRepository,
-            postExecutionThread
-        )
-            .buildUseCaseObservable()
-            .test()
-            .assertComplete()
-    }
-
-    @Test
-    fun `Get transaction should use repository`() {
-        val testTransactions = listOf(transaction())
-        stubGetAllTransactions(testTransactions)
-        val getTransactions = GetTransactions(
-            transactionRepository,
-            postExecutionThread
-        )
-        val transactionsObservable = getTransactions.buildUseCaseObservable().test()
-        verify { transactionRepository.getAll() }
-        transactionsObservable.assertValue(testTransactions)
-    }
-
-    @Test
     fun `Get transaction in interval should complete`() {
         stubGetTransactionsInInterval(listOf(transaction()))
         GetTransactionsInInterval(
@@ -215,10 +190,6 @@ class TransactionCrudTest {
 
     private fun stubUpdateTransaction(completable: Completable) {
         every { transactionRepository.update(any()) } returns completable
-    }
-
-    private fun stubGetAllTransactions(transactions: List<Transaction>) {
-        every { transactionRepository.getAll() } returns Observable.just(transactions)
     }
 
     private fun stubGetTransactionsInInterval(transactions: List<Transaction>) {
