@@ -8,10 +8,15 @@ import com.aradipatrik.testing.DomainLayerMocks.long
 import com.aradipatrik.testing.DomainLayerMocks.string
 import io.mockk.every
 import io.mockk.mockk
+import junit.framework.Assert.assertEquals
 import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.Instant
+import org.joda.time.LocalDateTime
 import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
+import java.util.*
 
 class TransactionResponsePayloadConverterTest {
     @Test
@@ -20,10 +25,11 @@ class TransactionResponsePayloadConverterTest {
         val mockId = string()
         val deleted = boolean()
         val memo = string()
-        val date = DateTime()
-        val millis = DateTime().millis
+        val date = DateTime.now()
+        val millis = date.millis
         val updateTimestamp = long()
         val categoryId = string()
+        val amount = long()
         val result = converter.mapResponseToEntity(
             mockk {
                 every { id } returns mockId
@@ -32,15 +38,17 @@ class TransactionResponsePayloadConverterTest {
                 every { getLong(DATE_KEY) } returns millis
                 every { getLong(UPDATED_TIMESTAMP_KEY) } returns updateTimestamp
                 every { getString(CATEGORY_ID_KEY) } returns categoryId
+                every { getLong(AMOUNT_KEY) } returns amount
             }
         )
+
         expectThat(result) {
             get(TransactionPartialEntity::updatedTimeStamp).isEqualTo(updateTimestamp)
             get(TransactionPartialEntity::id).isEqualTo(mockId)
             get(TransactionPartialEntity::categoryId).isEqualTo(categoryId)
             get(TransactionPartialEntity::memo).isEqualTo(memo)
             get(TransactionPartialEntity::date).isEqualTo(date)
-            get(TransactionPartialEntity::).isEqualTo(updateTimestamp)
+            get(TransactionPartialEntity::amount).isEqualTo(amount.toInt())
         }
     }
 }

@@ -42,7 +42,7 @@ class TransactionResponsePayloadConverter @Inject constructor() {
 
     private fun getDateFrom(document: DocumentSnapshot): DateTime {
         return document.getLong(DATE_KEY)?.let {
-            DateTime(DATE_KEY, DateTimeZone.getDefault())
+            DateTime(it, DateTimeZone.getDefault())
         } ?: throw WrongFieldTypeException(DATE_KEY)
     }
 
