@@ -26,7 +26,7 @@ import strikt.assertions.*
 class RemoteTransactionDatastoreImplTest {
     companion object {
         private const val TEST_USER_DOCUMENT_KEY = "testUser"
-        private const val TIMESTAMP_PRECISION = 300
+        private const val TIMESTAMP_TOLERANCE = 10
     }
 
     private val testUserDocument = Firebase.firestore
@@ -58,18 +58,22 @@ class RemoteTransactionDatastoreImplTest {
             partialTransactionEntity(memo = "B", syncStatus = SyncStatus.ToAdd)
         )
 
-        val beforeUpdateTime = DateTime.now().millis
+        // 1577707278597
+        // 1577707278361
+        // 1577707278360
+
+        val beforeUpdateTime = System.currentTimeMillis()
         datastore.updateWith(itemsToAdd).blockingAwait()
         val resultEntities = FirestoreUtils.getTransactionsOfUser(TEST_USER_DOCUMENT_KEY)
             .map(responseConverter::mapResponseToEntity)
             .sortedBy(TransactionPartialEntity::memo)
-        val afterUpdateTime = DateTime.now().millis
+        val afterUpdateTime = System.currentTimeMillis()
 
         expectThat(resultEntities).hasSize(itemsToAdd.size)
         expectThat(resultEntities).all {
             get(TransactionPartialEntity::updatedTimeStamp)
-                .isLessThan(afterUpdateTime + TIMESTAMP_PRECISION)
-                .isGreaterThan(beforeUpdateTime - TIMESTAMP_PRECISION)
+                .isLessThan(afterUpdateTime)
+                .isGreaterThan(beforeUpdateTime - TIMESTAMP_TOLERANCE)
         }
         itemsToAdd.zip(resultEntities).forEach { (original, result) ->
             assertAddResultSynced(original, result)
@@ -90,9 +94,9 @@ class RemoteTransactionDatastoreImplTest {
             original.copy(id = result.id, memo = "C", syncStatus = SyncStatus.ToUpdate)
         }
 
-        val beforeUpdateTime = DateTime.now().millis
+        val beforeUpdateTime = System.currentTimeMillis()
         datastore.updateWith(toUpdate).blockingAwait()
-        val afterUpdateTime = DateTime.now().millis
+        val afterUpdateTime = System.currentTimeMillis()
 
         val updateResultEntities = FirestoreUtils.getTransactionsOfUser(TEST_USER_DOCUMENT_KEY)
             .map(responseConverter::mapResponseToEntity)
@@ -101,8 +105,8 @@ class RemoteTransactionDatastoreImplTest {
         expectThat(updateResultEntities).hasSize(2)
         expectThat(updateResultEntities).all {
             get(TransactionPartialEntity::updatedTimeStamp)
-                .isLessThan(afterUpdateTime + TIMESTAMP_PRECISION)
-                .isGreaterThan(beforeUpdateTime - TIMESTAMP_PRECISION)
+                .isLessThan(afterUpdateTime)
+                .isGreaterThan(beforeUpdateTime - TIMESTAMP_TOLERANCE)
         }
         toUpdate.zip(updateResultEntities).forEach { (original, result) ->
             expectThat(original.amount).isEqualTo(result.amount)
@@ -138,39 +142,23 @@ class RemoteTransactionDatastoreImplTest {
         val toAdd = generateSequence { partialTransactionEntity() }.take(2).toList()
         datastore.updateWith(toAdd).blockingAwait()
 
-        val result = datastore.getAfter(DateTime.now().millis + TIMESTAMP_PRECISION).blockingGet()
+        val result = datastore.getAfter(System.currentTimeMillis()).blockingGet()
         expectThat(result).isEmpty()
     }
 
     @Test
     fun getAfterWhenWeShouldGetAll() {
-        val beforeAdd = DateTime.now().millis
+        val beforeAdd = System.currentTimeMillis()
         val toAdd = listOf(
             partialTransactionEntity(memo = "A", syncStatus = SyncStatus.ToAdd),
             partialTransactionEntity(memo = "B", syncStatus = SyncStatus.ToAdd)
         )
         datastore.updateWith(toAdd).blockingAwait()
 
-        val result = datastore.getAfter(beforeAdd - TIMESTAMP_PRECISION).blockingGet()
+        val result = datastore.getAfter(beforeAdd).blockingGet()
             .sortedBy(TransactionPartialEntity::memo)
         expectThat(result).hasSize(2)
         toAdd.zip(result).forEach { (original, result) ->
-            assertAddResultSynced(original, result)
-        }
-    }
-
-    @Test
-    fun getAfterPartial() {
-        val firstAdd = listOf(partialTransactionEntity(memo = "A", syncStatus = SyncStatus.ToAdd))
-        datastore.updateWith(firstAdd).blockingAwait()
-        Thread.sleep(TIMESTAMP_PRECISION.toLong())
-        val beforeSecondAdd = DateTime.now().millis
-        val secondAdd = listOf(partialTransactionEntity(memo = "B", syncStatus = SyncStatus.ToAdd))
-        datastore.updateWith(secondAdd).blockingAwait()
-        val result = datastore.getAfter(beforeSecondAdd).blockingGet()
-            .sortedBy(TransactionPartialEntity::memo)
-        expectThat(result).hasSize(1)
-        secondAdd.zip(result).forEach { (original, result) ->
             assertAddResultSynced(original, result)
         }
     }

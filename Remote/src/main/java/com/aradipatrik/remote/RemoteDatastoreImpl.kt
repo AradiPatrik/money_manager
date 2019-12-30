@@ -74,10 +74,15 @@ class RemoteTransactionDatastoreImpl @Inject constructor(
         }
     }
 
-    override fun getAfter(time: Long): Single<List<TransactionPartialEntity>> =
+    override fun getAfter(
+        time: Long,
+        backtracSeconds: Long
+    ): Single<List<TransactionPartialEntity>> =
         Single.create { emitter ->
             transactionCollection.whereGreaterThan(
-                UPDATED_TIMESTAMP_KEY, Timestamp(DateTime(time).toDate())
+                UPDATED_TIMESTAMP_KEY, Timestamp(
+                    DateTime(time - backtracSeconds * 1000).toDate()
+                )
             ).get()
                 .addOnSuccessListener { querySnapshot ->
                     emitter.onSuccess(

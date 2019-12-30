@@ -4,10 +4,12 @@ import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.remote.*
 import com.aradipatrik.remote.payloadfactory.TransactionPayloadFactory
 import com.aradipatrik.testing.DataLayerMocks.partialTransactionEntity
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.hasEntry
+import strikt.assertions.isA
 
 class TransactionPayloadFactoryTest {
     @Test
@@ -16,10 +18,11 @@ class TransactionPayloadFactoryTest {
         val payload = TransactionPayloadFactory().createPayloadFrom(entity)
         expectThat(payload)
             .hasEntry(MEMO_KEY, entity.memo)
-            .hasEntry(UPDATED_TIMESTAMP_KEY, FieldValue.serverTimestamp())
             .hasEntry(DATE_KEY, entity.date.millis)
             .hasEntry(AMOUNT_KEY, entity.amount)
             .hasEntry(CATEGORY_ID_KEY, entity.categoryId)
+        expectThat(payload[UPDATED_TIMESTAMP_KEY])
+            .isA<Timestamp>()
     }
 
     @Test

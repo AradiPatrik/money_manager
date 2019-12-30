@@ -7,6 +7,7 @@ import com.aradipatrik.remote.AMOUNT_KEY
 import com.aradipatrik.remote.CATEGORY_ID_KEY
 import com.aradipatrik.remote.DELETED_KEY
 import com.aradipatrik.remote.UPDATED_TIMESTAMP_KEY
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import javax.inject.Inject
 
@@ -15,7 +16,7 @@ class TransactionPayloadFactory @Inject constructor(
 ) {
     fun createPayloadFrom(t: TransactionPartialEntity): HashMap<String, Any> = hashMapOf(
         AMOUNT_KEY to t.amount,
-        UPDATED_TIMESTAMP_KEY to FieldValue.serverTimestamp(),
+        UPDATED_TIMESTAMP_KEY to Timestamp.now(),
         DELETED_KEY to (t.syncStatus == SyncStatus.ToDelete),
         CATEGORY_ID_KEY to t.categoryId,
         DATE_KEY to t.date.toDate().time,
