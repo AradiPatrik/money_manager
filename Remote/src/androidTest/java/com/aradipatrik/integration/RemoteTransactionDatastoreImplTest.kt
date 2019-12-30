@@ -58,10 +58,6 @@ class RemoteTransactionDatastoreImplTest {
             partialTransactionEntity(memo = "B", syncStatus = SyncStatus.ToAdd)
         )
 
-        // 1577707278597
-        // 1577707278361
-        // 1577707278360
-
         val beforeUpdateTime = System.currentTimeMillis()
         datastore.updateWith(itemsToAdd).blockingAwait()
         val resultEntities = FirestoreUtils.getTransactionsOfUser(TEST_USER_DOCUMENT_KEY)
