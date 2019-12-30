@@ -33,11 +33,11 @@ class TransactionResponsePayloadConverter @Inject constructor() {
     private fun getSyncStatusFrom(document: DocumentSnapshot): SyncStatus {
         return document.getBoolean(DELETED_KEY)?.let {
             if (it) SyncStatus.ToDelete else SyncStatus.Synced
-        } ?: throw WrongFieldTypeException(UPDATED_TIMESTAMP_KEY)
+        } ?: throw WrongFieldTypeException(DELETED_KEY)
     }
 
     private fun getTimestampFrom(document: DocumentSnapshot) =
-        (document.getLong(UPDATED_TIMESTAMP_KEY)
+        (document.getTimestamp(UPDATED_TIMESTAMP_KEY)?.toDate()?.time
             ?: throw WrongFieldTypeException(UPDATED_TIMESTAMP_KEY))
 
     private fun getDateFrom(document: DocumentSnapshot): DateTime {

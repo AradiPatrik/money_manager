@@ -5,10 +5,12 @@ import com.aradipatrik.data.model.TransactionPartialEntity
 import com.aradipatrik.data.repository.transaction.RemoteTransactionDataStore
 import com.aradipatrik.remote.payloadfactory.TransactionPayloadFactory
 import com.aradipatrik.remote.payloadfactory.TransactionResponsePayloadConverter
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.WriteBatch
 import io.reactivex.Completable
 import io.reactivex.Single
+import org.joda.time.DateTime
 import javax.inject.Inject
 
 object CanceledException : Exception()
@@ -65,14 +67,18 @@ class RemoteTransactionDatastoreImpl @Inject constructor(
 
     private fun WriteBatch.doDelete(items: List<TransactionPartialEntity>) {
         items.forEach { transaction ->
-            delete(transactionCollection.document(transaction.id))
+            set(
+                transactionCollection.document(transaction.id),
+                transactionPayloadFactory.createPayloadFrom(transaction)
+            )
         }
     }
 
     override fun getAfter(time: Long): Single<List<TransactionPartialEntity>> =
         Single.create { emitter ->
-            transactionCollection.whereGreaterThan(UPDATED_TIMESTAMP_KEY, time)
-                .get()
+            transactionCollection.whereGreaterThan(
+                UPDATED_TIMESTAMP_KEY, Timestamp(DateTime(time).toDate())
+            ).get()
                 .addOnSuccessListener { querySnapshot ->
                     emitter.onSuccess(
                         querySnapshot.documents.map(

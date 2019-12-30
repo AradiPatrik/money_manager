@@ -17,6 +17,7 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        testInstrumentationRunner rootProject.ext.testInstrumentationRunner
     }
 
     compileOptions {
@@ -32,6 +33,7 @@ dependencies {
     implementation project(":Domain")
     implementation project(":Data")
     testImplementation project(":TestingCommons")
+    androidTestImplementation project(":TestingCommons")
 
     implementation moduleDependencies.javaxInject
     implementation moduleDependencies.rxJava
@@ -44,6 +46,13 @@ dependencies {
     testImplementation moduleTestDependencies.junit
     testImplementation moduleTestDependencies.mockk
     testImplementation moduleTestDependencies.strikt
+
+    androidTestImplementation moduleTestDependencies.espressoCore
+    androidTestImplementation moduleTestDependencies.junitExt
+    androidTestImplementation moduleTestDependencies.androidxTestRunner
+    androidTestImplementation moduleTestDependencies.junit
+    androidTestImplementation moduleTestDependencies.mockk
+    androidTestImplementation moduleTestDependencies.strikt
 }
 
 apply plugin: 'com.google.gms.google-services'

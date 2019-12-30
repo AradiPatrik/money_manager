@@ -6,6 +6,7 @@ ext {
     compileSdkVersion = 29
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
+    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
     rxJavaVersion = '2.2.16'
     rxKotlinVersion = '2.4.0'
@@ -19,6 +20,9 @@ ext {
     gsonVersion = '2.8.6'
     firestoreVersion = '21.3.1'
 
+    junitExtVersion = '1.1.1'
+    espressoCoreVersion = '3.2.0'
+    androidxTestRunnerVersion = '1.2.0'
     junitVersion = '4.12'
     mockkVersion = '1.9'
     striktVersion = '0.23.2'
@@ -65,9 +69,13 @@ ext {
     ]
 
     remoteTestDependencies = [
-            junit : "junit:junit:${junitVersion}",
-            strikt: "io.strikt:strikt-core:${striktVersion}",
-            mockk : "io.mockk:mockk:${mockkVersion}"
+            junit             : "junit:junit:${junitVersion}",
+            strikt            : "io.strikt:strikt-core:${striktVersion}",
+            mockk             : "io.mockk:mockk:${mockkVersion}",
+            junitExt          : "androidx.test.ext:junit:${junitExtVersion}",
+            espressoCore      : "androidx.test.espresso:espresso-core:${espressoCoreVersion}",
+            androidxTestRunner: "androidx.test:runner:${androidxTestRunnerVersion}",
+
     ]
 
     testingDependencies = [
