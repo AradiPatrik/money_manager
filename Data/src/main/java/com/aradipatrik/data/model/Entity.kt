@@ -12,4 +12,4 @@ data class TransactionPartialEntity(val id: String, val categoryId: String, val 
                                     val updatedTimeStamp: Long, val syncStatus: SyncStatus)
 
 data class CategoryEntity(val id: String, val name: String, val iconId: String,
-                          val lastUpdateTimestamp: Long, val syncStatus: SyncStatus)
+                          val updatedTimeStamp: Long, val syncStatus: SyncStatus)

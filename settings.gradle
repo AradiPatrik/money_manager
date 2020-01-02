@@ -1,1 +1,1 @@
-include ':Data', ':Domain', ':Remote', ':TestingCommons'
+include ':Data', ':Domain', ':Remote', ':TestingCommons', ':Local'

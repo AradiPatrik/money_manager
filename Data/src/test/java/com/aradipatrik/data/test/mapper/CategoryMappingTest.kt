@@ -30,7 +30,7 @@ class CategoryMappingTest {
         val testDomain = category()
         val entity = categoryMapper.mapToEntity(testDomain)
         assertEqualsDomainEntity(testDomain, entity)
-        expectThat(entity.lastUpdateTimestamp).isEqualTo(testTimestamp)
+        expectThat(entity.updatedTimeStamp).isEqualTo(testTimestamp)
         expectThat(entity.syncStatus).isEqualTo(SyncStatus.None)
     }
 

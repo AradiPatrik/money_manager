@@ -1,0 +1,44 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        testInstrumentationRunner rootProject.ext.testInstrumentationRunner
+    }
+
+    compileOptions {
+        sourceCompatibility = rootProject.ext.sourceCompatibility
+        targetCompatibility = rootProject.ext.targetCompatibility
+    }
+
+    kotlinOptions {
+        jvmTarget = rootProject.ext.targetCompatibility.toString()
+    }
+}
+
+dependencies {
+    def moduleDependencies = rootProject.ext.localDependencies
+    def moduleTestDependencies = rootProject.ext.localTestDependencies
+
+    implementation moduleDependencies.rxJava
+    implementation moduleDependencies.rxKotlin
+    implementation moduleDependencies.javaxInject
+    implementation moduleDependencies.javaxAnnotation
+    implementation moduleDependencies.jodaTime
+    implementation moduleDependencies.room
+    implementation moduleDependencies.roomKtx
+    implementation moduleDependencies.roomRxJava
+    implementation moduleDependencies.kotlinStdLib
+    kapt moduleDependencies.roomKapt
+
+    testImplementation moduleTestDependencies.junit
+    testImplementation moduleTestDependencies.strikt
+    testImplementation moduleTestDependencies.mockk
+    testImplementation moduleTestDependencies.roomTesting
+}

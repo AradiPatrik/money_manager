@@ -19,6 +19,7 @@ ext {
     retrofitVersion = '2.7.0'
     gsonVersion = '2.8.6'
     firestoreVersion = '21.3.1'
+    roomVersion = '2.2.3'
 
     junitExtVersion = '1.1.1'
     espressoCoreVersion = '3.2.0'
@@ -76,6 +77,26 @@ ext {
             espressoCore      : "androidx.test.espresso:espresso-core:${espressoCoreVersion}",
             androidxTestRunner: "androidx.test:runner:${androidxTestRunnerVersion}",
 
+    ]
+
+    localDependencies = [
+            rxJava         : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxKotlin       : "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
+            javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}",
+            javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            jodaTime       : "joda-time:joda-time:${jodaTimeVersion}",
+            room           : "androidx.room:room-runtime:${roomVersion}",
+            roomKtx        : "androidx.room:room-ktx:${roomVersion}",
+            roomKapt       : "androidx.room:room-compiler:${roomVersion}",
+            roomRxJava     : "androidx.room:room-rxjava2:${roomVersion}",
+            kotlinStdLib   : "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    ]
+
+    localTestDependencies = [
+            junit      : "junit:junit:${junitVersion}",
+            strikt     : "io.strikt:strikt-core:${striktVersion}",
+            mockk      : "io.mockk:mockk:${mockkVersion}",
+            roomTesting: "androidx.room:room-testing:${roomVersion}"
     ]
 
     testingDependencies = [
