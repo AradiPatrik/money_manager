@@ -26,6 +26,8 @@ dependencies {
     def moduleDependencies = rootProject.ext.localDependencies
     def moduleTestDependencies = rootProject.ext.localTestDependencies
 
+    implementation project(':Data')
+
     implementation moduleDependencies.rxJava
     implementation moduleDependencies.rxKotlin
     implementation moduleDependencies.javaxInject

@@ -11,11 +11,3 @@ data class CategoryRow(
     @ColumnInfo(name = CategoryConstants.ICON_ID_COLUMN_NAME) val iconId: String,
     @ColumnInfo(name = CategoryConstants.UPDATE_TIMESTAMP_COLUMN_NAME) val updateTimestamp: String
 )
-
-@Entity(tableName = PendingCategoryConstants.TABLE_NAME)
-data class PendingCategoryRow(
-    @PrimaryKey @ColumnInfo(name = PendingCategoryConstants.ID_COLUMN_NAME) val uid: String,
-    @ColumnInfo(name = PendingCategoryConstants.NAME_COLUMN_NAME) val name: String,
-    @ColumnInfo(name = PendingCategoryConstants.ICON_ID_COLUMN_NAME) val iconId: String,
-    @ColumnInfo(name = PendingCategoryConstants.UPDATE_TIMESTAMP_COLUMN_NAME) val updateTimestamp: String
-)

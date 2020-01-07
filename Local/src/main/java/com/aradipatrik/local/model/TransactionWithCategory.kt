@@ -11,7 +11,3 @@ data class TransactionWithCategory(
     )
     val category: CategoryRow
 )
-
-data class PendingTransactionWithCategory(
-    @Embedded val pendingTransaction: PendingTransactionRow
-)
