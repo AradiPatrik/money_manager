@@ -1,9 +1,9 @@
-package com.aradipatrik.data.repository.transaction
+package com.aradipatrik.data.datasource.transaction
 
 import com.aradipatrik.data.model.TransactionJoinedEntity
 import com.aradipatrik.data.model.TransactionPartialEntity
-import com.aradipatrik.data.repository.common.CrudDataStore
-import com.aradipatrik.data.repository.common.LocalTimestampedDataStore
+import com.aradipatrik.data.common.CrudDataStore
+import com.aradipatrik.data.common.LocalTimestampedDataStore
 import io.reactivex.Observable
 import org.joda.time.Interval
 

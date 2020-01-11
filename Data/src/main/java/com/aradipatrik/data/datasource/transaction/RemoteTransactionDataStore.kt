@@ -1,7 +1,7 @@
-package com.aradipatrik.data.repository.transaction
+package com.aradipatrik.data.datasource.transaction
 
 import com.aradipatrik.data.model.TransactionPartialEntity
-import com.aradipatrik.data.repository.common.RemoteTimestampedDataStore
+import com.aradipatrik.data.common.RemoteTimestampedDataStore
 
 interface RemoteTransactionDataStore
     : RemoteTimestampedDataStore<TransactionPartialEntity>

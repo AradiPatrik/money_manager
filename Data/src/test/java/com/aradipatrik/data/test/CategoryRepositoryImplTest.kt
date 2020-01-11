@@ -4,8 +4,8 @@ import com.aradipatrik.data.mapper.CategoryMapper
 import com.aradipatrik.data.model.CategoryEntity
 import com.aradipatrik.data.repository.CategoryRepositoryImpl
 import com.aradipatrik.data.repository.Syncer
-import com.aradipatrik.data.repository.category.LocalCategoryDataStore
-import com.aradipatrik.data.repository.category.RemoteCategoryDataStore
+import com.aradipatrik.data.datasource.category.LocalCategoryDataStore
+import com.aradipatrik.data.datasource.category.RemoteCategoryDataStore
 import com.aradipatrik.testing.DataLayerMocks.categoryEntity
 import com.aradipatrik.data.test.common.MethodStubFactory
 import com.aradipatrik.domain.model.Category

@@ -1,12 +1,12 @@
 package com.aradipatrik.data.test
 
 import com.aradipatrik.data.repository.Syncer
-import com.aradipatrik.data.repository.category.LocalCategoryDataStore
-import com.aradipatrik.data.repository.category.RemoteCategoryDataStore
-import com.aradipatrik.data.repository.common.LocalTimestampedDataStore
-import com.aradipatrik.data.repository.common.RemoteTimestampedDataStore
-import com.aradipatrik.data.repository.transaction.LocalTransactionDataStore
-import com.aradipatrik.data.repository.transaction.RemoteTransactionDataStore
+import com.aradipatrik.data.datasource.category.LocalCategoryDataStore
+import com.aradipatrik.data.datasource.category.RemoteCategoryDataStore
+import com.aradipatrik.data.common.LocalTimestampedDataStore
+import com.aradipatrik.data.common.RemoteTimestampedDataStore
+import com.aradipatrik.data.datasource.transaction.LocalTransactionDataStore
+import com.aradipatrik.data.datasource.transaction.RemoteTransactionDataStore
 import com.aradipatrik.testing.DomainLayerMocks.string
 import io.mockk.every
 import io.mockk.mockk

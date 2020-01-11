@@ -1,4 +1,4 @@
-package com.aradipatrik.data.repository.common
+package com.aradipatrik.data.common
 
 import io.reactivex.Completable
 import io.reactivex.Observable

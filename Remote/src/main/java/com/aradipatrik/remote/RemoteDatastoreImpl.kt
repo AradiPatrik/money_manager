@@ -2,7 +2,7 @@ package com.aradipatrik.remote
 
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.TransactionPartialEntity
-import com.aradipatrik.data.repository.transaction.RemoteTransactionDataStore
+import com.aradipatrik.data.datasource.transaction.RemoteTransactionDataStore
 import com.aradipatrik.remote.payloadfactory.TransactionPayloadFactory
 import com.aradipatrik.remote.payloadfactory.TransactionResponsePayloadConverter
 import com.google.firebase.Timestamp

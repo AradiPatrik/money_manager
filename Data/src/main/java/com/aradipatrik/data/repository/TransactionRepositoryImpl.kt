@@ -2,11 +2,10 @@ package com.aradipatrik.data.repository
 
 import com.aradipatrik.data.mapper.JoinedTransactionMapper
 import com.aradipatrik.data.mapper.PartialTransactionMapper
-import com.aradipatrik.data.repository.transaction.LocalTransactionDataStore
+import com.aradipatrik.data.datasource.transaction.LocalTransactionDataStore
 import com.aradipatrik.domain.model.Transaction
 import com.aradipatrik.domain.repository.TransactionRepository
 import io.reactivex.Completable
-import io.reactivex.Observable
 import org.joda.time.Interval
 import javax.inject.Inject
 

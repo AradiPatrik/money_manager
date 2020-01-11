@@ -1,8 +1,8 @@
 package com.aradipatrik.data.test.common
 
-import com.aradipatrik.data.repository.common.CrudDataStore
-import com.aradipatrik.data.repository.common.LocalTimestampedDataStore
-import com.aradipatrik.data.repository.common.RemoteTimestampedDataStore
+import com.aradipatrik.data.common.CrudDataStore
+import com.aradipatrik.data.common.LocalTimestampedDataStore
+import com.aradipatrik.data.common.RemoteTimestampedDataStore
 import com.aradipatrik.testing.DomainLayerMocks.long
 import io.mockk.every
 import io.reactivex.Completable

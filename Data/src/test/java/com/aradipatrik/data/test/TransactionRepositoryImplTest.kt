@@ -4,8 +4,8 @@ import com.aradipatrik.data.mapper.JoinedTransactionMapper
 import com.aradipatrik.data.mapper.PartialTransactionMapper
 import com.aradipatrik.data.repository.Syncer
 import com.aradipatrik.data.repository.TransactionRepositoryImpl
-import com.aradipatrik.data.repository.transaction.LocalTransactionDataStore
-import com.aradipatrik.data.repository.transaction.RemoteTransactionDataStore
+import com.aradipatrik.data.datasource.transaction.LocalTransactionDataStore
+import com.aradipatrik.data.datasource.transaction.RemoteTransactionDataStore
 import com.aradipatrik.data.test.common.MethodStubFactory
 import com.aradipatrik.testing.DataLayerMocks.joinedTransactionEntity
 import com.aradipatrik.testing.DataLayerMocks.partialTransactionEntity
