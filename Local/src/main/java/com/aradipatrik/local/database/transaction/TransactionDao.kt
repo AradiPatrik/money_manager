@@ -1,9 +1,6 @@
 package com.aradipatrik.local.database.transaction
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.aradipatrik.local.database.common.SyncStatusConstants.SYNCED_CODE
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_DELETE_CODE
 import com.aradipatrik.local.database.common.TransactionConstants.DATE_COLUMN_NAME
@@ -22,7 +19,7 @@ interface TransactionDao {
         const val GET_PENDING_TRANSACTIONS =
             "SELECT * FROM $TABLE_NAME WHERE $SYNC_STATUS_COLUMN_NAME != $SYNCED_CODE"
         const val GET_IN_INTERVAL =
-            "SELECT * FROM $TABLE_NAME WHERE $DATE_COLUMN_NAME BETWEEN :begin AND :end AND $SYNC_STATUS_COLUMN_NAME != $TO_DELETE_CODE"
+            "SELECT * FROM $TABLE_NAME WHERE $SYNC_STATUS_COLUMN_NAME != $TO_DELETE_CODE AND $DATE_COLUMN_NAME BETWEEN :begin AND :end"
         const val CLEAR_PENDING =
             "DELETE FROM $TABLE_NAME where $SYNC_STATUS_COLUMN_NAME != $SYNCED_CODE"
         const val GET_LAST_SYNC_TIME = "SELECT MAX($UPDATE_TIMESTAMP_COLUMN_NAME) FROM $TABLE_NAME"
@@ -36,6 +33,7 @@ interface TransactionDao {
     @Query(GET_PENDING_TRANSACTIONS)
     fun getPendingTransactions(): Single<List<TransactionRow>>
 
+    @Transaction
     @Query(GET_IN_INTERVAL)
     fun getInInterval(begin: Long, end: Long): Observable<List<TransactionWithCategory>>
 

@@ -17,6 +17,12 @@ android {
         targetCompatibility = rootProject.ext.targetCompatibility
     }
 
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
     kotlinOptions {
         jvmTarget = rootProject.ext.targetCompatibility.toString()
     }
@@ -27,6 +33,7 @@ dependencies {
     def moduleTestDependencies = rootProject.ext.localTestDependencies
 
     implementation project(':Data')
+    testImplementation project(':TestingCommons')
 
     implementation moduleDependencies.rxJava
     implementation moduleDependencies.rxKotlin
@@ -43,4 +50,6 @@ dependencies {
     testImplementation moduleTestDependencies.strikt
     testImplementation moduleTestDependencies.mockk
     testImplementation moduleTestDependencies.roomTesting
+    testImplementation moduleTestDependencies.robolectric
+    testImplementation moduleTestDependencies.archTesting
 }

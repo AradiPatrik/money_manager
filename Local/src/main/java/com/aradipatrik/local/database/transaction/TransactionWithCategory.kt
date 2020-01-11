@@ -9,7 +9,7 @@ import com.aradipatrik.local.database.common.TransactionConstants
 data class TransactionWithCategory(
     @Embedded val transaction: TransactionRow,
     @Relation(
-        parentColumn = TransactionConstants.ID_COLUMN_NAME,
+        parentColumn = TransactionConstants.CATEGORY_ID_COLUMN_NAME,
         entityColumn = CategoryConstants.ID_COLUMN_NAME
     )
     val category: CategoryRow

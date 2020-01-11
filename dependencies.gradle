@@ -27,6 +27,7 @@ ext {
     junitVersion = '4.12'
     mockkVersion = '1.9'
     striktVersion = '0.23.2'
+    robolectricVersion = '4.3.1'
 
     domainDependencies = [
             rxJava         : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
@@ -96,7 +97,9 @@ ext {
             junit      : "junit:junit:${junitVersion}",
             strikt     : "io.strikt:strikt-core:${striktVersion}",
             mockk      : "io.mockk:mockk:${mockkVersion}",
-            roomTesting: "androidx.room:room-testing:${roomVersion}"
+            roomTesting: "androidx.room:room-testing:${roomVersion}",
+            archTesting: "android.arch.core:core-testing:${roomVersion}",
+            robolectric: "org.robolectric:robolectric:${robolectricVersion}"
     ]
 
     testingDependencies = [

@@ -3,6 +3,8 @@ package com.aradipatrik.local.database
 import com.aradipatrik.data.datasource.transaction.LocalTransactionDataStore
 import com.aradipatrik.data.model.TransactionJoinedEntity
 import com.aradipatrik.data.model.TransactionPartialEntity
+import com.aradipatrik.local.database.common.SyncStatusConstants.TO_ADD_CODE
+import com.aradipatrik.local.database.common.SyncStatusConstants.TO_UPDATE_CODE
 import com.aradipatrik.local.database.mapper.TransactionRowMapper
 import com.aradipatrik.local.database.transaction.TransactionDao
 import io.reactivex.Completable
@@ -14,7 +16,7 @@ import javax.inject.Inject
 class RoomLocalTransactionDataSource @Inject constructor(
     private val transactionDao: TransactionDao,
     private val transactionMapper: TransactionRowMapper
-): LocalTransactionDataStore {
+) : LocalTransactionDataStore {
     override fun getInInterval(interval: Interval): Observable<List<TransactionJoinedEntity>> =
         transactionDao.getInInterval(interval.startMillis, interval.endMillis)
             .map { rows ->
@@ -42,9 +44,14 @@ class RoomLocalTransactionDataSource @Inject constructor(
             }
 
     override fun add(item: TransactionPartialEntity): Completable =
-        transactionDao.insert(listOf(transactionMapper.mapToRow(item)))
+        transactionDao.insert(
+            listOf(transactionMapper.mapToRow(item).copy(syncStatusCode = TO_ADD_CODE))
+        )
 
-    override fun update(item: TransactionPartialEntity): Completable = add(item)
+    override fun update(item: TransactionPartialEntity): Completable =
+        transactionDao.insert(
+            listOf(transactionMapper.mapToRow(item).copy(syncStatusCode = TO_UPDATE_CODE))
+        )
 
     override fun delete(id: String): Completable = transactionDao.setDeleted(id)
 
