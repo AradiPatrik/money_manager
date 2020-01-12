@@ -1,6 +1,7 @@
 package com.aradipatrik.local.database
 
 import com.aradipatrik.data.datasource.transaction.LocalTransactionDataStore
+import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.TransactionJoinedEntity
 import com.aradipatrik.data.model.TransactionPartialEntity
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_ADD_CODE
@@ -23,7 +24,6 @@ class RoomLocalTransactionDataSource @Inject constructor(
                 rows.map(transactionMapper::mapToJoinedEntity)
             }
 
-
     override fun updateWith(elements: List<TransactionPartialEntity>): Completable =
         transactionDao.insert(elements.map(transactionMapper::mapToRow))
 
@@ -45,14 +45,13 @@ class RoomLocalTransactionDataSource @Inject constructor(
 
     override fun add(item: TransactionPartialEntity): Completable =
         transactionDao.insert(
-            listOf(transactionMapper.mapToRow(item).copy(syncStatusCode = TO_ADD_CODE))
+            listOf(transactionMapper.mapToRow(item.copy(syncStatus = SyncStatus.ToAdd)))
         )
 
     override fun update(item: TransactionPartialEntity): Completable =
         transactionDao.insert(
-            listOf(transactionMapper.mapToRow(item).copy(syncStatusCode = TO_UPDATE_CODE))
+            listOf(transactionMapper.mapToRow(item.copy(syncStatus = SyncStatus.ToUpdate)))
         )
 
     override fun delete(id: String): Completable = transactionDao.setDeleted(id)
-
 }

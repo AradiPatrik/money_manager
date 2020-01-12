@@ -8,6 +8,7 @@ import com.aradipatrik.datasource.test.TransactionRowFactory.transactionRow
 import com.aradipatrik.datasource.test.TransactionRowFactory.transactionWithCategory
 import com.aradipatrik.local.database.TransactionDatabase
 import com.aradipatrik.local.database.common.SyncStatusConstants
+import com.aradipatrik.local.database.common.SyncStatusConstants.TO_DELETE_CODE
 import com.aradipatrik.testing.DomainLayerMocks.string
 import org.junit.After
 import org.junit.Rule
@@ -30,7 +31,7 @@ class TransactionDaoTest {
         .build()
 
     private val allPendingTransactions = listOf(
-        transactionRow(syncStatusCode = SyncStatusConstants.TO_DELETE_CODE),
+        transactionRow(syncStatusCode = TO_DELETE_CODE),
         transactionRow(syncStatusCode = SyncStatusConstants.TO_ADD_CODE),
         transactionRow(syncStatusCode = SyncStatusConstants.TO_UPDATE_CODE)
     )
@@ -115,7 +116,16 @@ class TransactionDaoTest {
     @Test
     fun `Set deleted should set transactions code TO_DELETE`() {
         val transactionToDelete = transactionRow()
-        val transactions = listOf(transactionRow(), transactionToDelete, transactionRow())
-        database.transactionDao().insert(transactions)
+        val transactions = listOf(transactionRow(), transactionRow())
+        database.transactionDao().insert(transactions + transactionToDelete).blockingAwait()
+        database.transactionDao().setDeleted(transactionToDelete.uid).blockingAwait()
+        database.transactionDao().getPendingTransactions()
+            .test()
+            .assertValue(listOf(transactionToDelete.copy(syncStatusCode = TO_DELETE_CODE)))
+
+        database.transactionDao().getAllTransactions()
+            .test()
+            .assertValue(
+                transactions + transactionToDelete.copy(syncStatusCode = TO_DELETE_CODE))
     }
 }

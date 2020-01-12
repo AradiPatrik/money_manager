@@ -1,6 +1,7 @@
 package com.aradipatrik.local.database
 
 import com.aradipatrik.data.datasource.category.LocalCategoryDataStore
+import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.CategoryEntity
 import com.aradipatrik.local.database.category.CategoryDao
 import com.aradipatrik.local.database.mapper.CategoryRowMapper
@@ -30,9 +31,14 @@ class RoomLocalCategoryDataSource(
         }
 
     override fun add(item: CategoryEntity): Completable =
-        categoryDao.insert(listOf(categoryMapper.mapToRow(item)))
+        categoryDao.insert(
+            listOf(categoryMapper.mapToRow(item.copy(syncStatus = SyncStatus.ToAdd)))
+        )
 
-    override fun update(item: CategoryEntity): Completable = add(item)
+    override fun update(item: CategoryEntity): Completable =
+        categoryDao.insert(
+            listOf(categoryMapper.mapToRow(item.copy(syncStatus = SyncStatus.ToUpdate)))
+        )
 
     override fun delete(id: String): Completable =
         categoryDao.setDeleted(id)
