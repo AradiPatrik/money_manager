@@ -1,5 +1,6 @@
 package com.aradipatrik.remote.test
 
+import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.TransactionPartialEntity
 import com.aradipatrik.remote.*
 import com.aradipatrik.remote.payloadfactory.TransactionResponsePayloadConverter
@@ -47,6 +48,13 @@ class TransactionResponsePayloadConverterTest {
             get(TransactionPartialEntity::memo).isEqualTo(memo)
             get(TransactionPartialEntity::date).isEqualTo(date)
             get(TransactionPartialEntity::amount).isEqualTo(amount.toInt())
+            get(TransactionPartialEntity::syncStatus).isEqualTo(
+                if (deleted) {
+                    SyncStatus.ToDelete
+                } else {
+                    SyncStatus.Synced
+                }
+            )
         }
     }
 }

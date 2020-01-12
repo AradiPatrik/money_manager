@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 object CanceledException : Exception()
 
-class RemoteTransactionDatastoreImpl @Inject constructor(
+class FirebaseRemoteTransactionDatastore @Inject constructor(
     userId: String,
     private val db: FirebaseFirestore,
     private val transactionPayloadFactory: TransactionPayloadFactory,

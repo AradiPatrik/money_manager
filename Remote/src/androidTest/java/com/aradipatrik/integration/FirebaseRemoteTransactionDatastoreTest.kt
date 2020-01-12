@@ -4,9 +4,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.TransactionPartialEntity
 import com.aradipatrik.integration.firebase.utils.FirestoreUtils
-import com.aradipatrik.remote.RemoteTransactionDatastoreImpl
-import com.aradipatrik.remote.RemoteTransactionDatastoreImpl.Companion.TRANSACTIONS_COLLECTION_KEY
-import com.aradipatrik.remote.RemoteTransactionDatastoreImpl.Companion.USERS_COLLECTION_KEY
+import com.aradipatrik.remote.FirebaseRemoteTransactionDatastore
+import com.aradipatrik.remote.FirebaseRemoteTransactionDatastore.Companion.TRANSACTIONS_COLLECTION_KEY
+import com.aradipatrik.remote.FirebaseRemoteTransactionDatastore.Companion.USERS_COLLECTION_KEY
 import com.aradipatrik.remote.payloadfactory.TransactionPayloadFactory
 import com.aradipatrik.remote.payloadfactory.TransactionResponsePayloadConverter
 import com.aradipatrik.testing.DataLayerMocks.partialTransactionEntity
@@ -14,7 +14,6 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import io.reactivex.Completable
-import org.joda.time.DateTime
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -23,7 +22,7 @@ import strikt.api.expectThat
 import strikt.assertions.*
 
 @RunWith(AndroidJUnit4::class)
-class RemoteTransactionDatastoreImplTest {
+class FirebaseRemoteTransactionDatastoreTest {
     companion object {
         private const val TEST_USER_DOCUMENT_KEY = "testUser"
         private const val TIMESTAMP_TOLERANCE = 10
@@ -37,7 +36,7 @@ class RemoteTransactionDatastoreImplTest {
 
     private val payloadFactory = TransactionPayloadFactory()
     private val responseConverter = TransactionResponsePayloadConverter()
-    private val datastore = RemoteTransactionDatastoreImpl(
+    private val datastore = FirebaseRemoteTransactionDatastore(
         TEST_USER_DOCUMENT_KEY, Firebase.firestore, payloadFactory, responseConverter
     )
 
