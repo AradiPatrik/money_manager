@@ -1,0 +1,47 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+android {
+    compileSdkVersion rootProject.ext.targetSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+
+        testInstrumentationRunner rootProject.ext.testInstrumentationRunner
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+}
+
+dependencies {
+    def moduleDependencies = rootProject.ext.presentatinoDependencies
+    def moduleTestDependencies = rootProject.ext.presentationTestDependencies
+
+    implementation project(':Domain')
+
+    implementation moduleDependencies.daggerCompiler
+    implementation moduleDependencies.dagger
+    implementation moduleDependencies.rxKotlin
+    implementation moduleDependencies.kotlinStdLib
+    implementation moduleDependencies.rxAndroid
+    implementation moduleDependencies.javaxAnnotation
+    implementation moduleDependencies.javaxInject
+    implementation moduleDependencies.lifecycleRuntime
+    implementation moduleDependencies.lifecycleExtensions
+    implementation moduleDependencies.lifecycleCompiler
+    implementation moduleDependencies.mvRx
+
+    testImplementation moduleTestDependencies.junit
+    testImplementation moduleTestDependencies.strikt
+    testImplementation moduleTestDependencies.mockk
+    testImplementation moduleTestDependencies.robolectric
+    testImplementation moduleTestDependencies.mvRxTesting
+}

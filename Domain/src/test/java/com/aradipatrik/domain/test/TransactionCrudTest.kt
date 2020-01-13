@@ -1,31 +1,29 @@
 package com.aradipatrik.domain.test
 
-import com.aradipatrik.domain.executor.PostExecutionThread
 import com.aradipatrik.domain.model.Transaction
 import com.aradipatrik.domain.repository.TransactionRepository
+import com.aradipatrik.domain.usecase.AddTransaction
+import com.aradipatrik.domain.usecase.DeleteTransaction
+import com.aradipatrik.domain.usecase.GetTransactionsInInterval
+import com.aradipatrik.domain.usecase.UpdateTransaction
+import com.aradipatrik.testing.DomainLayerMocks.interval
+import com.aradipatrik.testing.DomainLayerMocks.string
+import com.aradipatrik.testing.DomainLayerMocks.transaction
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import io.reactivex.Completable
 import io.reactivex.Observable
 import org.junit.Test
-import com.aradipatrik.testing.DomainLayerMocks.interval
-import com.aradipatrik.testing.DomainLayerMocks.string
-import com.aradipatrik.testing.DomainLayerMocks.transaction
-import com.aradipatrik.domain.usecase.*
 
 class TransactionCrudTest {
-    private val postExecutionThread = mockk<PostExecutionThread>()
     private val transactionRepository = mockk<TransactionRepository>()
 
     @Test
     fun `Add should complete`() {
         stubAddTransaction(Completable.complete())
-        val addTransaction = AddTransaction(
-            transactionRepository,
-            postExecutionThread
-        )
-        addTransaction.buildUseCaseCompletable(
+        val addTransaction = AddTransaction(transactionRepository)
+        addTransaction.get(
             AddTransaction.Params.forTransaction(
                 transaction()
             )
@@ -35,12 +33,9 @@ class TransactionCrudTest {
     @Test
     fun `Add should use repository`() {
         val transactionToAdd = transaction()
-        val addTransaction = AddTransaction(
-            transactionRepository,
-            postExecutionThread
-        )
+        val addTransaction = AddTransaction(transactionRepository)
         stubAddTransaction(Completable.complete())
-        addTransaction.buildUseCaseCompletable(
+        addTransaction.get(
             AddTransaction.Params.forTransaction(
                 transactionToAdd
             )
@@ -50,22 +45,16 @@ class TransactionCrudTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun `Add should throw exception if no parameters were supplied`() {
-        AddTransaction(
-            transactionRepository,
-            postExecutionThread
-        )
-            .buildUseCaseCompletable()
+        AddTransaction(transactionRepository)
+            .get()
             .test()
     }
 
     @Test
     fun `Delete should complete`() {
         stubDeleteTransaction(Completable.complete())
-        val deleteTransaction = DeleteTransaction(
-            transactionRepository,
-            postExecutionThread
-        )
-        deleteTransaction.buildUseCaseCompletable(
+        val deleteTransaction = DeleteTransaction(transactionRepository)
+        deleteTransaction.get(
             DeleteTransaction.Params.forTransaction(
                 string()
             )
@@ -76,11 +65,8 @@ class TransactionCrudTest {
     fun `Delete should use repository`() {
         stubDeleteTransaction(Completable.complete())
         val transactionIdToDelete = string()
-        val deleteTransaction = DeleteTransaction(
-            transactionRepository,
-            postExecutionThread
-        )
-        deleteTransaction.buildUseCaseCompletable(
+        val deleteTransaction = DeleteTransaction(transactionRepository)
+        deleteTransaction.get(
             DeleteTransaction.Params.forTransaction(
                 transactionIdToDelete
             )
@@ -90,22 +76,16 @@ class TransactionCrudTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun `Delete should throw exception if no argument was supplied`() {
-        DeleteTransaction(
-            transactionRepository,
-            postExecutionThread
-        )
-            .buildUseCaseCompletable()
+        DeleteTransaction(transactionRepository)
+            .get()
             .test()
     }
 
     @Test
     fun `Update should complete`() {
         stubUpdateTransaction(Completable.complete())
-        val updateTransaction = UpdateTransaction(
-            transactionRepository,
-            postExecutionThread
-        )
-        updateTransaction.buildUseCaseCompletable(
+        val updateTransaction = UpdateTransaction(transactionRepository)
+        updateTransaction.get(
             UpdateTransaction.Params.forTransaction(
                 transaction()
             )
@@ -115,12 +95,9 @@ class TransactionCrudTest {
     @Test
     fun `Update should use repository`() {
         stubUpdateTransaction(Completable.complete())
-        val updateTransaction = UpdateTransaction(
-            transactionRepository,
-            postExecutionThread
-        )
+        val updateTransaction = UpdateTransaction(transactionRepository)
         val transactionToUpdate = transaction()
-        updateTransaction.buildUseCaseCompletable(
+        updateTransaction.get(
             UpdateTransaction.Params.forTransaction(
                 transactionToUpdate
             )
@@ -130,20 +107,15 @@ class TransactionCrudTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun `Update should throw exception if no argumetns were supplied`() {
-        UpdateTransaction(
-            transactionRepository,
-            postExecutionThread
-        )
-            .buildUseCaseCompletable()
+        UpdateTransaction(transactionRepository)
+            .get()
             .test()
     }
 
     @Test
     fun `Get transaction in interval should complete`() {
         stubGetTransactionsInInterval(listOf(transaction()))
-        GetTransactionsInInterval(
-            transactionRepository, postExecutionThread
-        ).buildUseCaseObservable(
+        GetTransactionsInInterval(transactionRepository).get(
             GetTransactionsInInterval.Params.forInterval(
                 interval()
             )
@@ -158,10 +130,8 @@ class TransactionCrudTest {
         val testInterval = interval()
         stubGetTransactionsInInterval(testTransactions)
         val getTransactionsInInterval =
-            GetTransactionsInInterval(
-                transactionRepository, postExecutionThread
-            )
-        val transactionsObservable = getTransactionsInInterval.buildUseCaseObservable(
+            GetTransactionsInInterval(transactionRepository)
+        val transactionsObservable = getTransactionsInInterval.get(
             GetTransactionsInInterval.Params.forInterval(
                 testInterval
             )
@@ -172,11 +142,8 @@ class TransactionCrudTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun `Get transaction in interval should throw exception if no arguments were supplied`() {
-        GetTransactionsInInterval(
-            transactionRepository,
-            postExecutionThread
-        )
-            .buildUseCaseObservable()
+        GetTransactionsInInterval(transactionRepository)
+            .get()
             .test()
     }
 
