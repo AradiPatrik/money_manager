@@ -117,7 +117,8 @@ ext {
             javaxInject        : "javax.inject:javax.inject:${javaxInjectVersion}",
             lifecycleRuntime   : "androidx.lifecycle:lifecycle-runtime:${lifecycleVersion}",
             lifecycleExtensions: "androidx.lifecycle:lifecycle-extensions:${lifecycleVersion}",
-            lifecycleCompiler  : "androidx.lifecycle:lifecycle-compiler:${lifecycleVersion}"
+            lifecycleCompiler  : "androidx.lifecycle:lifecycle-compiler:${lifecycleVersion}",
+            jodaTime           : "joda-time:joda-time:${jodaTimeVersion}"
     ]
 
     presentationTestDependencies = [
@@ -125,7 +126,7 @@ ext {
             junit      : "junit:junit:${junitVersion}",
             strikt     : "io.strikt:strikt-core:${striktVersion}",
             mockk      : "io.mockk:mockk:${mockkVersion}",
-            robolectric: "org.robolectric:robolectric:${robolectricVersion}"
+            robolectric: "org.robolectric:robolectric:${robolectricVersion}",
     ]
 
     testingDependencies = [

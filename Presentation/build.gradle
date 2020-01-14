@@ -1,6 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion rootProject.ext.targetSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -26,8 +28,10 @@ dependencies {
     def moduleTestDependencies = rootProject.ext.presentationTestDependencies
 
     implementation project(':Domain')
+    testImplementation project(':TestingCommons')
 
-    implementation moduleDependencies.daggerCompiler
+    kapt moduleDependencies.daggerCompiler
+    kapt moduleDependencies.lifecycleCompiler
     implementation moduleDependencies.dagger
     implementation moduleDependencies.rxKotlin
     implementation moduleDependencies.kotlinStdLib
@@ -36,8 +40,8 @@ dependencies {
     implementation moduleDependencies.javaxInject
     implementation moduleDependencies.lifecycleRuntime
     implementation moduleDependencies.lifecycleExtensions
-    implementation moduleDependencies.lifecycleCompiler
     implementation moduleDependencies.mvRx
+    implementation moduleDependencies.jodaTime
 
     testImplementation moduleTestDependencies.junit
     testImplementation moduleTestDependencies.strikt
