@@ -21,6 +21,10 @@ android {
         }
     }
 
+    kotlinOptions {
+        jvmTarget = rootProject.ext.targetCompatibility.toString()
+    }
+
 }
 
 dependencies {

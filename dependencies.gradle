@@ -7,6 +7,9 @@ ext {
     compileSdkVersion = 29
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
+    applicationId = "com.aradipatrik.yamm"
+    versionCode = 1
+    versionName = "1.0"
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
     rxJavaVersion = '2.2.16'
@@ -24,6 +27,12 @@ ext {
     gsonVersion = '2.8.6'
     firestoreVersion = '21.3.1'
     roomVersion = '2.2.3'
+    appcompatVersion = "1.1.0"
+    coreKtxVersion = "1.1.0"
+    constraintLayoutVersion = "1.1.3"
+    activityKtxVersion = "1.1.0-rc03"
+    fragmentKtxVersion = "1.2.0-rc05"
+    materialVersion = "1.2.0-alpha03"
 
     junitExtVersion = '1.1.1'
     espressoCoreVersion = '3.2.0'
@@ -80,8 +89,7 @@ ext {
             mockk             : "io.mockk:mockk:${mockkVersion}",
             junitExt          : "androidx.test.ext:junit:${junitExtVersion}",
             espressoCore      : "androidx.test.espresso:espresso-core:${espressoCoreVersion}",
-            androidxTestRunner: "androidx.test:runner:${androidxTestRunnerVersion}",
-
+            androidxTestRunner: "androidx.test:runner:${androidxTestRunnerVersion}"
     ]
 
     localDependencies = [
@@ -122,11 +130,45 @@ ext {
     ]
 
     presentationTestDependencies = [
-            mvRxTesting: "com.airbnb.android:mvrx-testing:${mvRxVersion}",
-            junit      : "junit:junit:${junitVersion}",
-            strikt     : "io.strikt:strikt-core:${striktVersion}",
-            mockk      : "io.mockk:mockk:${mockkVersion}",
-            robolectric: "org.robolectric:robolectric:${robolectricVersion}",
+            mvRxTesting : "com.airbnb.android:mvrx-testing:${mvRxVersion}",
+            junit       : "junit:junit:${junitVersion}",
+            strikt      : "io.strikt:strikt-core:${striktVersion}",
+            mockk       : "io.mockk:mockk:${mockkVersion}",
+            robolectric : "org.robolectric:robolectric:${robolectricVersion}",
+            kotlinStdLib: "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+    ]
+
+    mobileUiDependencies = [
+            mvRx               : "com.airbnb.android:mvrx:${mvRxVersion}",
+            rxJava             : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxKotlin           : "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
+            rxAndroid          : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            javaxAnnotation    : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject        : "javax.inject:javax.inject:${javaxInjectVersion}",
+            daggerCompiler     : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger             : "com.google.dagger:dagger:${daggerVersion}",
+            lifecycleRuntime   : "androidx.lifecycle:lifecycle-runtime:${lifecycleVersion}",
+            lifecycleExtensions: "androidx.lifecycle:lifecycle-extensions:${lifecycleVersion}",
+            lifecycleCompiler  : "androidx.lifecycle:lifecycle-compiler:${lifecycleVersion}",
+            appcompat          : "androidx.appcompat:appcompat:${appcompatVersion}",
+            coreKtx            : "androidx.core:core-ktx:${coreKtxVersion}",
+            constraintLayout   : "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}",
+            activityKtx        : "androidx.activity:activity-ktx:${activityKtxVersion}",
+            fragmentKtx        : "androidx.fragment:fragment-ktx:${fragmentKtxVersion}",
+            material           : "com.google.android.material:material:${materialVersion}",
+            jodaTime           : "joda-time:joda-time:${jodaTimeVersion}"
+    ]
+
+    mobileUiTestDependencies = [
+            junit             : "junit:junit:${junitVersion}",
+            strikt            : "io.strikt:strikt-core:${striktVersion}",
+            mvRxTesting       : "com.airbnb.android:mvrx-testing:${mvRxVersion}",
+            mockk             : "io.mockk:mockk:${mockkVersion}",
+            kotlinStdLib      : "org.jetbrains.kotlin:kotlin-stdlib-jdk8",
+            robolectric       : "org.robolectric:robolectric:${robolectricVersion}",
+            espressoCore      : "androidx.test.espresso:espresso-core:${espressoCoreVersion}",
+            androidxTestRunner: "androidx.test:runner:${androidxTestRunnerVersion}"
     ]
 
     testingDependencies = [
@@ -138,6 +180,6 @@ ext {
             jodaTime       : "joda-time:joda-time:${jodaTimeVersion}",
             junit          : "junit:junit:${junitVersion}",
             strikt         : "io.strikt:strikt-core:${striktVersion}",
-            mockk          : "io.mockk:mockk:${mockkVersion}"
+            mockk          : "io.mockk:mockk:${mockkVersion}",
     ]
 }
