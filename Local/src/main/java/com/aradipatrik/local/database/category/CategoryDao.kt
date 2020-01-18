@@ -11,6 +11,7 @@ import com.aradipatrik.local.database.common.CategoryConstants.UPDATE_TIMESTAMP_
 import com.aradipatrik.local.database.common.SyncStatusConstants.SYNCED_CODE
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_DELETE_CODE
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 
@@ -37,7 +38,7 @@ interface CategoryDao {
     fun clearPending(): Completable
 
     @Query(GET_LAST_SYNC_TIME)
-    fun getLastSyncTime(): Single<Long>
+    fun getLastSyncTime(): Maybe<Long>
 
     @Query(SET_DELETED)
     fun setDeleted(id: String): Completable

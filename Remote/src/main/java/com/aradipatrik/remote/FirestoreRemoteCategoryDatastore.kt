@@ -4,20 +4,22 @@ import com.aradipatrik.data.datasource.category.RemoteCategoryDataStore
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.CategoryEntity
 import com.aradipatrik.remote.payloadfactory.CategoryPayloadFactory
-import com.aradipatrik.remote.payloadfactory.CategoryResponsePayloadConverter
+import com.aradipatrik.remote.payloadfactory.CategoryResponseConverter
+import com.aradipatrik.remote.utils.delete
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.WriteBatch
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import io.reactivex.Completable
 import io.reactivex.Single
 import org.joda.time.DateTime
 import javax.inject.Inject
 
-class FirebaseRemoteCategoryDatastore @Inject constructor(
-    userId: String,
-    private val db: FirebaseFirestore,
+class FirestoreRemoteCategoryDatastore @Inject constructor(
+    private val userId: String,
     private val categoryPayloadFactory: CategoryPayloadFactory,
-    private val categoryResponsePayloadConverter: CategoryResponsePayloadConverter
+    private val categoryResponseConverter: CategoryResponseConverter
 ) : RemoteCategoryDataStore {
     companion object {
         internal const val USERS_COLLECTION_KEY = "users"
@@ -25,7 +27,7 @@ class FirebaseRemoteCategoryDatastore @Inject constructor(
     }
 
 
-    private val categoriesCollection = db.collection(USERS_COLLECTION_KEY)
+    private val categoriesCollection = Firebase.firestore.collection(USERS_COLLECTION_KEY)
         .document(userId)
         .collection(CATEGORIES_COLLECTION_KEY)
 
@@ -33,7 +35,7 @@ class FirebaseRemoteCategoryDatastore @Inject constructor(
         val toUpdate = items.filter { it.syncStatus == SyncStatus.ToUpdate }
         val toAdd = items.filter { it.syncStatus == SyncStatus.ToAdd }
         val toDelete = items.filter { it.syncStatus == SyncStatus.ToDelete }
-        db.runBatch { batch ->
+        Firebase.firestore.runBatch { batch ->
             batch.doUpdate(toUpdate)
             batch.doAdd(toAdd)
             batch.doDelete(toDelete)
@@ -86,7 +88,7 @@ class FirebaseRemoteCategoryDatastore @Inject constructor(
                 .addOnSuccessListener { querySnapshot ->
                     emitter.onSuccess(
                         querySnapshot.documents.map(
-                            categoryResponsePayloadConverter::mapResponseToEntity
+                            categoryResponseConverter::mapResponseToEntity
                         )
                     )
                 }
@@ -97,4 +99,13 @@ class FirebaseRemoteCategoryDatastore @Inject constructor(
                     emitter.onError(CanceledException)
                 }
         }
+
+    /**
+    * This is just here for testing, don't use in production
+    * @throws IllegalStateException if user is not test user
+    */
+    fun deleteAllForTestUser() {
+        check(userId == TEST_USER_ID) { "Usage of this method for real user is prohibited" }
+        categoriesCollection.delete()
+    }
 }

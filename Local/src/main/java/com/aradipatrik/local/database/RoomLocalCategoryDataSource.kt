@@ -6,6 +6,7 @@ import com.aradipatrik.data.model.CategoryEntity
 import com.aradipatrik.local.database.category.CategoryDao
 import com.aradipatrik.local.database.mapper.CategoryRowMapper
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 
@@ -24,6 +25,8 @@ class RoomLocalCategoryDataSource(
     override fun clearPending(): Completable = categoryDao.clearPending()
 
     override fun getLastSyncTime(): Single<Long> = categoryDao.getLastSyncTime()
+        .switchIfEmpty(Maybe.just(0L))
+        .toSingle()
 
     override fun getAll(): Observable<List<CategoryEntity>> =
         categoryDao.getAllCategories().map { rows ->

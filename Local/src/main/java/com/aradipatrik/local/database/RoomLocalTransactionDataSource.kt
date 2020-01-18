@@ -9,6 +9,7 @@ import com.aradipatrik.local.database.common.SyncStatusConstants.TO_UPDATE_CODE
 import com.aradipatrik.local.database.mapper.TransactionRowMapper
 import com.aradipatrik.local.database.transaction.TransactionDao
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import org.joda.time.Interval
@@ -36,6 +37,8 @@ class RoomLocalTransactionDataSource @Inject constructor(
     override fun clearPending(): Completable = transactionDao.clearPending()
 
     override fun getLastSyncTime(): Single<Long> = transactionDao.getLastSyncTime()
+        .switchIfEmpty(Maybe.just(0L))
+        .toSingle()
 
     override fun getAll(): Observable<List<TransactionPartialEntity>> =
         transactionDao.getAllTransactions()

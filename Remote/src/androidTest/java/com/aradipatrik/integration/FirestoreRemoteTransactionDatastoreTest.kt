@@ -4,11 +4,12 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.TransactionPartialEntity
 import com.aradipatrik.integration.firebase.utils.FirestoreUtils
-import com.aradipatrik.remote.FirebaseRemoteTransactionDatastore
-import com.aradipatrik.remote.FirebaseRemoteTransactionDatastore.Companion.TRANSACTIONS_COLLECTION_KEY
-import com.aradipatrik.remote.FirebaseRemoteTransactionDatastore.Companion.USERS_COLLECTION_KEY
+import com.aradipatrik.remote.FirestoreRemoteTransactionDatastore
+import com.aradipatrik.remote.FirestoreRemoteTransactionDatastore.Companion.TRANSACTIONS_COLLECTION_KEY
+import com.aradipatrik.remote.FirestoreRemoteTransactionDatastore.Companion.USERS_COLLECTION_KEY
 import com.aradipatrik.remote.payloadfactory.TransactionPayloadFactory
-import com.aradipatrik.remote.payloadfactory.TransactionResponsePayloadConverter
+import com.aradipatrik.remote.payloadfactory.TransactionResponseConverter
+import com.aradipatrik.testing.DataLayerMocks
 import com.aradipatrik.testing.DataLayerMocks.partialTransactionEntity
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
@@ -22,7 +23,7 @@ import strikt.api.expectThat
 import strikt.assertions.*
 
 @RunWith(AndroidJUnit4::class)
-class FirebaseRemoteTransactionDatastoreTest {
+class FirestoreRemoteTransactionDatastoreTest {
     companion object {
         private const val TEST_USER_DOCUMENT_KEY = "testUser"
         private const val TIMESTAMP_TOLERANCE = 10
@@ -35,9 +36,9 @@ class FirebaseRemoteTransactionDatastoreTest {
     private val transactionCollection = testUserDocument.collection(TRANSACTIONS_COLLECTION_KEY)
 
     private val payloadFactory = TransactionPayloadFactory()
-    private val responseConverter = TransactionResponsePayloadConverter()
-    private val datastore = FirebaseRemoteTransactionDatastore(
-        TEST_USER_DOCUMENT_KEY, Firebase.firestore, payloadFactory, responseConverter
+    private val responseConverter = TransactionResponseConverter()
+    private val datastore = FirestoreRemoteTransactionDatastore(
+        TEST_USER_DOCUMENT_KEY, payloadFactory, responseConverter
     )
 
     @Before
@@ -178,4 +179,20 @@ class FirebaseRemoteTransactionDatastoreTest {
             con.onComplete()
         }
     }.blockingAwait()
+
+    @Test
+    fun deleteUserShouldWork() {
+        val itemsToAdd = listOf(
+            partialTransactionEntity(memo = "A", syncStatus = SyncStatus.ToAdd),
+            partialTransactionEntity(memo = "B", syncStatus = SyncStatus.ToAdd)
+        )
+
+        datastore.updateWith(itemsToAdd).blockingAwait()
+        val addResult = FirestoreUtils.getTransactionsOfUser(TEST_USER_DOCUMENT_KEY)
+        expectThat(addResult).isNotEmpty()
+
+        datastore.deleteAllForTestUser()
+        val afterDelete = FirestoreUtils.getTransactionsOfUser(TEST_USER_DOCUMENT_KEY)
+        expectThat(afterDelete.isEmpty())
+    }
 }

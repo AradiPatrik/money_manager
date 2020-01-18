@@ -9,6 +9,7 @@ import com.aradipatrik.local.database.common.TransactionConstants.SYNC_STATUS_CO
 import com.aradipatrik.local.database.common.TransactionConstants.TABLE_NAME
 import com.aradipatrik.local.database.common.TransactionConstants.UPDATE_TIMESTAMP_COLUMN_NAME
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 
@@ -44,7 +45,7 @@ interface TransactionDao {
     fun clearPending(): Completable
 
     @Query(GET_LAST_SYNC_TIME)
-    fun getLastSyncTime(): Single<Long>
+    fun getLastSyncTime(): Maybe<Long>
 
     @Query(SET_DELETED)
     fun setDeleted(id: String): Completable

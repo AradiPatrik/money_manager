@@ -3,7 +3,7 @@ package com.aradipatrik.remote.test
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.TransactionPartialEntity
 import com.aradipatrik.remote.*
-import com.aradipatrik.remote.payloadfactory.TransactionResponsePayloadConverter
+import com.aradipatrik.remote.payloadfactory.TransactionResponseConverter
 import com.aradipatrik.testing.DomainLayerMocks.boolean
 import com.aradipatrik.testing.DomainLayerMocks.long
 import com.aradipatrik.testing.DomainLayerMocks.string
@@ -16,11 +16,11 @@ import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 import kotlin.math.abs
 
-class TransactionResponsePayloadConverterTest {
+class TransactionResponseConverterTest {
     @Test
     fun `Convert correct response, should map correctly`() {
         val mockTimestamp = 80000000
-        val converter = TransactionResponsePayloadConverter()
+        val converter = TransactionResponseConverter()
         val mockId = string()
         val deleted = boolean()
         val memo = string()

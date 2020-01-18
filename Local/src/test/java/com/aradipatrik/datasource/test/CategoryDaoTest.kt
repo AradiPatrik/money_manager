@@ -84,6 +84,14 @@ class CategoryDaoTest {
     }
 
     @Test
+    fun `Get last sync time should complete when no sync time is the db yet`() {
+        database.categoryDao().getLastSyncTime()
+            .test()
+            .assertNoValues()
+            .assertComplete()
+    }
+
+    @Test
     fun `Set deleted should set category sync code TO_DELETE`() {
         val categoryToDelete = categoryRow()
         val categories = listOf(categoryRow(), categoryRow())

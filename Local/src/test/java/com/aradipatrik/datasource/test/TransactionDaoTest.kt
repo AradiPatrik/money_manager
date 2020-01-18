@@ -114,6 +114,14 @@ class TransactionDaoTest {
     }
 
     @Test
+    fun `Get last sync time should complete when no sync time is the db yet`() {
+        database.transactionDao().getLastSyncTime()
+            .test()
+            .assertNoValues()
+            .assertComplete()
+    }
+
+    @Test
     fun `Set deleted should set transactions code TO_DELETE`() {
         val transactionToDelete = transactionRow()
         val transactions = listOf(transactionRow(), transactionRow())

@@ -4,10 +4,13 @@ import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.TransactionPartialEntity
 import com.aradipatrik.data.datasource.transaction.RemoteTransactionDataStore
 import com.aradipatrik.remote.payloadfactory.TransactionPayloadFactory
-import com.aradipatrik.remote.payloadfactory.TransactionResponsePayloadConverter
+import com.aradipatrik.remote.payloadfactory.TransactionResponseConverter
+import com.aradipatrik.remote.utils.delete
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.WriteBatch
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import io.reactivex.Completable
 import io.reactivex.Single
 import org.joda.time.DateTime
@@ -15,18 +18,17 @@ import javax.inject.Inject
 
 object CanceledException : Exception()
 
-class FirebaseRemoteTransactionDatastore @Inject constructor(
-    userId: String,
-    private val db: FirebaseFirestore,
+class FirestoreRemoteTransactionDatastore @Inject constructor(
+    private val userId: String,
     private val transactionPayloadFactory: TransactionPayloadFactory,
-    private val transactionResponsePayloadConverter: TransactionResponsePayloadConverter
+    private val transactionResponseConverter: TransactionResponseConverter
 ) : RemoteTransactionDataStore {
     companion object {
         internal const val USERS_COLLECTION_KEY = "users"
         internal const val TRANSACTIONS_COLLECTION_KEY = "transaction"
     }
 
-    private val transactionCollection = db.collection(USERS_COLLECTION_KEY)
+    private val transactionCollection = Firebase.firestore.collection(USERS_COLLECTION_KEY)
         .document(userId)
         .collection(TRANSACTIONS_COLLECTION_KEY)
 
@@ -34,7 +36,7 @@ class FirebaseRemoteTransactionDatastore @Inject constructor(
         val toUpdate = items.filter { it.syncStatus == SyncStatus.ToUpdate }
         val toAdd = items.filter { it.syncStatus == SyncStatus.ToAdd }
         val toDelete = items.filter { it.syncStatus == SyncStatus.ToDelete }
-        db.runBatch { batch ->
+        Firebase.firestore.runBatch { batch ->
             batch.doUpdate(toUpdate)
             batch.doAdd(toAdd)
             batch.doDelete(toDelete)
@@ -87,7 +89,7 @@ class FirebaseRemoteTransactionDatastore @Inject constructor(
                 .addOnSuccessListener { querySnapshot ->
                     emitter.onSuccess(
                         querySnapshot.documents.map(
-                            transactionResponsePayloadConverter::mapResponseToEntity
+                            transactionResponseConverter::mapResponseToEntity
                         )
                     )
                 }
@@ -98,4 +100,13 @@ class FirebaseRemoteTransactionDatastore @Inject constructor(
                     emitter.onError(CanceledException)
                 }
         }
+
+    /**
+     * This is just here for testing, don't use in production
+     * @throws IllegalStateException if user is not test user
+     */
+    fun deleteAllForTestUser() {
+        check(userId == TEST_USER_ID) { "Usage of this method for real user is prohibited" }
+        transactionCollection.delete()
+    }
 }

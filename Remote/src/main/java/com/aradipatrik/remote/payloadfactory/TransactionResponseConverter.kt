@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 data class WrongFieldTypeException(val fieldId: String) : IOException("Wrong type $fieldId")
 
-class TransactionResponsePayloadConverter @Inject constructor() {
+class TransactionResponseConverter @Inject constructor() {
     fun mapResponseToEntity(document: DocumentSnapshot): TransactionPartialEntity =
         TransactionPartialEntity(
             id = getIdFrom(document),

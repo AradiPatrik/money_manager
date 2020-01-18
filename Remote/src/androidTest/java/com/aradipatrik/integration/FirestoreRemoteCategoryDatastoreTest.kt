@@ -4,11 +4,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.CategoryEntity
 import com.aradipatrik.integration.firebase.utils.FirestoreUtils
-import com.aradipatrik.remote.FirebaseRemoteCategoryDatastore
-import com.aradipatrik.remote.FirebaseRemoteCategoryDatastore.Companion.CATEGORIES_COLLECTION_KEY
-import com.aradipatrik.remote.FirebaseRemoteCategoryDatastore.Companion.USERS_COLLECTION_KEY
+import com.aradipatrik.remote.FirestoreRemoteCategoryDatastore
+import com.aradipatrik.remote.FirestoreRemoteCategoryDatastore.Companion.CATEGORIES_COLLECTION_KEY
+import com.aradipatrik.remote.FirestoreRemoteCategoryDatastore.Companion.USERS_COLLECTION_KEY
 import com.aradipatrik.remote.payloadfactory.CategoryPayloadFactory
-import com.aradipatrik.remote.payloadfactory.CategoryResponsePayloadConverter
+import com.aradipatrik.remote.payloadfactory.CategoryResponseConverter
 import com.aradipatrik.testing.DataLayerMocks.categoryEntity
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
@@ -22,7 +22,7 @@ import strikt.api.expectThat
 import strikt.assertions.*
 
 @RunWith(AndroidJUnit4::class)
-class FirebaseRemoteCategoryDatastoreTest {
+class FirestoreRemoteCategoryDatastoreTest {
     companion object {
         private const val TEST_USER_DOCUMENT_KEY = "testUser"
         private const val TIMESTAMP_TOLERANCE = 10
@@ -32,23 +32,23 @@ class FirebaseRemoteCategoryDatastoreTest {
         .collection(USERS_COLLECTION_KEY)
         .document(TEST_USER_DOCUMENT_KEY)
 
-    private val categoriesCollectino = testUserDocument.collection(CATEGORIES_COLLECTION_KEY)
+    private val categoriesCollection = testUserDocument.collection(CATEGORIES_COLLECTION_KEY)
 
 
     private val payloadFactory = CategoryPayloadFactory()
-    private val responseConverter = CategoryResponsePayloadConverter()
-    private val datastore = FirebaseRemoteCategoryDatastore(
-        TEST_USER_DOCUMENT_KEY, Firebase.firestore, payloadFactory, responseConverter
+    private val responseConverter = CategoryResponseConverter()
+    private val datastore = FirestoreRemoteCategoryDatastore(
+        TEST_USER_DOCUMENT_KEY, payloadFactory, responseConverter
     )
 
     @Before
     fun setup() {
-        categoriesCollectino.delete()
+        categoriesCollection.delete()
     }
 
     @After
     fun teardown() {
-        categoriesCollectino.delete()
+        categoriesCollection.delete()
     }
 
     @Test
@@ -175,4 +175,20 @@ class FirebaseRemoteCategoryDatastoreTest {
             con.onComplete()
         }
     }.blockingAwait()
+
+    @Test
+    fun deleteUserShouldWork() {
+        val itemsToAdd = listOf(
+            categoryEntity(name = "A", syncStatus = SyncStatus.ToAdd),
+            categoryEntity(name = "B", syncStatus = SyncStatus.ToAdd)
+        )
+
+        datastore.updateWith(itemsToAdd).blockingAwait()
+        val addResult = FirestoreUtils.getCategoriesOfUser(TEST_USER_DOCUMENT_KEY)
+        expectThat(addResult).isNotEmpty()
+
+        datastore.deleteAllForTestUser()
+        val afterDelete = FirestoreUtils.getCategoriesOfUser(TEST_USER_DOCUMENT_KEY)
+        expectThat(afterDelete.isEmpty())
+    }
 }

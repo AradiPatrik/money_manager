@@ -6,7 +6,7 @@ import com.aradipatrik.remote.CATEGORY_NAME_KEY
 import com.aradipatrik.remote.DELETED_KEY
 import com.aradipatrik.remote.ICON_ID_KEY
 import com.aradipatrik.remote.UPDATED_TIMESTAMP_KEY
-import com.aradipatrik.remote.payloadfactory.CategoryResponsePayloadConverter
+import com.aradipatrik.remote.payloadfactory.CategoryResponseConverter
 import com.aradipatrik.testing.DomainLayerMocks.boolean
 import com.aradipatrik.testing.DomainLayerMocks.string
 import com.google.firebase.Timestamp
@@ -22,7 +22,7 @@ class CategoryResponseConverterTest {
     @Test
     fun `Convert correct response, should map correctly`() {
         val mockTimestamp = 80000000
-        val converter = CategoryResponsePayloadConverter()
+        val converter = CategoryResponseConverter()
         val mockId = string()
         val deleted = boolean()
         val name = string()

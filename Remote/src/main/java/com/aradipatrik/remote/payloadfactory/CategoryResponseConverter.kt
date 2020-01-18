@@ -15,7 +15,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 
-class CategoryResponsePayloadConverter {
+class CategoryResponseConverter {
     fun mapResponseToEntity(document: DocumentSnapshot): CategoryEntity =
         CategoryEntity(
             id = getIdFrom(document),

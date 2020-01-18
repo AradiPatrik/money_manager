@@ -24,7 +24,6 @@ ext {
     okHttpVersion = '4.2.1'
     daggerVersion = '2.25.3'
     retrofitVersion = '2.7.0'
-    gsonVersion = '2.8.6'
     firestoreVersion = '21.3.1'
     roomVersion = '2.2.3'
     appcompatVersion = "1.1.0"
@@ -39,7 +38,7 @@ ext {
     androidxTestRunnerVersion = '1.2.0'
     junitVersion = '4.12'
     mockkVersion = '1.9'
-    striktVersion = '0.23.2'
+    striktVersion = '0.23.4'
     robolectricVersion = '4.3.1'
 
     domainDependencies = [
@@ -169,6 +168,30 @@ ext {
             robolectric       : "org.robolectric:robolectric:${robolectricVersion}",
             espressoCore      : "androidx.test.espresso:espresso-core:${espressoCoreVersion}",
             androidxTestRunner: "androidx.test:runner:${androidxTestRunnerVersion}"
+    ]
+
+    syncIntegrationDependencies = [
+            rxJava         : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxKotlin       : "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
+            javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}",
+            javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            jodaTime       : "joda-time:joda-time:${jodaTimeVersion}",
+            room           : "androidx.room:room-runtime:${roomVersion}",
+            roomKtx        : "androidx.room:room-ktx:${roomVersion}",
+            roomKapt       : "androidx.room:room-compiler:${roomVersion}",
+            roomRxJava     : "androidx.room:room-rxjava2:${roomVersion}",
+            kotlinStdLib   : "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    ]
+
+    syncIntegrationTestDependencies = [
+            archTesting       : "android.arch.core:core-testing:${roomVersion}",
+            junit             : "junit:junit:${junitVersion}",
+            strikt            : "io.strikt:strikt-core:${striktVersion}",
+            mockk             : "io.mockk:mockk:${mockkVersion}",
+            junitExt          : "androidx.test.ext:junit:${junitExtVersion}",
+            espressoCore      : "androidx.test.espresso:espresso-core:${espressoCoreVersion}",
+            androidxTestRunner: "androidx.test:runner:${androidxTestRunnerVersion}",
+            roomTesting       : "androidx.room:room-testing:${roomVersion}"
     ]
 
     testingDependencies = [
