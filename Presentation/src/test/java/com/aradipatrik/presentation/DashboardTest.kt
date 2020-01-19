@@ -58,19 +58,6 @@ class DashboardTest : KoinTest {
     }
 
     @Test
-    fun `selectedMonthAsInterval should return selected month as interval`() {
-        // Arrange
-        val state = DashboardState()
-        val selectedMonthAsInterval = state.selectedMonth.toInterval()
-
-        // Act
-        val result = state.selectedMonthAsInterval
-
-        // Assert
-        expectThat(result).isEqualTo(selectedMonthAsInterval)
-    }
-
-    @Test
     fun `refreshCurrentMonth should call getTransactionsInInterval use case with selectedMonthAsInterval, and return the result as success`() {
         // Arrange
         val initialState = DashboardState()

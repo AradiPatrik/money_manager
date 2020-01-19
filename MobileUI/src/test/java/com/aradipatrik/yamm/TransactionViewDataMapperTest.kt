@@ -5,6 +5,8 @@ import com.aradipatrik.yamm.mapper.TransactionViewDataMapper
 import com.aradipatrik.yamm.model.TransactionViewData
 import com.aradipatrik.yamm.util.PresentationLayerMocks.transactionPresentation
 import org.junit.Test
+import strikt.api.expectThat
+import strikt.assertions.isEqualTo
 
 class TransactionViewDataMapperTest {
     private val iconMapper = IconMapper()
@@ -22,5 +24,7 @@ class TransactionViewDataMapperTest {
             colorResId = 0,
             categoryName = p.category.name
         )
+        transactionViewDataMapper.mapToViewData(p)
+        expectThat(transactionViewDataMapper.mapToViewData(p)).isEqualTo(expectedViewData)
     }
 }

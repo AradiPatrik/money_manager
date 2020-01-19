@@ -1,6 +1,6 @@
 package com.aradipatrik.yamm.model
 
-class TransactionViewData(
+data class TransactionViewData(
     val id: String,
     val categoryId: String,
     val memo: String,
