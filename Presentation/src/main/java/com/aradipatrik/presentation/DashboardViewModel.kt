@@ -5,6 +5,7 @@ import com.aradipatrik.domain.usecase.GetTransactionsInInterval
 import com.aradipatrik.presentation.common.MvRxViewModel
 import com.aradipatrik.presentation.mapper.TransactionPresentationMapper
 import com.aradipatrik.presentation.presentations.TransactionPresentation
+import io.reactivex.schedulers.Schedulers
 import org.joda.time.Interval
 import org.joda.time.YearMonth
 import org.koin.android.ext.android.inject
@@ -37,6 +38,7 @@ class DashboardViewModel(
             GetTransactionsInInterval.Params(Interval(state.selectedMonthAsInterval))
         )
             .map { transactions -> transactions.map(transactionMapper::mapToPresentation) }
+            .subscribeOn(Schedulers.io())
             .execute { copy(transactionsInSelectedMonth = it) }
     }
 }

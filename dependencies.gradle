@@ -32,6 +32,7 @@ ext {
     activityKtxVersion = "1.1.0-rc03"
     fragmentKtxVersion = "1.2.0-rc05"
     materialVersion = "1.2.0-alpha03"
+    navigationVersion = "2.2.0-rc04"
 
     junitExtVersion = '1.1.1'
     espressoCoreVersion = '3.2.0'
@@ -93,6 +94,7 @@ ext {
 
     localDependencies = [
             rxJava         : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            koinAndroid        : "org.koin:koin-android:${koinVersion}",
             rxKotlin       : "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
             javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}",
             javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
@@ -154,7 +156,9 @@ ext {
             activityKtx        : "androidx.activity:activity-ktx:${activityKtxVersion}",
             fragmentKtx        : "androidx.fragment:fragment-ktx:${fragmentKtxVersion}",
             material           : "com.google.android.material:material:${materialVersion}",
-            jodaTime           : "joda-time:joda-time:${jodaTimeVersion}"
+            jodaTime           : "joda-time:joda-time:${jodaTimeVersion}",
+            navigationFragment : "androidx.navigation:navigation-fragment-ktx:${navigationVersion}",
+            navigationUi       : "androidx.navigation:navigation-ui-ktx:${navigationVersion}"
     ]
 
     mobileUiTestDependencies = [

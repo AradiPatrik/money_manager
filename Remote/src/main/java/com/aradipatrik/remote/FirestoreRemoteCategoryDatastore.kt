@@ -12,8 +12,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import org.joda.time.DateTime
-import javax.inject.Inject
 
 class FirestoreRemoteCategoryDatastore(
     private val userId: String,
@@ -30,20 +30,22 @@ class FirestoreRemoteCategoryDatastore(
         .document(userId)
         .collection(CATEGORIES_COLLECTION_KEY)
 
-    override fun updateWith(items: List<CategoryEntity>) = Completable.create { emitter ->
-        val toUpdate = items.filter { it.syncStatus == SyncStatus.ToUpdate }
-        val toAdd = items.filter { it.syncStatus == SyncStatus.ToAdd }
-        val toDelete = items.filter { it.syncStatus == SyncStatus.ToDelete }
-        Firebase.firestore.runBatch { batch ->
-            batch.doUpdate(toUpdate)
-            batch.doAdd(toAdd)
-            batch.doDelete(toDelete)
-        }.addOnSuccessListener {
-            emitter.onComplete()
-        }.addOnFailureListener { cause ->
-            emitter.onError(cause)
-        }.addOnCanceledListener {
-            emitter.onError(CanceledException)
+    override fun updateWith(items: List<CategoryEntity>) = Completable.defer {
+        Completable.create { emitter ->
+            val toUpdate = items.filter { it.syncStatus == SyncStatus.ToUpdate }
+            val toAdd = items.filter { it.syncStatus == SyncStatus.ToAdd }
+            val toDelete = items.filter { it.syncStatus == SyncStatus.ToDelete }
+            Firebase.firestore.runBatch { batch ->
+                batch.doUpdate(toUpdate)
+                batch.doAdd(toAdd)
+                batch.doDelete(toDelete)
+            }.addOnSuccessListener {
+                emitter.onComplete()
+            }.addOnFailureListener { cause ->
+                emitter.onError(cause)
+            }.addOnCanceledListener {
+                emitter.onError(CanceledException)
+            }
         }
     }
 
@@ -78,31 +80,34 @@ class FirestoreRemoteCategoryDatastore(
         time: Long,
         backtrackSeconds: Long
     ): Single<List<CategoryEntity>> =
-        Single.create { emitter ->
-            categoriesCollection.whereGreaterThan(
-                UPDATED_TIMESTAMP_KEY, Timestamp(
-                    DateTime(time - backtrackSeconds * 1000).toDate()
-                )
-            ).get()
-                .addOnSuccessListener { querySnapshot ->
-                    emitter.onSuccess(
-                        querySnapshot.documents.map(
-                            categoryResponseConverter::mapResponseToEntity
-                        )
+        Single.defer {
+            Single.create<List<CategoryEntity>> { emitter ->
+                categoriesCollection.whereGreaterThan(
+                    UPDATED_TIMESTAMP_KEY, Timestamp(
+                        DateTime(time - backtrackSeconds * 1000).toDate()
                     )
-                }
-                .addOnFailureListener { cause ->
-                    emitter.onError(cause)
-                }
-                .addOnCanceledListener {
-                    emitter.onError(CanceledException)
-                }
+                ).get()
+                    .addOnSuccessListener { querySnapshot ->
+                        emitter.onSuccess(
+                            querySnapshot.documents.map(
+                                categoryResponseConverter::mapResponseToEntity
+                            )
+                        )
+                    }
+                    .addOnFailureListener { cause ->
+                        emitter.onError(cause)
+                    }
+                    .addOnCanceledListener {
+                        emitter.onError(CanceledException)
+                    }
+            }
         }
 
+
     /**
-    * This is just here for testing, don't use in production
-    * @throws IllegalStateException if user is not test user
-    */
+     * This is just here for testing, don't use in production
+     * @throws IllegalStateException if user is not test user
+     */
     fun deleteAllForTestUser() {
         check(userId == TEST_USER_ID) { "Usage of this method for real user is prohibited" }
         categoriesCollection.delete()

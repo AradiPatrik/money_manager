@@ -44,14 +44,14 @@ dependencies {
     implementation project(':Data')
     implementation project(':Remote')
     implementation project(':Local')
+    testImplementation project(':TestingCommons')
 
     kapt moduleDependencies.lifecycleCompiler
 
-    // temporary, will be removed
-    implementation "androidx.navigation:navigation-fragment-ktx:2.2.0-rc01"
-    implementation "androidx.navigation:navigation-ui-ktx:2.2.0-rc01"
-
+    implementation moduleDependencies.navigationFragment
+    implementation moduleDependencies.navigationUi
     implementation moduleDependencies.mvRx
+    implementation moduleDependencies.koinAndroid
     implementation moduleDependencies.rxJava
     implementation moduleDependencies.rxKotlin
     implementation moduleDependencies.rxAndroid
@@ -66,4 +66,14 @@ dependencies {
     implementation moduleDependencies.fragmentKtx
     implementation moduleDependencies.material
     implementation moduleDependencies.jodaTime
+
+    testImplementation moduleTestDependencies.junit
+    testImplementation moduleTestDependencies.strikt
+    testImplementation moduleTestDependencies.mvRxTesting
+    testImplementation moduleTestDependencies.mockk
+    testImplementation moduleTestDependencies.kotlinStdLib
+    testImplementation moduleTestDependencies.robolectric
+    testImplementation moduleTestDependencies.espressoCore
+    testImplementation moduleTestDependencies.androidxTestRunner
+    testImplementation moduleTestDependencies.koinTesting
 }

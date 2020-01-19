@@ -44,6 +44,7 @@ dependencies {
     implementation moduleDependencies.roomKtx
     implementation moduleDependencies.roomRxJava
     implementation moduleDependencies.kotlinStdLib
+    implementation moduleDependencies.koinAndroid
     kapt moduleDependencies.roomKapt
 
     testImplementation moduleTestDependencies.junit

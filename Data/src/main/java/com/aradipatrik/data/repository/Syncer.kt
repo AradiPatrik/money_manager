@@ -7,6 +7,7 @@ import com.aradipatrik.data.common.RemoteTimestampedDataStore
 import com.aradipatrik.data.datasource.transaction.LocalTransactionDatastore
 import com.aradipatrik.data.datasource.transaction.RemoteTransactionDatastore
 import io.reactivex.Completable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class Syncer(
@@ -24,13 +25,16 @@ class Syncer(
     ): Completable =
         local.getLastSyncTime()
             .flatMap { remote.getAfter(it) }
+            .observeOn(Schedulers.io())
             .flatMap {
                 local.updateWith(it)
                     .andThen(local.getPending())
             }
             .flatMapCompletable { remote.updateWith(it) }
+            .observeOn(Schedulers.io())
             .andThen(local.clearPending())
             .andThen(local.getLastSyncTime())
             .flatMap { remote.getAfter(it) }
+            .observeOn(Schedulers.io())
             .flatMapCompletable { local.updateWith(it) }
 }
