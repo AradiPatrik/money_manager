@@ -2,12 +2,11 @@ package com.aradipatrik.remote
 
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.TransactionPartialEntity
-import com.aradipatrik.data.datasource.transaction.RemoteTransactionDataStore
+import com.aradipatrik.data.datasource.transaction.RemoteTransactionDatastore
 import com.aradipatrik.remote.payloadfactory.TransactionPayloadFactory
 import com.aradipatrik.remote.payloadfactory.TransactionResponseConverter
 import com.aradipatrik.remote.utils.delete
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.WriteBatch
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -18,11 +17,11 @@ import javax.inject.Inject
 
 object CanceledException : Exception()
 
-class FirestoreRemoteTransactionDatastore @Inject constructor(
+class FirestoreRemoteTransactionDatastore(
     private val userId: String,
     private val transactionPayloadFactory: TransactionPayloadFactory,
     private val transactionResponseConverter: TransactionResponseConverter
-) : RemoteTransactionDataStore {
+) : RemoteTransactionDatastore {
     companion object {
         internal const val USERS_COLLECTION_KEY = "users"
         internal const val TRANSACTIONS_COLLECTION_KEY = "transaction"

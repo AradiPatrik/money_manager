@@ -9,10 +9,6 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    dataBinding {
-        enabled = true
-    }
-
     defaultConfig {
         applicationId rootProject.ext.applicationId
         minSdkVersion rootProject.ext.minSdkVersion
@@ -44,17 +40,16 @@ dependencies {
     def moduleTestDependencies = rootProject.ext.mobileUiTestDependencies
 
     implementation project(":Presentation")
-    testImplementation project(":TestingCommons")
-    androidTestImplementation project(":TestingCommons")
+    implementation project(':Domain')
+    implementation project(':Data')
+    implementation project(':Remote')
+    implementation project(':Local')
 
-    kapt moduleDependencies.daggerCompiler
     kapt moduleDependencies.lifecycleCompiler
 
     // temporary, will be removed
     implementation "androidx.navigation:navigation-fragment-ktx:2.2.0-rc01"
     implementation "androidx.navigation:navigation-ui-ktx:2.2.0-rc01"
-    compileOnly 'com.squareup.inject:assisted-inject-annotations-dagger2:0.4.0'
-    kapt 'com.squareup.inject:assisted-inject-processor-dagger2:0.4.0'
 
     implementation moduleDependencies.mvRx
     implementation moduleDependencies.rxJava
@@ -62,7 +57,6 @@ dependencies {
     implementation moduleDependencies.rxAndroid
     implementation moduleDependencies.javaxAnnotation
     implementation moduleDependencies.javaxInject
-    implementation moduleDependencies.dagger
     implementation moduleDependencies.lifecycleRuntime
     implementation moduleDependencies.lifecycleExtensions
     implementation moduleDependencies.appcompat
@@ -72,17 +66,4 @@ dependencies {
     implementation moduleDependencies.fragmentKtx
     implementation moduleDependencies.material
     implementation moduleDependencies.jodaTime
-
-    testImplementation moduleTestDependencies.junit
-    testImplementation moduleTestDependencies.strikt
-    testImplementation moduleTestDependencies.mvRxTesting
-    testImplementation moduleTestDependencies.mockk
-    testImplementation moduleTestDependencies.kotlinStdLib
-
-    androidTestImplementation moduleTestDependencies.junit
-    androidTestImplementation moduleTestDependencies.strikt
-    androidTestImplementation moduleTestDependencies.mvRxTesting
-    androidTestImplementation moduleTestDependencies.mockk
-    androidTestImplementation moduleTestDependencies.robolectric
-    androidTestImplementation moduleTestDependencies.kotlinStdLib
 }

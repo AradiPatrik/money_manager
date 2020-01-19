@@ -1,22 +1,22 @@
 package com.aradipatrik.data.repository
 
-import com.aradipatrik.data.datasource.category.LocalCategoryDataStore
-import com.aradipatrik.data.datasource.category.RemoteCategoryDataStore
+import com.aradipatrik.data.datasource.category.LocalCategoryDatastore
+import com.aradipatrik.data.datasource.category.RemoteCategoryDatastore
 import com.aradipatrik.data.common.LocalTimestampedDataStore
 import com.aradipatrik.data.common.RemoteTimestampedDataStore
-import com.aradipatrik.data.datasource.transaction.LocalTransactionDataStore
-import com.aradipatrik.data.datasource.transaction.RemoteTransactionDataStore
+import com.aradipatrik.data.datasource.transaction.LocalTransactionDatastore
+import com.aradipatrik.data.datasource.transaction.RemoteTransactionDatastore
 import io.reactivex.Completable
 import javax.inject.Inject
 
-class Syncer @Inject constructor(
-    private val remoteTransactionDataStore: RemoteTransactionDataStore,
-    private val localTransactionDataStore: LocalTransactionDataStore,
-    private val remoteCategoryDataStore: RemoteCategoryDataStore,
-    private val localCategoryDataStore: LocalCategoryDataStore
+class Syncer(
+    private val remoteTransactionDatastore: RemoteTransactionDatastore,
+    private val localTransactionDatastore: LocalTransactionDatastore,
+    private val remoteCategoryDatastore: RemoteCategoryDatastore,
+    private val localCategoryDatastore: LocalCategoryDatastore
 ) {
-    fun syncAll(): Completable = sync(localCategoryDataStore, remoteCategoryDataStore)
-        .andThen(sync(localTransactionDataStore, remoteTransactionDataStore))
+    fun syncAll(): Completable = sync(localCategoryDatastore, remoteCategoryDatastore)
+        .andThen(sync(localTransactionDatastore, remoteTransactionDatastore))
 
     internal fun <E> sync(
         local: LocalTimestampedDataStore<E>,

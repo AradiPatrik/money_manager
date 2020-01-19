@@ -4,8 +4,8 @@ import com.aradipatrik.data.mapper.CategoryMapper
 import com.aradipatrik.data.model.CategoryEntity
 import com.aradipatrik.data.repository.CategoryRepositoryImpl
 import com.aradipatrik.data.repository.Syncer
-import com.aradipatrik.data.datasource.category.LocalCategoryDataStore
-import com.aradipatrik.data.datasource.category.RemoteCategoryDataStore
+import com.aradipatrik.data.datasource.category.LocalCategoryDatastore
+import com.aradipatrik.data.datasource.category.RemoteCategoryDatastore
 import com.aradipatrik.testing.DataLayerMocks.categoryEntity
 import com.aradipatrik.data.test.common.MethodStubFactory
 import com.aradipatrik.domain.model.Category
@@ -25,8 +25,8 @@ class CategoryRepositoryImplTest {
 
     private val mockSyncer = mockk<Syncer>()
     private val mockMapper = mockk<CategoryMapper>()
-    private val mockRemote = mockk<RemoteCategoryDataStore>()
-    private val mockLocal = mockk<LocalCategoryDataStore>()
+    private val mockRemote = mockk<RemoteCategoryDatastore>()
+    private val mockLocal = mockk<LocalCategoryDatastore>()
     private val repository: CategoryRepository = CategoryRepositoryImpl(
         mockSyncer, mockMapper, mockLocal
     )

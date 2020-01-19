@@ -1,12 +1,12 @@
 package com.aradipatrik.data.test
 
 import com.aradipatrik.data.repository.Syncer
-import com.aradipatrik.data.datasource.category.LocalCategoryDataStore
-import com.aradipatrik.data.datasource.category.RemoteCategoryDataStore
+import com.aradipatrik.data.datasource.category.LocalCategoryDatastore
+import com.aradipatrik.data.datasource.category.RemoteCategoryDatastore
 import com.aradipatrik.data.common.LocalTimestampedDataStore
 import com.aradipatrik.data.common.RemoteTimestampedDataStore
-import com.aradipatrik.data.datasource.transaction.LocalTransactionDataStore
-import com.aradipatrik.data.datasource.transaction.RemoteTransactionDataStore
+import com.aradipatrik.data.datasource.transaction.LocalTransactionDatastore
+import com.aradipatrik.data.datasource.transaction.RemoteTransactionDatastore
 import com.aradipatrik.testing.DomainLayerMocks.string
 import io.mockk.every
 import io.mockk.mockk
@@ -129,10 +129,10 @@ class SyncerTest {
 
     @Test
     fun `Syncer should first sync categories, then it should sync transactions`() {
-        val mockLocalTransactionDataStore = mockk<LocalTransactionDataStore>()
-        val mockRemoteTransactionDataStore = mockk<RemoteTransactionDataStore>()
-        val mockLocalCategoryDataStore = mockk<LocalCategoryDataStore>()
-        val mockRemoteCategoryDataStore = mockk<RemoteCategoryDataStore>()
+        val mockLocalTransactionDataStore = mockk<LocalTransactionDatastore>()
+        val mockRemoteTransactionDataStore = mockk<RemoteTransactionDatastore>()
+        val mockLocalCategoryDataStore = mockk<LocalCategoryDatastore>()
+        val mockRemoteCategoryDataStore = mockk<RemoteCategoryDatastore>()
         stubLocal(mockLocalTransactionDataStore)
         stubLocal(mockLocalCategoryDataStore)
         stubRemote(mockRemoteTransactionDataStore)

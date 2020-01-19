@@ -22,7 +22,7 @@ ext {
     jodaTimeVersion = '2.10.5'
     androidAnnotationsVersion = '4.2.0'
     okHttpVersion = '4.2.1'
-    daggerVersion = '2.25.3'
+    koinVersion = '2.0.1'
     retrofitVersion = '2.7.0'
     firestoreVersion = '21.3.1'
     roomVersion = '2.2.3'
@@ -113,10 +113,9 @@ ext {
             robolectric: "org.robolectric:robolectric:${robolectricVersion}"
     ]
 
-    presentatinoDependencies = [
+    presentationDependencies = [
             mvRx               : "com.airbnb.android:mvrx:${mvRxVersion}",
-            daggerCompiler     : "com.google.dagger:dagger-compiler:${daggerVersion}",
-            dagger             : "com.google.dagger:dagger:${daggerVersion}",
+            koinAndroid        : "org.koin:koin-android:${koinVersion}",
             rxKotlin           : "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
             kotlinStdLib       : "org.jetbrains.kotlin:kotlin-stdlib-jdk8",
             rxAndroid          : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
@@ -134,8 +133,8 @@ ext {
             strikt      : "io.strikt:strikt-core:${striktVersion}",
             mockk       : "io.mockk:mockk:${mockkVersion}",
             robolectric : "org.robolectric:robolectric:${robolectricVersion}",
-            kotlinStdLib: "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-
+            kotlinStdLib: "org.jetbrains.kotlin:kotlin-stdlib-jdk8",
+            koinTesting : "org.koin:koin-test:$koinVersion"
     ]
 
     mobileUiDependencies = [
@@ -145,8 +144,7 @@ ext {
             rxAndroid          : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
             javaxAnnotation    : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             javaxInject        : "javax.inject:javax.inject:${javaxInjectVersion}",
-            daggerCompiler     : "com.google.dagger:dagger-compiler:${daggerVersion}",
-            dagger             : "com.google.dagger:dagger:${daggerVersion}",
+            koinAndroid        : "org.koin:koin-android:${koinVersion}",
             lifecycleRuntime   : "androidx.lifecycle:lifecycle-runtime:${lifecycleVersion}",
             lifecycleExtensions: "androidx.lifecycle:lifecycle-extensions:${lifecycleVersion}",
             lifecycleCompiler  : "androidx.lifecycle:lifecycle-compiler:${lifecycleVersion}",
@@ -167,7 +165,8 @@ ext {
             kotlinStdLib      : "org.jetbrains.kotlin:kotlin-stdlib-jdk8",
             robolectric       : "org.robolectric:robolectric:${robolectricVersion}",
             espressoCore      : "androidx.test.espresso:espresso-core:${espressoCoreVersion}",
-            androidxTestRunner: "androidx.test:runner:${androidxTestRunnerVersion}"
+            androidxTestRunner: "androidx.test:runner:${androidxTestRunnerVersion}",
+            koinTesting       : "org.koin:koin-test:$koinVersion"
     ]
 
     syncIntegrationDependencies = [

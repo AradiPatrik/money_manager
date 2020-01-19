@@ -4,7 +4,7 @@ import com.aradipatrik.domain.model.Transaction
 import com.aradipatrik.presentation.presentations.TransactionPresentation
 import javax.inject.Inject
 
-class TransactionPresentationMapper @Inject constructor(
+class TransactionPresentationMapper(
     private val categoryPresentationMapper: CategoryPresentationMapper
 ){
     fun mapToPresentation(transaction: Transaction) =

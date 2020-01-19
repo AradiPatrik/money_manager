@@ -16,29 +16,30 @@ const val DATABASE_NAME = "transaction.db"
     entities = [TransactionRow::class, CategoryRow::class],
     version = 1
 )
-abstract class TransactionDatabase @Inject constructor() : RoomDatabase() {
+abstract class TransactionDatabase : RoomDatabase() {
 
     abstract fun transactionDao(): TransactionDao
     abstract fun categoryDao(): CategoryDao
 
-    private var instance: TransactionDatabase? = null
-    private val lock = Any()
+    companion object {
+        private var instance: TransactionDatabase? = null
+        private val lock = Any()
 
-    fun getInstance(context: Context): TransactionDatabase {
-        if (instance == null) {
-            synchronized(lock) {
-                if (instance == null) {
-                    instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        TransactionDatabase::class.java,
-                        "projects.db"
-                    )
-                        .build()
+        fun getInstance(context: Context): TransactionDatabase {
+            if (instance == null) {
+                synchronized(lock) {
+                    if (instance == null) {
+                        instance = Room.databaseBuilder(
+                            context.applicationContext,
+                            TransactionDatabase::class.java,
+                            "projects.db"
+                        )
+                            .build()
+                    }
+                    return instance as TransactionDatabase
                 }
-                return instance as TransactionDatabase
             }
+            return instance as TransactionDatabase
         }
-        return instance as TransactionDatabase
     }
-
 }

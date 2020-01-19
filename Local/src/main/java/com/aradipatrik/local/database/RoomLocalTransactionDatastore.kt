@@ -1,11 +1,9 @@
 package com.aradipatrik.local.database
 
-import com.aradipatrik.data.datasource.transaction.LocalTransactionDataStore
+import com.aradipatrik.data.datasource.transaction.LocalTransactionDatastore
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.TransactionJoinedEntity
 import com.aradipatrik.data.model.TransactionPartialEntity
-import com.aradipatrik.local.database.common.SyncStatusConstants.TO_ADD_CODE
-import com.aradipatrik.local.database.common.SyncStatusConstants.TO_UPDATE_CODE
 import com.aradipatrik.local.database.mapper.TransactionRowMapper
 import com.aradipatrik.local.database.transaction.TransactionDao
 import io.reactivex.Completable
@@ -15,10 +13,10 @@ import io.reactivex.Single
 import org.joda.time.Interval
 import javax.inject.Inject
 
-class RoomLocalTransactionDataSource @Inject constructor(
+class RoomLocalTransactionDatastore(
     private val transactionDao: TransactionDao,
     private val transactionMapper: TransactionRowMapper
-) : LocalTransactionDataStore {
+) : LocalTransactionDatastore {
     override fun getInInterval(interval: Interval): Observable<List<TransactionJoinedEntity>> =
         transactionDao.getInInterval(interval.startMillis, interval.endMillis)
             .map { rows ->

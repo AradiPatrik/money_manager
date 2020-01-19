@@ -7,7 +7,7 @@ import io.reactivex.Observable
 import org.joda.time.Interval
 import javax.inject.Inject
 
-class GetTransactionsInInterval @Inject constructor(
+class GetTransactionsInInterval(
     private val transferRepository: TransactionRepository
 ): ObservableUseCase<List<Transaction>, GetTransactionsInInterval.Params> {
     data class Params(val interval: Interval) {

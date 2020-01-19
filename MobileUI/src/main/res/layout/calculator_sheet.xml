@@ -1,269 +1,266 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
 
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/calculator_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="16dp"
+    app:behavior_hideable="true"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/calculator_sheet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="16dp"
-            app:behavior_hideable="true"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/background_bottom_sheet"
+        android:elevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/sheet_title" />
 
-        <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@drawable/background_bottom_sheet"
-                android:elevation="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/sheet_title" />
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/sheet_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_bottom_sheet"
+        android:elevation="8dp"
+        android:padding="16dp"
+        android:text="Expense"
+        android:textColor="@color/defaultForegroundColor"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/sheet_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:elevation="8dp"
-                android:padding="16dp"
-                android:background="@drawable/background_bottom_sheet"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:textColor="@color/defaultForegroundColor"
-                android:textSize="24sp"
-                android:text="Expense"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/category_select_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sheet_title"
+        tools:listitem="@layout/list_item_category" />
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/category_select_recycler_view"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:elevation="8dp"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp"
-                tools:listitem="@layout/list_item_category"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/sheet_title"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/background_bottom_sheet"
+        android:backgroundTint="#05FFFFFF"
+        android:backgroundTintMode="add"
+        android:elevation="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/calculator_top" />
 
-        <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@drawable/background_bottom_sheet"
-                android:elevation="16dp"
-                android:backgroundTintMode="add"
-                android:backgroundTint="#05FFFFFF"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/calculator_top" />
+    <View
+        android:id="@+id/calculator_top"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:elevation="16dp"
+        app:layout_constraintBottom_toTopOf="@id/expression_display"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <View
-                android:id="@+id/calculator_top"
-                android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:elevation="16dp"
-                app:layout_constraintBottom_toTopOf="@id/expression_display"
-                app:layout_constraintStart_toStartOf="parent" />
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/expression_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:elevation="16dp"
+        android:text="4500"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/category_icon_background_circle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/category_icon_background_circle" />
 
-        <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/expression_display"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:elevation="16dp"
-                android:text="4500"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="@+id/category_icon_background_circle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/category_icon_background_circle" />
+    <ImageView
+        android:id="@+id/category_icon_background_circle"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:elevation="16dp"
+        android:src="@drawable/transaction_list_item_background"
+        app:layout_constraintBottom_toBottomOf="@id/category_icon_image_view"
+        app:layout_constraintEnd_toEndOf="@id/category_icon_image_view"
+        app:layout_constraintStart_toStartOf="@id/category_icon_image_view"
+        app:layout_constraintTop_toTopOf="@id/category_icon_image_view" />
 
-        <ImageView
-                android:id="@+id/category_icon_background_circle"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:elevation="16dp"
-                android:src="@drawable/transaction_list_item_background"
-                app:layout_constraintBottom_toBottomOf="@id/category_icon_image_view"
-                app:layout_constraintEnd_toEndOf="@id/category_icon_image_view"
-                app:layout_constraintStart_toStartOf="@id/category_icon_image_view"
-                app:layout_constraintTop_toTopOf="@id/category_icon_image_view" />
+    <ImageView
+        android:id="@+id/category_icon_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:elevation="16dp"
+        android:foregroundGravity="center"
+        android:src="@drawable/ic_shopping_cart_black_24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/category_select_recycler_view" />
 
-        <ImageView
-                android:id="@+id/category_icon_image_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:elevation="16dp"
-                android:foregroundGravity="center"
-                android:src="@drawable/ic_shopping_cart_black_24dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/category_select_recycler_view" />
+    <View
+        android:id="@+id/display_divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/dividerColor"
+        android:elevation="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/category_icon_image_view" />
 
-        <View
-                android:id="@+id/display_divider"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@color/dividerColor"
-                android:elevation="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/category_icon_image_view" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/number_pad_number_7"
+        style="@style/NumberPadButton"
+        android:text="7"
+        app:layout_constraintEnd_toStartOf="@+id/number_pad_number_8"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/display_divider" />
 
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/number_pad_number_7"
-                style="@style/NumberPadButton"
-                android:text="7"
-                app:layout_constraintEnd_toStartOf="@+id/number_pad_number_8"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/display_divider" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/number_pad_number_8"
+        style="@style/NumberPadButton"
+        android:text="8"
+        app:layout_constraintEnd_toStartOf="@+id/number_pad_number_9"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/number_pad_number_7"
+        app:layout_constraintTop_toTopOf="@+id/number_pad_number_7" />
 
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/number_pad_number_8"
-                style="@style/NumberPadButton"
-                android:text="8"
-                app:layout_constraintEnd_toStartOf="@+id/number_pad_number_9"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/number_pad_number_7"
-                app:layout_constraintTop_toTopOf="@+id/number_pad_number_7" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/number_pad_number_9"
+        style="@style/NumberPadButton"
+        android:text="9"
+        app:layout_constraintEnd_toStartOf="@+id/number_pad_calendar"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/number_pad_number_8"
+        app:layout_constraintTop_toTopOf="@+id/number_pad_number_8" />
 
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/number_pad_number_9"
-                style="@style/NumberPadButton"
-                android:text="9"
-                app:layout_constraintEnd_toStartOf="@+id/number_pad_calendar"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/number_pad_number_8"
-                app:layout_constraintTop_toTopOf="@+id/number_pad_number_8" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/number_pad_calendar"
+        style="@style/NumberPadButton"
+        app:icon="@drawable/ic_date_range_24dp"
+        app:iconGravity="textStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/number_pad_number_9"
+        app:layout_constraintTop_toTopOf="@+id/number_pad_number_9" />
 
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/number_pad_calendar"
-                style="@style/NumberPadButton"
-                app:icon="@drawable/ic_date_range_24dp"
-                app:iconGravity="textStart"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/number_pad_number_9"
-                app:layout_constraintTop_toTopOf="@+id/number_pad_number_9" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/number_pad_number_4"
+        style="@style/NumberPadButton"
+        android:text="4"
+        app:layout_constraintEnd_toStartOf="@+id/number_pad_number_5"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/number_pad_number_7" />
 
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/number_pad_number_4"
-                style="@style/NumberPadButton"
-                android:text="4"
-                app:layout_constraintEnd_toStartOf="@+id/number_pad_number_5"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/number_pad_number_7" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/number_pad_number_5"
+        style="@style/NumberPadButton"
+        android:text="5"
+        app:layout_constraintEnd_toStartOf="@+id/number_pad_number_6"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/number_pad_number_4"
+        app:layout_constraintTop_toTopOf="@+id/number_pad_number_4" />
 
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/number_pad_number_5"
-                style="@style/NumberPadButton"
-                android:text="5"
-                app:layout_constraintEnd_toStartOf="@+id/number_pad_number_6"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/number_pad_number_4"
-                app:layout_constraintTop_toTopOf="@+id/number_pad_number_4" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/number_pad_number_6"
+        style="@style/NumberPadButton"
+        android:text="6"
+        app:layout_constraintEnd_toStartOf="@+id/number_pad_number_plus"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/number_pad_number_5"
+        app:layout_constraintTop_toTopOf="@+id/number_pad_number_5" />
 
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/number_pad_number_6"
-                style="@style/NumberPadButton"
-                android:text="6"
-                app:layout_constraintEnd_toStartOf="@+id/number_pad_number_plus"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/number_pad_number_5"
-                app:layout_constraintTop_toTopOf="@+id/number_pad_number_5" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/number_pad_number_plus"
+        style="@style/NumberPadButton"
+        android:text="+"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/number_pad_number_6"
+        app:layout_constraintTop_toTopOf="@+id/number_pad_number_6" />
 
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/number_pad_number_plus"
-                style="@style/NumberPadButton"
-                android:text="+"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/number_pad_number_6"
-                app:layout_constraintTop_toTopOf="@+id/number_pad_number_6" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/number_pad_number_1"
+        style="@style/NumberPadButton"
+        android:text="1"
+        app:layout_constraintEnd_toStartOf="@+id/number_pad_number_2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/number_pad_number_4" />
 
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/number_pad_number_1"
-                style="@style/NumberPadButton"
-                android:text="1"
-                app:layout_constraintEnd_toStartOf="@+id/number_pad_number_2"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/number_pad_number_4" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/number_pad_number_2"
+        style="@style/NumberPadButton"
+        android:text="2"
+        app:layout_constraintEnd_toStartOf="@+id/number_pad_number_3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/number_pad_number_1"
+        app:layout_constraintTop_toTopOf="@+id/number_pad_number_1" />
 
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/number_pad_number_2"
-                style="@style/NumberPadButton"
-                android:text="2"
-                app:layout_constraintEnd_toStartOf="@+id/number_pad_number_3"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/number_pad_number_1"
-                app:layout_constraintTop_toTopOf="@+id/number_pad_number_1" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/number_pad_number_3"
+        style="@style/NumberPadButton"
+        android:text="3"
+        app:layout_constraintEnd_toStartOf="@+id/number_pad_number_minus"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/number_pad_number_2"
+        app:layout_constraintTop_toTopOf="@+id/number_pad_number_2" />
 
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/number_pad_number_3"
-                style="@style/NumberPadButton"
-                android:text="3"
-                app:layout_constraintEnd_toStartOf="@+id/number_pad_number_minus"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/number_pad_number_2"
-                app:layout_constraintTop_toTopOf="@+id/number_pad_number_2" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/number_pad_number_minus"
+        style="@style/NumberPadButton"
+        android:text="-"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/number_pad_number_3"
+        app:layout_constraintTop_toTopOf="@+id/number_pad_number_3" />
 
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/number_pad_number_minus"
-                style="@style/NumberPadButton"
-                android:text="-"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/number_pad_number_3"
-                app:layout_constraintTop_toTopOf="@+id/number_pad_number_3" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/number_pad_point"
+        style="@style/NumberPadButton"
+        android:layout_height="64dp"
+        android:text="."
+        app:layout_constraintEnd_toStartOf="@+id/number_pad_number_0"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/number_pad_number_1" />
 
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/number_pad_point"
-                style="@style/NumberPadButton"
-                android:layout_height="64dp"
-                android:text="."
-                app:layout_constraintEnd_toStartOf="@+id/number_pad_number_0"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/number_pad_number_1" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/number_pad_number_0"
+        style="@style/NumberPadButton"
+        android:text="0"
+        app:layout_constraintEnd_toStartOf="@+id/number_pad_delete_one"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/number_pad_point"
+        app:layout_constraintTop_toTopOf="@+id/number_pad_point" />
 
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/number_pad_number_0"
-                style="@style/NumberPadButton"
-                android:text="0"
-                app:layout_constraintEnd_toStartOf="@+id/number_pad_delete_one"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/number_pad_point"
-                app:layout_constraintTop_toTopOf="@+id/number_pad_point" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/number_pad_delete_one"
+        style="@style/NumberPadButton"
+        app:icon="@drawable/ic_keyboard_backspace_24dp"
+        app:iconGravity="textStart"
+        app:layout_constraintEnd_toStartOf="@+id/number_pad_tick"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/number_pad_number_0"
+        app:layout_constraintTop_toTopOf="@+id/number_pad_number_0" />
 
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/number_pad_delete_one"
-                style="@style/NumberPadButton"
-                app:icon="@drawable/ic_keyboard_backspace_24dp"
-                app:iconGravity="textStart"
-                app:layout_constraintEnd_toStartOf="@+id/number_pad_tick"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/number_pad_number_0"
-                app:layout_constraintTop_toTopOf="@+id/number_pad_number_0" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/number_pad_tick"
+        style="@style/NumberPadButton"
+        app:icon="@drawable/ic_check_24dp"
+        app:iconGravity="textStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/number_pad_delete_one"
+        app:layout_constraintTop_toTopOf="@+id/number_pad_delete_one" />
 
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/number_pad_tick"
-                style="@style/NumberPadButton"
-                app:icon="@drawable/ic_check_24dp"
-                app:iconGravity="textStart"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/number_pad_delete_one"
-                app:layout_constraintTop_toTopOf="@+id/number_pad_delete_one" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

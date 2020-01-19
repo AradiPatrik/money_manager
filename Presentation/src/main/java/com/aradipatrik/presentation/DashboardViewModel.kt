@@ -3,11 +3,11 @@ package com.aradipatrik.presentation
 import com.airbnb.mvrx.*
 import com.aradipatrik.domain.usecase.GetTransactionsInInterval
 import com.aradipatrik.presentation.common.MvRxViewModel
-import com.aradipatrik.presentation.injection.DaggerApplication
 import com.aradipatrik.presentation.mapper.TransactionPresentationMapper
 import com.aradipatrik.presentation.presentations.TransactionPresentation
 import org.joda.time.Interval
 import org.joda.time.YearMonth
+import org.koin.android.ext.android.inject
 
 data class DashboardState(
     val selectedMonth: YearMonth = YearMonth.now(),
@@ -26,11 +26,9 @@ class DashboardViewModel(
             viewModelContext: ViewModelContext,
             state: DashboardState
         ): DashboardViewModel? {
-            val useCaseContainer = viewModelContext.app<DaggerApplication>().useCaseContainer
-            val mapperContainer = viewModelContext.app<DaggerApplication>().mapperContainer
-            val getTransactionsInInterval = useCaseContainer.getTransactionsInInterval
-            val transactionMapper = mapperContainer.mapper
-            return DashboardViewModel(state, transactionMapper, getTransactionsInInterval)
+            val useCase: GetTransactionsInInterval by viewModelContext.activity.inject()
+            val mapper: TransactionPresentationMapper by viewModelContext.activity.inject()
+            return DashboardViewModel(state, mapper, useCase)
         }
     }
 

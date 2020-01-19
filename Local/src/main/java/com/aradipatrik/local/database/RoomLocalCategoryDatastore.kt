@@ -1,6 +1,6 @@
 package com.aradipatrik.local.database
 
-import com.aradipatrik.data.datasource.category.LocalCategoryDataStore
+import com.aradipatrik.data.datasource.category.LocalCategoryDatastore
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.CategoryEntity
 import com.aradipatrik.local.database.category.CategoryDao
@@ -10,10 +10,10 @@ import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 
-class RoomLocalCategoryDataSource(
+class RoomLocalCategoryDatastore(
     private val categoryDao: CategoryDao,
     private val categoryMapper: CategoryRowMapper
-) : LocalCategoryDataStore {
+) : LocalCategoryDatastore {
     override fun updateWith(elements: List<CategoryEntity>): Completable =
         categoryDao.insert(elements.map(categoryMapper::mapToRow))
 

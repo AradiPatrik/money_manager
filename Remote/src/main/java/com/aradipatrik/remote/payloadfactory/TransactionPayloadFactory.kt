@@ -11,9 +11,7 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import javax.inject.Inject
 
-class TransactionPayloadFactory @Inject constructor(
-
-) {
+class TransactionPayloadFactory {
     fun createPayloadFrom(t: TransactionPartialEntity): HashMap<String, Any> = hashMapOf(
         AMOUNT_KEY to t.amount,
         UPDATED_TIMESTAMP_KEY to Timestamp.now(),

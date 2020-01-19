@@ -4,7 +4,7 @@ import com.aradipatrik.domain.model.Category
 import com.aradipatrik.presentation.presentations.CategoryPresentation
 import javax.inject.Inject
 
-class CategoryPresentationMapper @Inject constructor() {
+class CategoryPresentationMapper {
     fun mapToPresentation(category: Category) =
         CategoryPresentation(
             id = category.id,

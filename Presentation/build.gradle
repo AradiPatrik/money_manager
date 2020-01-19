@@ -28,15 +28,14 @@ android {
 }
 
 dependencies {
-    def moduleDependencies = rootProject.ext.presentatinoDependencies
+    def moduleDependencies = rootProject.ext.presentationDependencies
     def moduleTestDependencies = rootProject.ext.presentationTestDependencies
 
     implementation project(':Domain')
     testImplementation project(':TestingCommons')
 
-    kapt moduleDependencies.daggerCompiler
     kapt moduleDependencies.lifecycleCompiler
-    implementation moduleDependencies.dagger
+    implementation moduleDependencies.koinAndroid
     implementation moduleDependencies.rxKotlin
     implementation moduleDependencies.kotlinStdLib
     implementation moduleDependencies.rxAndroid
@@ -52,4 +51,5 @@ dependencies {
     testImplementation moduleTestDependencies.mockk
     testImplementation moduleTestDependencies.robolectric
     testImplementation moduleTestDependencies.mvRxTesting
+    testImplementation moduleTestDependencies.koinTesting
 }

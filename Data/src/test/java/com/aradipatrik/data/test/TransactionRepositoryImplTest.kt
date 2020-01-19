@@ -4,8 +4,8 @@ import com.aradipatrik.data.mapper.JoinedTransactionMapper
 import com.aradipatrik.data.mapper.PartialTransactionMapper
 import com.aradipatrik.data.repository.Syncer
 import com.aradipatrik.data.repository.TransactionRepositoryImpl
-import com.aradipatrik.data.datasource.transaction.LocalTransactionDataStore
-import com.aradipatrik.data.datasource.transaction.RemoteTransactionDataStore
+import com.aradipatrik.data.datasource.transaction.LocalTransactionDatastore
+import com.aradipatrik.data.datasource.transaction.RemoteTransactionDatastore
 import com.aradipatrik.data.test.common.MethodStubFactory
 import com.aradipatrik.testing.DataLayerMocks.joinedTransactionEntity
 import com.aradipatrik.testing.DataLayerMocks.partialTransactionEntity
@@ -28,8 +28,8 @@ class TransactionRepositoryImplTest {
 
     private val mockPartialMapper = mockk<PartialTransactionMapper>()
     private val mockJoinedMapper = mockk<JoinedTransactionMapper>()
-    private val mockLocal = mockk<LocalTransactionDataStore>()
-    private val mockRemote = mockk<RemoteTransactionDataStore>()
+    private val mockLocal = mockk<LocalTransactionDatastore>()
+    private val mockRemote = mockk<RemoteTransactionDatastore>()
     private val mockSyncer = mockk<Syncer>()
     private val repository = TransactionRepositoryImpl(
         mockSyncer, mockPartialMapper, mockJoinedMapper, mockLocal

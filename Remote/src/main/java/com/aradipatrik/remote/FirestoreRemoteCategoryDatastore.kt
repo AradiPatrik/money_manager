@@ -1,13 +1,12 @@
 package com.aradipatrik.remote
 
-import com.aradipatrik.data.datasource.category.RemoteCategoryDataStore
+import com.aradipatrik.data.datasource.category.RemoteCategoryDatastore
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.CategoryEntity
 import com.aradipatrik.remote.payloadfactory.CategoryPayloadFactory
 import com.aradipatrik.remote.payloadfactory.CategoryResponseConverter
 import com.aradipatrik.remote.utils.delete
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.WriteBatch
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -16,11 +15,11 @@ import io.reactivex.Single
 import org.joda.time.DateTime
 import javax.inject.Inject
 
-class FirestoreRemoteCategoryDatastore @Inject constructor(
+class FirestoreRemoteCategoryDatastore(
     private val userId: String,
     private val categoryPayloadFactory: CategoryPayloadFactory,
     private val categoryResponseConverter: CategoryResponseConverter
-) : RemoteCategoryDataStore {
+) : RemoteCategoryDatastore {
     companion object {
         internal const val USERS_COLLECTION_KEY = "users"
         internal const val CATEGORIES_COLLECTION_KEY = "categories"

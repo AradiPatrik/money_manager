@@ -3,19 +3,17 @@ package com.aradipatrik.datasource.test
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
-import com.aradipatrik.data.datasource.category.LocalCategoryDataStore
-import com.aradipatrik.data.datasource.transaction.LocalTransactionDataStore
+import com.aradipatrik.data.datasource.category.LocalCategoryDatastore
+import com.aradipatrik.data.datasource.transaction.LocalTransactionDatastore
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.TransactionJoinedEntity
-import com.aradipatrik.local.database.RoomLocalCategoryDataSource
-import com.aradipatrik.local.database.RoomLocalTransactionDataSource
+import com.aradipatrik.local.database.RoomLocalCategoryDatastore
+import com.aradipatrik.local.database.RoomLocalTransactionDatastore
 import com.aradipatrik.local.database.TransactionDatabase
 import com.aradipatrik.local.database.mapper.CategoryRowMapper
 import com.aradipatrik.local.database.mapper.TransactionRowMapper
 import com.aradipatrik.testing.DataLayerMocks.categoryEntity
 import com.aradipatrik.testing.DataLayerMocks.partialTransactionEntity
-import com.aradipatrik.testing.DomainLayerMocks
-import com.aradipatrik.testing.DomainLayerMocks.category
 import com.aradipatrik.testing.DomainLayerMocks.hour
 import com.aradipatrik.testing.DomainLayerMocks.minute
 import org.joda.time.DateTime
@@ -43,8 +41,8 @@ class TransactionDatasourceTest {
         .allowMainThreadQueries()
         .build()
 
-    private lateinit var transactionDataStore: LocalTransactionDataStore
-    private lateinit var categoryDataStore: LocalCategoryDataStore
+    private lateinit var transactionDatastore: LocalTransactionDatastore
+    private lateinit var categoryDatastore: LocalCategoryDatastore
     private val categoryRowMapper = CategoryRowMapper()
     private val transactionRowMapper = TransactionRowMapper(categoryRowMapper)
     private val transactionEntitiesWithAllSyncStatus =
@@ -52,9 +50,9 @@ class TransactionDatasourceTest {
 
     @Before
     fun setup() {
-        transactionDataStore =
-            RoomLocalTransactionDataSource(database.transactionDao(), transactionRowMapper)
-        categoryDataStore = RoomLocalCategoryDataSource(database.categoryDao(), categoryRowMapper)
+        transactionDatastore =
+            RoomLocalTransactionDatastore(database.transactionDao(), transactionRowMapper)
+        categoryDatastore = RoomLocalCategoryDatastore(database.categoryDao(), categoryRowMapper)
     }
 
     @After
@@ -76,12 +74,12 @@ class TransactionDatasourceTest {
                 )
             }
 
-        categoryDataStore.updateWith(listOf(testCategory)).blockingAwait()
-        transactionDataStore.updateWith(transactions).blockingAwait()
+        categoryDatastore.updateWith(listOf(testCategory)).blockingAwait()
+        transactionDatastore.updateWith(transactions).blockingAwait()
 
         val queryBeginIndex = 1
         val queryEndIndex = 3
-        transactionDataStore.getInInterval(
+        transactionDatastore.getInInterval(
             Interval(
                 transactions[queryBeginIndex].date.toInstant(),
                 transactions[queryEndIndex].date.toInstant()
@@ -106,19 +104,19 @@ class TransactionDatasourceTest {
 
     @Test
     fun `Update with should insert the row representations of the entities passed`() {
-        transactionDataStore.updateWith(transactionEntitiesWithAllSyncStatus)
+        transactionDatastore.updateWith(transactionEntitiesWithAllSyncStatus)
             .test()
             .assertComplete()
 
-        transactionDataStore.getAll()
+        transactionDatastore.getAll()
             .test()
             .assertValue(transactionEntitiesWithAllSyncStatus)
     }
 
     @Test
     fun `Get pending should return those transactions which are not synced`() {
-        transactionDataStore.updateWith(transactionEntitiesWithAllSyncStatus).blockingAwait()
-        transactionDataStore.getPending()
+        transactionDatastore.updateWith(transactionEntitiesWithAllSyncStatus).blockingAwait()
+        transactionDatastore.getPending()
             .test()
             .assertValue(
                 transactionEntitiesWithAllSyncStatus.filter { it.syncStatus != SyncStatus.Synced }
@@ -127,16 +125,16 @@ class TransactionDatasourceTest {
 
     @Test
     fun `Clear pending should remove all transactions except those that are synced`() {
-        transactionDataStore.updateWith(transactionEntitiesWithAllSyncStatus).blockingAwait()
-        transactionDataStore.clearPending()
+        transactionDatastore.updateWith(transactionEntitiesWithAllSyncStatus).blockingAwait()
+        transactionDatastore.clearPending()
             .test()
             .assertComplete()
 
-        transactionDataStore.getPending()
+        transactionDatastore.getPending()
             .test()
             .assertValue(emptyList())
 
-        transactionDataStore.getAll()
+        transactionDatastore.getAll()
             .test()
             .assertValue(
                 transactionEntitiesWithAllSyncStatus.filter { it.syncStatus == SyncStatus.Synced }
@@ -148,9 +146,9 @@ class TransactionDatasourceTest {
         val syncTimes = listOf<Long>(1, 2, 3, 4, 5)
         val syncedTransactions =
             syncTimes.map { partialTransactionEntity(lastUpdateTimestamp = it) }
-        transactionDataStore.updateWith(syncedTransactions).blockingAwait()
+        transactionDatastore.updateWith(syncedTransactions).blockingAwait()
 
-        transactionDataStore.getLastSyncTime()
+        transactionDatastore.getLastSyncTime()
             .test()
             .assertValue(syncTimes.max())
     }
@@ -158,12 +156,12 @@ class TransactionDatasourceTest {
     @Test
     fun `Add should insert entity with to add sync status`() {
         transactionEntitiesWithAllSyncStatus.forEach {
-            transactionDataStore.add(it)
+            transactionDatastore.add(it)
                 .test()
                 .assertComplete()
         }
 
-        transactionDataStore.getAll()
+        transactionDatastore.getAll()
             .test()
             .assertValue(
                 transactionEntitiesWithAllSyncStatus.map { it.copy(syncStatus = SyncStatus.ToAdd) }
@@ -173,14 +171,14 @@ class TransactionDatasourceTest {
     @Test
     fun `Update should update entity sync status with to update, and should update them`() {
         val updatedMemo = "updatedMemo"
-        transactionDataStore.updateWith(transactionEntitiesWithAllSyncStatus).blockingAwait()
+        transactionDatastore.updateWith(transactionEntitiesWithAllSyncStatus).blockingAwait()
         transactionEntitiesWithAllSyncStatus.forEach {
-            transactionDataStore.update(it.copy(memo = updatedMemo))
+            transactionDatastore.update(it.copy(memo = updatedMemo))
                 .test()
                 .assertComplete()
         }
 
-        transactionDataStore.getAll()
+        transactionDatastore.getAll()
             .test()
             .assertValue(
                 transactionEntitiesWithAllSyncStatus.map {
@@ -192,12 +190,12 @@ class TransactionDatasourceTest {
     @Test
     fun `Delete should set sync status to delete`() {
         val transaction = partialTransactionEntity()
-        transactionDataStore.add(transaction).blockingAwait()
-        transactionDataStore.delete(transaction.id)
+        transactionDatastore.add(transaction).blockingAwait()
+        transactionDatastore.delete(transaction.id)
             .test()
             .assertComplete()
 
-        transactionDataStore.getAll()
+        transactionDatastore.getAll()
             .test()
             .assertValue(listOf(transaction.copy(syncStatus = SyncStatus.ToDelete)))
     }

@@ -2,34 +2,34 @@ package com.aradipatrik.data.repository
 
 import com.aradipatrik.data.mapper.JoinedTransactionMapper
 import com.aradipatrik.data.mapper.PartialTransactionMapper
-import com.aradipatrik.data.datasource.transaction.LocalTransactionDataStore
+import com.aradipatrik.data.datasource.transaction.LocalTransactionDatastore
 import com.aradipatrik.domain.model.Transaction
 import com.aradipatrik.domain.repository.TransactionRepository
 import io.reactivex.Completable
 import org.joda.time.Interval
 import javax.inject.Inject
 
-class TransactionRepositoryImpl @Inject constructor(
+class TransactionRepositoryImpl(
     private val syncer: Syncer,
     private val partialTransactionMapper: PartialTransactionMapper,
     private val joinedTransactionMapper: JoinedTransactionMapper,
-    private val localTransactionDataStore: LocalTransactionDataStore
+    private val localTransactionDatastore: LocalTransactionDatastore
 ) : TransactionRepository {
     override fun getInInterval(interval: Interval) = syncer.syncAll().andThen(
-        localTransactionDataStore.getInInterval(interval)
+        localTransactionDatastore.getInInterval(interval)
             .map { transactions -> transactions.map(joinedTransactionMapper::mapFromEntity) }
     )
 
     override fun add(transaction: Transaction): Completable =
-        localTransactionDataStore.add(
+        localTransactionDatastore.add(
             partialTransactionMapper.mapToEntity(transaction)
         ).andThen(syncer.syncAll())
 
     override fun update(transaction: Transaction): Completable =
-        localTransactionDataStore.update(
+        localTransactionDatastore.update(
             partialTransactionMapper.mapToEntity(transaction)
         ).andThen(syncer.syncAll())
 
     override fun delete(id: String): Completable =
-        localTransactionDataStore.delete(id).andThen(syncer.syncAll())
+        localTransactionDatastore.delete(id).andThen(syncer.syncAll())
 }

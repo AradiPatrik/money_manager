@@ -5,14 +5,11 @@ import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.aradipatrik.data.mapper.CategoryMapper
-import com.aradipatrik.data.mapper.JoinedTransactionMapper
-import com.aradipatrik.data.mapper.PartialTransactionMapper
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.repository.CategoryRepositoryImpl
 import com.aradipatrik.data.repository.Syncer
-import com.aradipatrik.data.repository.TransactionRepositoryImpl
-import com.aradipatrik.local.database.RoomLocalCategoryDataSource
-import com.aradipatrik.local.database.RoomLocalTransactionDataSource
+import com.aradipatrik.local.database.RoomLocalCategoryDatastore
+import com.aradipatrik.local.database.RoomLocalTransactionDatastore
 import com.aradipatrik.local.database.TransactionDatabase
 import com.aradipatrik.local.database.mapper.CategoryRowMapper
 import com.aradipatrik.local.database.mapper.TransactionRowMapper
@@ -64,11 +61,11 @@ class CategorySyncIntegration {
     private val categoryRowMapper = CategoryRowMapper()
     private val transactionRowMapper = TransactionRowMapper(categoryRowMapper)
 
-    private val localTransactionDatastore = RoomLocalTransactionDataSource(
+    private val localTransactionDatastore = RoomLocalTransactionDatastore(
         database.transactionDao(), transactionRowMapper
     )
 
-    private val localCategoryDatastore = RoomLocalCategoryDataSource(
+    private val localCategoryDatastore = RoomLocalCategoryDatastore(
         database.categoryDao(), categoryRowMapper
     )
 

@@ -5,7 +5,7 @@ import com.aradipatrik.domain.repository.TransactionRepository
 import io.reactivex.Completable
 import javax.inject.Inject
 
-class DeleteTransaction @Inject constructor(
+class DeleteTransaction(
     private val transactionRepository: TransactionRepository
 ) : CompletableUseCase<DeleteTransaction.Params> {
     data class Params(val transactionId: String) {

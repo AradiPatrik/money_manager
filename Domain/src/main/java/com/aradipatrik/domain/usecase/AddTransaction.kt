@@ -6,7 +6,7 @@ import com.aradipatrik.domain.repository.TransactionRepository
 import io.reactivex.Completable
 import javax.inject.Inject
 
-class AddTransaction @Inject constructor(
+class AddTransaction(
     private val transactionRepository: TransactionRepository
 ): CompletableUseCase<AddTransaction.Params> {
     data class Params(val transaction: Transaction) {

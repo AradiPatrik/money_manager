@@ -8,7 +8,7 @@ import io.reactivex.Observable
 import org.joda.time.Interval
 
 
-interface LocalTransactionDataStore :
+interface LocalTransactionDatastore :
     LocalTimestampedDataStore<TransactionPartialEntity>,
     CrudDataStore<TransactionPartialEntity, String> {
     fun getInInterval(interval: Interval): Observable<List<TransactionJoinedEntity>>

@@ -3,10 +3,9 @@ package com.aradipatrik.datasource.test
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
-import com.aradipatrik.data.datasource.category.LocalCategoryDataStore
+import com.aradipatrik.data.datasource.category.LocalCategoryDatastore
 import com.aradipatrik.data.mapper.SyncStatus
-import com.aradipatrik.datasource.test.TransactionRowFactory.categoryRow
-import com.aradipatrik.local.database.RoomLocalCategoryDataSource
+import com.aradipatrik.local.database.RoomLocalCategoryDatastore
 import com.aradipatrik.local.database.TransactionDatabase
 import com.aradipatrik.local.database.mapper.CategoryRowMapper
 import com.aradipatrik.testing.DataLayerMocks.categoryEntity
@@ -33,14 +32,14 @@ class CategoryDatasourceTest {
         .allowMainThreadQueries()
         .build()
 
-    private lateinit var datasource: LocalCategoryDataStore
+    private lateinit var datasource: LocalCategoryDatastore
     private val categoryRowMapper = CategoryRowMapper()
     private val categoryEntitiesWithAllSyncStatuses =
         EnumSet.allOf(SyncStatus::class.java).map { categoryEntity(syncStatus = it) }
 
     @Before
     fun setup() {
-        datasource = RoomLocalCategoryDataSource(database.categoryDao(), categoryRowMapper)
+        datasource = RoomLocalCategoryDatastore(database.categoryDao(), categoryRowMapper)
     }
 
     @After
