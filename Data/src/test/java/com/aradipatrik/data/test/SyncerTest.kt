@@ -1,12 +1,12 @@
 package com.aradipatrik.data.test
 
-import com.aradipatrik.data.repository.Syncer
-import com.aradipatrik.data.datasource.category.LocalCategoryDatastore
-import com.aradipatrik.data.datasource.category.RemoteCategoryDatastore
 import com.aradipatrik.data.common.LocalTimestampedDataStore
 import com.aradipatrik.data.common.RemoteTimestampedDataStore
+import com.aradipatrik.data.datasource.category.LocalCategoryDatastore
+import com.aradipatrik.data.datasource.category.RemoteCategoryDatastore
 import com.aradipatrik.data.datasource.transaction.LocalTransactionDatastore
 import com.aradipatrik.data.datasource.transaction.RemoteTransactionDatastore
+import com.aradipatrik.data.repository.Syncer
 import com.aradipatrik.testing.DomainLayerMocks.string
 import io.mockk.every
 import io.mockk.mockk
@@ -14,7 +14,11 @@ import io.mockk.verify
 import io.mockk.verifyOrder
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.plugins.RxJavaPlugins
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.CompletableSubject
+import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.hasSize
@@ -28,6 +32,11 @@ class SyncerTest {
 
     private val mockLocal = mockk<LocalTimestampedDataStore<String>>()
     private val mockRemote = mockk<RemoteTimestampedDataStore<String>>()
+
+    @Before
+    fun setup() {
+        RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
+    }
 
     @Test
     fun `Sync should complete`() {
