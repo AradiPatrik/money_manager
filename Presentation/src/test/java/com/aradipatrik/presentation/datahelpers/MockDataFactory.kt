@@ -1,4 +1,4 @@
-package com.aradipatrik.yamm.util
+package com.aradipatrik.presentation.datahelpers
 
 import com.aradipatrik.presentation.presentations.CategoryPresentation
 import com.aradipatrik.presentation.presentations.TransactionPresentation
@@ -7,18 +7,28 @@ import com.aradipatrik.testing.DomainLayerMocks.int
 import com.aradipatrik.testing.DomainLayerMocks.string
 import org.joda.time.DateTime
 
-object PresentationLayerMocks {
+object MockDataFactory {
     fun categoryPresentation(
         id: String = string(),
-        iconId: String = string(),
-        categoryName: String = string()
-    ) = CategoryPresentation(id, categoryName, iconId)
+        name: String = string(),
+        iconId: String = string()
+    ) = CategoryPresentation(
+        id = id,
+        name = name,
+        iconId = iconId
+    )
 
     fun transactionPresentation(
         id: String = string(),
         amount: Int = int(),
-        categoryPresentation: CategoryPresentation = categoryPresentation(),
+        category: CategoryPresentation = categoryPresentation(),
         date: DateTime = date(),
         memo: String = string()
-    ) = TransactionPresentation(id, amount, categoryPresentation, date, memo)
+        ) = TransactionPresentation(
+        id = id,
+        amount = amount,
+        category = category,
+        date = date,
+        memo = memo
+    )
 }

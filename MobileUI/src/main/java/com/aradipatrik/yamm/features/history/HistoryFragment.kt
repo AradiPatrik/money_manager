@@ -1,4 +1,4 @@
-package com.aradipatrik.yamm.view.history
+package com.aradipatrik.yamm.features.history
 
 import android.os.Bundle
 import android.view.LayoutInflater
