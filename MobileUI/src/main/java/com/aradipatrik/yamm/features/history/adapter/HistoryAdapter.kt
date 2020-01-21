@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aradipatrik.yamm.features.history.model.TransactionHeaderViewData
 import com.aradipatrik.yamm.features.history.model.TransactionItemViewData
 import com.aradipatrik.yamm.features.history.model.TransactionViewData
+import kotlinx.android.synthetic.main.list_item_history_transaction.view.*
 
 object TransactionViewDataItemCallback : DiffUtil.ItemCallback<TransactionViewData>() {
     override fun areItemsTheSame(
@@ -40,6 +41,15 @@ object TransactionViewDataItemCallback : DiffUtil.ItemCallback<TransactionViewDa
 
 class HistoryAdapter
     : ListAdapter<TransactionViewData, HistoryAdapter.ViewHolder>(TransactionViewDataItemCallback) {
+    companion object {
+        const val TRANSACTION_HEADER = 0
+        const val TRANSACTION_ITEM = 1
+    }
+
+    override fun getItemViewType(position: Int) = when (currentList[position]) {
+        is TransactionHeaderViewData -> TRANSACTION_HEADER
+        is TransactionItemViewData -> TRANSACTION_ITEM
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -49,5 +59,18 @@ class HistoryAdapter
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    sealed class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        class TransactionItemViewHolder(view: View) : ViewHolder(view) {
+            private val circularBackground = view.circular_background
+            private val categoryIcon = view.category_icon
+            private val categoryName = view.category_name
+            private val memo = view.memo
+            private val amount = view.amount
+
+            fun bind(transactionItemViewData: TransactionItemViewData) {
+
+            }
+        }
+        class HeaderItemViewHolder(view: View) : ViewHolder(view)
+    }
 }
