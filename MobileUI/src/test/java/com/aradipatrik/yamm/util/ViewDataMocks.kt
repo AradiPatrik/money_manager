@@ -7,7 +7,7 @@ import com.aradipatrik.yamm.features.history.model.TransactionItemViewData
 import com.aradipatrik.yamm.util.PresentationLayerMocks.transactionPresentation
 
 object ViewDataMocks {
-    fun transactionViewData(
+    fun transactionItemViewData(
         memo: String = string(),
         categoryIconResId: Int = int(),
         amount: Int = int(),
