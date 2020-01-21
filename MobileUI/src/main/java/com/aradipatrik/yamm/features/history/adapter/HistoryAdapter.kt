@@ -24,14 +24,6 @@ class HistoryAdapter :
         TransactionViewDataItemCallback
     ) {
 
-    init {
-        setHasStableIds(true)
-    }
-
-    override fun getItemId(position: Int): Long {
-        return currentList[position].presentationRef.id.toLong()
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
