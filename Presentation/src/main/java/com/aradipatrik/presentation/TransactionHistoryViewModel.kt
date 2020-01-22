@@ -12,7 +12,7 @@ import org.joda.time.Interval
 import org.joda.time.YearMonth
 import org.koin.android.ext.android.inject
 
-data class DashboardState(
+data class TransactionHistoryState(
     val selectedMonth: YearMonth = YearMonth.now(),
     val transactionsOfSelectedMonth: List<TransactionPresentation> = emptyList(),
     val request: Async<List<TransactionPresentation>> = Uninitialized
@@ -24,21 +24,21 @@ data class DashboardState(
         .toSortedMap()
 }
 
-class DashboardViewModel(
-    initialState: DashboardState,
+class TransactionHistoryViewModel(
+    initialState: TransactionHistoryState,
     private val transactionMapper: TransactionPresentationMapper,
     private val getTransactionsInInterval: GetTransactionsInInterval
-) : MvRxViewModel<DashboardState>(initialState) {
+) : MvRxViewModel<TransactionHistoryState>(initialState) {
     internal var currentRequestDisposable: Disposable = Disposables.empty()
 
-    companion object : MvRxViewModelFactory<DashboardViewModel, DashboardState> {
+    companion object : MvRxViewModelFactory<TransactionHistoryViewModel, TransactionHistoryState> {
         override fun create(
             viewModelContext: ViewModelContext,
-            state: DashboardState
-        ): DashboardViewModel? {
+            state: TransactionHistoryState
+        ): TransactionHistoryViewModel? {
             val useCase: GetTransactionsInInterval by viewModelContext.activity.inject()
             val mapper: TransactionPresentationMapper by viewModelContext.activity.inject()
-            return DashboardViewModel(state, mapper, useCase)
+            return TransactionHistoryViewModel(state, mapper, useCase)
         }
     }
 

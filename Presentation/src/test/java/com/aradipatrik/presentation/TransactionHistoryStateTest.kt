@@ -7,11 +7,11 @@ import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
-class DashboardStateTest {
+class TransactionHistoryStateTest {
     @Test
     fun `selectedMonthAsInterval should return selected month as interval`() {
         // Arrange
-        val state = DashboardState()
+        val state = TransactionHistoryState()
         val selectedMonthAsInterval = state.selectedMonth.toInterval()
 
         // Act
@@ -30,7 +30,7 @@ class DashboardStateTest {
         ).map { transactionPresentation(date = it) }
 
         val orderedTestTransactions = testTransactions.sortedBy { it.date }
-        val state = DashboardState(transactionsOfSelectedMonth = testTransactions)
+        val state = TransactionHistoryState(transactionsOfSelectedMonth = testTransactions)
         val resultTransactionsInDay = state.datesToTransactions[LocalDate(2000, 10, 1)]
         expectThat(resultTransactionsInDay!!.toList())
             .isEqualTo(orderedTestTransactions)
@@ -58,7 +58,7 @@ class DashboardStateTest {
 
         val allTransactions = transactionsInDayOne + transactionsInDayTwo + transactionsInDayThree
 
-        val state = DashboardState(transactionsOfSelectedMonth = allTransactions)
+        val state = TransactionHistoryState(transactionsOfSelectedMonth = allTransactions)
         val sortedTransactions = state.datesToTransactions
 
         expectThat(sortedTransactions[LocalDate(2000, 10, 1)]!!.toList())

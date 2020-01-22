@@ -27,7 +27,7 @@ import org.koin.test.inject
 import strikt.api.expectThat
 import strikt.assertions.*
 
-class DashboardTest : KoinTest {
+class TransactionHistoryViewModelTest : KoinTest {
 
     private val dashboardTestModule = module {
         single<GetTransactionsInInterval> { mockk() }
@@ -39,7 +39,7 @@ class DashboardTest : KoinTest {
 
     private val transactionMapper: TransactionPresentationMapper by inject()
 
-    private lateinit var dashboardViewModel: DashboardViewModel
+    private lateinit var transactionHistoryViewModel: TransactionHistoryViewModel
 
     companion object {
         @JvmField
@@ -59,7 +59,7 @@ class DashboardTest : KoinTest {
 
     @Test
     fun `initial state should be set correctly`() {
-        val state = DashboardState()
+        val state = TransactionHistoryState()
         expectThat(state.selectedMonth).isEqualTo(YearMonth.now())
         expectThat(state.transactionsOfSelectedMonth).isEmpty()
         expectThat(state.request).isA<Uninitialized>()
@@ -68,22 +68,22 @@ class DashboardTest : KoinTest {
     @Test
     fun `fetchCurrentMonth should call getTransactionsInInterval use case with selectedMonthAsInterval, and return the result as success`() {
         // Arrange
-        val initialState = DashboardState()
+        val initialState = TransactionHistoryState()
         val transaction = transaction()
         every {
             mockGetTransactionsInInterval.get(
                 GetTransactionsInInterval.Params(initialState.selectedMonthAsInterval)
             )
         } returns Observable.just(listOf(transaction))
-        dashboardViewModel = DashboardViewModel(
+        transactionHistoryViewModel = TransactionHistoryViewModel(
             initialState, transactionMapper, mockGetTransactionsInInterval
         )
 
         // Act
-        dashboardViewModel.fetchCurrentMonth()
+        transactionHistoryViewModel.fetchCurrentMonth()
 
         // Assert
-        withState(dashboardViewModel) { state ->
+        withState(transactionHistoryViewModel) { state ->
             expectThat(state.request)
                 .isA<Success<List<TransactionPresentation>>>()
             expectThat(state.request())
@@ -97,22 +97,22 @@ class DashboardTest : KoinTest {
     fun `fetchCurrentMonth should dispose of old requestDisposable and set request disposable`() {
         // Arrange
         val mockDisposable = mockk<Disposable>()
-        val initialState = DashboardState()
+        val initialState = TransactionHistoryState()
         every {
             mockGetTransactionsInInterval.get(any())
         } returns Observable.just(emptyList())
         every { mockDisposable.dispose() } just Runs
-        dashboardViewModel = DashboardViewModel(
+        transactionHistoryViewModel = TransactionHistoryViewModel(
             initialState, transactionMapper, mockGetTransactionsInInterval
         )
-        dashboardViewModel.currentRequestDisposable = mockDisposable
+        transactionHistoryViewModel.currentRequestDisposable = mockDisposable
 
         // Act
-        dashboardViewModel.fetchCurrentMonth()
+        transactionHistoryViewModel.fetchCurrentMonth()
 
         // Assert
         verify(exactly = 1) { mockDisposable.dispose() }
-        expectThat(dashboardViewModel.currentRequestDisposable).isNotEqualTo(mockDisposable)
+        expectThat(transactionHistoryViewModel.currentRequestDisposable).isNotEqualTo(mockDisposable)
     }
 
     @Test
@@ -123,15 +123,15 @@ class DashboardTest : KoinTest {
         every {
             mockGetTransactionsInInterval.get(any())
         } returns Observable.just(testTransactions)
-        dashboardViewModel = DashboardViewModel(
-            DashboardState(), transactionMapper, mockGetTransactionsInInterval
+        transactionHistoryViewModel = TransactionHistoryViewModel(
+            TransactionHistoryState(), transactionMapper, mockGetTransactionsInInterval
         )
 
         // Act
-        dashboardViewModel.fetchCurrentMonth()
+        transactionHistoryViewModel.fetchCurrentMonth()
 
         // Assert
-        withState(dashboardViewModel) {
+        withState(transactionHistoryViewModel) {
             expectThat(it.transactionsOfSelectedMonth).isEqualTo(testPresentations)
         }
     }
@@ -139,19 +139,19 @@ class DashboardTest : KoinTest {
     @Test
     fun `fetchCurrentMonth should have Fail type on error`() {
         // Arrange
-        val initialState = DashboardState()
+        val initialState = TransactionHistoryState()
         every {
             mockGetTransactionsInInterval.get(any())
         } returns Observable.error(RuntimeException())
-        dashboardViewModel = DashboardViewModel(
+        transactionHistoryViewModel = TransactionHistoryViewModel(
             initialState, transactionMapper, mockGetTransactionsInInterval
         )
 
         // Act
-        dashboardViewModel.fetchCurrentMonth()
+        transactionHistoryViewModel.fetchCurrentMonth()
 
         // Assert
-        withState(dashboardViewModel) { state ->
+        withState(transactionHistoryViewModel) { state ->
             expectThat(state.request)
                 .isA<Fail<*>>()
         }
@@ -161,19 +161,19 @@ class DashboardTest : KoinTest {
     fun `fetchCurrentMonth should not set transactionsOfSelectedMonth on failure`() {
         // Arrange
         val initialTransactions = listOf(transactionPresentation())
-        val initialState = DashboardState(transactionsOfSelectedMonth = initialTransactions)
+        val initialState = TransactionHistoryState(transactionsOfSelectedMonth = initialTransactions)
         every {
             mockGetTransactionsInInterval.get(any())
         } returns Observable.error(RuntimeException())
-        dashboardViewModel = DashboardViewModel(
+        transactionHistoryViewModel = TransactionHistoryViewModel(
             initialState, transactionMapper, mockGetTransactionsInInterval
         )
 
         // Act
-        dashboardViewModel.fetchCurrentMonth()
+        transactionHistoryViewModel.fetchCurrentMonth()
 
         // Assert
-        withState(dashboardViewModel) { state ->
+        withState(transactionHistoryViewModel) { state ->
             expectThat(state.transactionsOfSelectedMonth).isEqualTo(initialTransactions)
         }
     }
@@ -181,13 +181,13 @@ class DashboardTest : KoinTest {
     @Test
     fun `fetchCurrentMonth should be called on init`() {
         // Arrange
-        val initialState = DashboardState()
+        val initialState = TransactionHistoryState()
         every {
             mockGetTransactionsInInterval.get(any())
         } returns Observable.just(emptyList())
 
         // Act
-        dashboardViewModel = DashboardViewModel(
+        transactionHistoryViewModel = TransactionHistoryViewModel(
             initialState, transactionMapper, mockGetTransactionsInInterval
         )
 

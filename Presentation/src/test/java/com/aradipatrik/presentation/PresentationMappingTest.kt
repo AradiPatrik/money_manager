@@ -10,7 +10,7 @@ import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
-class MappingTest {
+class PresentationMappingTest {
     @Test
     fun testMapping() {
         val categoryMapper =

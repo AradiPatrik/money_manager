@@ -15,6 +15,11 @@ class MainFragment : BaseMvRxFragment() {
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+    }
+
     override fun invalidate()  {
 
     }

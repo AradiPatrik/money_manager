@@ -53,8 +53,14 @@
         layout="@layout/sum_sheet"
         tools:visibility="invisible" />
 
-    <include
+    <fragment
+        android:name="com.aradipatrik.yamm.features.add.transaction.AddTransactionFragment"
+        app:behavior_hideable="true"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/calculator_sheet"
-        layout="@layout/calculator_sheet" />
+        tools:layout="@layout/fragment_calculator_sheet"
+        />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
