@@ -108,7 +108,7 @@ class TransactionSyncIntegration {
 
     @Test
     fun afterAddThereShouldBeNoMorePendingTransactionsLeft() {
-        val transactionToAdd = transaction(category = defaultCategories[0])
+        val transactionToAdd = transaction(date = DateTime.now(), category = defaultCategories[0])
         transactionRepository.add(transactionToAdd).blockingAwait()
 
         val pendingTransactions = localTransactionDatastore.getPending().blockingGet()

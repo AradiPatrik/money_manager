@@ -25,6 +25,9 @@ import com.aradipatrik.remote.payloadfactory.CategoryPayloadFactory
 import com.aradipatrik.remote.payloadfactory.CategoryResponseConverter
 import com.aradipatrik.remote.payloadfactory.TransactionPayloadFactory
 import com.aradipatrik.remote.payloadfactory.TransactionResponseConverter
+import com.aradipatrik.yamm.features.history.adapter.HistoryAdapter
+import com.aradipatrik.yamm.features.history.mapper.IconMapper
+import com.aradipatrik.yamm.features.history.mapper.TransactionViewDataMapper
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -63,6 +66,12 @@ val remoteModule = module {
     single { CategoryResponseConverter() }
 }
 
+val mobileUiModule = module {
+    factory { HistoryAdapter() }
+    single { TransactionViewDataMapper(get()) }
+    single { IconMapper() }
+}
+
 class YammApplication : Application() {
     override fun onCreate() {
         super.onCreate()
@@ -74,7 +83,8 @@ class YammApplication : Application() {
                 domainModule,
                 dataModule,
                 remoteModule,
-                localModule
+                localModule,
+                mobileUiModule
             ))
         }
     }

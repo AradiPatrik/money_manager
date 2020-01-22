@@ -42,6 +42,10 @@ class DashboardViewModel(
         }
     }
 
+    init {
+        fetchCurrentMonth()
+    }
+
     fun fetchCurrentMonth() = withState { state ->
         currentRequestDisposable.dispose()
         currentRequestDisposable = getTransactionsInInterval.get(

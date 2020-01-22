@@ -70,14 +70,14 @@ class DashboardTest : KoinTest {
         // Arrange
         val initialState = DashboardState()
         val transaction = transaction()
-        dashboardViewModel = DashboardViewModel(
-            initialState, transactionMapper, mockGetTransactionsInInterval
-        )
         every {
             mockGetTransactionsInInterval.get(
                 GetTransactionsInInterval.Params(initialState.selectedMonthAsInterval)
             )
         } returns Observable.just(listOf(transaction))
+        dashboardViewModel = DashboardViewModel(
+            initialState, transactionMapper, mockGetTransactionsInInterval
+        )
 
         // Act
         dashboardViewModel.fetchCurrentMonth()
@@ -98,14 +98,14 @@ class DashboardTest : KoinTest {
         // Arrange
         val mockDisposable = mockk<Disposable>()
         val initialState = DashboardState()
-        dashboardViewModel = DashboardViewModel(
-            initialState, transactionMapper, mockGetTransactionsInInterval
-        )
-        dashboardViewModel.currentRequestDisposable = mockDisposable
         every {
             mockGetTransactionsInInterval.get(any())
         } returns Observable.just(emptyList())
         every { mockDisposable.dispose() } just Runs
+        dashboardViewModel = DashboardViewModel(
+            initialState, transactionMapper, mockGetTransactionsInInterval
+        )
+        dashboardViewModel.currentRequestDisposable = mockDisposable
 
         // Act
         dashboardViewModel.fetchCurrentMonth()
@@ -120,12 +120,12 @@ class DashboardTest : KoinTest {
         // Arrange
         val testTransactions = listOf(transaction())
         val testPresentations = testTransactions.map(transactionMapper::mapToPresentation)
-        dashboardViewModel = DashboardViewModel(
-            DashboardState(), transactionMapper, mockGetTransactionsInInterval
-        )
         every {
             mockGetTransactionsInInterval.get(any())
         } returns Observable.just(testTransactions)
+        dashboardViewModel = DashboardViewModel(
+            DashboardState(), transactionMapper, mockGetTransactionsInInterval
+        )
 
         // Act
         dashboardViewModel.fetchCurrentMonth()
@@ -140,12 +140,12 @@ class DashboardTest : KoinTest {
     fun `fetchCurrentMonth should have Fail type on error`() {
         // Arrange
         val initialState = DashboardState()
-        dashboardViewModel = DashboardViewModel(
-            initialState, transactionMapper, mockGetTransactionsInInterval
-        )
         every {
             mockGetTransactionsInInterval.get(any())
         } returns Observable.error(RuntimeException())
+        dashboardViewModel = DashboardViewModel(
+            initialState, transactionMapper, mockGetTransactionsInInterval
+        )
 
         // Act
         dashboardViewModel.fetchCurrentMonth()
@@ -162,12 +162,12 @@ class DashboardTest : KoinTest {
         // Arrange
         val initialTransactions = listOf(transactionPresentation())
         val initialState = DashboardState(transactionsOfSelectedMonth = initialTransactions)
-        dashboardViewModel = DashboardViewModel(
-            initialState, transactionMapper, mockGetTransactionsInInterval
-        )
         every {
             mockGetTransactionsInInterval.get(any())
         } returns Observable.error(RuntimeException())
+        dashboardViewModel = DashboardViewModel(
+            initialState, transactionMapper, mockGetTransactionsInInterval
+        )
 
         // Act
         dashboardViewModel.fetchCurrentMonth()
@@ -175,6 +175,25 @@ class DashboardTest : KoinTest {
         // Assert
         withState(dashboardViewModel) { state ->
             expectThat(state.transactionsOfSelectedMonth).isEqualTo(initialTransactions)
+        }
+    }
+
+    @Test
+    fun `fetchCurrentMonth should be called on init`() {
+        // Arrange
+        val initialState = DashboardState()
+        every {
+            mockGetTransactionsInInterval.get(any())
+        } returns Observable.just(emptyList())
+
+        // Act
+        dashboardViewModel = DashboardViewModel(
+            initialState, transactionMapper, mockGetTransactionsInInterval
+        )
+
+        // Assert
+        verify(exactly = 1) {
+            mockGetTransactionsInInterval.get(any())
         }
     }
 }
