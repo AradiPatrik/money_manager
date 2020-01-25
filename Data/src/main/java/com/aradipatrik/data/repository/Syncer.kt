@@ -24,17 +24,19 @@ class Syncer(
         remote: RemoteTimestampedDataStore<E>
     ): Completable =
         local.getLastSyncTime()
-            .flatMap { remote.getAfter(it) }
+            .flatMap { localLastSyncTime -> remote.getAfter(localLastSyncTime) }
             .observeOn(Schedulers.io())
-            .flatMap {
-                local.updateWith(it)
+            .flatMap { freshDataFromRemote ->
+                local.updateWith(freshDataFromRemote)
                     .andThen(local.getPending())
             }
-            .flatMapCompletable { remote.updateWith(it) }
+            .flatMapCompletable { pendingItemsFromLocal ->
+                remote.updateWith(pendingItemsFromLocal)
+            }
             .observeOn(Schedulers.io())
             .andThen(local.clearPending())
             .andThen(local.getLastSyncTime())
-            .flatMap { remote.getAfter(it) }
+            .flatMap { localLastSyncTime -> remote.getAfter(localLastSyncTime) }
             .observeOn(Schedulers.io())
-            .flatMapCompletable { local.updateWith(it) }
+            .flatMapCompletable { freshDataFromRemote -> local.updateWith(freshDataFromRemote) }
 }

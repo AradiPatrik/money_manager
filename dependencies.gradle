@@ -33,6 +33,7 @@ ext {
     fragmentKtxVersion = "1.2.0-rc05"
     materialVersion = "1.2.0-alpha03"
     navigationVersion = "2.2.0-rc04"
+    rxBindingVersion = "3.1.0"
 
     junitExtVersion = '1.1.1'
     espressoCoreVersion = '3.2.0'
@@ -158,7 +159,8 @@ ext {
             material           : "com.google.android.material:material:${materialVersion}",
             jodaTime           : "joda-time:joda-time:${jodaTimeVersion}",
             navigationFragment : "androidx.navigation:navigation-fragment-ktx:${navigationVersion}",
-            navigationUi       : "androidx.navigation:navigation-ui-ktx:${navigationVersion}"
+            navigationUi       : "androidx.navigation:navigation-ui-ktx:${navigationVersion}",
+            rxBinding         : "com.jakewharton.rxbinding3:rxbinding:${rxBindingVersion}"
     ]
 
     mobileUiTestDependencies = [
@@ -170,7 +172,7 @@ ext {
             robolectric       : "org.robolectric:robolectric:${robolectricVersion}",
             espressoCore      : "androidx.test.espresso:espresso-core:${espressoCoreVersion}",
             androidxTestRunner: "androidx.test:runner:${androidxTestRunnerVersion}",
-            koinTesting       : "org.koin:koin-test:$koinVersion"
+            koinTesting       : "org.koin:koin-test:${koinVersion}"
     ]
 
     syncIntegrationDependencies = [

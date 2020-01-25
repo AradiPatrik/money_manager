@@ -66,6 +66,7 @@ dependencies {
     implementation moduleDependencies.fragmentKtx
     implementation moduleDependencies.material
     implementation moduleDependencies.jodaTime
+    implementation moduleDependencies.rxBinding
 
     testImplementation moduleTestDependencies.junit
     testImplementation moduleTestDependencies.strikt
