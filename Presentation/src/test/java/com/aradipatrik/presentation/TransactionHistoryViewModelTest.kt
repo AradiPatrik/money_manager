@@ -10,6 +10,8 @@ import com.aradipatrik.presentation.datahelpers.MockDataFactory.transactionPrese
 import com.aradipatrik.presentation.mapper.CategoryPresentationMapper
 import com.aradipatrik.presentation.mapper.TransactionPresentationMapper
 import com.aradipatrik.presentation.presentations.TransactionPresentation
+import com.aradipatrik.presentation.viewmodels.history.TransactionHistoryState
+import com.aradipatrik.presentation.viewmodels.history.TransactionHistoryViewModel
 import com.aradipatrik.testing.DomainLayerMocks.transaction
 import io.mockk.*
 import io.reactivex.Observable
@@ -59,7 +61,8 @@ class TransactionHistoryViewModelTest : KoinTest {
 
     @Test
     fun `initial state should be set correctly`() {
-        val state = TransactionHistoryState()
+        val state =
+            TransactionHistoryState()
         expectThat(state.selectedMonth).isEqualTo(YearMonth.now())
         expectThat(state.transactionsOfSelectedMonth).isEmpty()
         expectThat(state.request).isA<Uninitialized>()
@@ -68,16 +71,18 @@ class TransactionHistoryViewModelTest : KoinTest {
     @Test
     fun `fetchCurrentMonth should call getTransactionsInInterval use case with selectedMonthAsInterval, and return the result as success`() {
         // Arrange
-        val initialState = TransactionHistoryState()
+        val initialState =
+            TransactionHistoryState()
         val transaction = transaction()
         every {
             mockGetTransactionsInInterval.get(
                 GetTransactionsInInterval.Params(initialState.selectedMonthAsInterval)
             )
         } returns Observable.just(listOf(transaction))
-        transactionHistoryViewModel = TransactionHistoryViewModel(
-            initialState, transactionMapper, mockGetTransactionsInInterval
-        )
+        transactionHistoryViewModel =
+            TransactionHistoryViewModel(
+                initialState, transactionMapper, mockGetTransactionsInInterval
+            )
 
         // Act
         transactionHistoryViewModel.fetchCurrentMonth()
@@ -97,14 +102,16 @@ class TransactionHistoryViewModelTest : KoinTest {
     fun `fetchCurrentMonth should dispose of old requestDisposable and set request disposable`() {
         // Arrange
         val mockDisposable = mockk<Disposable>()
-        val initialState = TransactionHistoryState()
+        val initialState =
+            TransactionHistoryState()
         every {
             mockGetTransactionsInInterval.get(any())
         } returns Observable.just(emptyList())
         every { mockDisposable.dispose() } just Runs
-        transactionHistoryViewModel = TransactionHistoryViewModel(
-            initialState, transactionMapper, mockGetTransactionsInInterval
-        )
+        transactionHistoryViewModel =
+            TransactionHistoryViewModel(
+                initialState, transactionMapper, mockGetTransactionsInInterval
+            )
         transactionHistoryViewModel.currentRequestDisposable = mockDisposable
 
         // Act
@@ -123,9 +130,12 @@ class TransactionHistoryViewModelTest : KoinTest {
         every {
             mockGetTransactionsInInterval.get(any())
         } returns Observable.just(testTransactions)
-        transactionHistoryViewModel = TransactionHistoryViewModel(
-            TransactionHistoryState(), transactionMapper, mockGetTransactionsInInterval
-        )
+        transactionHistoryViewModel =
+            TransactionHistoryViewModel(
+                TransactionHistoryState(),
+                transactionMapper,
+                mockGetTransactionsInInterval
+            )
 
         // Act
         transactionHistoryViewModel.fetchCurrentMonth()
@@ -139,13 +149,15 @@ class TransactionHistoryViewModelTest : KoinTest {
     @Test
     fun `fetchCurrentMonth should have Fail type on error`() {
         // Arrange
-        val initialState = TransactionHistoryState()
+        val initialState =
+            TransactionHistoryState()
         every {
             mockGetTransactionsInInterval.get(any())
         } returns Observable.error(RuntimeException())
-        transactionHistoryViewModel = TransactionHistoryViewModel(
-            initialState, transactionMapper, mockGetTransactionsInInterval
-        )
+        transactionHistoryViewModel =
+            TransactionHistoryViewModel(
+                initialState, transactionMapper, mockGetTransactionsInInterval
+            )
 
         // Act
         transactionHistoryViewModel.fetchCurrentMonth()
@@ -161,13 +173,17 @@ class TransactionHistoryViewModelTest : KoinTest {
     fun `fetchCurrentMonth should not set transactionsOfSelectedMonth on failure`() {
         // Arrange
         val initialTransactions = listOf(transactionPresentation())
-        val initialState = TransactionHistoryState(transactionsOfSelectedMonth = initialTransactions)
+        val initialState =
+            TransactionHistoryState(
+                transactionsOfSelectedMonth = initialTransactions
+            )
         every {
             mockGetTransactionsInInterval.get(any())
         } returns Observable.error(RuntimeException())
-        transactionHistoryViewModel = TransactionHistoryViewModel(
-            initialState, transactionMapper, mockGetTransactionsInInterval
-        )
+        transactionHistoryViewModel =
+            TransactionHistoryViewModel(
+                initialState, transactionMapper, mockGetTransactionsInInterval
+            )
 
         // Act
         transactionHistoryViewModel.fetchCurrentMonth()
@@ -181,15 +197,17 @@ class TransactionHistoryViewModelTest : KoinTest {
     @Test
     fun `fetchCurrentMonth should be called on init`() {
         // Arrange
-        val initialState = TransactionHistoryState()
+        val initialState =
+            TransactionHistoryState()
         every {
             mockGetTransactionsInInterval.get(any())
         } returns Observable.just(emptyList())
 
         // Act
-        transactionHistoryViewModel = TransactionHistoryViewModel(
-            initialState, transactionMapper, mockGetTransactionsInInterval
-        )
+        transactionHistoryViewModel =
+            TransactionHistoryViewModel(
+                initialState, transactionMapper, mockGetTransactionsInInterval
+            )
 
         // Assert
         verify(exactly = 1) {

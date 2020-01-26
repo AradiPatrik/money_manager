@@ -1,13 +1,11 @@
 package com.aradipatrik.yamm.features.add.transaction
 
-import android.os.Bundle
-import android.view.View
 import com.airbnb.mvrx.BaseMvRxFragment
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
-import com.aradipatrik.presentation.AddTransactionViewModel
+import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewModel
 import com.aradipatrik.yamm.R
-import com.aradipatrik.yamm.features.add.transaction.AddTransactionViewEvent.*
+import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.*
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -18,7 +16,7 @@ class AddTransactionFragment : BaseMvRxFragment(R.layout.fragment_calculator_she
     private val viewModel: AddTransactionViewModel by fragmentViewModel()
 
     private val uiEvents get() = Observable.merge(listOf(
-        view?.number_pad_tick?.clicks()?.map { TickClick },
+        view?.number_pad_tick?.clicks()?.map { AddClick },
         view?.number_pad_number_0?.clicks()?.map { NumberClick(0) },
         view?.number_pad_number_1?.clicks()?.map { NumberClick(1) },
         view?.number_pad_number_2?.clicks()?.map { NumberClick(2) },

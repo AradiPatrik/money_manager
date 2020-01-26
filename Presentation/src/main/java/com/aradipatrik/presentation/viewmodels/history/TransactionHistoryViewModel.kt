@@ -1,4 +1,4 @@
-package com.aradipatrik.presentation
+package com.aradipatrik.presentation.viewmodels.history
 
 import com.airbnb.mvrx.*
 import com.aradipatrik.domain.usecase.GetTransactionsInInterval
@@ -38,7 +38,11 @@ class TransactionHistoryViewModel(
         ): TransactionHistoryViewModel? {
             val useCase: GetTransactionsInInterval by viewModelContext.activity.inject()
             val mapper: TransactionPresentationMapper by viewModelContext.activity.inject()
-            return TransactionHistoryViewModel(state, mapper, useCase)
+            return TransactionHistoryViewModel(
+                state,
+                mapper,
+                useCase
+            )
         }
     }
 

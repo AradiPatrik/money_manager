@@ -9,6 +9,11 @@ import com.aradipatrik.domain.model.Transaction
 import com.aradipatrik.domain.usecase.AddTransaction
 import com.aradipatrik.domain.usecase.GetCategories
 import com.aradipatrik.presentation.mapper.CategoryPresentationMapper
+import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionState
+import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.AddClick
+import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewModel
+import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState
+import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.SingleValue
 import com.aradipatrik.testing.DomainLayerMocks.category
 import com.aradipatrik.testing.DomainLayerMocks.date
 import io.mockk.every
@@ -70,7 +75,9 @@ class AddTransactionViewModelTest : KoinTest {
         expectThat(state.categoryListRequest).isEqualTo(Uninitialized)
         expectThat(state.categoryList).isEqualTo(emptyList())
         expectThat(state.isExpense).isTrue()
-        expectThat(state.amount).isEqualTo(0)
+        expectThat(state.calculatorState)
+            .isA<SingleValue>()
+            .get(SingleValue::value).isEqualTo(0)
         expectThat(state.selectedDate).isEqualTo(testDate)
         expectThat(state.selectedCategory).isNull()
         expectThat(state.memo).isEqualTo("")
@@ -131,6 +138,7 @@ class AddTransactionViewModelTest : KoinTest {
     fun `Add transaction should be called with current state, when add transaction is called`() {
         // Arrange
         val initialState = AddTransactionState()
+        val calculatorState = initialState.calculatorState
         val testCategory = category()
         every {
             mockGetCategories.get(any())
@@ -138,14 +146,16 @@ class AddTransactionViewModelTest : KoinTest {
         every {
             mockAddTransaction.get(any())
         } returns Completable.complete()
-        addTransactionViewModel = AddTransactionViewModel(
-            initialState, mockGetCategories, mockAddTransaction, categoryMapper
-        )
+        addTransactionViewModel =
+            AddTransactionViewModel(
+                initialState, mockGetCategories, mockAddTransaction, categoryMapper
+            )
 
         // Act
-        addTransactionViewModel.addTransaction()
+        addTransactionViewModel.processEvent(AddClick)
 
         // Assert
+        require(calculatorState is SingleValue)
         withState(addTransactionViewModel) { state ->
             expectThat(state.addTransactionRequest).isA<Success<*>>()
             verify {
@@ -154,7 +164,7 @@ class AddTransactionViewModelTest : KoinTest {
                         Transaction(
                             "",
                             testCategory,
-                            initialState.amount,
+                            calculatorState.value,
                             initialState.memo,
                             initialState.selectedDate
                         )
@@ -174,12 +184,13 @@ class AddTransactionViewModelTest : KoinTest {
         every {
             mockAddTransaction.get(any())
         } returns Completable.error(RuntimeException())
-        addTransactionViewModel = AddTransactionViewModel(
-            initialState, mockGetCategories, mockAddTransaction, categoryMapper
-        )
+        addTransactionViewModel =
+            AddTransactionViewModel(
+                initialState, mockGetCategories, mockAddTransaction, categoryMapper
+            )
 
         // Act
-        addTransactionViewModel.addTransaction()
+        addTransactionViewModel.processEvent(AddClick)
 
         // Assert
         withState(addTransactionViewModel) { state ->
@@ -192,7 +203,8 @@ class AddTransactionViewModelTest : KoinTest {
         // Arrange
         val testDate = date()
         val initialState = AddTransactionState(
-            memo = "testMemo", amount = 500, isExpense = false, selectedDate = testDate
+            memo = "testMemo", calculatorState = SingleValue(500),
+            isExpense = false, selectedDate = testDate
         )
         every {
             mockGetCategories.get(any())
@@ -205,13 +217,15 @@ class AddTransactionViewModelTest : KoinTest {
         )
 
         // Act
-        addTransactionViewModel.addTransaction()
+        addTransactionViewModel.processEvent(AddClick)
 
         // Assert
         withState(addTransactionViewModel) { state ->
             expectThat(state.addTransactionRequest).isA<Success<*>>()
             expectThat(state.memo).isEqualTo("")
-            expectThat(state.amount).isEqualTo(0)
+            expectThat(state.calculatorState)
+                .isA<SingleValue>()
+                .get(SingleValue::value).isEqualTo(0)
             expectThat(state.isExpense).isTrue()
             expectThat(state.selectedDate).isNotEqualTo(testDate)
         }

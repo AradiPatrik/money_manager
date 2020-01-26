@@ -1,6 +1,7 @@
 package com.aradipatrik.presentation
 
 import com.aradipatrik.presentation.datahelpers.MockDataFactory.transactionPresentation
+import com.aradipatrik.presentation.viewmodels.history.TransactionHistoryState
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.junit.Test
@@ -11,7 +12,8 @@ class TransactionHistoryStateTest {
     @Test
     fun `selectedMonthAsInterval should return selected month as interval`() {
         // Arrange
-        val state = TransactionHistoryState()
+        val state =
+            TransactionHistoryState()
         val selectedMonthAsInterval = state.selectedMonth.toInterval()
 
         // Act
@@ -30,7 +32,10 @@ class TransactionHistoryStateTest {
         ).map { transactionPresentation(date = it) }
 
         val orderedTestTransactions = testTransactions.sortedBy { it.date }
-        val state = TransactionHistoryState(transactionsOfSelectedMonth = testTransactions)
+        val state =
+            TransactionHistoryState(
+                transactionsOfSelectedMonth = testTransactions
+            )
         val resultTransactionsInDay = state.datesToTransactions[LocalDate(2000, 10, 1)]
         expectThat(resultTransactionsInDay!!.toList())
             .isEqualTo(orderedTestTransactions)
@@ -58,7 +63,10 @@ class TransactionHistoryStateTest {
 
         val allTransactions = transactionsInDayOne + transactionsInDayTwo + transactionsInDayThree
 
-        val state = TransactionHistoryState(transactionsOfSelectedMonth = allTransactions)
+        val state =
+            TransactionHistoryState(
+                transactionsOfSelectedMonth = allTransactions
+            )
         val sortedTransactions = state.datesToTransactions
 
         expectThat(sortedTransactions[LocalDate(2000, 10, 1)]!!.toList())

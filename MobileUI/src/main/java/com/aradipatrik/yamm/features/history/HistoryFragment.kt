@@ -5,7 +5,7 @@ import android.view.View
 import com.airbnb.mvrx.BaseMvRxFragment
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
-import com.aradipatrik.presentation.TransactionHistoryViewModel
+import com.aradipatrik.presentation.viewmodels.history.TransactionHistoryViewModel
 import com.aradipatrik.presentation.presentations.TransactionPresentation
 import com.aradipatrik.yamm.R
 import com.aradipatrik.yamm.features.history.adapter.HistoryAdapter
