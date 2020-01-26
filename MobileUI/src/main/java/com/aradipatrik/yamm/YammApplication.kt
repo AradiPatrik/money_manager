@@ -8,13 +8,12 @@ import com.aradipatrik.data.datasource.transaction.RemoteTransactionDatastore
 import com.aradipatrik.data.mapper.CategoryMapper
 import com.aradipatrik.data.mapper.JoinedTransactionMapper
 import com.aradipatrik.data.mapper.PartialTransactionMapper
+import com.aradipatrik.data.repository.CategoryRepositoryImpl
 import com.aradipatrik.data.repository.Syncer
 import com.aradipatrik.data.repository.TransactionRepositoryImpl
+import com.aradipatrik.domain.repository.CategoryRepository
 import com.aradipatrik.domain.repository.TransactionRepository
-import com.aradipatrik.domain.usecase.AddTransaction
-import com.aradipatrik.domain.usecase.DeleteTransaction
-import com.aradipatrik.domain.usecase.GetTransactionsInInterval
-import com.aradipatrik.domain.usecase.UpdateTransaction
+import com.aradipatrik.domain.usecase.*
 import com.aradipatrik.local.database.localModule
 import com.aradipatrik.presentation.mapper.CategoryPresentationMapper
 import com.aradipatrik.presentation.mapper.TransactionPresentationMapper
@@ -43,10 +42,12 @@ val domainModule = module {
     factory { AddTransaction(get()) }
     factory { UpdateTransaction(get()) }
     factory { DeleteTransaction(get()) }
+    factory { GetCategories(get()) }
 }
 
 val dataModule = module {
     single<TransactionRepository> { TransactionRepositoryImpl(get(), get(), get(), get()) }
+    single<CategoryRepository> { CategoryRepositoryImpl(get(), get(), get()) }
     single { Syncer(get(), get(), get(), get()) }
     single { JoinedTransactionMapper(get()) }
     single { PartialTransactionMapper() }

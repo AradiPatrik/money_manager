@@ -6,6 +6,7 @@ import com.airbnb.mvrx.withState
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewModel
 import com.aradipatrik.yamm.R
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.*
+import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -37,8 +38,7 @@ class AddTransactionFragment : BaseMvRxFragment(R.layout.fragment_calculator_she
 
     override fun onResume() {
         super.onResume()
-        disposable += uiEvents.subscribe()
-        TODO("Call viewmodel on viewevents")
+        disposable += uiEvents.subscribe(viewModel::processEvent)
     }
 
     override fun onPause() {
@@ -46,7 +46,12 @@ class AddTransactionFragment : BaseMvRxFragment(R.layout.fragment_calculator_she
         disposable.clear()
     }
 
-    override fun invalidate() = withState(viewModel) {
-
+    override fun invalidate() = withState(viewModel) { state ->
+        // TODO: Refactor this to use view data
+        view?.expression_display?.text = when (val cs = state.calculatorState) {
+            is CalculatorState.SingleValue -> cs.value.toString()
+            is CalculatorState.AddOperation -> "${cs.lhs} + ${cs.rhs ?: ""}"
+            is CalculatorState.SubtractOperation -> "${cs.lhs} - ${cs.rhs ?: ""}"
+        }
     }
 }

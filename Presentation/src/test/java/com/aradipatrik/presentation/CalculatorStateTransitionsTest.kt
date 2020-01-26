@@ -304,4 +304,174 @@ class CalculatorStateTransitionsTest : KoinTest {
                 }
         }
     }
+
+    @Test
+    fun `0 click on SingleValue of 0 should have no effect`() {
+        val initialState = AddTransactionState(calculatorState = SingleValue(0))
+        val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
+
+        viewModel.processEvent(NumberClick(0))
+
+        withState(viewModel) { state ->
+            expectThat(state.calculatorState)
+                .isA<SingleValue>()
+                .get(SingleValue::value).isEqualTo(0)
+        }
+    }
+
+    @Test
+    fun `0 click on SingleValue with single digit other than 0 should append digit to value`() {
+        val initialState = AddTransactionState(calculatorState = SingleValue(1))
+        val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
+
+        viewModel.processEvent(NumberClick(0))
+
+        withState(viewModel) { state ->
+            expectThat(state.calculatorState)
+                .isA<SingleValue>()
+                .get(SingleValue::value).isEqualTo(10)
+        }
+    }
+
+    @Test
+    fun `Any click on SingleValue with more than one digits should append digit to value`() {
+        val initialState = AddTransactionState(calculatorState = SingleValue(15))
+        val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
+
+        viewModel.processEvent(NumberClick(2))
+
+        withState(viewModel) { state ->
+            expectThat(state.calculatorState)
+                .isA<SingleValue>()
+                .get(SingleValue::value).isEqualTo(152)
+        }
+    }
+
+    @Test
+    fun `AddOperation with rhs null should have digit overriden`() {
+        val initialState = AddTransactionState(calculatorState = AddOperation(5, null))
+        val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
+
+        viewModel.processEvent(NumberClick(0))
+
+        withState(viewModel) { state ->
+            expectThat(state.calculatorState)
+                .isA<AddOperation>()
+                .and {
+                    get(AddOperation::lhs).isEqualTo(5)
+                    get(AddOperation::rhs).isEqualTo(0)
+                }
+        }
+    }
+
+    @Test
+    fun `AddOperation with rhs 0 should have digit overriden`() {
+        val initialState = AddTransactionState(calculatorState = AddOperation(5, 0))
+        val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
+
+        viewModel.processEvent(NumberClick(3))
+
+        withState(viewModel) { state ->
+            expectThat(state.calculatorState)
+                .isA<AddOperation>()
+                .and {
+                    get(AddOperation::lhs).isEqualTo(5)
+                    get(AddOperation::rhs).isEqualTo(3)
+                }
+        }
+    }
+
+    @Test
+    fun `AddOperation with rhs with value other than 0 or null, should be appended with digit on number click`() {
+        val initialState = AddTransactionState(calculatorState = AddOperation(5, 1))
+        val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
+
+        viewModel.processEvent(NumberClick(3))
+
+        withState(viewModel) { state ->
+            expectThat(state.calculatorState)
+                .isA<AddOperation>()
+                .and {
+                    get(AddOperation::lhs).isEqualTo(5)
+                    get(AddOperation::rhs).isEqualTo(13)
+                }
+        }
+    }
+
+    @Test
+    fun `SubtractOperation with rhs null should have digit overriden`() {
+        val initialState = AddTransactionState(calculatorState = SubtractOperation(5, null))
+        val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
+
+        viewModel.processEvent(NumberClick(0))
+
+        withState(viewModel) { state ->
+            expectThat(state.calculatorState)
+                .isA<SubtractOperation>()
+                .and {
+                    get(SubtractOperation::lhs).isEqualTo(5)
+                    get(SubtractOperation::rhs).isEqualTo(0)
+                }
+        }
+    }
+
+    @Test
+    fun `SubtractOperation with rhs 0 should have digit overriden`() {
+        val initialState = AddTransactionState(calculatorState = SubtractOperation(5, 0))
+        val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
+
+        viewModel.processEvent(NumberClick(3))
+
+        withState(viewModel) { state ->
+            expectThat(state.calculatorState)
+                .isA<SubtractOperation>()
+                .and {
+                    get(SubtractOperation::lhs).isEqualTo(5)
+                    get(SubtractOperation::rhs).isEqualTo(3)
+                }
+        }
+    }
+
+    @Test
+    fun `SubtractOperation with rhs with value other than 0 or null, should be appended with digit on number click`() {
+        val initialState = AddTransactionState(calculatorState = SubtractOperation(5, 1))
+        val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
+
+        viewModel.processEvent(NumberClick(3))
+
+        withState(viewModel) { state ->
+            expectThat(state.calculatorState)
+                .isA<SubtractOperation>()
+                .and {
+                    get(SubtractOperation::lhs).isEqualTo(5)
+                    get(SubtractOperation::rhs).isEqualTo(13)
+                }
+        }
+    }
+
+    @Test
+    fun `Equals on AddOperation should transform calculator state into SingleValue, with value of the AddOperation`() {
+        val initialState = AddTransactionState(calculatorState = AddOperation(5, 1))
+        val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
+
+        viewModel.processEvent(EqualsClick)
+        withState(viewModel) { state ->
+            expectThat(state.calculatorState)
+                .isA<SingleValue>()
+                .get(SingleValue::value).isEqualTo(6)
+        }
+    }
+
+    @Test
+    fun `Equals on SubtractOperation should transform calculator state into SingleValue, with value of the SubtractOperation`() {
+        val initialState = AddTransactionState(calculatorState = SubtractOperation(5, 1))
+        val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
+
+        viewModel.processEvent(EqualsClick)
+        withState(viewModel) { state ->
+            expectThat(state.calculatorState)
+                .isA<SingleValue>()
+                .get(SingleValue::value).isEqualTo(4)
+        }
+    }
 }
