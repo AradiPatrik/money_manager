@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.aradipatrik.yamm.R
+import com.aradipatrik.yamm.common.viewext.inflate
 import com.aradipatrik.yamm.features.history.adapter.HistoryAdapter.ViewHolder.TransactionHeaderViewHolder
 import com.aradipatrik.yamm.features.history.adapter.HistoryAdapter.ViewHolder.TransactionItemViewHolder
 import com.aradipatrik.yamm.features.history.model.TransactionHeaderViewData
@@ -100,6 +101,3 @@ class HistoryAdapter
         }
     }
 }
-
-private fun ViewGroup.inflate(layoutResource: Int) = LayoutInflater.from(context)
-    .inflate(layoutResource, this, false)

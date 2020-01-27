@@ -1,6 +1,7 @@
 package com.aradipatrik.yamm.features.history.mapper
 
 import com.aradipatrik.presentation.presentations.TransactionPresentation
+import com.aradipatrik.yamm.common.mapper.IconMapper
 import com.aradipatrik.yamm.features.history.model.TransactionHeaderViewData
 import com.aradipatrik.yamm.features.history.model.TransactionItemViewData
 import org.joda.time.LocalDate

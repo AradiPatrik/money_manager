@@ -1,6 +1,7 @@
-package com.aradipatrik.yamm
+package com.aradipatrik.yamm.mappers
 
-import com.aradipatrik.yamm.features.history.mapper.IconMapper
+import com.aradipatrik.yamm.R
+import com.aradipatrik.yamm.common.mapper.IconMapper
 import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo

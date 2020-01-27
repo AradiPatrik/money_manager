@@ -1,4 +1,4 @@
-package com.aradipatrik.yamm.features.history.mapper
+package com.aradipatrik.yamm.common.mapper
 
 import com.aradipatrik.yamm.R
 

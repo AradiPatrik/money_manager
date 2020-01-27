@@ -1,10 +1,9 @@
-package com.aradipatrik.yamm
+package com.aradipatrik.yamm.mappers
 
-import com.aradipatrik.yamm.features.history.mapper.IconMapper
+import com.aradipatrik.yamm.common.mapper.IconMapper
 import com.aradipatrik.yamm.features.history.mapper.TransactionViewDataMapper
 import com.aradipatrik.yamm.features.history.model.TransactionHeaderViewData
 import com.aradipatrik.yamm.features.history.model.TransactionItemViewData
-import com.aradipatrik.yamm.util.PresentationLayerMocks.categoryPresentation
 import com.aradipatrik.yamm.util.PresentationLayerMocks.transactionPresentation
 import org.joda.time.LocalDate
 import org.junit.Test

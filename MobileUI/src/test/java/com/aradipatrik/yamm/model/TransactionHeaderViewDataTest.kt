@@ -1,4 +1,4 @@
-package com.aradipatrik.yamm
+package com.aradipatrik.yamm.model
 
 import com.aradipatrik.yamm.features.history.model.TransactionHeaderViewData
 import org.joda.time.LocalDate

@@ -1,4 +1,4 @@
-package com.aradipatrik.yamm
+package com.aradipatrik.yamm.itemcallback
 
 import com.aradipatrik.testing.DomainLayerMocks.string
 import com.aradipatrik.yamm.util.PresentationLayerMocks.transactionPresentation
