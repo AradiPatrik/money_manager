@@ -14,6 +14,7 @@ dependencies {
     implementation moduleDependencies.rxKotlin
     implementation moduleDependencies.kotlinStdLib
     implementation moduleDependencies.jodaTime
+    implementation moduleDependencies.koinCore
 
     testImplementation moduleTestDependencies.junit
     testImplementation moduleTestDependencies.mockk

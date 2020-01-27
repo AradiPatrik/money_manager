@@ -46,6 +46,7 @@ dependencies {
     implementation moduleDependencies.firestore
     implementation moduleDependencies.firestoreKtx
     implementation moduleDependencies.jodaTime
+    implementation moduleDependencies.koinAndroid
 
     testImplementation moduleTestDependencies.junit
     testImplementation moduleTestDependencies.mockk

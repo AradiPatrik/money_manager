@@ -16,7 +16,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.fragment_calculator_sheet.*
 import kotlinx.android.synthetic.main.fragment_calculator_sheet.view.*
-import kotlinx.android.synthetic.main.list_category.view.*
 import org.koin.android.ext.android.inject
 
 class AddTransactionFragment : BaseMvRxFragment(R.layout.fragment_calculator_sheet) {
@@ -47,7 +46,7 @@ class AddTransactionFragment : BaseMvRxFragment(R.layout.fragment_calculator_she
     private val disposable = CompositeDisposable()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        view.category_recycler_view.adapter = adapter
+        category_select_recycler_view.adapter = adapter
     }
 
     override fun onResume() {
