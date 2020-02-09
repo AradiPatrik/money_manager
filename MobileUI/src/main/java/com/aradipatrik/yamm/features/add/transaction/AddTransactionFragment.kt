@@ -7,25 +7,26 @@ import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.*
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewModel
-import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState
 import com.aradipatrik.yamm.R
 import com.aradipatrik.yamm.features.add.transaction.adapter.CategoryAdapter
+import com.aradipatrik.yamm.features.add.transaction.mapper.CalculatorViewDataMapper
+import com.aradipatrik.yamm.features.add.transaction.model.CalculatorAction
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.fragment_calculator_sheet.*
-import kotlinx.android.synthetic.main.fragment_calculator_sheet.view.*
 import org.koin.android.ext.android.inject
 
 class AddTransactionFragment : BaseMvRxFragment(R.layout.fragment_calculator_sheet) {
     private val viewModel: AddTransactionViewModel by fragmentViewModel()
     private val adapter: CategoryAdapter by inject()
+    private val viewDataMapper: CalculatorViewDataMapper by inject()
 
     private val uiEvents
         get() = Observable.merge(
             listOf(
-                number_pad_tick.clicks().map { AddClick },
+                number_pad_action.clicks().map { ActionClick },
                 number_pad_number_0.clicks().map { NumberClick(0) },
                 number_pad_number_1.clicks().map { NumberClick(1) },
                 number_pad_number_2.clicks().map { NumberClick(2) },
@@ -60,11 +61,14 @@ class AddTransactionFragment : BaseMvRxFragment(R.layout.fragment_calculator_she
     }
 
     override fun invalidate() = withState(viewModel) { state ->
-        // TODO: Refactor this to use view data
-        view?.expression_display?.text = when (val cs = state.calculatorState) {
-            is CalculatorState.SingleValue -> cs.value.toString()
-            is CalculatorState.AddOperation -> "${cs.lhs} + ${cs.rhs ?: ""}"
-            is CalculatorState.SubtractOperation -> "${cs.lhs} - ${cs.rhs ?: ""}"
+        val vd = viewDataMapper.mapToViewData(state)
+        expression_display.text = vd.numberDisplay
+        if (vd.calculatorAction === CalculatorAction.CalculateResult) {
+            number_pad_action.icon = null
+            number_pad_action.text = "="
+        } else {
+            number_pad_action.icon = context?.getDrawable(R.drawable.ic_check_24dp)
+            number_pad_action.text = ""
         }
     }
 }

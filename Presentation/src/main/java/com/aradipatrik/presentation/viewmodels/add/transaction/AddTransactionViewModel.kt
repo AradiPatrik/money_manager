@@ -86,7 +86,12 @@ class AddTransactionViewModel(
 
     fun processEvent(event: AddTransactionViewEvent) = when (event) {
         is NumberClick -> appendDigit(event.number)
-        AddClick -> addTransaction()
+        ActionClick -> withState { state ->
+            when (state.calculatorState) {
+                is SingleValue -> addTransaction(state)
+                else -> calculateValueOfOperation()
+            }
+        }
         DeleteOneClick -> deleteOne()
         PlusClick -> add()
         MinusClick -> subtract()
@@ -172,7 +177,7 @@ class AddTransactionViewModel(
         copy(calculatorState = AddOperation(calculatorState.value, null))
     }
 
-    private fun addTransaction() = withState { state ->
+    private fun addTransaction(state: AddTransactionState) {
         if (state.selectedCategory != null) {
             require(state.calculatorState is SingleValue)
             addTransaction.get(

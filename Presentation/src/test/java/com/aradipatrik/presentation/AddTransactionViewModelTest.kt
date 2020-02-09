@@ -10,9 +10,8 @@ import com.aradipatrik.domain.usecase.AddTransaction
 import com.aradipatrik.domain.usecase.GetCategories
 import com.aradipatrik.presentation.mapper.CategoryPresentationMapper
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionState
-import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.AddClick
+import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.ActionClick
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewModel
-import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState
 import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.SingleValue
 import com.aradipatrik.testing.DomainLayerMocks.category
 import com.aradipatrik.testing.DomainLayerMocks.date
@@ -152,7 +151,7 @@ class AddTransactionViewModelTest : KoinTest {
             )
 
         // Act
-        addTransactionViewModel.processEvent(AddClick)
+        addTransactionViewModel.processEvent(ActionClick)
 
         // Assert
         require(calculatorState is SingleValue)
@@ -190,7 +189,7 @@ class AddTransactionViewModelTest : KoinTest {
             )
 
         // Act
-        addTransactionViewModel.processEvent(AddClick)
+        addTransactionViewModel.processEvent(ActionClick)
 
         // Assert
         withState(addTransactionViewModel) { state ->
@@ -217,7 +216,7 @@ class AddTransactionViewModelTest : KoinTest {
         )
 
         // Act
-        addTransactionViewModel.processEvent(AddClick)
+        addTransactionViewModel.processEvent(ActionClick)
 
         // Assert
         withState(addTransactionViewModel) { state ->

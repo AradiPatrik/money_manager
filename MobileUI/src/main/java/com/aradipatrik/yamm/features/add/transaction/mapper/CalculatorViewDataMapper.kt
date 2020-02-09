@@ -1,9 +1,8 @@
 package com.aradipatrik.yamm.features.add.transaction.mapper
 
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionState
-import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState
-import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.SingleValue
-import com.aradipatrik.yamm.features.add.transaction.model.Action
+import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.*
+import com.aradipatrik.yamm.features.add.transaction.model.CalculatorAction
 import com.aradipatrik.yamm.features.add.transaction.model.CalculatorViewData
 import com.aradipatrik.yamm.features.add.transaction.model.TransactionType
 
@@ -11,10 +10,13 @@ class CalculatorViewDataMapper {
     fun mapToViewData(state: AddTransactionState) = CalculatorViewData(
         numberDisplay = when (val calculatorState = state.calculatorState) {
             is SingleValue -> "${calculatorState.value}"
-            is CalculatorState.AddOperation -> TODO()
-            is CalculatorState.SubtractOperation -> TODO()
+            is AddOperation -> "${calculatorState.lhs} + ${calculatorState.rhs ?: ""}"
+            is SubtractOperation -> "${calculatorState.lhs} - ${calculatorState.rhs ?: ""}"
         },
-        action = Action.AddTransaction,
+        calculatorAction = when (state.calculatorState) {
+            is SingleValue -> CalculatorAction.AddTransaction
+            is AddOperation, is SubtractOperation -> CalculatorAction.CalculateResult
+        },
         transactionType = TransactionType.Expense
     )
 }

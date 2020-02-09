@@ -246,13 +246,13 @@
         style="@style/NumberPadButton"
         app:icon="@drawable/ic_keyboard_backspace_24dp"
         app:iconGravity="textStart"
-        app:layout_constraintEnd_toStartOf="@+id/number_pad_tick"
+        app:layout_constraintEnd_toStartOf="@+id/number_pad_action"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/number_pad_number_0"
         app:layout_constraintTop_toTopOf="@+id/number_pad_number_0" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/number_pad_tick"
+        android:id="@+id/number_pad_action"
         style="@style/NumberPadButton"
         app:icon="@drawable/ic_check_24dp"
         app:iconGravity="textStart"

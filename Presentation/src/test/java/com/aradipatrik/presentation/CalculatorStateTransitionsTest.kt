@@ -454,7 +454,7 @@ class CalculatorStateTransitionsTest : KoinTest {
         val initialState = AddTransactionState(calculatorState = AddOperation(5, 1))
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
-        viewModel.processEvent(EqualsClick)
+        viewModel.processEvent(ActionClick)
         withState(viewModel) { state ->
             expectThat(state.calculatorState)
                 .isA<SingleValue>()
@@ -467,7 +467,7 @@ class CalculatorStateTransitionsTest : KoinTest {
         val initialState = AddTransactionState(calculatorState = SubtractOperation(5, 1))
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
-        viewModel.processEvent(EqualsClick)
+        viewModel.processEvent(ActionClick)
         withState(viewModel) { state ->
             expectThat(state.calculatorState)
                 .isA<SingleValue>()
