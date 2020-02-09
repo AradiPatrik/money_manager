@@ -86,6 +86,7 @@ class AddTransactionViewModel(
 
     fun processEvent(event: AddTransactionViewEvent) = when (event) {
         is NumberClick -> appendDigit(event.number)
+        is MemoChange -> updateMemo(event.memo)
         ActionClick -> withState { state ->
             when (state.calculatorState) {
                 is SingleValue -> addTransaction(state)
@@ -98,6 +99,8 @@ class AddTransactionViewModel(
         EqualsClick -> calculateValueOfOperation()
         PointClick -> TODO("Add support for floating point transactions")
     }
+
+    private fun updateMemo(newValue: String) = setState { copy(memo = newValue) }
 
     private fun calculateValueOfOperation() = setState {
         copy(

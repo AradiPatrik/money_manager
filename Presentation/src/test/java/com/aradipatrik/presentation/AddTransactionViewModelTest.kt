@@ -11,6 +11,7 @@ import com.aradipatrik.domain.usecase.GetCategories
 import com.aradipatrik.presentation.mapper.CategoryPresentationMapper
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionState
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.ActionClick
+import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.MemoChange
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewModel
 import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.SingleValue
 import com.aradipatrik.testing.DomainLayerMocks.category
@@ -227,6 +228,23 @@ class AddTransactionViewModelTest : KoinTest {
                 .get(SingleValue::value).isEqualTo(0)
             expectThat(state.isExpense).isTrue()
             expectThat(state.selectedDate).isNotEqualTo(testDate)
+        }
+    }
+
+    @Test
+    fun `Memo change event should be reflected in state`() {
+        val initialState = AddTransactionState()
+        every {
+            mockGetCategories.get(any())
+        } returns Observable.just(listOf(category()))
+        addTransactionViewModel = AddTransactionViewModel(
+            initialState, mockGetCategories, mockAddTransaction, categoryMapper
+        )
+
+        addTransactionViewModel.processEvent(MemoChange("memo"))
+
+        withState(addTransactionViewModel) { state ->
+            expectThat(state.memo).isEqualTo("memo")
         }
     }
 }

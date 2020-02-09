@@ -17,6 +17,7 @@ class CalculatorViewDataMapper {
             is SingleValue -> CalculatorAction.AddTransaction
             is AddOperation, is SubtractOperation -> CalculatorAction.CalculateResult
         },
-        transactionType = TransactionType.Expense
+        transactionType = TransactionType.Expense,
+        memo = state.memo
     )
 }

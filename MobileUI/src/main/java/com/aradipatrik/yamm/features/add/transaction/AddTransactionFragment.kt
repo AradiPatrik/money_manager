@@ -12,6 +12,7 @@ import com.aradipatrik.yamm.features.add.transaction.adapter.CategoryAdapter
 import com.aradipatrik.yamm.features.add.transaction.mapper.CalculatorViewDataMapper
 import com.aradipatrik.yamm.features.add.transaction.model.CalculatorAction
 import com.jakewharton.rxbinding3.view.clicks
+import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
@@ -40,7 +41,10 @@ class AddTransactionFragment : BaseMvRxFragment(R.layout.fragment_calculator_she
                 number_pad_point.clicks().map { PointClick },
                 number_pad_delete_one.clicks().map { DeleteOneClick },
                 number_pad_number_plus.clicks().map { PlusClick },
-                number_pad_number_minus.clicks().map { MinusClick }
+                number_pad_number_minus.clicks().map { MinusClick },
+                memo_edit_Text.textChanges()
+                    .map { MemoChange(it.toString()) }
+                    .distinctUntilChanged()
             )
         )
 

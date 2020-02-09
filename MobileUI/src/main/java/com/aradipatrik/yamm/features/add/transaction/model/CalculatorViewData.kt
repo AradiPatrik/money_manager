@@ -6,5 +6,6 @@ enum class TransactionType { Income, Expense }
 data class CalculatorViewData(
     val numberDisplay: String,
     val calculatorAction: CalculatorAction,
-    val transactionType: TransactionType
+    val transactionType: TransactionType,
+    val memo: String
 )

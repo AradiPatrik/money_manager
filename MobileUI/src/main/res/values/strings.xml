@@ -4,4 +4,5 @@
     <string name="sum_sheet_monthly">Monthly</string>
     <string name="sum_sheet_income">Income</string>
     <string name="sum_sheet_expense">Expense</string>
+    <string name="memo">Memo</string>
 </resources>

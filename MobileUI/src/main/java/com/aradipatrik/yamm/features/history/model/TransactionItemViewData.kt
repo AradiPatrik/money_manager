@@ -17,5 +17,5 @@ data class TransactionItemViewData(
 ): TransactionViewData()
 
 data class TransactionHeaderViewData(val localDateRef: LocalDate): TransactionViewData() {
-    val asFormattedString: String = localDateRef.toString("YYYY-MM-DD")
+    val asFormattedString: String = localDateRef.toString("YYYY-MM-dd")
 }

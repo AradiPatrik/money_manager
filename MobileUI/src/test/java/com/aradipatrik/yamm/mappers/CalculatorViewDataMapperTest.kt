@@ -114,4 +114,17 @@ class CalculatorViewDataMapperTest {
         // Assert
         expectThat(viewData.calculatorAction).isEqualTo(CalculatorAction.CalculateResult)
     }
+
+    @Test
+    fun `Memo should be just mapped`() {
+        // Arrange
+        val mapper = CalculatorViewDataMapper()
+        val state = AddTransactionState(memo = "testMemo")
+
+        // Act
+        val viewData = mapper.mapToViewData(state)
+
+        //Assert
+        expectThat(viewData.memo).isEqualTo(state.memo)
+    }
 }
