@@ -48,7 +48,9 @@
         android:src="@drawable/ic_add_white_24dp"
         app:layout_anchor="@id/bottom_app_bar" />
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
+        android:elevation="16dp"
+        android:background="?attr/colorSurface"
         android:name="com.aradipatrik.yamm.features.add.transaction.AddTransactionFragment"
         app:behavior_hideable="true"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"

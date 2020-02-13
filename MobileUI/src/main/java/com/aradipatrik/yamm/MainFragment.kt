@@ -33,7 +33,7 @@ class MainFragment : BaseMvRxFragment() {
 
     override fun onResume() {
         super.onResume()
-//        uiEffectsDisposable += uiEffects.subscribe(::handleUiEffect)
+        uiEffectsDisposable += uiEffects.subscribe(::handleUiEffect)
     }
 
     override fun onPause() {
@@ -41,20 +41,21 @@ class MainFragment : BaseMvRxFragment() {
         uiEffectsDisposable.clear()
     }
 
-//    private fun handleUiEffect(effect: MainFragmentUiEffect) = when(effect) {
-//        FabClick -> TODO()
-//    }
+    private fun handleUiEffect(effect: MainFragmentUiEffect) = when(effect) {
+        FabClick -> showCalculator()
+    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         if (savedInstanceState == null) {
-//            hideCalculator()
+            hideCalculator()
             hideSumSheet()
         }
     }
 
-//    private fun showCalculator() = calculator_sheet.showAsBottomSheet()
-//
-//    private fun hideCalculator() = calculator_sheet.hideAsBottomSheet()
+    private fun showCalculator() = calculator_sheet.showAsBottomSheet()
+
+    private fun hideCalculator() = calculator_sheet.hideAsBottomSheet()
 
     private fun showSumSheet() = sum_sheet_container.showAsBottomSheet()
 
@@ -63,5 +64,4 @@ class MainFragment : BaseMvRxFragment() {
     override fun invalidate()  {
 
     }
-
 }
