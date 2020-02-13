@@ -48,11 +48,6 @@
         android:src="@drawable/ic_add_white_24dp"
         app:layout_anchor="@id/bottom_app_bar" />
 
-    <include
-        android:id="@+id/sum_sheet_container"
-        layout="@layout/sum_sheet"
-        tools:visibility="invisible" />
-
     <fragment
         android:name="com.aradipatrik.yamm.features.add.transaction.AddTransactionFragment"
         app:behavior_hideable="true"
@@ -60,7 +55,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/calculator_sheet"
-        tools:layout="@layout/fragment_calculator_sheet"
-        />
+        tools:layout="@layout/fragment_calculator_sheet" />
+
+    <include
+        android:id="@+id/sum_sheet_container"
+        layout="@layout/sum_sheet"
+        tools:visibility="invisible" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
