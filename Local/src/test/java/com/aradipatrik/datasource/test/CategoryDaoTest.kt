@@ -5,8 +5,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import com.aradipatrik.datasource.test.TransactionRowFactory.categoryRow
 import com.aradipatrik.local.database.TransactionDatabase
-import com.aradipatrik.local.database.common.SyncStatusConstants
+import com.aradipatrik.local.database.category.CategoryRow
+import com.aradipatrik.local.database.common.SyncStatusConstants.TO_ADD_CODE
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_DELETE_CODE
+import com.aradipatrik.local.database.common.SyncStatusConstants.TO_UPDATE_CODE
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
@@ -15,6 +17,7 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
+@Suppress("SameParameterValue")
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.O_MR1])
 class CategoryDaoTest {
@@ -23,15 +26,22 @@ class CategoryDaoTest {
 
     private val database = Room.inMemoryDatabaseBuilder(
         RuntimeEnvironment.application.applicationContext,
-        TransactionDatabase::class.java)
+        TransactionDatabase::class.java
+    )
         .allowMainThreadQueries()
         .build()
 
-    private val allPendingCategories = listOf(
+    private val pendingCategoryInstances = listOf(
         categoryRow(syncStatusCode = TO_DELETE_CODE),
-        categoryRow(syncStatusCode = SyncStatusConstants.TO_ADD_CODE),
-        categoryRow(syncStatusCode = SyncStatusConstants.TO_UPDATE_CODE)
+        categoryRow(syncStatusCode = TO_ADD_CODE),
+        categoryRow(syncStatusCode = TO_UPDATE_CODE)
     )
+
+    private val testCategory = categoryRow()
+    private val syncedCategory = categoryRow()
+    private val categoryDao get() = database.categoryDao()
+    private val categoryToDelete = categoryRow()
+    private val randomCategories = createNRandomCategories(2)
 
     @After
     fun teardown() {
@@ -40,70 +50,92 @@ class CategoryDaoTest {
 
     @Test
     fun `Get all categories returns data`() {
-        val category = categoryRow()
-        database.categoryDao().insert(listOf(category)).blockingAwait()
-
-        val testObserver = database.categoryDao().getAllCategories().test()
-        testObserver.assertValue(listOf(category))
+        initDbWithCategories(testCategory)
+        val testObserver = categoryDao.getAllCategories().test()
+        testObserver.assertValue(listOf(testCategory)).dispose()
     }
 
     @Test
     fun `Get pending categories returns only pending data`() {
-        val syncedCategory = categoryRow()
-
-        database.categoryDao().insert(listOf(syncedCategory)).blockingAwait()
-        database.categoryDao().insert(allPendingCategories).blockingAwait()
-
-        val testObserver = database.categoryDao().getPendingCategories().test()
-        testObserver.assertValue(allPendingCategories)
+        initDbWithCategories(pendingCategoryInstances + syncedCategory)
+        val testObserver = categoryDao.getPendingCategories().test()
+        testObserver.assertValue(pendingCategoryInstances)
     }
 
     @Test
     fun `Clear pending should clear all pending categories`() {
-        val syncedCategory = categoryRow()
-        database.categoryDao().insert(allPendingCategories + syncedCategory)
-            .blockingAwait()
-        database.categoryDao().clearPending().blockingAwait()
+        initDbWithCategories(pendingCategoryInstances + syncedCategory)
+        categoryDao.clearPending().blockingAwait()
+        assertOnlySyncedCategoryRemains()
+    }
 
-        database.categoryDao().getPendingCategories()
+    private fun assertOnlySyncedCategoryRemains() {
+        categoryDao.getPendingCategories()
             .test()
             .assertValue(emptyList())
-        database.categoryDao().getAllCategories()
+            .dispose()
+        categoryDao.getAllCategories()
             .test()
             .assertValue(listOf(syncedCategory))
+            .dispose()
     }
 
     @Test
     fun `Get last sync time should return last sync time`() {
-        val syncTimes = listOf<Long>(1, 2, 3, 4, 5)
-        val categories = syncTimes.map { categoryRow(updateTimestamp = it) }
-        database.categoryDao().insert(categories).blockingAwait()
-        database.categoryDao().getLastSyncTime()
-            .test()
-            .assertValue(syncTimes.max())
+        initDbWithCategories(createCategoriesWithSyncTimestampsOf(1, 2, 3, 4, 5))
+        assertLastSyncTimeIs(5)
     }
+
+    private fun assertLastSyncTimeIs(lastSyncTime: Long) {
+        categoryDao.getLastSyncTime()
+            .test()
+            .assertValue(lastSyncTime)
+            .dispose()
+    }
+
+    private fun createCategoriesWithSyncTimestampsOf(vararg syncTimes: Long) =
+        syncTimes.map { categoryRow(updateTimestamp = it) }
 
     @Test
     fun `Get last sync time should complete when no sync time is the db yet`() {
-        database.categoryDao().getLastSyncTime()
+        categoryDao.getLastSyncTime()
             .test()
             .assertNoValues()
             .assertComplete()
+            .dispose()
     }
 
     @Test
     fun `Set deleted should set category sync code TO_DELETE`() {
-        val categoryToDelete = categoryRow()
-        val categories = listOf(categoryRow(), categoryRow())
-        database.categoryDao().insert(categories + categoryToDelete).blockingAwait()
-        database.categoryDao().setDeleted(categoryToDelete.uid).blockingAwait()
-        database.categoryDao().getPendingCategories()
-            .test()
-            .assertValue(listOf(categoryToDelete.copy(syncStatusCode = TO_DELETE_CODE)))
+        initDbWithCategories(randomCategories + categoryToDelete)
+        categoryDao.setDeleted(categoryToDelete.uid).blockingAwait()
+        assertDeletedCategoryBecamePendingWithDeletedSyncCode()
+        assertGetAllCategoriesContainsDeletedCategory()
+    }
 
-        database.categoryDao().getAllCategories()
+    private fun assertGetAllCategoriesContainsDeletedCategory() {
+        categoryDao.getAllCategories()
             .test()
             .assertValue(
-                categories + categoryToDelete.copy(syncStatusCode = TO_DELETE_CODE))
+                randomCategories + categoryToDelete.copy(syncStatusCode = TO_DELETE_CODE)
+            )
+            .dispose()
     }
+
+    private fun assertDeletedCategoryBecamePendingWithDeletedSyncCode() {
+        categoryDao.getPendingCategories()
+            .test()
+            .assertValue(listOf(categoryToDelete.copy(syncStatusCode = TO_DELETE_CODE)))
+            .dispose()
+    }
+
+    private fun initDbWithCategories(category: CategoryRow) = initDbWithCategories(listOf(category))
+
+    private fun initDbWithCategories(categories: List<CategoryRow>) = categoryDao
+        .insert(categories)
+        .blockingAwait()
+
+    private fun createNRandomCategories(n: Int) = generateSequence { categoryRow() }
+        .take(n)
+        .toList()
 }
