@@ -97,7 +97,7 @@
         android:layout_marginTop="20dp"
         android:elevation="16dp"
         android:foregroundGravity="center"
-        android:src="@drawable/ic_shopping_cart_black_24dp"
+        android:src="@drawable/category_icons_shopping_cart"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/category_select_recycler_view" />
 

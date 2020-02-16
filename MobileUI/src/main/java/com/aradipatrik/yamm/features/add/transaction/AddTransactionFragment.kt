@@ -5,11 +5,13 @@ import android.view.View
 import com.airbnb.mvrx.BaseMvRxFragment
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
+import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionState
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.*
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewModel
 import com.aradipatrik.yamm.R
 import com.aradipatrik.yamm.features.add.transaction.adapter.CategoryAdapter
 import com.aradipatrik.yamm.features.add.transaction.mapper.CalculatorViewDataMapper
+import com.aradipatrik.yamm.features.add.transaction.mapper.CategoryItemViewDataMapper
 import com.aradipatrik.yamm.features.add.transaction.model.CalculatorAction
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.textChanges
@@ -22,7 +24,8 @@ import org.koin.android.ext.android.inject
 class AddTransactionFragment : BaseMvRxFragment(R.layout.fragment_calculator_sheet) {
     private val viewModel: AddTransactionViewModel by fragmentViewModel()
     private val adapter: CategoryAdapter by inject()
-    private val viewDataMapper: CalculatorViewDataMapper by inject()
+    private val calculatorViewDataMapper: CalculatorViewDataMapper by inject()
+    private val categoryItemViewDataMapper: CategoryItemViewDataMapper by inject()
 
     private val uiEvents
         get() = Observable.merge(
@@ -65,14 +68,17 @@ class AddTransactionFragment : BaseMvRxFragment(R.layout.fragment_calculator_she
     }
 
     override fun invalidate() = withState(viewModel) { state ->
-        val vd = viewDataMapper.mapToViewData(state)
-        expression_display.text = vd.numberDisplay
-        if (vd.calculatorAction === CalculatorAction.CalculateResult) {
+        val calculatorViewData = calculatorViewDataMapper.mapToViewData(state)
+        expression_display.text = calculatorViewData.numberDisplay
+        if (calculatorViewData.calculatorAction === CalculatorAction.CalculateResult) {
             number_pad_action.icon = null
             number_pad_action.text = "="
         } else {
             number_pad_action.icon = context?.getDrawable(R.drawable.ic_check_24dp)
             number_pad_action.text = ""
         }
+        adapter.submitList(state.categoryList.map {
+            categoryItemViewDataMapper.mapToItemViewData(it, it == state.selectedCategory)
+        })
     }
 }

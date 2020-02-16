@@ -7,7 +7,6 @@ import com.aradipatrik.yamm.features.add.transaction.model.CalculatorAction
 import com.aradipatrik.yamm.util.PresentationLayerMocks.addTransactionState
 import org.junit.Test
 import strikt.api.expectThat
-import strikt.assertions.isA
 import strikt.assertions.isEqualTo
 
 class CalculatorViewDataMapperTest {
@@ -18,7 +17,7 @@ class CalculatorViewDataMapperTest {
         val state = addTransactionState(calculatorState = SingleValue(15))
 
         // Act
-        val viewData = mapper.mapToViewData(state)
+        val viewData = mapper.mapToCalculatorViewData(state)
 
         // Assert
         expectThat(viewData.numberDisplay).isEqualTo("15")
@@ -31,7 +30,7 @@ class CalculatorViewDataMapperTest {
         val state = addTransactionState(calculatorState = AddOperation(15, null))
 
         // Act
-        val viewData = mapper.mapToViewData(state)
+        val viewData = mapper.mapToCalculatorViewData(state)
 
         // Assert
         expectThat(viewData.numberDisplay).isEqualTo("15 + ")
@@ -44,7 +43,7 @@ class CalculatorViewDataMapperTest {
         val state = addTransactionState(calculatorState = AddOperation(15, 34))
 
         // Act
-        val viewData = mapper.mapToViewData(state)
+        val viewData = mapper.mapToCalculatorViewData(state)
 
         // Assert
         expectThat(viewData.numberDisplay).isEqualTo("15 + 34")
@@ -57,7 +56,7 @@ class CalculatorViewDataMapperTest {
         val state = AddTransactionState(calculatorState = SubtractOperation(15, null))
 
         // Act
-        val viewData = mapper.mapToViewData(state)
+        val viewData = mapper.mapToCalculatorViewData(state)
 
         // Assert
         expectThat(viewData.numberDisplay).isEqualTo("15 - ")
@@ -70,7 +69,7 @@ class CalculatorViewDataMapperTest {
         val state = AddTransactionState(calculatorState = SubtractOperation(15, 8))
 
         // Act
-        val viewData = mapper.mapToViewData(state)
+        val viewData = mapper.mapToCalculatorViewData(state)
 
         // Assert
         expectThat(viewData.numberDisplay).isEqualTo("15 - 8")
@@ -83,7 +82,7 @@ class CalculatorViewDataMapperTest {
         val state = AddTransactionState(calculatorState = SingleValue(5))
 
         // Act
-        val viewData = mapper.mapToViewData(state)
+        val viewData = mapper.mapToCalculatorViewData(state)
 
         // Assert
         expectThat(viewData.calculatorAction).isEqualTo(CalculatorAction.AddTransaction)
@@ -96,7 +95,7 @@ class CalculatorViewDataMapperTest {
         val state = AddTransactionState(calculatorState = AddOperation(1, 2))
 
         // Act
-        val viewData = mapper.mapToViewData(state)
+        val viewData = mapper.mapToCalculatorViewData(state)
 
         // Assert
         expectThat(viewData.calculatorAction).isEqualTo(CalculatorAction.CalculateResult)
@@ -109,7 +108,7 @@ class CalculatorViewDataMapperTest {
         val state = AddTransactionState(calculatorState = SubtractOperation(1, 2))
 
         // Act
-        val viewData = mapper.mapToViewData(state)
+        val viewData = mapper.mapToCalculatorViewData(state)
 
         // Assert
         expectThat(viewData.calculatorAction).isEqualTo(CalculatorAction.CalculateResult)
@@ -122,7 +121,7 @@ class CalculatorViewDataMapperTest {
         val state = AddTransactionState(memo = "testMemo")
 
         // Act
-        val viewData = mapper.mapToViewData(state)
+        val viewData = mapper.mapToCalculatorViewData(state)
 
         //Assert
         expectThat(viewData.memo).isEqualTo(state.memo)

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list_item_category_container"
-    android:layout_width="96dp"
+    android:layout_width="124dp"
     android:layout_height="64dp">
 
     <ImageView
@@ -14,12 +14,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:tint="?attr/colorOnSurface"
         tools:src="@drawable/ic_check_24dp" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/category_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnSurface"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

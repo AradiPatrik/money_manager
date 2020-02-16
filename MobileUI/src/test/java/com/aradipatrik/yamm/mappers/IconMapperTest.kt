@@ -11,7 +11,21 @@ class IconMapperTest {
 
     @Test
     fun `mapToResource should work`() {
-        expectThat(iconMapper.mapToResource("groceries"))
-            .isEqualTo(R.drawable.ic_shopping_cart_black_24dp)
+        validateMappings(mapOf(
+            "Groceries" to R.drawable.category_icons_shopping_cart,
+            "Sports" to R.drawable.category_icons_dumbbell,
+            "Food" to R.drawable.category_icons_pizza_slice,
+            "Gift" to R.drawable.category_icons_gift,
+            "Rent" to R.drawable.category_icons_home,
+            "Health" to R.drawable.category_icons_first_aid,
+            "Entertainment" to R.drawable.category_icons_gamepad,
+            "Transportation" to R.drawable.category_icons_subway
+        ))
+    }
+
+    private fun validateMappings(map: Map<String, Int>) {
+        map.entries.forEach { (key, value) ->
+            expectThat(iconMapper.mapToResource(key)).isEqualTo(value)
+        }
     }
 }

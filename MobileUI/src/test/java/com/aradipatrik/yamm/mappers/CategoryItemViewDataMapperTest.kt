@@ -16,16 +16,16 @@ class CategoryItemViewDataMapperTest {
         val presentation = CategoryPresentation(
             id = "testId",
             name = "testName",
-            iconId = "groceries"
+            iconId = "Groceries"
         )
         // Act
-        val viewData = mapper.mapToItemViewData(presentation)
+        val viewData = mapper.mapToItemViewData(presentation, true)
 
         // Assert
         expectThat(viewData.presentationRef).isEqualTo(presentation)
         expectThat(viewData.categoryName).isEqualTo("testName")
         expectThat(viewData.iconResId).isEqualTo(iconMapper.mapToResource(presentation.iconId))
         expectThat(viewData.colorResId).isEqualTo(0)
-        expectThat(viewData.isSelected).isEqualTo(false)
+        expectThat(viewData.isSelected).isEqualTo(true)
     }
 }
