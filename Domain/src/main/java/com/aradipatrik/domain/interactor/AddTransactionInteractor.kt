@@ -1,14 +1,13 @@
-package com.aradipatrik.domain.usecase
+package com.aradipatrik.domain.interactor
 
-import com.aradipatrik.domain.interactor.CompletableUseCase
+import com.aradipatrik.domain.usecase.CompletableUseCase
 import com.aradipatrik.domain.model.Transaction
-import com.aradipatrik.domain.repository.TransactionRepository
+import com.aradipatrik.domain.interfaces.TransactionRepository
 import io.reactivex.Completable
-import javax.inject.Inject
 
-class UpdateTransaction(
+class AddTransactionInteractor(
     private val transactionRepository: TransactionRepository
-) : CompletableUseCase<UpdateTransaction.Params> {
+): CompletableUseCase<AddTransactionInteractor.Params> {
     data class Params(val transaction: Transaction) {
         companion object {
             fun forTransaction(transaction: Transaction): Params = Params(transaction)
@@ -17,6 +16,6 @@ class UpdateTransaction(
 
     override fun get(params: Params?): Completable {
         require(params != null) { "${this::class.java.simpleName} params can't be null" }
-        return transactionRepository.update(params.transaction)
+        return transactionRepository.add(params.transaction)
     }
 }

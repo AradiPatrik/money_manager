@@ -4,10 +4,9 @@ import com.aradipatrik.data.mapper.JoinedTransactionMapper
 import com.aradipatrik.data.mapper.PartialTransactionMapper
 import com.aradipatrik.data.datasource.transaction.LocalTransactionDatastore
 import com.aradipatrik.domain.model.Transaction
-import com.aradipatrik.domain.repository.TransactionRepository
+import com.aradipatrik.domain.interfaces.TransactionRepository
 import io.reactivex.Completable
 import org.joda.time.Interval
-import javax.inject.Inject
 
 class TransactionRepositoryImpl(
     private val syncer: Syncer,

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-            android:title="History"
-            android:icon="@drawable/ic_history_white_24dp"
-            android:id="@+id/historyFragment"
-            app:showAsAction="ifRoom"/>
+        android:id="@+id/historyFragment"
+        android:icon="@drawable/ic_history_white_24dp"
+        android:title="History"
+        app:showAsAction="ifRoom" />
 
     <item
-            android:title="Diagrams"
-            android:icon="@drawable/ic_pie_chart_white_24dp"
-            android:id="@+id/diagramsFragment"
-            app:showAsAction="ifRoom"/>
+        android:id="@+id/diagramsFragment"
+        android:icon="@drawable/ic_pie_chart_white_24dp"
+        android:title="Diagrams"
+        app:showAsAction="ifRoom" />
 </menu>

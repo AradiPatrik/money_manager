@@ -1,4 +1,4 @@
-package com.aradipatrik.domain.interactor
+package com.aradipatrik.domain.usecase
 
 import io.reactivex.Completable
 

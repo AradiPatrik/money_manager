@@ -1,13 +1,12 @@
-package com.aradipatrik.domain.usecase
+package com.aradipatrik.domain.interactor
 
-import com.aradipatrik.domain.interactor.CompletableUseCase
-import com.aradipatrik.domain.repository.TransactionRepository
+import com.aradipatrik.domain.usecase.CompletableUseCase
+import com.aradipatrik.domain.interfaces.TransactionRepository
 import io.reactivex.Completable
-import javax.inject.Inject
 
-class DeleteTransaction(
+class DeleteTransactionInteractor(
     private val transactionRepository: TransactionRepository
-) : CompletableUseCase<DeleteTransaction.Params> {
+) : CompletableUseCase<DeleteTransactionInteractor.Params> {
     data class Params(val transactionId: String) {
         companion object {
             fun forTransaction(transactionId: String) = Params(transactionId)

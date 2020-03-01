@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:app="http://schemas.android.com/apk/res-auto">
+<resources>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Colors -->
@@ -8,18 +8,13 @@
         <item name="colorPrimaryVariant">@color/primaryLightColor</item>
         <item name="colorSecondary">@color/secondaryColor</item>
         <item name="colorSecondaryVariant">@color/secondaryLightColor</item>
+        <item name="colorOnSwatch">@color/colorOnSwatch</item>
 
         <!-- Material widgets -->
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetStyle</item>
     </style>
 
-    <style name="AppBottomSheetStyle" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
-<!--        <item name="android:windowIsFloating">false</item>-->
-<!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
-<!--        <item name="android:windowSoftInputMode">adjustResize</item>-->
-<!--        <item name="bottomSheetStyle">@style/AppBottomModalStyle</item>-->
-    </style>
-
+    <style name="AppBottomSheetStyle" parent="Theme.MaterialComponents.Light.BottomSheetDialog" />
     <style name="AppBottomModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/background_bottom_sheet</item>
     </style>

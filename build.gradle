@@ -6,10 +6,15 @@ buildscript {
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.2'
-        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath 'com.android.tools.build:gradle:4.1.0-alpha01'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.61"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.5.1"
     }
+}
+
+plugins {
+    id("io.gitlab.arturbosch.detekt").version("1.5.1")
 }
 
 apply from: 'dependencies.gradle'
@@ -22,14 +27,35 @@ allprojects {
         maven { url 'https://jitpack.io' }
         maven { url "https://maven.google.com" }
     }
+
+    apply plugin: 'io.gitlab.arturbosch.detekt'
+
+    detekt {
+        failFast = false
+        config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
+        baseline = file("${rootProject.projectDir}/config/baseline.xml")
+    }
+}
+
+task detektProjectBaseline(type: io.gitlab.arturbosch.detekt.DetektCreateBaselineTask) {
+    description = "Overrides current baseline."
+    ignoreFailures.set(true)
+    parallel.set(true)
+    buildUponDefaultConfig.set(true)
+    setSource(files(rootDir))
+    config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
+    baseline.set(file("$rootDir/config/detekt/baseline.xml"))
+    include("**/*.kt")
+    include("**/*.kts")
+    exclude("**/resources/**")
+    exclude("**/build/**")
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-subprojects {
-    tasks.withType(Test) {
-        maxParallelForks = Runtime.runtime.availableProcessors()
-    }
+tasks.withType(io.gitlab.arturbosch.detekt.Detekt) {
+    // Target version of the generated JVM bytecode. It is used for type resolution.
+    jvmTarget = "1.8"
 }

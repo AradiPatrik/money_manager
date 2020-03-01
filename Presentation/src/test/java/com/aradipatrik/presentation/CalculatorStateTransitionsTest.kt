@@ -2,8 +2,8 @@ package com.aradipatrik.presentation
 
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.airbnb.mvrx.withState
-import com.aradipatrik.domain.usecase.AddTransaction
-import com.aradipatrik.domain.usecase.GetCategories
+import com.aradipatrik.domain.interactor.AddTransactionInteractor
+import com.aradipatrik.domain.interactor.GetCategoriesInteractor
 import com.aradipatrik.presentation.mapper.CategoryPresentationMapper
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionState
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.*
@@ -34,12 +34,12 @@ class CalculatorStateTransitionsTest : KoinTest {
         single { (initialState: AddTransactionState) ->
             AddTransactionViewModel(initialState, get(), get(), get())
         }
-        single<AddTransaction> {
+        single<AddTransactionInteractor> {
             mockk {
-                every { get(any<AddTransaction.Params>()) } returns Completable.complete()
+                every { get(any<AddTransactionInteractor.Params>()) } returns Completable.complete()
             }
         }
-        single<GetCategories> {
+        single<GetCategoriesInteractor> {
             mockk {
                 every { get(any<Unit>()) } returns Observable.just(listOf(category()))
             }

@@ -5,7 +5,7 @@ import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.Uninitialized
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.airbnb.mvrx.withState
-import com.aradipatrik.domain.usecase.GetTransactionsInInterval
+import com.aradipatrik.domain.interactor.GetTransactionsInIntervalInteractor
 import com.aradipatrik.presentation.datahelpers.MockDataFactory.transactionPresentation
 import com.aradipatrik.presentation.mapper.CategoryPresentationMapper
 import com.aradipatrik.presentation.mapper.TransactionPresentationMapper
@@ -32,12 +32,12 @@ import strikt.assertions.*
 class TransactionHistoryViewModelTest : KoinTest {
 
     private val dashboardTestModule = module {
-        single<GetTransactionsInInterval> { mockk() }
+        single<GetTransactionsInIntervalInteractor> { mockk() }
         single { CategoryPresentationMapper() }
         single { TransactionPresentationMapper(get()) }
     }
 
-    private val mockGetTransactionsInInterval: GetTransactionsInInterval by inject()
+    private val mockGetTransactionsInIntervalInteractor: GetTransactionsInIntervalInteractor by inject()
 
     private val transactionMapper: TransactionPresentationMapper by inject()
 
@@ -75,13 +75,13 @@ class TransactionHistoryViewModelTest : KoinTest {
             TransactionHistoryState()
         val transaction = transaction()
         every {
-            mockGetTransactionsInInterval.get(
-                GetTransactionsInInterval.Params(initialState.selectedMonthAsInterval)
+            mockGetTransactionsInIntervalInteractor.get(
+                GetTransactionsInIntervalInteractor.Params(initialState.selectedMonthAsInterval)
             )
         } returns Observable.just(listOf(transaction))
         transactionHistoryViewModel =
             TransactionHistoryViewModel(
-                initialState, transactionMapper, mockGetTransactionsInInterval
+                initialState, transactionMapper, mockGetTransactionsInIntervalInteractor
             )
 
         // Act
@@ -105,12 +105,12 @@ class TransactionHistoryViewModelTest : KoinTest {
         val initialState =
             TransactionHistoryState()
         every {
-            mockGetTransactionsInInterval.get(any())
+            mockGetTransactionsInIntervalInteractor.get(any())
         } returns Observable.just(emptyList())
         every { mockDisposable.dispose() } just Runs
         transactionHistoryViewModel =
             TransactionHistoryViewModel(
-                initialState, transactionMapper, mockGetTransactionsInInterval
+                initialState, transactionMapper, mockGetTransactionsInIntervalInteractor
             )
         transactionHistoryViewModel.currentRequestDisposable = mockDisposable
 
@@ -128,13 +128,13 @@ class TransactionHistoryViewModelTest : KoinTest {
         val testTransactions = listOf(transaction())
         val testPresentations = testTransactions.map(transactionMapper::mapToPresentation)
         every {
-            mockGetTransactionsInInterval.get(any())
+            mockGetTransactionsInIntervalInteractor.get(any())
         } returns Observable.just(testTransactions)
         transactionHistoryViewModel =
             TransactionHistoryViewModel(
                 TransactionHistoryState(),
                 transactionMapper,
-                mockGetTransactionsInInterval
+                mockGetTransactionsInIntervalInteractor
             )
 
         // Act
@@ -152,11 +152,11 @@ class TransactionHistoryViewModelTest : KoinTest {
         val initialState =
             TransactionHistoryState()
         every {
-            mockGetTransactionsInInterval.get(any())
+            mockGetTransactionsInIntervalInteractor.get(any())
         } returns Observable.error(RuntimeException())
         transactionHistoryViewModel =
             TransactionHistoryViewModel(
-                initialState, transactionMapper, mockGetTransactionsInInterval
+                initialState, transactionMapper, mockGetTransactionsInIntervalInteractor
             )
 
         // Act
@@ -178,11 +178,11 @@ class TransactionHistoryViewModelTest : KoinTest {
                 transactionsOfSelectedMonth = initialTransactions
             )
         every {
-            mockGetTransactionsInInterval.get(any())
+            mockGetTransactionsInIntervalInteractor.get(any())
         } returns Observable.error(RuntimeException())
         transactionHistoryViewModel =
             TransactionHistoryViewModel(
-                initialState, transactionMapper, mockGetTransactionsInInterval
+                initialState, transactionMapper, mockGetTransactionsInIntervalInteractor
             )
 
         // Act
@@ -200,18 +200,18 @@ class TransactionHistoryViewModelTest : KoinTest {
         val initialState =
             TransactionHistoryState()
         every {
-            mockGetTransactionsInInterval.get(any())
+            mockGetTransactionsInIntervalInteractor.get(any())
         } returns Observable.just(emptyList())
 
         // Act
         transactionHistoryViewModel =
             TransactionHistoryViewModel(
-                initialState, transactionMapper, mockGetTransactionsInInterval
+                initialState, transactionMapper, mockGetTransactionsInIntervalInteractor
             )
 
         // Assert
         verify(exactly = 1) {
-            mockGetTransactionsInInterval.get(any())
+            mockGetTransactionsInIntervalInteractor.get(any())
         }
     }
 }

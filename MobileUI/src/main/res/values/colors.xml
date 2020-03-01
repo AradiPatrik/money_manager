@@ -12,4 +12,5 @@
     <color name="listSubtitle">@color/grey_500</color>
     <color name="listTitle">@color/grey_900</color>
     <color name="defaultForegroundColor">@color/grey_700</color>
+    <color name="colorOnSwatch">@color/grey_50</color>
 </resources>

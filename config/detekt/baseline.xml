@@ -1,0 +1,54 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <Blacklist></Blacklist>
+  <Whitelist>
+    <ID>LongParameterList:DataLayerMocks.kt$DataLayerMocks$( id: String = string(), category: CategoryEntity = categoryEntity(), amount: Int = int(), memo: String = string(), date: DateTime = date(), lastUpdateTimestamp: Long = long(), syncStatus: SyncStatus = SyncStatus.None )</ID>
+    <ID>LongParameterList:DataLayerMocks.kt$DataLayerMocks$( id: String = string(), categoryId: String = string(), amount: Int = int(), memo: String = string(), date: DateTime = date(), lastUpdateTimestamp: Long = long(), syncStatus: SyncStatus = SyncStatus.None )</ID>
+    <ID>LongParameterList:PresentationLayerMocks.kt$PresentationLayerMocks$( calculatorState: CalculatorState = SingleValue(int()), memo: String = string(), addTransactionRequest: Async&lt;Unit&gt; = Uninitialized, categoryList: List&lt;CategoryPresentation&gt; = emptyList(), categoryListRequest: Async&lt;List&lt;CategoryPresentation&gt;&gt; = Uninitialized, isExpense: Boolean = false, selectedCategory: CategoryPresentation? = null )</ID>
+    <ID>LongParameterList:TransactionRepositoryImplTest.kt$TransactionRepositoryImplTest$( partialMapperStub: () -&gt; Unit = { stubPartialMapper() }, joinedMapperStub: () -&gt; Unit = { stubJoinedMapper() }, syncerStub: () -&gt; Unit = { stubSyncer() }, localCrudStub: () -&gt; Unit = { MethodStubFactory.stubCrud(mockLocal) }, localTimestampedDataStoreStub: () -&gt; Unit = { MethodStubFactory.stubLocalTimestampedDataStore(mockLocal) }, remoteTimestampedDataStoreStub: () -&gt; Unit = { MethodStubFactory.stubRemoteTimestampedDataStore(mockRemote) } )</ID>
+    <ID>LongParameterList:TransactionRowFactory.kt$TransactionRowFactory$( uid: String = string(), updateTimestamp: Long = long(), memo: String = string(), amount: Int = int(), date: Long = long(), categoryId: String = string(), syncStatusCode: Int = SyncStatusConstants.SYNCED_CODE )</ID>
+    <ID>LongParameterList:ViewDataMocks.kt$ViewDataMocks$( memo: String = string(), categoryIconResId: Int = int(), amount: Int = int(), colorResId: Int = int(), categoryName: String = string(), presentationRef: TransactionPresentation = transactionPresentation() )</ID>
+    <ID>MagicNumber:DomainLayerMocks.kt$DomainLayerMocks$12</ID>
+    <ID>MagicNumber:DomainLayerMocks.kt$DomainLayerMocks$1900</ID>
+    <ID>MagicNumber:DomainLayerMocks.kt$DomainLayerMocks$24</ID>
+    <ID>MagicNumber:DomainLayerMocks.kt$DomainLayerMocks$2500</ID>
+    <ID>MagicNumber:DomainLayerMocks.kt$DomainLayerMocks$28</ID>
+    <ID>MagicNumber:DomainLayerMocks.kt$DomainLayerMocks$60</ID>
+    <ID>MagicNumber:FirestoreRemoteCategoryDatastore.kt$FirestoreRemoteCategoryDatastore$1000</ID>
+    <ID>MagicNumber:FirestoreRemoteTransactionDatastore.kt$FirestoreRemoteTransactionDatastore$1000</ID>
+    <ID>MaxLineLength:CalculatorStateTransitionsTest.kt$CalculatorStateTransitionsTest$@Test fun `Delete one on AddOperation with more then one digit rhs, should become AddOperation with an rhs with last digit removed`()</ID>
+    <ID>MaxLineLength:CalculatorStateTransitionsTest.kt$CalculatorStateTransitionsTest$@Test fun `Delete one on SubtractOperation with more then one digit rhs, should become SubtractOperation with an rhs with last digit removed`()</ID>
+    <ID>MaxLineLength:CalculatorStateTransitionsTest.kt$CalculatorStateTransitionsTest$@Test fun `Equals on SubtractOperation should transform calculator state into SingleValue, with value of the SubtractOperation`()</ID>
+    <ID>MaxLineLength:CategoryItemViewDataMapperTest.kt$CategoryItemViewDataMapperTest$@Test fun `CategoryItemViewDataMapper should map CategoryPresentation data correctly, and it should set selected to false`()</ID>
+    <ID>MaxLineLength:TransactionHistoryViewModelTest.kt$TransactionHistoryViewModelTest$@Test fun `fetchCurrentMonth should call getTransactionsInInterval use case with selectedMonthAsInterval, and return the result as success`()</ID>
+    <ID>NewLineAtEndOfFile:CalculatorViewDataMapperTest.kt$com.aradipatrik.yamm.mappers.CalculatorViewDataMapperTest.kt</ID>
+    <ID>NewLineAtEndOfFile:CategoryCrudTest.kt$com.aradipatrik.domain.test.CategoryCrudTest.kt</ID>
+    <ID>NewLineAtEndOfFile:CategoryDaoTest.kt$com.aradipatrik.datasource.test.CategoryDaoTest.kt</ID>
+    <ID>NewLineAtEndOfFile:CategoryItemViewDataMapperTest.kt$com.aradipatrik.yamm.mappers.CategoryItemViewDataMapperTest.kt</ID>
+    <ID>NewLineAtEndOfFile:CategoryPayloadFactory.kt$com.aradipatrik.remote.payloadfactory.CategoryPayloadFactory.kt</ID>
+    <ID>NewLineAtEndOfFile:CategoryPayloadFactoryTest.kt$com.aradipatrik.remote.test.CategoryPayloadFactoryTest.kt</ID>
+    <ID>NewLineAtEndOfFile:CategoryResponseConverter.kt$com.aradipatrik.remote.payloadfactory.CategoryResponseConverter.kt</ID>
+    <ID>NewLineAtEndOfFile:DomainLayerMocks.kt$com.aradipatrik.testing.DomainLayerMocks.kt</ID>
+    <ID>NewLineAtEndOfFile:FirestoreUtils.kt$com.aradipatrik.integration.firebase.utils.FirestoreUtils.kt</ID>
+    <ID>NewLineAtEndOfFile:FirestoreUtils.kt$com.aradipatrik.remote.utils.FirestoreUtils.kt</ID>
+    <ID>NewLineAtEndOfFile:IconMapperTest.kt$com.aradipatrik.yamm.mappers.IconMapperTest.kt</ID>
+    <ID>NewLineAtEndOfFile:MockDataFactory.kt$com.aradipatrik.presentation.datahelpers.MockDataFactory.kt</ID>
+    <ID>NewLineAtEndOfFile:Module.kt$com.aradipatrik.remote.Module.kt</ID>
+    <ID>NewLineAtEndOfFile:PartialTransactionMapperTest.kt$com.aradipatrik.data.test.mapper.PartialTransactionMapperTest.kt</ID>
+    <ID>NewLineAtEndOfFile:PresentationLayerMocks.kt$com.aradipatrik.yamm.util.PresentationLayerMocks.kt</ID>
+    <ID>NewLineAtEndOfFile:PresentationMappingTest.kt$com.aradipatrik.presentation.PresentationMappingTest.kt</ID>
+    <ID>NewLineAtEndOfFile:SignUpFlowTest.kt$com.aradipatrik.domain.test.SignUpFlowTest.kt</ID>
+    <ID>NewLineAtEndOfFile:TransactionDaoTest.kt$com.aradipatrik.datasource.test.TransactionDaoTest.kt</ID>
+    <ID>NewLineAtEndOfFile:TransactionHeaderViewDataTest.kt$com.aradipatrik.yamm.model.TransactionHeaderViewDataTest.kt</ID>
+    <ID>NewLineAtEndOfFile:TransactionHistoryStateTest.kt$com.aradipatrik.presentation.TransactionHistoryStateTest.kt</ID>
+    <ID>NewLineAtEndOfFile:TransactionItemViewDataMapperTest.kt$com.aradipatrik.yamm.mappers.TransactionItemViewDataMapperTest.kt</ID>
+    <ID>NewLineAtEndOfFile:TransactionPayloadFactory.kt$com.aradipatrik.remote.payloadfactory.TransactionPayloadFactory.kt</ID>
+    <ID>NewLineAtEndOfFile:TransactionRowFactory.kt$com.aradipatrik.datasource.test.TransactionRowFactory.kt</ID>
+    <ID>NewLineAtEndOfFile:ViewDataMocks.kt$com.aradipatrik.yamm.util.ViewDataMocks.kt</ID>
+    <ID>TooManyFunctions:AddTransactionViewModel.kt$AddTransactionViewModel$AddTransactionViewModel</ID>
+    <ID>TooManyFunctions:DomainLayerMocks.kt$DomainLayerMocks$DomainLayerMocks</ID>
+    <ID>WildcardImport:CategoryResponseConverter.kt$import com.aradipatrik.remote.*</ID>
+    <ID>WildcardImport:TransactionPayloadFactory.kt$import com.aradipatrik.remote.*</ID>
+    <ID>WildcardImport:TransactionResponseConverter.kt$import com.aradipatrik.remote.*</ID>
+  </Whitelist>
+</SmellBaseline>

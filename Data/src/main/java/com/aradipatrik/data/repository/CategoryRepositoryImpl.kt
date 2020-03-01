@@ -3,9 +3,8 @@ package com.aradipatrik.data.repository
 import com.aradipatrik.data.mapper.CategoryMapper
 import com.aradipatrik.data.datasource.category.LocalCategoryDatastore
 import com.aradipatrik.domain.model.Category
-import com.aradipatrik.domain.repository.CategoryRepository
+import com.aradipatrik.domain.interfaces.CategoryRepository
 import io.reactivex.Completable
-import javax.inject.Inject
 
 class CategoryRepositoryImpl(
     private val syncer: Syncer,

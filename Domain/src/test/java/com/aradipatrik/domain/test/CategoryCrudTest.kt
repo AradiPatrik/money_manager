@@ -1,8 +1,8 @@
 package com.aradipatrik.domain.test
 
 import com.aradipatrik.domain.model.Category
-import com.aradipatrik.domain.repository.CategoryRepository
-import com.aradipatrik.domain.usecase.GetCategories
+import com.aradipatrik.domain.interfaces.CategoryRepository
+import com.aradipatrik.domain.interactor.GetCategoriesInteractor
 import com.aradipatrik.testing.DomainLayerMocks.category
 import io.mockk.every
 import io.mockk.mockk
@@ -17,7 +17,7 @@ class CategoryCrudTest {
     @Test
     fun `Get categories should complete`() {
         stubGetAllCategories(listOf(category()))
-        GetCategories(categoryRepository).get()
+        GetCategoriesInteractor(categoryRepository).get()
             .test()
             .assertComplete()
     }
@@ -26,7 +26,7 @@ class CategoryCrudTest {
     fun `Get transaction in interval should use repository`() {
         val testCategories = listOf(category())
         stubGetAllCategories(testCategories)
-        val getCategories = GetCategories(categoryRepository)
+        val getCategories = GetCategoriesInteractor(categoryRepository)
         val categoriesObservable = getCategories.get().test()
         verify(exactly = 1) { categoryRepository.getAll() }
         categoriesObservable.assertValue(testCategories)

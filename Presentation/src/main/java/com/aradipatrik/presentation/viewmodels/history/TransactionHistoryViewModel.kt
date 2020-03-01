@@ -1,7 +1,11 @@
 package com.aradipatrik.presentation.viewmodels.history
 
-import com.airbnb.mvrx.*
-import com.aradipatrik.domain.usecase.GetTransactionsInInterval
+import com.airbnb.mvrx.Async
+import com.airbnb.mvrx.MvRxState
+import com.airbnb.mvrx.MvRxViewModelFactory
+import com.airbnb.mvrx.Uninitialized
+import com.airbnb.mvrx.ViewModelContext
+import com.aradipatrik.domain.interactor.GetTransactionsInIntervalInteractor
 import com.aradipatrik.presentation.common.MvRxViewModel
 import com.aradipatrik.presentation.mapper.TransactionPresentationMapper
 import com.aradipatrik.presentation.presentations.TransactionPresentation
@@ -27,7 +31,7 @@ data class TransactionHistoryState(
 class TransactionHistoryViewModel(
     initialState: TransactionHistoryState,
     private val transactionMapper: TransactionPresentationMapper,
-    private val getTransactionsInInterval: GetTransactionsInInterval
+    private val getTransactionsInIntervalInteractor: GetTransactionsInIntervalInteractor
 ) : MvRxViewModel<TransactionHistoryState>(initialState) {
     internal var currentRequestDisposable: Disposable = Disposables.empty()
 
@@ -36,7 +40,7 @@ class TransactionHistoryViewModel(
             viewModelContext: ViewModelContext,
             state: TransactionHistoryState
         ): TransactionHistoryViewModel? {
-            val useCase: GetTransactionsInInterval by viewModelContext.activity.inject()
+            val useCase: GetTransactionsInIntervalInteractor by viewModelContext.activity.inject()
             val mapper: TransactionPresentationMapper by viewModelContext.activity.inject()
             return TransactionHistoryViewModel(
                 state,
@@ -53,8 +57,8 @@ class TransactionHistoryViewModel(
 
     fun fetchCurrentMonth() = withState { state ->
         currentRequestDisposable.dispose()
-        currentRequestDisposable = getTransactionsInInterval.get(
-            GetTransactionsInInterval.Params(Interval(state.selectedMonthAsInterval))
+        currentRequestDisposable = getTransactionsInIntervalInteractor.get(
+            GetTransactionsInIntervalInteractor.Params(Interval(state.selectedMonthAsInterval))
         )
             .map { transactions -> transactions.map(transactionMapper::mapToPresentation) }
             .subscribeOn(Schedulers.io())

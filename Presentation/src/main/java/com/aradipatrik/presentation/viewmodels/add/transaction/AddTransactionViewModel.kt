@@ -1,16 +1,29 @@
 package com.aradipatrik.presentation.viewmodels.add.transaction
 
-import com.airbnb.mvrx.*
+import com.airbnb.mvrx.Async
+import com.airbnb.mvrx.MvRxState
+import com.airbnb.mvrx.MvRxViewModelFactory
+import com.airbnb.mvrx.Uninitialized
+import com.airbnb.mvrx.ViewModelContext
 import com.aradipatrik.domain.model.Transaction
-import com.aradipatrik.domain.usecase.AddTransaction
-import com.aradipatrik.domain.usecase.GetCategories
+import com.aradipatrik.domain.interactor.AddTransactionInteractor
+import com.aradipatrik.domain.interactor.GetCategoriesInteractor
 import com.aradipatrik.presentation.common.MvRxViewModel
 import com.aradipatrik.presentation.common.appendDigit
 import com.aradipatrik.presentation.common.withLastDigitRemoved
 import com.aradipatrik.presentation.mapper.CategoryPresentationMapper
 import com.aradipatrik.presentation.presentations.CategoryPresentation
-import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.*
-import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.*
+import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.ActionClick
+import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.DeleteOneClick
+import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.EqualsClick
+import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.MemoChange
+import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.MinusClick
+import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.NumberClick
+import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.PlusClick
+import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.PointClick
+import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.AddOperation
+import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.SingleValue
+import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.SubtractOperation
 import io.reactivex.schedulers.Schedulers
 import org.joda.time.DateTime
 import org.koin.android.ext.android.inject
@@ -52,8 +65,8 @@ data class AddTransactionState(
 
 class AddTransactionViewModel(
     initialState: AddTransactionState,
-    getCategories: GetCategories,
-    private val addTransaction: AddTransaction,
+    getCategoriesInteractor: GetCategoriesInteractor,
+    private val addTransactionInteractor: AddTransactionInteractor,
     private val mapper: CategoryPresentationMapper
 ) : MvRxViewModel<AddTransactionState>(initialState) {
     companion object : MvRxViewModelFactory<AddTransactionViewModel, AddTransactionState> {
@@ -61,18 +74,18 @@ class AddTransactionViewModel(
             viewModelContext: ViewModelContext,
             state: AddTransactionState
         ): AddTransactionViewModel? {
-            val addTransactionUseCase: AddTransaction by viewModelContext.activity.inject()
-            val getCategoriesUseCase: GetCategories by viewModelContext.activity.inject()
+            val addTransactionInteractorUseCase: AddTransactionInteractor by viewModelContext.activity.inject()
+            val getCategoriesInteractorUseCase: GetCategoriesInteractor by viewModelContext.activity.inject()
             val mapper: CategoryPresentationMapper by viewModelContext.activity.inject()
             return AddTransactionViewModel(
-                state, getCategoriesUseCase, addTransactionUseCase, mapper
+                state, getCategoriesInteractorUseCase, addTransactionInteractorUseCase, mapper
             )
         }
     }
 
     init {
         logStateChanges()
-        getCategories.get()
+        getCategoriesInteractor.get()
             .map { it.map(mapper::mapToPresentation) }
             .subscribeOn(Schedulers.io())
             .execute {
@@ -183,8 +196,8 @@ class AddTransactionViewModel(
     private fun addTransaction(state: AddTransactionState) {
         if (state.selectedCategory != null) {
             require(state.calculatorState is SingleValue)
-            addTransaction.get(
-                AddTransaction.Params.forTransaction(
+            addTransactionInteractor.get(
+                AddTransactionInteractor.Params.forTransaction(
                     Transaction(
                         id = "",
                         category = mapper.mapFromPresentation(state.selectedCategory),

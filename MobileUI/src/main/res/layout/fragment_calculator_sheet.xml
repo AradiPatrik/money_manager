@@ -72,16 +72,16 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:elevation="16dp"
-        tools:text="4500"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/category_icon_background_circle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/category_icon_background_circle" />
+        app:layout_constraintTop_toTopOf="@+id/category_icon_background_circle"
+        tools:text="4500" />
 
     <ImageView
         android:id="@+id/category_icon_background_circle"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
         android:elevation="16dp"
         android:src="@drawable/transaction_list_item_background"
         app:layout_constraintBottom_toBottomOf="@id/category_icon_image_view"
@@ -97,7 +97,8 @@
         android:layout_marginTop="20dp"
         android:elevation="16dp"
         android:foregroundGravity="center"
-        android:src="@drawable/category_icons_shopping_cart"
+        android:tint="?attr/colorOnSwatch"
+        app:srcCompat="@drawable/category_icons_shopping_cart"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/category_select_recycler_view" />
 
@@ -105,14 +106,14 @@
         android:id="@+id/memo_edit_Text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:elevation="16dp"
-        android:background="@null"
         android:layout_marginStart="16dp"
+        android:background="@null"
+        android:elevation="16dp"
         android:hint="@string/memo"
-        app:layout_constraintTop_toTopOf="@id/category_icon_background_circle"
         app:layout_constraintBottom_toBottomOf="@id/category_icon_background_circle"
+        app:layout_constraintEnd_toStartOf="@id/expression_display"
         app:layout_constraintStart_toEndOf="@id/category_icon_background_circle"
-        app:layout_constraintEnd_toStartOf="@id/expression_display"/>
+        app:layout_constraintTop_toTopOf="@id/category_icon_background_circle" />
 
     <View
         android:id="@+id/display_divider"

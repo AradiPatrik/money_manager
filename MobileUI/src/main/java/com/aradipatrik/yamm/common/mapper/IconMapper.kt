@@ -17,5 +17,4 @@ class IconMapper {
     }
 
     fun mapToResource(s: String) = mappings[s]!!
-
 }

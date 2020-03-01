@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="Data" target="1.8" />
+      <module name="Domain" target="1.8" />
+      <module name="Local" target="1.8" />
+      <module name="MobileUI" target="1.8" />
+      <module name="Presentation" target="1.7" />
+      <module name="Remote" target="1.8" />
+      <module name="SyncIntegration" target="1.8" />
+      <module name="TestingCommons" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

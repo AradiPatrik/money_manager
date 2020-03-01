@@ -22,5 +22,4 @@ class JoinedTransactionMapper(private val categoryMapper: CategoryMapper) {
         syncStatus = SyncStatus.None,
         updatedTimeStamp = TimestampProvider.now()
     )
-
 }

@@ -1,8 +1,11 @@
-<vector android:height="40dp" android:tint="@color/primaryColor"
-    android:viewportHeight="24.0" android:viewportWidth="24.0"
-    android:width="40dp" xmlns:android="http://schemas.android.com/apk/res/android">
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:tint="@color/primaryColor"
+    android:viewportWidth="24.0"
+    android:viewportHeight="24.0">
     <path
-            android:name="circle"
-            android:fillColor="@android:color/white"
-            android:pathData="M10,12m-10,0a10,10 0,1 1,24 0a10,10 0,1 1,-24 0" />
+        android:name="circle"
+        android:fillColor="@android:color/white"
+        android:pathData="M10,12m-10,0a10,10 0,1 1,24 0a10,10 0,1 1,-24 0" />
 </vector>

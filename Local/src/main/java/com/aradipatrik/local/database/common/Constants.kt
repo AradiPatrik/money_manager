@@ -1,8 +1,5 @@
 package com.aradipatrik.local.database.common
 
-import com.aradipatrik.data.mapper.SyncStatus
-import com.aradipatrik.data.mapper.SyncStatus.*
-
 object TransactionConstants {
     const val TABLE_NAME = "transactions"
     const val ID_COLUMN_NAME = "uid"

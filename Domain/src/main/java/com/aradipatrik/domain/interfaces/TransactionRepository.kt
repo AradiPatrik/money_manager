@@ -1,4 +1,4 @@
-package com.aradipatrik.domain.repository
+package com.aradipatrik.domain.interfaces
 
 import com.aradipatrik.domain.model.Transaction
 import io.reactivex.Completable

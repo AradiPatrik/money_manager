@@ -6,8 +6,8 @@ import com.airbnb.mvrx.Uninitialized
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.airbnb.mvrx.withState
 import com.aradipatrik.domain.model.Transaction
-import com.aradipatrik.domain.usecase.AddTransaction
-import com.aradipatrik.domain.usecase.GetCategories
+import com.aradipatrik.domain.interactor.AddTransactionInteractor
+import com.aradipatrik.domain.interactor.GetCategoriesInteractor
 import com.aradipatrik.presentation.mapper.CategoryPresentationMapper
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionState
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.ActionClick
@@ -37,13 +37,13 @@ import strikt.assertions.*
 
 class AddTransactionViewModelTest : KoinTest {
     private val addTransactionTestModule = module {
-        single<AddTransaction> { mockk() }
-        single<GetCategories> { mockk() }
+        single<AddTransactionInteractor> { mockk() }
+        single<GetCategoriesInteractor> { mockk() }
         single { CategoryPresentationMapper() }
     }
 
-    private val mockAddTransaction: AddTransaction by inject()
-    private val mockGetCategories: GetCategories by inject()
+    private val mockAddTransactionInteractor: AddTransactionInteractor by inject()
+    private val mockGetCategoriesInteractor: GetCategoriesInteractor by inject()
     private val categoryMapper: CategoryPresentationMapper by inject()
     private lateinit var addTransactionViewModel: AddTransactionViewModel
 
@@ -89,17 +89,17 @@ class AddTransactionViewModelTest : KoinTest {
         val testCategories = listOf(category())
         val initialState = AddTransactionState()
         every {
-            mockGetCategories.get(any())
+            mockGetCategoriesInteractor.get(any())
         } returns Observable.just(testCategories)
 
         // Act
         addTransactionViewModel = AddTransactionViewModel(
-            initialState, mockGetCategories, mockAddTransaction, categoryMapper
+            initialState, mockGetCategoriesInteractor, mockAddTransactionInteractor, categoryMapper
         )
 
         // Assert
         verify(exactly = 1) {
-            mockGetCategories.get(any())
+            mockGetCategoriesInteractor.get(any())
         }
         withState(addTransactionViewModel) { state ->
             expectThat(state.categoryListRequest).isA<Success<*>>()
@@ -115,17 +115,17 @@ class AddTransactionViewModelTest : KoinTest {
         // Arrange
         val initialState = AddTransactionState()
         every {
-            mockGetCategories.get(any())
+            mockGetCategoriesInteractor.get(any())
         } returns Observable.error(RuntimeException())
 
         // Act
         addTransactionViewModel = AddTransactionViewModel(
-            initialState, mockGetCategories, mockAddTransaction, categoryMapper
+            initialState, mockGetCategoriesInteractor, mockAddTransactionInteractor, categoryMapper
         )
 
         // Assert
         verify(exactly = 1) {
-            mockGetCategories.get(any())
+            mockGetCategoriesInteractor.get(any())
         }
         withState(addTransactionViewModel) { state ->
             expectThat(state.categoryListRequest).isA<Fail<*>>()
@@ -141,14 +141,14 @@ class AddTransactionViewModelTest : KoinTest {
         val calculatorState = initialState.calculatorState
         val testCategory = category()
         every {
-            mockGetCategories.get(any())
+            mockGetCategoriesInteractor.get(any())
         } returns Observable.just(listOf(testCategory))
         every {
-            mockAddTransaction.get(any())
+            mockAddTransactionInteractor.get(any())
         } returns Completable.complete()
         addTransactionViewModel =
             AddTransactionViewModel(
-                initialState, mockGetCategories, mockAddTransaction, categoryMapper
+                initialState, mockGetCategoriesInteractor, mockAddTransactionInteractor, categoryMapper
             )
 
         // Act
@@ -159,8 +159,8 @@ class AddTransactionViewModelTest : KoinTest {
         withState(addTransactionViewModel) { state ->
             expectThat(state.addTransactionRequest).isA<Success<*>>()
             verify {
-                mockAddTransaction.get(
-                    AddTransaction.Params.forTransaction(
+                mockAddTransactionInteractor.get(
+                    AddTransactionInteractor.Params.forTransaction(
                         Transaction(
                             "",
                             testCategory,
@@ -179,14 +179,14 @@ class AddTransactionViewModelTest : KoinTest {
         // Arrange
         val initialState = AddTransactionState()
         every {
-            mockGetCategories.get(any())
+            mockGetCategoriesInteractor.get(any())
         } returns Observable.just(listOf(category()))
         every {
-            mockAddTransaction.get(any())
+            mockAddTransactionInteractor.get(any())
         } returns Completable.error(RuntimeException())
         addTransactionViewModel =
             AddTransactionViewModel(
-                initialState, mockGetCategories, mockAddTransaction, categoryMapper
+                initialState, mockGetCategoriesInteractor, mockAddTransactionInteractor, categoryMapper
             )
 
         // Act
@@ -207,13 +207,13 @@ class AddTransactionViewModelTest : KoinTest {
             isExpense = false, selectedDate = testDate
         )
         every {
-            mockGetCategories.get(any())
+            mockGetCategoriesInteractor.get(any())
         } returns Observable.just(listOf(category()))
         every {
-            mockAddTransaction.get(any())
+            mockAddTransactionInteractor.get(any())
         } returns Completable.complete()
         addTransactionViewModel = AddTransactionViewModel(
-            initialState, mockGetCategories, mockAddTransaction, categoryMapper
+            initialState, mockGetCategoriesInteractor, mockAddTransactionInteractor, categoryMapper
         )
 
         // Act
@@ -235,10 +235,10 @@ class AddTransactionViewModelTest : KoinTest {
     fun `Memo change event should be reflected in state`() {
         val initialState = AddTransactionState()
         every {
-            mockGetCategories.get(any())
+            mockGetCategoriesInteractor.get(any())
         } returns Observable.just(listOf(category()))
         addTransactionViewModel = AddTransactionViewModel(
-            initialState, mockGetCategories, mockAddTransaction, categoryMapper
+            initialState, mockGetCategoriesInteractor, mockAddTransactionInteractor, categoryMapper
         )
 
         addTransactionViewModel.processEvent(MemoChange("memo"))

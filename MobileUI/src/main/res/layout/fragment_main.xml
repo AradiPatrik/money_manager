@@ -42,21 +42,20 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
-        style="@style/AppFloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_add_white_24dp"
         app:layout_anchor="@id/bottom_app_bar" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:elevation="16dp"
-        android:background="?attr/colorSurface"
+        android:id="@+id/calculator_sheet"
         android:name="com.aradipatrik.yamm.features.add.transaction.AddTransactionFragment"
-        app:behavior_hideable="true"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/calculator_sheet"
+        android:background="?attr/colorSurface"
+        android:elevation="16dp"
+        app:behavior_hideable="true"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         tools:layout="@layout/fragment_calculator_sheet" />
 
     <include
