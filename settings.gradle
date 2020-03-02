@@ -1,1 +1,3 @@
-include ':Data', ':Domain', ':Remote', ':Remote:Integration', ':Local', ':Presentation', ':TestingCommons', ':SyncIntegration', ':MobileUI'
+include ':Data', ':Domain', ':Remote', ':Remote:Integration',
+        ':Local', ':Presentation', ':TestingCommons', ':Authentication',
+        ':SyncIntegration', ':MobileUI', ':Authentication:Integration'

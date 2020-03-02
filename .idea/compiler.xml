@@ -2,6 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="Authentication" target="1.8" />
+      <module name="Authentication-Integration" target="1.8" />
       <module name="Data" target="1.8" />
       <module name="Domain" target="1.8" />
       <module name="Integration" target="1.8" />
@@ -9,6 +11,7 @@
       <module name="MobileUI" target="1.8" />
       <module name="Presentation" target="1.7" />
       <module name="Remote" target="1.8" />
+      <module name="Remote-Integration" target="1.8" />
       <module name="SyncIntegration" target="1.8" />
       <module name="TestingCommons" target="1.8" />
     </bytecodeTargetLevel>

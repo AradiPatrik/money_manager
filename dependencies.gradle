@@ -45,6 +45,21 @@ ext {
     striktVersion = '0.23.4'
     robolectricVersion = '4.3.1'
 
+    authenticationDependencies = [
+            rxJava      : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxKotlin    : "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
+            kotlinStdLib: "org.jetbrains.kotlin:kotlin-stdlib-jdk8",
+            koinCore    : "org.koin:koin-core:${koinVersion}",
+            firebaseAuth: "com.google.firebase:firebase-auth:${firebaseAuthVersion}"
+    ]
+
+    authenticationTestDependencies = [
+            junit      : "junit:junit:${junitVersion}",
+            strikt     : "io.strikt:strikt-core:${striktVersion}",
+            mockk      : "io.mockk:mockk:${mockkVersion}",
+            koinTesting: "org.koin:koin-test:$koinVersion"
+    ]
+
     domainDependencies = [
             rxJava         : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
             rxKotlin       : "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
@@ -86,7 +101,6 @@ ext {
             javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             firestore      : "com.google.firebase:firebase-firestore:${firestoreVersion}",
             firestoreKtx   : "com.google.firebase:firebase-firestore-ktx:${firestoreVersion}",
-            firebaseAuth   : "com.google.firebase:firebase-auth:${firebaseAuthVersion}",
             jodaTime       : "joda-time:joda-time:${jodaTimeVersion}",
             kotlinStdLib   : "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     ]

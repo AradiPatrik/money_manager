@@ -8,3 +8,5 @@ data class Transaction(val id: String, val category: Category, val amount: Int, 
 data class Category(val id: String, val name: String, val iconId: String)
 
 data class UserCredentials(val email: String, val password: String)
+
+data class User(val id: String)

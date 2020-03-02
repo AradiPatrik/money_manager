@@ -31,30 +31,21 @@ android {
 }
 
 dependencies {
-    def moduleDependencies = rootProject.ext.remoteDependencies
-    def moduleTestDependencies = rootProject.ext.remoteTestDependencies
+    def moduleDependencies = rootProject.ext.authenticationDependencies
+    def moduleTestDependencies = rootProject.ext.authenticationTestDependencies
 
     implementation project(":Domain")
-    implementation project(":Data")
-    implementation project(":Remote")
-    testImplementation project(":TestingCommons")
-    androidTestImplementation project(":TestingCommons")
 
-    implementation moduleDependencies.javaxInject
     implementation moduleDependencies.rxJava
     implementation moduleDependencies.rxKotlin
     implementation moduleDependencies.kotlinStdLib
-    implementation moduleDependencies.firestore
-    implementation moduleDependencies.firestoreKtx
-    implementation moduleDependencies.jodaTime
-    implementation moduleDependencies.koinAndroid
+    implementation moduleDependencies.koinCore
+    implementation moduleDependencies.firebaseAuth
 
-    androidTestImplementation moduleTestDependencies.espressoCore
-    androidTestImplementation moduleTestDependencies.junitExt
-    androidTestImplementation moduleTestDependencies.androidxTestRunner
-    androidTestImplementation moduleTestDependencies.junit
-    androidTestImplementation moduleTestDependencies.mockk
-    androidTestImplementation moduleTestDependencies.strikt
+    testImplementation moduleTestDependencies.junit
+    testImplementation moduleTestDependencies.strikt
+    testImplementation moduleTestDependencies.mockk
+    testImplementation moduleTestDependencies.koinTesting
 }
 
 apply plugin: 'com.google.gms.google-services'

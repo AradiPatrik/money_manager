@@ -13,5 +13,5 @@ val domainModule = module {
     factory { AddTransactionInteractor(get()) }
     factory { UpdateTransactionInteractor(get()) }
     factory { DeleteTransactionInteractor(get()) }
-    factory { GetCategoriesInteractor(get()) }
+    factory { GetCategoriesInteractor(get(), get()) }
 }
