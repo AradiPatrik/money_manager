@@ -1,32 +1,32 @@
-buildscript {
-    repositories {
-        google()
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.google.gms:google-services:4.3.2'
-    }
-}
-
-apply plugin: "com.android.library"
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-
+apply plugin: 'kotlin-android-extensions'
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        testInstrumentationRunner rootProject.ext.testInstrumentationRunner
+        minSdkVersion 24
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
     compileOptions {
-        sourceCompatibility = rootProject.ext.sourceCompatibility
-        targetCompatibility = rootProject.ext.targetCompatibility
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
-
     kotlinOptions {
-        jvmTarget = rootProject.ext.targetCompatibility.toString()
+        jvmTarget = '1.8'
     }
 }
 
@@ -36,6 +36,7 @@ dependencies {
 
     implementation project(":Domain")
     implementation project(":Data")
+    implementation project(":Remote")
     testImplementation project(":TestingCommons")
     androidTestImplementation project(":TestingCommons")
 
@@ -48,10 +49,6 @@ dependencies {
     implementation moduleDependencies.jodaTime
     implementation moduleDependencies.koinAndroid
 
-    testImplementation moduleTestDependencies.junit
-    testImplementation moduleTestDependencies.mockk
-    testImplementation moduleTestDependencies.strikt
-
     androidTestImplementation moduleTestDependencies.espressoCore
     androidTestImplementation moduleTestDependencies.junitExt
     androidTestImplementation moduleTestDependencies.androidxTestRunner
@@ -59,3 +56,5 @@ dependencies {
     androidTestImplementation moduleTestDependencies.mockk
     androidTestImplementation moduleTestDependencies.strikt
 }
+
+apply plugin: 'com.google.gms.google-services'

@@ -9,7 +9,6 @@ import com.aradipatrik.remote.payloadfactory.CategoryPayloadFactory
 import com.aradipatrik.remote.payloadfactory.CategoryResponseConverter
 import com.aradipatrik.remote.utils.delete
 import com.google.firebase.Timestamp
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.WriteBatch
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -24,8 +23,8 @@ class FirestoreRemoteCategoryDatastore(
     private val categoryResponseConverter: CategoryResponseConverter
 ) : RemoteCategoryDatastore {
     companion object {
-        internal const val USERS_COLLECTION_KEY = "users"
-        internal const val CATEGORIES_COLLECTION_KEY = "categories"
+        const val USERS_COLLECTION_KEY = "users"
+        const val CATEGORIES_COLLECTION_KEY = "categories"
     }
 
 
@@ -63,7 +62,6 @@ class FirestoreRemoteCategoryDatastore(
 
     private fun WriteBatch.doAdd(items: List<CategoryEntity>) {
         items.forEach { category ->
-            FirebaseAuth.getInstance().signInWithEmailAndPassword("", "")
             set(
                 categoriesCollection.document(),
                 categoryPayloadFactory.createPayloadFrom(category)

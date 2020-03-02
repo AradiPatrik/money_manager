@@ -1,6 +1,7 @@
 package com.aradipatrik.integration
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.CategoryEntity
 import com.aradipatrik.integration.firebase.utils.FirestoreUtils
@@ -10,6 +11,7 @@ import com.aradipatrik.remote.data.FirestoreRemoteCategoryDatastore.Companion.US
 import com.aradipatrik.remote.payloadfactory.CategoryPayloadFactory
 import com.aradipatrik.remote.payloadfactory.CategoryResponseConverter
 import com.aradipatrik.testing.DataLayerMocks.categoryEntity
+import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -28,11 +30,11 @@ class FirestoreRemoteCategoryDatastoreTest {
         private const val TIMESTAMP_TOLERANCE = 10
     }
 
-    private val testUserDocument = Firebase.firestore
+    private val testUserDocument get() = Firebase.firestore
         .collection(USERS_COLLECTION_KEY)
         .document(TEST_USER_DOCUMENT_KEY)
 
-    private val categoriesCollection = testUserDocument.collection(CATEGORIES_COLLECTION_KEY)
+    private val categoriesCollection get() = testUserDocument.collection(CATEGORIES_COLLECTION_KEY)
 
 
     private val payloadFactory = CategoryPayloadFactory()
@@ -44,6 +46,7 @@ class FirestoreRemoteCategoryDatastoreTest {
 
     @Before
     fun setup() {
+        FirebaseApp.initializeApp(InstrumentationRegistry.getInstrumentation().context)
         categoriesCollection.delete()
     }
 

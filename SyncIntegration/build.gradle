@@ -53,3 +53,5 @@ dependencies {
     }
     androidTestImplementation moduleTestDependencies.strikt
 }
+
+apply plugin: 'com.google.gms.google-services'

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "829179854933",
+    "firebase_url": "https://yamm-3f458.firebaseio.com",
+    "project_id": "yamm-3f458",
+    "storage_bucket": "yamm-3f458.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:829179854933:android:4a2b05ba00fc27559c54dc",
+        "android_client_info": {
+          "package_name": "com.aradipatrik.syncintegration"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "829179854933-o5t7prkhgo525r6um1fglvs8irr0uleb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aradipatrik.syncintegration",
+            "certificate_hash": "a2f66e9fb6cc43f8de6779ff6e66798a50a0e6bf"
+          }
+        },
+        {
+          "client_id": "829179854933-vqurtkcik5o82i6vpdo76hp77vnroq21.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqwGAlfTi8sGkV8CdlJeuxWKWytUMekDY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "829179854933-vqurtkcik5o82i6vpdo76hp77vnroq21.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

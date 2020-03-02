@@ -78,3 +78,5 @@ dependencies {
     testImplementation moduleTestDependencies.androidxTestRunner
     testImplementation moduleTestDependencies.koinTesting
 }
+
+apply plugin: 'com.google.gms.google-services'

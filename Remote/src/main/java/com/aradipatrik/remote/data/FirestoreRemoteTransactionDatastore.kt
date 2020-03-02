@@ -24,8 +24,8 @@ class FirestoreRemoteTransactionDatastore(
     private val transactionResponseConverter: TransactionResponseConverter
 ) : RemoteTransactionDatastore {
     companion object {
-        internal const val USERS_COLLECTION_KEY = "users"
-        internal const val TRANSACTIONS_COLLECTION_KEY = "transaction"
+        const val USERS_COLLECTION_KEY = "users"
+        const val TRANSACTIONS_COLLECTION_KEY = "transaction"
     }
 
     private val transactionCollection = Firebase.firestore.collection(USERS_COLLECTION_KEY)

@@ -4,6 +4,7 @@
     <bytecodeTargetLevel>
       <module name="Data" target="1.8" />
       <module name="Domain" target="1.8" />
+      <module name="Integration" target="1.8" />
       <module name="Local" target="1.8" />
       <module name="MobileUI" target="1.8" />
       <module name="Presentation" target="1.7" />
