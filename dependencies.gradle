@@ -25,6 +25,8 @@ ext {
     koinVersion = '2.0.1'
     retrofitVersion = '2.7.0'
     firestoreVersion = '21.3.1'
+    firebaseAuthVersion = '19.2.0'
+    firebaseAuthUiVersion = '6.2.0'
     roomVersion = '2.2.3'
     appcompatVersion = "1.1.0"
     coreKtxVersion = "1.1.0"
@@ -54,9 +56,10 @@ ext {
     ]
 
     domainTestDependencies = [
-            junit : "junit:junit:${junitVersion}",
-            strikt: "io.strikt:strikt-core:${striktVersion}",
-            mockk : "io.mockk:mockk:${mockkVersion}"
+            junit      : "junit:junit:${junitVersion}",
+            strikt     : "io.strikt:strikt-core:${striktVersion}",
+            mockk      : "io.mockk:mockk:${mockkVersion}",
+            koinTesting: "org.koin:koin-test:$koinVersion"
     ]
 
     dataDependencies = [
@@ -83,6 +86,7 @@ ext {
             javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             firestore      : "com.google.firebase:firebase-firestore:${firestoreVersion}",
             firestoreKtx   : "com.google.firebase:firebase-firestore-ktx:${firestoreVersion}",
+            firebaseAuth   : "com.google.firebase:firebase-auth:${firebaseAuthVersion}",
             jodaTime       : "joda-time:joda-time:${jodaTimeVersion}",
             kotlinStdLib   : "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     ]

@@ -4,12 +4,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.TransactionPartialEntity
 import com.aradipatrik.integration.firebase.utils.FirestoreUtils
-import com.aradipatrik.remote.FirestoreRemoteTransactionDatastore
-import com.aradipatrik.remote.FirestoreRemoteTransactionDatastore.Companion.TRANSACTIONS_COLLECTION_KEY
-import com.aradipatrik.remote.FirestoreRemoteTransactionDatastore.Companion.USERS_COLLECTION_KEY
+import com.aradipatrik.remote.data.FirestoreRemoteTransactionDatastore
+import com.aradipatrik.remote.data.FirestoreRemoteTransactionDatastore.Companion.TRANSACTIONS_COLLECTION_KEY
+import com.aradipatrik.remote.data.FirestoreRemoteTransactionDatastore.Companion.USERS_COLLECTION_KEY
 import com.aradipatrik.remote.payloadfactory.TransactionPayloadFactory
 import com.aradipatrik.remote.payloadfactory.TransactionResponseConverter
-import com.aradipatrik.testing.DataLayerMocks
 import com.aradipatrik.testing.DataLayerMocks.partialTransactionEntity
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
@@ -37,9 +36,10 @@ class FirestoreRemoteTransactionDatastoreTest {
 
     private val payloadFactory = TransactionPayloadFactory()
     private val responseConverter = TransactionResponseConverter()
-    private val datastore = FirestoreRemoteTransactionDatastore(
-        TEST_USER_DOCUMENT_KEY, payloadFactory, responseConverter
-    )
+    private val datastore =
+        FirestoreRemoteTransactionDatastore(
+            TEST_USER_DOCUMENT_KEY, payloadFactory, responseConverter
+        )
 
     @Before
     fun setup() {

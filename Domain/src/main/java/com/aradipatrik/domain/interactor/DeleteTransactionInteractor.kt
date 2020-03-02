@@ -1,7 +1,7 @@
 package com.aradipatrik.domain.interactor
 
 import com.aradipatrik.domain.usecase.CompletableUseCase
-import com.aradipatrik.domain.interfaces.TransactionRepository
+import com.aradipatrik.domain.interfaces.data.TransactionRepository
 import io.reactivex.Completable
 
 class DeleteTransactionInteractor(

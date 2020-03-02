@@ -9,7 +9,7 @@ import com.aradipatrik.data.datasource.category.RemoteCategoryDatastore
 import com.aradipatrik.testing.DataLayerMocks.categoryEntity
 import com.aradipatrik.data.test.common.MethodStubFactory
 import com.aradipatrik.domain.model.Category
-import com.aradipatrik.domain.interfaces.CategoryRepository
+import com.aradipatrik.domain.interfaces.data.CategoryRepository
 import com.aradipatrik.testing.DomainLayerMocks.category
 import com.aradipatrik.testing.DomainLayerMocks.string
 import io.mockk.*

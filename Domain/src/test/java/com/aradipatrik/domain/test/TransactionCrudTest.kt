@@ -1,7 +1,7 @@
 package com.aradipatrik.domain.test
 
 import com.aradipatrik.domain.model.Transaction
-import com.aradipatrik.domain.interfaces.TransactionRepository
+import com.aradipatrik.domain.interfaces.data.TransactionRepository
 import com.aradipatrik.domain.interactor.AddTransactionInteractor
 import com.aradipatrik.domain.interactor.DeleteTransactionInteractor
 import com.aradipatrik.domain.interactor.GetTransactionsInIntervalInteractor

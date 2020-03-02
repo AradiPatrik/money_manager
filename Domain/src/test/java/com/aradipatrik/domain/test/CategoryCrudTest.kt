@@ -1,7 +1,7 @@
 package com.aradipatrik.domain.test
 
 import com.aradipatrik.domain.model.Category
-import com.aradipatrik.domain.interfaces.CategoryRepository
+import com.aradipatrik.domain.interfaces.data.CategoryRepository
 import com.aradipatrik.domain.interactor.GetCategoriesInteractor
 import com.aradipatrik.testing.DomainLayerMocks.category
 import io.mockk.every

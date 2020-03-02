@@ -1,18 +1,21 @@
-package com.aradipatrik.remote
+package com.aradipatrik.remote.data
 
 import com.aradipatrik.data.datasource.category.RemoteCategoryDatastore
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.CategoryEntity
+import com.aradipatrik.remote.TEST_USER_ID
+import com.aradipatrik.remote.UPDATED_TIMESTAMP_KEY
 import com.aradipatrik.remote.payloadfactory.CategoryPayloadFactory
 import com.aradipatrik.remote.payloadfactory.CategoryResponseConverter
 import com.aradipatrik.remote.utils.delete
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.WriteBatch
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.app
 import io.reactivex.Completable
 import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 import org.joda.time.DateTime
 
 class FirestoreRemoteCategoryDatastore(
@@ -60,6 +63,7 @@ class FirestoreRemoteCategoryDatastore(
 
     private fun WriteBatch.doAdd(items: List<CategoryEntity>) {
         items.forEach { category ->
+            FirebaseAuth.getInstance().signInWithEmailAndPassword("", "")
             set(
                 categoriesCollection.document(),
                 categoryPayloadFactory.createPayloadFrom(category)
@@ -80,29 +84,26 @@ class FirestoreRemoteCategoryDatastore(
         time: Long,
         backtrackSeconds: Long
     ): Single<List<CategoryEntity>> =
-        Single.defer {
-            Single.create<List<CategoryEntity>> { emitter ->
-                categoriesCollection.whereGreaterThan(
-                    UPDATED_TIMESTAMP_KEY, Timestamp(
-                        DateTime(time - backtrackSeconds * 1000).toDate()
-                    )
-                ).get()
-                    .addOnSuccessListener { querySnapshot ->
-                        emitter.onSuccess(
-                            querySnapshot.documents.map(
-                                categoryResponseConverter::mapResponseToEntity
-                            )
+        Single.create<List<CategoryEntity>> { emitter ->
+            categoriesCollection.whereGreaterThan(
+                UPDATED_TIMESTAMP_KEY, Timestamp(
+                    DateTime(time - backtrackSeconds * 1000).toDate()
+                )
+            ).get()
+                .addOnSuccessListener { querySnapshot ->
+                    emitter.onSuccess(
+                        querySnapshot.documents.map(
+                            categoryResponseConverter::mapResponseToEntity
                         )
-                    }
-                    .addOnFailureListener { cause ->
-                        emitter.onError(cause)
-                    }
-                    .addOnCanceledListener {
-                        emitter.onError(CanceledException)
-                    }
-            }
+                    )
+                }
+                .addOnFailureListener { cause ->
+                    emitter.onError(cause)
+                }
+                .addOnCanceledListener {
+                    emitter.onError(CanceledException)
+                }
         }
-
 
     /**
      * This is just here for testing, don't use in production

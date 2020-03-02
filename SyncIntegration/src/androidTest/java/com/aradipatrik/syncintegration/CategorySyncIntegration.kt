@@ -13,8 +13,8 @@ import com.aradipatrik.local.database.RoomLocalTransactionDatastore
 import com.aradipatrik.local.database.TransactionDatabase
 import com.aradipatrik.local.database.mapper.CategoryRowMapper
 import com.aradipatrik.local.database.mapper.TransactionRowMapper
-import com.aradipatrik.remote.FirestoreRemoteCategoryDatastore
-import com.aradipatrik.remote.FirestoreRemoteTransactionDatastore
+import com.aradipatrik.remote.data.FirestoreRemoteCategoryDatastore
+import com.aradipatrik.remote.data.FirestoreRemoteTransactionDatastore
 import com.aradipatrik.remote.TEST_USER_ID
 import com.aradipatrik.remote.payloadfactory.CategoryPayloadFactory
 import com.aradipatrik.remote.payloadfactory.CategoryResponseConverter
@@ -43,13 +43,15 @@ class CategorySyncIntegration {
     private val transactionPayloadFactory = TransactionPayloadFactory()
     private val transactionResponseConverter = TransactionResponseConverter()
 
-    private val remoteTransactionDatastore = FirestoreRemoteTransactionDatastore(
-        TEST_USER_ID, transactionPayloadFactory, transactionResponseConverter
-    )
+    private val remoteTransactionDatastore =
+        FirestoreRemoteTransactionDatastore(
+            TEST_USER_ID, transactionPayloadFactory, transactionResponseConverter
+        )
 
-    private val remoteCategoryDatastore = FirestoreRemoteCategoryDatastore(
-        TEST_USER_ID, categoryPayloadFactory, categoryResponseConverter
-    )
+    private val remoteCategoryDatastore =
+        FirestoreRemoteCategoryDatastore(
+            TEST_USER_ID, categoryPayloadFactory, categoryResponseConverter
+        )
 
     private val database = Room.inMemoryDatabaseBuilder(
         InstrumentationRegistry.getInstrumentation().context,

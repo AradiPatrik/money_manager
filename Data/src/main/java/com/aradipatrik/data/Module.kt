@@ -6,8 +6,8 @@ import com.aradipatrik.data.mapper.PartialTransactionMapper
 import com.aradipatrik.data.repository.CategoryRepositoryImpl
 import com.aradipatrik.data.repository.Syncer
 import com.aradipatrik.data.repository.TransactionRepositoryImpl
-import com.aradipatrik.domain.interfaces.CategoryRepository
-import com.aradipatrik.domain.interfaces.TransactionRepository
+import com.aradipatrik.domain.interfaces.data.CategoryRepository
+import com.aradipatrik.domain.interfaces.data.TransactionRepository
 import org.koin.dsl.module
 
 val dataModule = module {

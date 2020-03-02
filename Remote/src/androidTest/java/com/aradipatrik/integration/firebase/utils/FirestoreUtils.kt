@@ -1,8 +1,8 @@
 package com.aradipatrik.integration.firebase.utils
 
-import com.aradipatrik.remote.FirestoreRemoteCategoryDatastore.Companion.CATEGORIES_COLLECTION_KEY
-import com.aradipatrik.remote.FirestoreRemoteTransactionDatastore.Companion.TRANSACTIONS_COLLECTION_KEY
-import com.aradipatrik.remote.FirestoreRemoteTransactionDatastore.Companion.USERS_COLLECTION_KEY
+import com.aradipatrik.remote.data.FirestoreRemoteCategoryDatastore.Companion.CATEGORIES_COLLECTION_KEY
+import com.aradipatrik.remote.data.FirestoreRemoteTransactionDatastore.Companion.TRANSACTIONS_COLLECTION_KEY
+import com.aradipatrik.remote.data.FirestoreRemoteTransactionDatastore.Companion.USERS_COLLECTION_KEY
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase

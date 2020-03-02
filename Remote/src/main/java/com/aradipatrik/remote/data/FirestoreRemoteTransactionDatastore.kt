@@ -1,8 +1,10 @@
-package com.aradipatrik.remote
+package com.aradipatrik.remote.data
 
 import com.aradipatrik.data.datasource.transaction.RemoteTransactionDatastore
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.TransactionPartialEntity
+import com.aradipatrik.remote.TEST_USER_ID
+import com.aradipatrik.remote.UPDATED_TIMESTAMP_KEY
 import com.aradipatrik.remote.payloadfactory.TransactionPayloadFactory
 import com.aradipatrik.remote.payloadfactory.TransactionResponseConverter
 import com.aradipatrik.remote.utils.delete
@@ -12,7 +14,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import io.reactivex.Completable
 import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 import org.joda.time.DateTime
 
 object CanceledException : Exception()
@@ -81,27 +82,25 @@ class FirestoreRemoteTransactionDatastore(
         time: Long,
         backtrackSeconds: Long
     ): Single<List<TransactionPartialEntity>> =
-        Single.defer {
-            Single.create<List<TransactionPartialEntity>> { emitter ->
-                transactionCollection.whereGreaterThan(
-                    UPDATED_TIMESTAMP_KEY, Timestamp(
-                        DateTime(time - backtrackSeconds * 1000).toDate()
-                    )
-                ).get()
-                    .addOnSuccessListener { querySnapshot ->
-                        emitter.onSuccess(
-                            querySnapshot.documents.map(
-                                transactionResponseConverter::mapResponseToEntity
-                            )
+        Single.create<List<TransactionPartialEntity>> { emitter ->
+            transactionCollection.whereGreaterThan(
+                UPDATED_TIMESTAMP_KEY, Timestamp(
+                    DateTime(time - backtrackSeconds * 1000).toDate()
+                )
+            ).get()
+                .addOnSuccessListener { querySnapshot ->
+                    emitter.onSuccess(
+                        querySnapshot.documents.map(
+                            transactionResponseConverter::mapResponseToEntity
                         )
-                    }
-                    .addOnFailureListener { cause ->
-                        emitter.onError(cause)
-                    }
-                    .addOnCanceledListener {
-                        emitter.onError(CanceledException)
-                    }
-            }
+                    )
+                }
+                .addOnFailureListener { cause ->
+                    emitter.onError(cause)
+                }
+                .addOnCanceledListener {
+                    emitter.onError(CanceledException)
+                }
         }
 
     /**

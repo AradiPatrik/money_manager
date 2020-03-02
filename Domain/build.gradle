@@ -19,6 +19,7 @@ dependencies {
     testImplementation moduleTestDependencies.junit
     testImplementation moduleTestDependencies.mockk
     testImplementation moduleTestDependencies.strikt
+    testImplementation moduleTestDependencies.koinTesting
 }
 
 compileKotlin {

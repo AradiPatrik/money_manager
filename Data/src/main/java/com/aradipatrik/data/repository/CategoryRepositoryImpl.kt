@@ -3,7 +3,7 @@ package com.aradipatrik.data.repository
 import com.aradipatrik.data.mapper.CategoryMapper
 import com.aradipatrik.data.datasource.category.LocalCategoryDatastore
 import com.aradipatrik.domain.model.Category
-import com.aradipatrik.domain.interfaces.CategoryRepository
+import com.aradipatrik.domain.interfaces.data.CategoryRepository
 import io.reactivex.Completable
 
 class CategoryRepositoryImpl(

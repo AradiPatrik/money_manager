@@ -4,9 +4,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.CategoryEntity
 import com.aradipatrik.integration.firebase.utils.FirestoreUtils
-import com.aradipatrik.remote.FirestoreRemoteCategoryDatastore
-import com.aradipatrik.remote.FirestoreRemoteCategoryDatastore.Companion.CATEGORIES_COLLECTION_KEY
-import com.aradipatrik.remote.FirestoreRemoteCategoryDatastore.Companion.USERS_COLLECTION_KEY
+import com.aradipatrik.remote.data.FirestoreRemoteCategoryDatastore
+import com.aradipatrik.remote.data.FirestoreRemoteCategoryDatastore.Companion.CATEGORIES_COLLECTION_KEY
+import com.aradipatrik.remote.data.FirestoreRemoteCategoryDatastore.Companion.USERS_COLLECTION_KEY
 import com.aradipatrik.remote.payloadfactory.CategoryPayloadFactory
 import com.aradipatrik.remote.payloadfactory.CategoryResponseConverter
 import com.aradipatrik.testing.DataLayerMocks.categoryEntity
@@ -37,9 +37,10 @@ class FirestoreRemoteCategoryDatastoreTest {
 
     private val payloadFactory = CategoryPayloadFactory()
     private val responseConverter = CategoryResponseConverter()
-    private val datastore = FirestoreRemoteCategoryDatastore(
-        TEST_USER_DOCUMENT_KEY, payloadFactory, responseConverter
-    )
+    private val datastore =
+        FirestoreRemoteCategoryDatastore(
+            TEST_USER_DOCUMENT_KEY, payloadFactory, responseConverter
+        )
 
     @Before
     fun setup() {

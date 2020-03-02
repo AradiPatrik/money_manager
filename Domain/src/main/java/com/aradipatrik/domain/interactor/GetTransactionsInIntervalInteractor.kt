@@ -2,7 +2,7 @@ package com.aradipatrik.domain.interactor
 
 import com.aradipatrik.domain.usecase.ObservableUseCase
 import com.aradipatrik.domain.model.Transaction
-import com.aradipatrik.domain.interfaces.TransactionRepository
+import com.aradipatrik.domain.interfaces.data.TransactionRepository
 import io.reactivex.Observable
 import org.joda.time.Interval
 
