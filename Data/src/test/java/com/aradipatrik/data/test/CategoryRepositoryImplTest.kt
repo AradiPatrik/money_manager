@@ -4,8 +4,8 @@ import com.aradipatrik.data.mapper.CategoryMapper
 import com.aradipatrik.data.model.CategoryEntity
 import com.aradipatrik.data.repository.CategoryRepositoryImpl
 import com.aradipatrik.data.repository.Syncer
-import com.aradipatrik.data.datasource.category.LocalCategoryDatastore
-import com.aradipatrik.data.datasource.category.RemoteCategoryDatastore
+import com.aradipatrik.data.datastore.category.LocalCategoryDatastore
+import com.aradipatrik.data.datastore.category.RemoteCategoryDatastore
 import com.aradipatrik.testing.DataLayerMocks.categoryEntity
 import com.aradipatrik.data.test.common.MethodStubFactory
 import com.aradipatrik.domain.model.Category
@@ -48,11 +48,7 @@ class CategoryRepositoryImplTest {
             }
         )
         repository.getAll().test()
-        verifyOrder {
-            mockSyncer.syncAll()
-            mockLocal.getAll()
-            mockMapper.mapFromEntity(categories[0])
-        }
+            .assertComplete()
     }
 
     @Test

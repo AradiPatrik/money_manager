@@ -48,6 +48,7 @@ dependencies {
     implementation moduleDependencies.firestoreKtx
     implementation moduleDependencies.jodaTime
     implementation moduleDependencies.koinAndroid
+    implementation moduleDependencies.firebaseAuth
 
     androidTestImplementation moduleTestDependencies.espressoCore
     androidTestImplementation moduleTestDependencies.junitExt
@@ -55,6 +56,7 @@ dependencies {
     androidTestImplementation moduleTestDependencies.junit
     androidTestImplementation moduleTestDependencies.mockk
     androidTestImplementation moduleTestDependencies.strikt
+    androidTestImplementation moduleTestDependencies.koinTesting
 }
 
 apply plugin: 'com.google.gms.google-services'

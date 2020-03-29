@@ -1,8 +1,8 @@
 package com.aradipatrik.datasource.test
 
-import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
 import com.aradipatrik.datasource.test.TransactionRowFactory.categoryRow
 import com.aradipatrik.datasource.test.TransactionRowFactory.transactionRow
 import com.aradipatrik.datasource.test.TransactionRowFactory.transactionWithCategory
@@ -15,17 +15,14 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
-import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [Build.VERSION_CODES.O_MR1])
 class TransactionDaoTest {
     @get:Rule
     val instantTaskExecutionRule = InstantTaskExecutorRule()
 
     private val database = Room.inMemoryDatabaseBuilder(
-        RuntimeEnvironment.application.applicationContext,
+        ApplicationProvider.getApplicationContext(),
         TransactionDatabase::class.java)
         .allowMainThreadQueries()
         .build()

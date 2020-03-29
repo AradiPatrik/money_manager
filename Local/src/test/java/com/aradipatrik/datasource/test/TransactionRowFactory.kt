@@ -4,6 +4,7 @@ import com.aradipatrik.local.database.category.CategoryRow
 import com.aradipatrik.local.database.common.SyncStatusConstants
 import com.aradipatrik.local.database.transaction.TransactionRow
 import com.aradipatrik.local.database.transaction.TransactionWithCategory
+import com.aradipatrik.local.database.wallet.WalletRow
 import com.aradipatrik.testing.DomainLayerMocks.int
 import com.aradipatrik.testing.DomainLayerMocks.long
 import com.aradipatrik.testing.DomainLayerMocks.string
@@ -47,5 +48,17 @@ object TransactionRowFactory {
     ) = TransactionWithCategory(
         transaction = transactionRow,
         category = categoryRow
+    )
+
+    fun walletRow(
+        uid: String = string(),
+        name: String = string(),
+        syncStatusCode: Int = SyncStatusConstants.SYNCED_CODE,
+        updateTimestamp: Long = long()
+    ) = WalletRow(
+        uid = uid,
+        name = name,
+        syncStatusCode = syncStatusCode,
+        updateTimestamp = updateTimestamp
     )
 }

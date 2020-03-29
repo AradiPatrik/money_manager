@@ -42,6 +42,7 @@ class CategoryResponseConverterTest {
             get(CategoryEntity::updatedTimeStamp).isEqualTo(updateTimestamp.toDate().time)
             get(CategoryEntity::id).isEqualTo(mockId)
             get(CategoryEntity::name).isEqualTo(name)
+            get(CategoryEntity::iconId).isEqualTo(iconId)
             get(CategoryEntity::syncStatus).isEqualTo(
                 if(deleted) {
                     SyncStatus.ToDelete

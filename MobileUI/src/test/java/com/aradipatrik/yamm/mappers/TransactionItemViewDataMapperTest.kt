@@ -4,6 +4,7 @@ import com.aradipatrik.yamm.common.mapper.IconMapper
 import com.aradipatrik.yamm.features.history.mapper.TransactionViewDataMapper
 import com.aradipatrik.yamm.features.history.model.TransactionHeaderViewData
 import com.aradipatrik.yamm.features.history.model.TransactionItemViewData
+import com.aradipatrik.yamm.util.PresentationLayerMocks.categoryPresentation
 import com.aradipatrik.yamm.util.PresentationLayerMocks.transactionPresentation
 import org.joda.time.LocalDate
 import org.junit.Test
@@ -16,7 +17,8 @@ class TransactionItemViewDataMapperTest {
 
     @Test
     fun `mapToItemViewData should work`() {
-        val p = transactionPresentation()
+        val p =
+            transactionPresentation(categoryPresentation = categoryPresentation(iconId = "Groceries"))
         val expectedViewData = TransactionItemViewData(
             memo = p.memo,
             categoryIconResId = iconMapper.mapToResource(p.category.iconId),

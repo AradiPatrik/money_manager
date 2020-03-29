@@ -5,7 +5,7 @@ import com.airbnb.mvrx.MvRxState
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.Uninitialized
 import com.airbnb.mvrx.ViewModelContext
-import com.aradipatrik.domain.interactor.GetTransactionsInIntervalInteractor
+import com.aradipatrik.domain.interactor.transaction.GetTransactionsInIntervalInteractor
 import com.aradipatrik.presentation.common.MvRxViewModel
 import com.aradipatrik.presentation.mapper.TransactionPresentationMapper
 import com.aradipatrik.presentation.presentations.TransactionPresentation

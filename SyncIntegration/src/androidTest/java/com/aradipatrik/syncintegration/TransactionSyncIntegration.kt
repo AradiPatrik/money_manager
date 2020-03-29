@@ -259,4 +259,26 @@ class TransactionSyncIntegration {
         expectThat(joinedTransactions).hasSize(1)
         expectThat(joinedTransactions.first().category).isEqualTo(defaultCategories[0])
     }
+
+    @Test
+    fun shouldBeAbleToSyncIndependentOfRepositories() {
+        val transactionA = transaction(
+            memo = "original",
+            date = DateTime.now(),
+            category = defaultCategories[0]
+        )
+
+        remoteTransactionDatastore.updateWith(
+            listOf(
+                partialTransactionMapper.mapToEntity(transactionA).copy(
+                    syncStatus = SyncStatus.ToAdd
+                )
+            )
+        ).blockingAwait()
+
+        syncer.syncAll().blockingAwait()
+
+        val localTransactions = localTransactionDatastore.getAll().blockingFirst()
+        expectThat(localTransactions.size).isEqualTo(1)
+    }
 }

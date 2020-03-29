@@ -13,3 +13,6 @@ data class TransactionPartialEntity(val id: String, val categoryId: String, val 
 
 data class CategoryEntity(val id: String, val name: String, val iconId: String,
                           val updatedTimeStamp: Long, val syncStatus: SyncStatus)
+
+data class WalletEntity(val id: String, val name: String,
+                        val updatedTimeStamp: Long, val syncStatus: SyncStatus)

@@ -52,6 +52,8 @@ dependencies {
         exclude group: 'com.google.code.gson'
     }
     androidTestImplementation moduleTestDependencies.strikt
+    androidTestImplementation moduleTestDependencies.koinTesting
+    androidTestImplementation moduleTestDependencies.koinAndroid
 }
 
 apply plugin: 'com.google.gms.google-services'

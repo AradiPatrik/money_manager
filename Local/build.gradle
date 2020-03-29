@@ -33,6 +33,7 @@ dependencies {
     def moduleTestDependencies = rootProject.ext.localTestDependencies
 
     implementation project(':Data')
+    implementation project(':Domain')
     testImplementation project(':TestingCommons')
 
     implementation moduleDependencies.rxJava
@@ -45,6 +46,8 @@ dependencies {
     implementation moduleDependencies.roomRxJava
     implementation moduleDependencies.kotlinStdLib
     implementation moduleDependencies.koinAndroid
+    implementation moduleDependencies.rxPreferences
+    implementation moduleDependencies.androidxPreference
     kapt moduleDependencies.roomKapt
 
     testImplementation moduleTestDependencies.junit
@@ -53,4 +56,7 @@ dependencies {
     testImplementation moduleTestDependencies.roomTesting
     testImplementation moduleTestDependencies.robolectric
     testImplementation moduleTestDependencies.archTesting
+    testImplementation moduleTestDependencies.koinTesting
+    testImplementation moduleTestDependencies.espressoCore
+    testImplementation moduleTestDependencies.coreTesting
 }

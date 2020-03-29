@@ -1,11 +1,11 @@
 package com.aradipatrik.data.test
 
-import com.aradipatrik.data.common.LocalTimestampedDataStore
-import com.aradipatrik.data.common.RemoteTimestampedDataStore
-import com.aradipatrik.data.datasource.category.LocalCategoryDatastore
-import com.aradipatrik.data.datasource.category.RemoteCategoryDatastore
-import com.aradipatrik.data.datasource.transaction.LocalTransactionDatastore
-import com.aradipatrik.data.datasource.transaction.RemoteTransactionDatastore
+import com.aradipatrik.data.common.LocalTimestampedDatastore
+import com.aradipatrik.data.common.RemoteTimestampedDatastore
+import com.aradipatrik.data.datastore.category.LocalCategoryDatastore
+import com.aradipatrik.data.datastore.category.RemoteCategoryDatastore
+import com.aradipatrik.data.datastore.transaction.LocalTransactionDatastore
+import com.aradipatrik.data.datastore.transaction.RemoteTransactionDatastore
 import com.aradipatrik.data.repository.Syncer
 import com.aradipatrik.testing.DomainLayerMocks.string
 import io.mockk.every
@@ -18,7 +18,6 @@ import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.CompletableSubject
 import org.junit.Before
-import org.junit.BeforeClass
 import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.hasSize
@@ -30,8 +29,8 @@ class SyncerTest {
         const val DEFAULT_LAST_SYNC_TIME = 5L
     }
 
-    private val mockLocal = mockk<LocalTimestampedDataStore<String>>()
-    private val mockRemote = mockk<RemoteTimestampedDataStore<String>>()
+    private val mockLocal = mockk<LocalTimestampedDatastore<String>>()
+    private val mockRemote = mockk<RemoteTimestampedDatastore<String>>()
 
     @Before
     fun setup() {
@@ -162,7 +161,7 @@ class SyncerTest {
     }
 
     private fun <E> stubLocal(
-        local: LocalTimestampedDataStore<E>,
+        local: LocalTimestampedDatastore<E>,
         lastSyncTimeResult: Single<Long> = Single.just(DEFAULT_LAST_SYNC_TIME),
         updateWithResult: Completable = Completable.complete(),
         clearPendingResult: Completable = Completable.complete(),
@@ -175,7 +174,7 @@ class SyncerTest {
     }
 
     private fun <E> stubRemote(
-        remote: RemoteTimestampedDataStore<E>,
+        remote: RemoteTimestampedDatastore<E>,
         getAfterResult: Single<List<E>> = Single.just(emptyList()),
         updateWithResult: Completable = Completable.complete()
     ) {

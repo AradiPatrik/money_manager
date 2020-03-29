@@ -1,6 +1,6 @@
 package com.aradipatrik.remote.data
 
-import com.aradipatrik.data.datasource.category.RemoteCategoryDatastore
+import com.aradipatrik.data.datastore.category.RemoteCategoryDatastore
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.CategoryEntity
 import com.aradipatrik.remote.TEST_USER_ID
@@ -12,7 +12,6 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.WriteBatch
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.ktx.app
 import io.reactivex.Completable
 import io.reactivex.Single
 import org.joda.time.DateTime

@@ -3,9 +3,11 @@ package com.aradipatrik.integration.firebase.utils
 import com.aradipatrik.remote.data.FirestoreRemoteCategoryDatastore.Companion.CATEGORIES_COLLECTION_KEY
 import com.aradipatrik.remote.data.FirestoreRemoteTransactionDatastore.Companion.TRANSACTIONS_COLLECTION_KEY
 import com.aradipatrik.remote.data.FirestoreRemoteTransactionDatastore.Companion.USERS_COLLECTION_KEY
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import io.reactivex.Completable
 import io.reactivex.Single
 
 object FirestoreUtils {
@@ -36,4 +38,14 @@ object FirestoreUtils {
                     e.onError(it)
                 }
         }.blockingGet()
+
+    fun deleteCurrentUser() = Completable.create { emitter ->
+        FirebaseAuth.getInstance().currentUser?.delete()
+            ?.addOnSuccessListener {
+                emitter.onComplete()
+            }
+            ?.addOnFailureListener {
+                emitter.onError(it)
+            } ?: emitter.onComplete()
+    }.blockingAwait()
 }

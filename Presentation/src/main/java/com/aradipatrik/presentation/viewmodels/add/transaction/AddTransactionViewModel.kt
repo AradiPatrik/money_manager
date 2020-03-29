@@ -6,8 +6,8 @@ import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.Uninitialized
 import com.airbnb.mvrx.ViewModelContext
 import com.aradipatrik.domain.model.Transaction
-import com.aradipatrik.domain.interactor.AddTransactionInteractor
-import com.aradipatrik.domain.interactor.GetCategoriesInteractor
+import com.aradipatrik.domain.interactor.transaction.AddTransactionInteractor
+import com.aradipatrik.domain.interactor.category.GetCategoriesInteractor
 import com.aradipatrik.presentation.common.MvRxViewModel
 import com.aradipatrik.presentation.common.appendDigit
 import com.aradipatrik.presentation.common.withLastDigitRemoved

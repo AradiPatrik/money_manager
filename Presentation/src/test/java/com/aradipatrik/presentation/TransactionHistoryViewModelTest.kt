@@ -5,7 +5,7 @@ import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.Uninitialized
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.airbnb.mvrx.withState
-import com.aradipatrik.domain.interactor.GetTransactionsInIntervalInteractor
+import com.aradipatrik.domain.interactor.transaction.GetTransactionsInIntervalInteractor
 import com.aradipatrik.presentation.datahelpers.MockDataFactory.transactionPresentation
 import com.aradipatrik.presentation.mapper.CategoryPresentationMapper
 import com.aradipatrik.presentation.mapper.TransactionPresentationMapper

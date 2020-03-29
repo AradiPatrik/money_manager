@@ -1,6 +1,6 @@
 package com.aradipatrik.remote.data
 
-import com.aradipatrik.data.datasource.transaction.RemoteTransactionDatastore
+import com.aradipatrik.data.datastore.transaction.RemoteTransactionDatastore
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.TransactionPartialEntity
 import com.aradipatrik.remote.TEST_USER_ID

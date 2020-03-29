@@ -3,8 +3,8 @@ plugins {
 }
 
 dependencies {
-    def moduleDependencies = rootProject.ext.domainDependencies
-    def moduleTestDependencies = rootProject.ext.domainTestDependencies
+    def moduleDependencies = rootProject.ext.dataDependencies
+    def moduleTestDependencies = rootProject.ext.dataTestDependencies
 
     implementation project(":Domain")
     testImplementation project(':TestingCommons')
@@ -20,6 +20,7 @@ dependencies {
     testImplementation moduleTestDependencies.junit
     testImplementation moduleTestDependencies.mockk
     testImplementation moduleTestDependencies.strikt
+    testImplementation moduleTestDependencies.koinTesting
 }
 
 compileKotlin {

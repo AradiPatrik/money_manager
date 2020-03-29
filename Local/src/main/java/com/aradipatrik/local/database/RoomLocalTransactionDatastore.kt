@@ -1,6 +1,6 @@
 package com.aradipatrik.local.database
 
-import com.aradipatrik.data.datasource.transaction.LocalTransactionDatastore
+import com.aradipatrik.data.datastore.transaction.LocalTransactionDatastore
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.TransactionJoinedEntity
 import com.aradipatrik.data.model.TransactionPartialEntity
@@ -11,7 +11,6 @@ import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import org.joda.time.Interval
-import javax.inject.Inject
 
 class RoomLocalTransactionDatastore(
     private val transactionDao: TransactionDao,

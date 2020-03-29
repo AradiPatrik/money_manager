@@ -2,10 +2,10 @@ package com.aradipatrik.domain.test
 
 import com.aradipatrik.domain.model.Transaction
 import com.aradipatrik.domain.interfaces.data.TransactionRepository
-import com.aradipatrik.domain.interactor.AddTransactionInteractor
-import com.aradipatrik.domain.interactor.DeleteTransactionInteractor
-import com.aradipatrik.domain.interactor.GetTransactionsInIntervalInteractor
-import com.aradipatrik.domain.interactor.UpdateTransactionInteractor
+import com.aradipatrik.domain.interactor.transaction.AddTransactionInteractor
+import com.aradipatrik.domain.interactor.transaction.DeleteTransactionInteractor
+import com.aradipatrik.domain.interactor.transaction.GetTransactionsInIntervalInteractor
+import com.aradipatrik.domain.interactor.transaction.UpdateTransactionInteractor
 import com.aradipatrik.testing.DomainLayerMocks.interval
 import com.aradipatrik.testing.DomainLayerMocks.string
 import com.aradipatrik.testing.DomainLayerMocks.transaction
@@ -22,7 +22,10 @@ class TransactionCrudTest {
     @Test
     fun `Add should complete`() {
         stubAddTransaction(Completable.complete())
-        val addTransaction = AddTransactionInteractor(transactionRepository)
+        val addTransaction =
+            AddTransactionInteractor(
+                transactionRepository
+            )
         addTransaction.get(
             AddTransactionInteractor.Params.forTransaction(
                 transaction()
@@ -33,7 +36,10 @@ class TransactionCrudTest {
     @Test
     fun `Add should use repository`() {
         val transactionToAdd = transaction()
-        val addTransaction = AddTransactionInteractor(transactionRepository)
+        val addTransaction =
+            AddTransactionInteractor(
+                transactionRepository
+            )
         stubAddTransaction(Completable.complete())
         addTransaction.get(
             AddTransactionInteractor.Params.forTransaction(
@@ -45,7 +51,9 @@ class TransactionCrudTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun `Add should throw exception if no parameters were supplied`() {
-        AddTransactionInteractor(transactionRepository)
+        AddTransactionInteractor(
+            transactionRepository
+        )
             .get()
             .test()
     }
@@ -53,7 +61,10 @@ class TransactionCrudTest {
     @Test
     fun `Delete should complete`() {
         stubDeleteTransaction(Completable.complete())
-        val deleteTransaction = DeleteTransactionInteractor(transactionRepository)
+        val deleteTransaction =
+            DeleteTransactionInteractor(
+                transactionRepository
+            )
         deleteTransaction.get(
             DeleteTransactionInteractor.Params.forTransaction(
                 string()
@@ -65,7 +76,10 @@ class TransactionCrudTest {
     fun `Delete should use repository`() {
         stubDeleteTransaction(Completable.complete())
         val transactionIdToDelete = string()
-        val deleteTransaction = DeleteTransactionInteractor(transactionRepository)
+        val deleteTransaction =
+            DeleteTransactionInteractor(
+                transactionRepository
+            )
         deleteTransaction.get(
             DeleteTransactionInteractor.Params.forTransaction(
                 transactionIdToDelete
@@ -76,7 +90,9 @@ class TransactionCrudTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun `Delete should throw exception if no argument was supplied`() {
-        DeleteTransactionInteractor(transactionRepository)
+        DeleteTransactionInteractor(
+            transactionRepository
+        )
             .get()
             .test()
     }
@@ -84,7 +100,10 @@ class TransactionCrudTest {
     @Test
     fun `Update should complete`() {
         stubUpdateTransaction(Completable.complete())
-        val updateTransaction = UpdateTransactionInteractor(transactionRepository)
+        val updateTransaction =
+            UpdateTransactionInteractor(
+                transactionRepository
+            )
         updateTransaction.get(
             UpdateTransactionInteractor.Params.forTransaction(
                 transaction()
@@ -95,7 +114,10 @@ class TransactionCrudTest {
     @Test
     fun `Update should use repository`() {
         stubUpdateTransaction(Completable.complete())
-        val updateTransaction = UpdateTransactionInteractor(transactionRepository)
+        val updateTransaction =
+            UpdateTransactionInteractor(
+                transactionRepository
+            )
         val transactionToUpdate = transaction()
         updateTransaction.get(
             UpdateTransactionInteractor.Params.forTransaction(
@@ -107,7 +129,9 @@ class TransactionCrudTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun `Update should throw exception if no argumetns were supplied`() {
-        UpdateTransactionInteractor(transactionRepository)
+        UpdateTransactionInteractor(
+            transactionRepository
+        )
             .get()
             .test()
     }
@@ -115,7 +139,9 @@ class TransactionCrudTest {
     @Test
     fun `Get transaction in interval should complete`() {
         stubGetTransactionsInInterval(listOf(transaction()))
-        GetTransactionsInIntervalInteractor(transactionRepository).get(
+        GetTransactionsInIntervalInteractor(
+            transactionRepository
+        ).get(
             GetTransactionsInIntervalInteractor.Params.forInterval(
                 interval()
             )
@@ -130,7 +156,9 @@ class TransactionCrudTest {
         val testInterval = interval()
         stubGetTransactionsInInterval(testTransactions)
         val getTransactionsInInterval =
-            GetTransactionsInIntervalInteractor(transactionRepository)
+            GetTransactionsInIntervalInteractor(
+                transactionRepository
+            )
         val transactionsObservable = getTransactionsInInterval.get(
             GetTransactionsInIntervalInteractor.Params.forInterval(
                 testInterval
@@ -142,7 +170,9 @@ class TransactionCrudTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun `Get transaction in interval should throw exception if no arguments were supplied`() {
-        GetTransactionsInIntervalInteractor(transactionRepository)
+        GetTransactionsInIntervalInteractor(
+            transactionRepository
+        )
             .get()
             .test()
     }

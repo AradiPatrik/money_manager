@@ -27,3 +27,11 @@ object CategoryConstants {
     const val UPDATE_TIMESTAMP_COLUMN_NAME = "update_timestamp"
     const val SYNC_STATUS_COLUMN_NAME = "sync_status"
 }
+
+object WalletConstants {
+    const val TABLE_NAME = "wallets"
+    const val ID_COLUMN_NAME = "uid"
+    const val NAME_COLUMN_NAME = "name"
+    const val UPDATE_TIMESTAMP_COLUMN_NAME = "update_timestamp"
+    const val SYNC_STATUS_COLUMN_NAME = "sync_status"
+}

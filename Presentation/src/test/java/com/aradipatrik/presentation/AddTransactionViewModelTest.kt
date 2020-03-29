@@ -6,8 +6,8 @@ import com.airbnb.mvrx.Uninitialized
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.airbnb.mvrx.withState
 import com.aradipatrik.domain.model.Transaction
-import com.aradipatrik.domain.interactor.AddTransactionInteractor
-import com.aradipatrik.domain.interactor.GetCategoriesInteractor
+import com.aradipatrik.domain.interactor.transaction.AddTransactionInteractor
+import com.aradipatrik.domain.interactor.category.GetCategoriesInteractor
 import com.aradipatrik.presentation.mapper.CategoryPresentationMapper
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionState
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.ActionClick

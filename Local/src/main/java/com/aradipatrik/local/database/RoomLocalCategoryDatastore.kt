@@ -1,6 +1,6 @@
 package com.aradipatrik.local.database
 
-import com.aradipatrik.data.datasource.category.LocalCategoryDatastore
+import com.aradipatrik.data.datastore.category.LocalCategoryDatastore
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.CategoryEntity
 import com.aradipatrik.local.database.category.CategoryDao

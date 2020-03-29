@@ -1,17 +1,39 @@
 package com.aradipatrik.domain
 
 
-import com.aradipatrik.domain.interactor.AddTransactionInteractor
-import com.aradipatrik.domain.interactor.DeleteTransactionInteractor
-import com.aradipatrik.domain.interactor.GetCategoriesInteractor
-import com.aradipatrik.domain.interactor.GetTransactionsInIntervalInteractor
-import com.aradipatrik.domain.interactor.UpdateTransactionInteractor
+import com.aradipatrik.domain.interactor.auth.SignUpWithEmailAndPasswordInteractor
+import com.aradipatrik.domain.interactor.transaction.AddTransactionInteractor
+import com.aradipatrik.domain.interactor.transaction.DeleteTransactionInteractor
+import com.aradipatrik.domain.interactor.category.GetCategoriesInteractor
+import com.aradipatrik.domain.interactor.transaction.GetTransactionsInIntervalInteractor
+import com.aradipatrik.domain.interactor.transaction.UpdateTransactionInteractor
+import com.aradipatrik.domain.interactor.wallet.SelectWalletInteractor
+import com.aradipatrik.domain.store.SelectedWalletStore
 import org.koin.dsl.module
 
 val domainModule = module {
-    factory { GetTransactionsInIntervalInteractor(get()) }
-    factory { AddTransactionInteractor(get()) }
-    factory { UpdateTransactionInteractor(get()) }
-    factory { DeleteTransactionInteractor(get()) }
-    factory { GetCategoriesInteractor(get(), get()) }
+    factory {
+        GetTransactionsInIntervalInteractor(get())
+    }
+    factory {
+        AddTransactionInteractor(get())
+    }
+    factory {
+        UpdateTransactionInteractor(get())
+    }
+    factory {
+        DeleteTransactionInteractor(get())
+    }
+    factory {
+        GetCategoriesInteractor(get())
+    }
+    factory {
+        SignUpWithEmailAndPasswordInteractor(get(), get())
+    }
+    single {
+        SelectWalletInteractor(get(), get())
+    }
+    single {
+        SelectedWalletStore()
+    }
 }

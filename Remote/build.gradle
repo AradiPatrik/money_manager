@@ -47,6 +47,7 @@ dependencies {
     implementation moduleDependencies.firestoreKtx
     implementation moduleDependencies.jodaTime
     implementation moduleDependencies.koinAndroid
+    implementation moduleDependencies.firebaseAuth
 
     testImplementation moduleTestDependencies.junit
     testImplementation moduleTestDependencies.mockk
