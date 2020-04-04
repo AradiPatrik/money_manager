@@ -8,14 +8,13 @@ import com.airbnb.mvrx.BaseMvRxFragment
 import com.aradipatrik.yamm.MainFragmentUiEffect.FabClick
 import com.aradipatrik.yamm.common.viewext.hideAsBottomSheet
 import com.aradipatrik.yamm.common.viewext.showAsBottomSheet
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.fragment_main.*
 
 sealed class MainFragmentUiEffect {
-    object FabClick: MainFragmentUiEffect()
+    object FabClick : MainFragmentUiEffect()
 }
 
 class MainFragment : BaseMvRxFragment() {
@@ -41,7 +40,7 @@ class MainFragment : BaseMvRxFragment() {
         uiEffectsDisposable.clear()
     }
 
-    private fun handleUiEffect(effect: MainFragmentUiEffect) = when(effect) {
+    private fun handleUiEffect(effect: MainFragmentUiEffect) = when (effect) {
         FabClick -> showCalculator()
     }
 
@@ -61,7 +60,7 @@ class MainFragment : BaseMvRxFragment() {
 
     private fun hideSumSheet() = sum_sheet_container.hideAsBottomSheet()
 
-    override fun invalidate()  {
+    override fun invalidate() {
         // intentionally left blank
     }
 }

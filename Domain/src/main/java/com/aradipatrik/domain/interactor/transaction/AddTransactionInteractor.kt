@@ -1,13 +1,13 @@
 package com.aradipatrik.domain.interactor.transaction
 
-import com.aradipatrik.domain.usecase.CompletableUseCase
-import com.aradipatrik.domain.model.Transaction
 import com.aradipatrik.domain.interfaces.data.TransactionRepository
+import com.aradipatrik.domain.model.Transaction
+import com.aradipatrik.domain.usecase.CompletableUseCase
 import io.reactivex.Completable
 
 class AddTransactionInteractor(
     private val transactionRepository: TransactionRepository
-): CompletableUseCase<AddTransactionInteractor.Params> {
+) : CompletableUseCase<AddTransactionInteractor.Params> {
     data class Params(val transaction: Transaction) {
         companion object {
             fun forTransaction(transaction: Transaction): Params =

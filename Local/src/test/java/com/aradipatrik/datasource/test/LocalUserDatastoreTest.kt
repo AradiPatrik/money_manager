@@ -1,8 +1,6 @@
 package com.aradipatrik.datasource.test
 
 import android.preference.PreferenceManager
-import androidx.core.content.SharedPreferencesCompat
-import androidx.preference.Preference
 import androidx.test.core.app.ApplicationProvider
 import com.aradipatrik.data.datastore.user.LocalUserDatastore
 import com.aradipatrik.domain.model.User
@@ -18,7 +16,6 @@ import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.inject
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.shadows.ShadowSharedPreferences
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 

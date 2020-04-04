@@ -1,9 +1,9 @@
 package com.aradipatrik.data.repository
 
-import com.aradipatrik.data.mapper.CategoryMapper
 import com.aradipatrik.data.datastore.category.LocalCategoryDatastore
-import com.aradipatrik.domain.model.Category
+import com.aradipatrik.data.mapper.CategoryMapper
 import com.aradipatrik.domain.interfaces.data.CategoryRepository
+import com.aradipatrik.domain.model.Category
 import io.reactivex.Completable
 
 class CategoryRepositoryImpl(

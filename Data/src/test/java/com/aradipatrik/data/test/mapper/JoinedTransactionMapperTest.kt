@@ -1,10 +1,13 @@
 package com.aradipatrik.data.test.mapper
 
-import com.aradipatrik.data.mapper.*
+import com.aradipatrik.data.mapper.CategoryMapper
+import com.aradipatrik.data.mapper.JoinedTransactionMapper
+import com.aradipatrik.data.mapper.SyncStatus
+import com.aradipatrik.data.mapper.TimestampProvider
 import com.aradipatrik.data.model.TransactionJoinedEntity
+import com.aradipatrik.domain.model.Transaction
 import com.aradipatrik.testing.DataLayerMocks.categoryEntity
 import com.aradipatrik.testing.DataLayerMocks.joinedTransactionEntity
-import com.aradipatrik.domain.model.Transaction
 import com.aradipatrik.testing.DomainLayerMocks.category
 import com.aradipatrik.testing.DomainLayerMocks.long
 import com.aradipatrik.testing.DomainLayerMocks.transaction
@@ -51,7 +54,10 @@ class JoinedTransactionMapperTest {
         expectThat(entity.syncStatus).isEqualTo(SyncStatus.None)
     }
 
-    private fun assertEqualsDomainEntity(domain: Transaction, joinedEntity: TransactionJoinedEntity) {
+    private fun assertEqualsDomainEntity(
+        domain: Transaction,
+        joinedEntity: TransactionJoinedEntity
+    ) {
         expectThat(domain.amount).isEqualTo(joinedEntity.amount)
         expectThat(domain.date).isEqualTo(joinedEntity.date)
         expectThat(domain.id).isEqualTo(joinedEntity.id)

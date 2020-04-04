@@ -1,10 +1,8 @@
 package com.aradipatrik.domain.test
 
-import com.aradipatrik.domain.model.Category
-import com.aradipatrik.domain.interfaces.data.CategoryRepository
 import com.aradipatrik.domain.interactor.category.GetCategoriesInteractor
-import com.aradipatrik.domain.interfaces.auth.Authenticator
-import com.aradipatrik.domain.model.User
+import com.aradipatrik.domain.interfaces.data.CategoryRepository
+import com.aradipatrik.domain.model.Category
 import com.aradipatrik.testing.DomainLayerMocks.category
 import io.mockk.every
 import io.mockk.mockk
@@ -18,9 +16,8 @@ import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.inject
-import java.lang.IllegalArgumentException
 
-class CategoryCrudTest: KoinTest {
+class CategoryCrudTest : KoinTest {
 
     private val categoryCrudModule = module {
         single<CategoryRepository> { mockk() }

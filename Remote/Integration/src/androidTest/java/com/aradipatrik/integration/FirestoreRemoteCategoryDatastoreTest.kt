@@ -30,9 +30,10 @@ class FirestoreRemoteCategoryDatastoreTest {
         private const val TIMESTAMP_TOLERANCE = 10
     }
 
-    private val testUserDocument get() = Firebase.firestore
-        .collection(USERS_COLLECTION_KEY)
-        .document(TEST_USER_DOCUMENT_KEY)
+    private val testUserDocument
+        get() = Firebase.firestore
+            .collection(USERS_COLLECTION_KEY)
+            .document(TEST_USER_DOCUMENT_KEY)
 
     private val categoriesCollection get() = testUserDocument.collection(CATEGORIES_COLLECTION_KEY)
 

@@ -1,10 +1,10 @@
 package com.aradipatrik.yamm.itemcallback
 
 import com.aradipatrik.testing.DomainLayerMocks.string
-import com.aradipatrik.yamm.util.PresentationLayerMocks.transactionPresentation
-import com.aradipatrik.yamm.util.ViewDataMocks.transactionItemViewData
 import com.aradipatrik.yamm.features.history.adapter.TransactionViewDataItemCallback
 import com.aradipatrik.yamm.features.history.model.TransactionHeaderViewData
+import com.aradipatrik.yamm.util.PresentationLayerMocks.transactionPresentation
+import com.aradipatrik.yamm.util.ViewDataMocks.transactionItemViewData
 import org.joda.time.LocalDate
 import org.junit.Test
 import strikt.api.expectThat

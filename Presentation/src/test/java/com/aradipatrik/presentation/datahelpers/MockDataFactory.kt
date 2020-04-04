@@ -24,7 +24,7 @@ object MockDataFactory {
         category: CategoryPresentation = categoryPresentation(),
         date: DateTime = date(),
         memo: String = string()
-        ) = TransactionPresentation(
+    ) = TransactionPresentation(
         id = id,
         amount = amount,
         category = category,

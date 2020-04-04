@@ -3,13 +3,7 @@ package com.aradipatrik.remote.payloadfactory
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.TransactionPartialEntity
 import com.aradipatrik.remote.*
-import com.aradipatrik.remote.AMOUNT_KEY
-import com.aradipatrik.remote.CATEGORY_ID_KEY
-import com.aradipatrik.remote.DELETED_KEY
-import com.aradipatrik.remote.UPDATED_TIMESTAMP_KEY
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.FieldValue
-import javax.inject.Inject
 
 class TransactionPayloadFactory {
     fun createPayloadFrom(t: TransactionPartialEntity): HashMap<String, Any> = hashMapOf(

@@ -2,7 +2,6 @@ package com.aradipatrik.local.database
 
 import com.aradipatrik.data.datastore.wallet.LocalWalletDatastore
 import com.aradipatrik.data.mapper.SyncStatus
-import com.aradipatrik.data.mapper.WalletMapper
 import com.aradipatrik.data.model.WalletEntity
 import com.aradipatrik.local.database.mapper.WalletRowMapper
 import com.aradipatrik.local.database.wallet.WalletDao
@@ -14,7 +13,7 @@ import io.reactivex.Single
 class RoomLocalWalletDatastore(
     private val walletDao: WalletDao,
     private val walletRowMapper: WalletRowMapper
-): LocalWalletDatastore {
+) : LocalWalletDatastore {
 
     override fun updateWith(elements: List<WalletEntity>): Completable =
         walletDao.insert(elements.map(walletRowMapper::mapToRow))

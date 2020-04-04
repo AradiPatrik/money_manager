@@ -5,7 +5,6 @@ import com.aradipatrik.remote.*
 import com.aradipatrik.remote.payloadfactory.TransactionPayloadFactory
 import com.aradipatrik.testing.DataLayerMocks.partialTransactionEntity
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.FieldValue
 import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.hasEntry

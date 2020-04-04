@@ -2,18 +2,11 @@ package com.aradipatrik.remote.payloadfactory
 
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.CategoryEntity
-import com.aradipatrik.data.model.TransactionPartialEntity
-import com.aradipatrik.remote.*
-import com.aradipatrik.remote.CATEGORY_ID_KEY
 import com.aradipatrik.remote.CATEGORY_NAME_KEY
-import com.aradipatrik.remote.DATE_KEY
 import com.aradipatrik.remote.DELETED_KEY
 import com.aradipatrik.remote.ICON_ID_KEY
-import com.aradipatrik.remote.MEMO_KEY
 import com.aradipatrik.remote.UPDATED_TIMESTAMP_KEY
 import com.google.firebase.firestore.DocumentSnapshot
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 
 class CategoryResponseConverter {
     fun mapResponseToEntity(document: DocumentSnapshot): CategoryEntity =

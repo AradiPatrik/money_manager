@@ -1,7 +1,6 @@
 package com.aradipatrik.domain.interfaces.data
 
 import com.aradipatrik.domain.model.Category
-import com.aradipatrik.domain.model.Transaction
 import io.reactivex.Completable
 import io.reactivex.Observable
 

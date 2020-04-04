@@ -1,18 +1,21 @@
 package com.aradipatrik.data.test
 
+import com.aradipatrik.data.datastore.category.LocalCategoryDatastore
+import com.aradipatrik.data.datastore.category.RemoteCategoryDatastore
 import com.aradipatrik.data.mapper.CategoryMapper
 import com.aradipatrik.data.model.CategoryEntity
 import com.aradipatrik.data.repository.CategoryRepositoryImpl
 import com.aradipatrik.data.repository.Syncer
-import com.aradipatrik.data.datastore.category.LocalCategoryDatastore
-import com.aradipatrik.data.datastore.category.RemoteCategoryDatastore
-import com.aradipatrik.testing.DataLayerMocks.categoryEntity
 import com.aradipatrik.data.test.common.MethodStubFactory
-import com.aradipatrik.domain.model.Category
 import com.aradipatrik.domain.interfaces.data.CategoryRepository
+import com.aradipatrik.domain.model.Category
+import com.aradipatrik.testing.DataLayerMocks.categoryEntity
 import com.aradipatrik.testing.DomainLayerMocks.category
 import com.aradipatrik.testing.DomainLayerMocks.string
-import io.mockk.*
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
+import io.mockk.verifyOrder
 import io.reactivex.Completable
 import io.reactivex.Observable
 import org.junit.Test

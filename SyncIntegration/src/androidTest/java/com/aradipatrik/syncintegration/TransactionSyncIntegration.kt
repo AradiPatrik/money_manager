@@ -17,9 +17,9 @@ import com.aradipatrik.local.database.RoomLocalTransactionDatastore
 import com.aradipatrik.local.database.TransactionDatabase
 import com.aradipatrik.local.database.mapper.CategoryRowMapper
 import com.aradipatrik.local.database.mapper.TransactionRowMapper
+import com.aradipatrik.remote.TEST_USER_ID
 import com.aradipatrik.remote.data.FirestoreRemoteCategoryDatastore
 import com.aradipatrik.remote.data.FirestoreRemoteTransactionDatastore
-import com.aradipatrik.remote.TEST_USER_ID
 import com.aradipatrik.remote.payloadfactory.CategoryPayloadFactory
 import com.aradipatrik.remote.payloadfactory.CategoryResponseConverter
 import com.aradipatrik.remote.payloadfactory.TransactionPayloadFactory

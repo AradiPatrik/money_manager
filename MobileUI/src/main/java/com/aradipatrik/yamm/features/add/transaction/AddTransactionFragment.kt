@@ -5,13 +5,7 @@ import android.view.View
 import com.airbnb.mvrx.BaseMvRxFragment
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
-import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.ActionClick
-import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.DeleteOneClick
-import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.MemoChange
-import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.MinusClick
-import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.NumberClick
-import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.PlusClick
-import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.PointClick
+import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.*
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewModel
 import com.aradipatrik.yamm.R
 import com.aradipatrik.yamm.features.add.transaction.adapter.CategoryAdapter

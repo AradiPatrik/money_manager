@@ -3,16 +3,10 @@ package com.aradipatrik.remote.payloadfactory
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.TransactionPartialEntity
 import com.aradipatrik.remote.*
-import com.aradipatrik.remote.AMOUNT_KEY
-import com.aradipatrik.remote.CATEGORY_ID_KEY
-import com.aradipatrik.remote.DATE_KEY
-import com.aradipatrik.remote.MEMO_KEY
-import com.aradipatrik.remote.UPDATED_TIMESTAMP_KEY
 import com.google.firebase.firestore.DocumentSnapshot
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import java.io.IOException
-import javax.inject.Inject
 
 data class WrongFieldTypeException(val fieldId: String) : IOException("Wrong type $fieldId")
 

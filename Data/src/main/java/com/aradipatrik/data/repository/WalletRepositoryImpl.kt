@@ -5,10 +5,7 @@ import com.aradipatrik.data.datastore.wallet.RemoteWalletDatastore
 import com.aradipatrik.data.mapper.WalletMapper
 import com.aradipatrik.domain.interfaces.data.UserRepository
 import com.aradipatrik.domain.interfaces.data.WalletRepository
-import com.aradipatrik.domain.model.User
 import com.aradipatrik.domain.model.Wallet
-import io.reactivex.Completable
-import io.reactivex.Single
 
 class WalletRepositoryImpl(
     private val localWalletDatastore: LocalWalletDatastore,

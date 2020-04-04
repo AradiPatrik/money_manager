@@ -6,7 +6,6 @@ import com.aradipatrik.data.model.TransactionPartialEntity
 import com.aradipatrik.local.database.transaction.TransactionRow
 import com.aradipatrik.local.database.transaction.TransactionWithCategory
 import org.joda.time.DateTime
-import javax.inject.Inject
 
 class TransactionRowMapper(
     private val categoryRowMapper: CategoryRowMapper

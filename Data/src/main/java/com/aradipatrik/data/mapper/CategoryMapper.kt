@@ -2,7 +2,6 @@ package com.aradipatrik.data.mapper
 
 import com.aradipatrik.data.model.CategoryEntity
 import com.aradipatrik.domain.model.Category
-import javax.inject.Inject
 
 class CategoryMapper {
     fun mapFromEntity(entity: CategoryEntity) =

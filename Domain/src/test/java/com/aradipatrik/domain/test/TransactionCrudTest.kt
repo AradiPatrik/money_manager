@@ -1,11 +1,11 @@
 package com.aradipatrik.domain.test
 
-import com.aradipatrik.domain.model.Transaction
-import com.aradipatrik.domain.interfaces.data.TransactionRepository
 import com.aradipatrik.domain.interactor.transaction.AddTransactionInteractor
 import com.aradipatrik.domain.interactor.transaction.DeleteTransactionInteractor
 import com.aradipatrik.domain.interactor.transaction.GetTransactionsInIntervalInteractor
 import com.aradipatrik.domain.interactor.transaction.UpdateTransactionInteractor
+import com.aradipatrik.domain.interfaces.data.TransactionRepository
+import com.aradipatrik.domain.model.Transaction
 import com.aradipatrik.testing.DomainLayerMocks.interval
 import com.aradipatrik.testing.DomainLayerMocks.string
 import com.aradipatrik.testing.DomainLayerMocks.transaction

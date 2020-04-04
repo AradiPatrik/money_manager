@@ -15,7 +15,6 @@ import org.koin.test.KoinTest
 import org.koin.test.inject
 import strikt.api.expectThat
 import strikt.assertions.isNotEmpty
-import strikt.assertions.isNotNull
 
 @RunWith(AndroidJUnit4::class)
 class FirestoreAuthenticatorTest : KoinTest {

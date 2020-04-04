@@ -23,7 +23,8 @@ class TransactionDaoTest {
 
     private val database = Room.inMemoryDatabaseBuilder(
         ApplicationProvider.getApplicationContext(),
-        TransactionDatabase::class.java)
+        TransactionDatabase::class.java
+    )
         .allowMainThreadQueries()
         .build()
 
@@ -131,6 +132,7 @@ class TransactionDaoTest {
         database.transactionDao().getAllTransactions()
             .test()
             .assertValue(
-                transactions + transactionToDelete.copy(syncStatusCode = TO_DELETE_CODE))
+                transactions + transactionToDelete.copy(syncStatusCode = TO_DELETE_CODE)
+            )
     }
 }

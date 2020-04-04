@@ -1,7 +1,6 @@
 package com.aradipatrik.yamm.features.history.adapter
 
 import android.annotation.SuppressLint
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -60,7 +59,7 @@ class HistoryAdapter
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ViewHolder = when(viewType) {
+    ): ViewHolder = when (viewType) {
         TRANSACTION_HEADER -> TransactionHeaderViewHolder(
             parent.inflate(R.layout.list_item_history_header)
         )
@@ -70,7 +69,7 @@ class HistoryAdapter
         else -> error("Invalid type requested ($viewType) as transaction list item")
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = when(holder) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = when (holder) {
         is TransactionItemViewHolder ->
             holder.bind(currentList[position] as TransactionItemViewData)
         is TransactionHeaderViewHolder ->

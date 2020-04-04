@@ -2,7 +2,6 @@ package com.aradipatrik.data.mapper
 
 import com.aradipatrik.data.model.TransactionJoinedEntity
 import com.aradipatrik.domain.model.Transaction
-import javax.inject.Inject
 
 class JoinedTransactionMapper(private val categoryMapper: CategoryMapper) {
     fun mapFromEntity(entity: TransactionJoinedEntity) = Transaction(

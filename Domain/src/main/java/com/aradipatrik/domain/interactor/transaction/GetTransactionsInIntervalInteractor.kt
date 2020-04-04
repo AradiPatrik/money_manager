@@ -1,14 +1,14 @@
 package com.aradipatrik.domain.interactor.transaction
 
-import com.aradipatrik.domain.usecase.ObservableUseCase
-import com.aradipatrik.domain.model.Transaction
 import com.aradipatrik.domain.interfaces.data.TransactionRepository
+import com.aradipatrik.domain.model.Transaction
+import com.aradipatrik.domain.usecase.ObservableUseCase
 import io.reactivex.Observable
 import org.joda.time.Interval
 
 class GetTransactionsInIntervalInteractor(
     private val transferRepository: TransactionRepository
-): ObservableUseCase<List<Transaction>, GetTransactionsInIntervalInteractor.Params> {
+) : ObservableUseCase<List<Transaction>, GetTransactionsInIntervalInteractor.Params> {
     data class Params(val interval: Interval) {
         companion object {
             fun forInterval(interval: Interval) =

@@ -41,7 +41,7 @@ class WalletResponseConverterTest {
             get(WalletEntity::id).isEqualTo(mockId)
             get(WalletEntity::name).isEqualTo(name)
             get(WalletEntity::syncStatus).isEqualTo(
-                if(deleted) {
+                if (deleted) {
                     SyncStatus.ToDelete
                 } else {
                     SyncStatus.Synced

@@ -6,7 +6,7 @@ import com.f2prateek.rx.preferences2.RxSharedPreferences
 import io.reactivex.Completable
 import io.reactivex.Single
 
-class RxPreferencesUserDatastore(val rxPreferences: RxSharedPreferences): LocalUserDatastore {
+class RxPreferencesUserDatastore(val rxPreferences: RxSharedPreferences) : LocalUserDatastore {
     companion object {
         const val USER_ID_KEY = "USER_ID"
     }

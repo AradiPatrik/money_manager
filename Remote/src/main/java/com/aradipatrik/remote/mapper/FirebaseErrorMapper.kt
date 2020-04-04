@@ -12,7 +12,10 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 class FirebaseErrorMapper {
     fun mapFrom(error: Throwable, userCredentials: UserCredentials) = when (error) {
         is FirebaseAuthWeakPasswordException ->
-            PasswordTooShort(FirebaseAuthenticator.PASSWORD_MIN_SIZE, userCredentials.password.length)
+            PasswordTooShort(
+                FirebaseAuthenticator.PASSWORD_MIN_SIZE,
+                userCredentials.password.length
+            )
         is FirebaseAuthUserCollisionException ->
             UserAlreadyExistsException(userCredentials)
         is FirebaseAuthInvalidCredentialsException ->

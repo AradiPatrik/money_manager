@@ -1,11 +1,10 @@
 package com.aradipatrik.domain.interactor.auth
 
-import com.aradipatrik.domain.exceptions.auth.ValidationException
-import com.aradipatrik.domain.usecase.CompletableUseCase
 import com.aradipatrik.domain.interactor.auth.SignUpWithEmailAndPasswordInteractor.Params
 import com.aradipatrik.domain.interfaces.auth.Authenticator
 import com.aradipatrik.domain.interfaces.data.UserRepository
 import com.aradipatrik.domain.model.UserCredentials
+import com.aradipatrik.domain.usecase.CompletableUseCase
 import com.aradipatrik.domain.validation.CredentialsValidator
 import io.reactivex.Completable
 

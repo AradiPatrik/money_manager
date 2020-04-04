@@ -13,9 +13,9 @@ import com.aradipatrik.local.database.RoomLocalTransactionDatastore
 import com.aradipatrik.local.database.TransactionDatabase
 import com.aradipatrik.local.database.mapper.CategoryRowMapper
 import com.aradipatrik.local.database.mapper.TransactionRowMapper
+import com.aradipatrik.remote.TEST_USER_ID
 import com.aradipatrik.remote.data.FirestoreRemoteCategoryDatastore
 import com.aradipatrik.remote.data.FirestoreRemoteTransactionDatastore
-import com.aradipatrik.remote.TEST_USER_ID
 import com.aradipatrik.remote.payloadfactory.CategoryPayloadFactory
 import com.aradipatrik.remote.payloadfactory.CategoryResponseConverter
 import com.aradipatrik.remote.payloadfactory.TransactionPayloadFactory
@@ -137,7 +137,8 @@ class CategorySyncIntegration {
             )
         ).blockingAwait()
 
-        val afterRemoteChangeAndSync = categoryRepository.getAll().test().awaitCount(1).values().first()
+        val afterRemoteChangeAndSync =
+            categoryRepository.getAll().test().awaitCount(1).values().first()
         val lastValue = testObserver.values().last()
         expectThat(afterRemoteChangeAndSync).hasSize(2)
         expectThat(lastValue).hasSize(2)
@@ -158,7 +159,8 @@ class CategorySyncIntegration {
             )
         ).blockingAwait()
 
-        val afterRemoteChangeAndSync = categoryRepository.getAll().test().awaitCount(1).values().first()
+        val afterRemoteChangeAndSync =
+            categoryRepository.getAll().test().awaitCount(1).values().first()
         val lastValue = testObserver.values().last()
         expectThat(afterRemoteChangeAndSync).hasSize(1)
         expectThat(lastValue).hasSize(1)
@@ -181,7 +183,8 @@ class CategorySyncIntegration {
             )
         ).blockingAwait()
 
-        val afterRemoteChangeAndSync = categoryRepository.getAll().test().awaitCount(1).values().first()
+        val afterRemoteChangeAndSync =
+            categoryRepository.getAll().test().awaitCount(1).values().first()
         val lastValue = testObserver.values().last()
         expectThat(afterRemoteChangeAndSync).hasSize(1)
         expectThat(lastValue).hasSize(1)

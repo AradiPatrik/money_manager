@@ -1,6 +1,5 @@
 package com.aradipatrik.local.database
 
-import androidx.preference.Preference
 import androidx.preference.PreferenceManager
 import com.aradipatrik.data.datastore.category.LocalCategoryDatastore
 import com.aradipatrik.data.datastore.transaction.LocalTransactionDatastore

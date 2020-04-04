@@ -33,7 +33,7 @@ object MethodStubFactory {
         every { remoteTimestampedDatastore.getAfter(any()) } returns getAfterResponse
     }
 
-    inline fun <T, reified Id: Any> stubRemoteTimestampedChildDatastore(
+    inline fun <T, reified Id : Any> stubRemoteTimestampedChildDatastore(
         remoteTimestampedChildDatastore: RemoteTimestampedChildDatastore<T, Id>,
         updateWithResponse: Completable = Completable.complete(),
         getAfterResponse: Single<List<T>> = Single.just(emptyList())

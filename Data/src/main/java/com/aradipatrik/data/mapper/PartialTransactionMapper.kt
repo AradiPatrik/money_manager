@@ -2,7 +2,6 @@ package com.aradipatrik.data.mapper
 
 import com.aradipatrik.data.model.TransactionPartialEntity
 import com.aradipatrik.domain.model.Transaction
-import javax.inject.Inject
 
 class PartialTransactionMapper {
     fun mapToEntity(domain: Transaction) = TransactionPartialEntity(

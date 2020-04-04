@@ -1,6 +1,9 @@
 package com.aradipatrik.local.database.wallet
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.aradipatrik.local.database.common.SyncStatusConstants
 import com.aradipatrik.local.database.common.WalletConstants
 import io.reactivex.Completable

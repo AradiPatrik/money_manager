@@ -44,7 +44,7 @@ class CategoryResponseConverterTest {
             get(CategoryEntity::name).isEqualTo(name)
             get(CategoryEntity::iconId).isEqualTo(iconId)
             get(CategoryEntity::syncStatus).isEqualTo(
-                if(deleted) {
+                if (deleted) {
                     SyncStatus.ToDelete
                 } else {
                     SyncStatus.Synced

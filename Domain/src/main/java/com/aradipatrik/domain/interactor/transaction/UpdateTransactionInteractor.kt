@@ -1,8 +1,8 @@
 package com.aradipatrik.domain.interactor.transaction
 
-import com.aradipatrik.domain.usecase.CompletableUseCase
 import com.aradipatrik.domain.interfaces.data.TransactionRepository
 import com.aradipatrik.domain.model.Transaction
+import com.aradipatrik.domain.usecase.CompletableUseCase
 import io.reactivex.Completable
 
 class UpdateTransactionInteractor(

@@ -1,7 +1,6 @@
 package com.aradipatrik.data.repository
 
 import com.aradipatrik.data.common.LocalTimestampedDatastore
-import com.aradipatrik.data.common.RemoteTimestampedChildDatastore
 import com.aradipatrik.data.common.RemoteTimestampedDatastore
 import com.aradipatrik.data.datastore.category.LocalCategoryDatastore
 import com.aradipatrik.data.datastore.category.RemoteCategoryDatastore
@@ -63,7 +62,11 @@ class Syncer(
             updateLocalWithFreshData(freshDataFromRemote)
                 .andThen(getPendingDataFromLocal())
         }
-        .flatMapCompletable { pendingItemsFromLocal -> updateRemoteWithFreshData(pendingItemsFromLocal) }
+        .flatMapCompletable { pendingItemsFromLocal ->
+            updateRemoteWithFreshData(
+                pendingItemsFromLocal
+            )
+        }
         .observeOn(Schedulers.io())
         .andThen(clearPendingFromLocal())
         .andThen(getLastSyncTimeOfLocal())

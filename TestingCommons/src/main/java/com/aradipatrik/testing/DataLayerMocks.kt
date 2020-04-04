@@ -37,5 +37,13 @@ object DataLayerMocks {
         date: DateTime = date(),
         lastUpdateTimestamp: Long = long(),
         syncStatus: SyncStatus = SyncStatus.None
-    ) = TransactionPartialEntity(id, categoryId, amount, memo, date, lastUpdateTimestamp, syncStatus)
+    ) = TransactionPartialEntity(
+        id,
+        categoryId,
+        amount,
+        memo,
+        date,
+        lastUpdateTimestamp,
+        syncStatus
+    )
 }

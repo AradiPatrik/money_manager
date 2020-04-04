@@ -98,9 +98,9 @@
         android:elevation="16dp"
         android:foregroundGravity="center"
         android:tint="?attr/colorOnSwatch"
-        app:srcCompat="@drawable/category_icons_shopping_cart"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/category_select_recycler_view" />
+        app:layout_constraintTop_toBottomOf="@id/category_select_recycler_view"
+        app:srcCompat="@drawable/category_icons_shopping_cart" />
 
     <EditText
         android:id="@+id/memo_edit_Text"

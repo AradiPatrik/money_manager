@@ -1,10 +1,11 @@
 package com.aradipatrik.remote.test
 
 import com.aradipatrik.data.mapper.SyncStatus
-import com.aradipatrik.remote.*
+import com.aradipatrik.remote.CATEGORY_NAME_KEY
+import com.aradipatrik.remote.DELETED_KEY
+import com.aradipatrik.remote.ICON_ID_KEY
+import com.aradipatrik.remote.UPDATED_TIMESTAMP_KEY
 import com.aradipatrik.remote.payloadfactory.CategoryPayloadFactory
-import com.aradipatrik.remote.payloadfactory.TransactionPayloadFactory
-import com.aradipatrik.testing.DataLayerMocks
 import com.aradipatrik.testing.DataLayerMocks.categoryEntity
 import com.google.firebase.Timestamp
 import org.junit.Test
