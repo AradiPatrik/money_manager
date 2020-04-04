@@ -5,9 +5,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.aradipatrik.local.database.common.CategoryConstants.ID_COLUMN_NAME
-import com.aradipatrik.local.database.common.CategoryConstants.SYNC_STATUS_COLUMN_NAME
 import com.aradipatrik.local.database.common.CategoryConstants.TABLE_NAME
-import com.aradipatrik.local.database.common.CategoryConstants.UPDATE_TIMESTAMP_COLUMN_NAME
+import com.aradipatrik.local.database.common.CommonConstants.SYNC_STATUS_COLUMN_NAME
+import com.aradipatrik.local.database.common.CommonConstants.UPDATE_TIMESTAMP_COLUMN_NAME
 import com.aradipatrik.local.database.common.SyncStatusConstants.SYNCED_CODE
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_DELETE_CODE
 import io.reactivex.Completable

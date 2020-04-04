@@ -1,5 +1,10 @@
 package com.aradipatrik.local.database.common
 
+object CommonConstants {
+    const val UPDATE_TIMESTAMP_COLUMN_NAME = "update_timestamp"
+    const val SYNC_STATUS_COLUMN_NAME = "sync_status"
+}
+
 object TransactionConstants {
     const val TABLE_NAME = "transactions"
     const val ID_COLUMN_NAME = "uid"
@@ -7,8 +12,6 @@ object TransactionConstants {
     const val AMOUNT_COLUMN_NAME = "amount"
     const val MEMO_COLUMN_NAME = "memo"
     const val DATE_COLUMN_NAME = "date"
-    const val UPDATE_TIMESTAMP_COLUMN_NAME = "update_timestamp"
-    const val SYNC_STATUS_COLUMN_NAME = "sync_status"
 }
 
 object SyncStatusConstants {
@@ -24,14 +27,11 @@ object CategoryConstants {
     const val ID_COLUMN_NAME = "uid"
     const val NAME_COLUMN_NAME = "name"
     const val ICON_ID_COLUMN_NAME = "icon_id"
-    const val UPDATE_TIMESTAMP_COLUMN_NAME = "update_timestamp"
-    const val SYNC_STATUS_COLUMN_NAME = "sync_status"
+    const val WALLET_ID_COLUMN_NAME = "wallet_id"
 }
 
 object WalletConstants {
     const val TABLE_NAME = "wallets"
     const val ID_COLUMN_NAME = "uid"
     const val NAME_COLUMN_NAME = "name"
-    const val UPDATE_TIMESTAMP_COLUMN_NAME = "update_timestamp"
-    const val SYNC_STATUS_COLUMN_NAME = "sync_status"
 }

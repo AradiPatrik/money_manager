@@ -1,13 +1,13 @@
 package com.aradipatrik.local.database.transaction
 
 import androidx.room.*
+import com.aradipatrik.local.database.common.CommonConstants.SYNC_STATUS_COLUMN_NAME
+import com.aradipatrik.local.database.common.CommonConstants.UPDATE_TIMESTAMP_COLUMN_NAME
 import com.aradipatrik.local.database.common.SyncStatusConstants.SYNCED_CODE
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_DELETE_CODE
 import com.aradipatrik.local.database.common.TransactionConstants.DATE_COLUMN_NAME
 import com.aradipatrik.local.database.common.TransactionConstants.ID_COLUMN_NAME
-import com.aradipatrik.local.database.common.TransactionConstants.SYNC_STATUS_COLUMN_NAME
 import com.aradipatrik.local.database.common.TransactionConstants.TABLE_NAME
-import com.aradipatrik.local.database.common.TransactionConstants.UPDATE_TIMESTAMP_COLUMN_NAME
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Observable

@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.aradipatrik.local.database.common.CommonConstants
 import com.aradipatrik.local.database.common.SyncStatusConstants
 import com.aradipatrik.local.database.common.WalletConstants
 import io.reactivex.Completable
@@ -16,13 +17,13 @@ interface WalletDao {
     companion object Queries {
         const val GET_ALL_WALLETS = "SELECT * FROM ${WalletConstants.TABLE_NAME}"
         const val GET_PENDING_WALLETS =
-            "SELECT * FROM ${WalletConstants.TABLE_NAME} WHERE ${WalletConstants.SYNC_STATUS_COLUMN_NAME} != ${SyncStatusConstants.SYNCED_CODE}"
+            "SELECT * FROM ${WalletConstants.TABLE_NAME} WHERE ${CommonConstants.SYNC_STATUS_COLUMN_NAME} != ${SyncStatusConstants.SYNCED_CODE}"
         const val CLEAR_PENDING =
-            "DELETE FROM ${WalletConstants.TABLE_NAME} where ${WalletConstants.SYNC_STATUS_COLUMN_NAME} != ${SyncStatusConstants.SYNCED_CODE}"
+            "DELETE FROM ${WalletConstants.TABLE_NAME} where ${CommonConstants.SYNC_STATUS_COLUMN_NAME} != ${SyncStatusConstants.SYNCED_CODE}"
         const val GET_LAST_SYNC_TIME =
-            "SELECT MAX(${WalletConstants.UPDATE_TIMESTAMP_COLUMN_NAME}) FROM ${WalletConstants.TABLE_NAME}"
+            "SELECT MAX(${CommonConstants.UPDATE_TIMESTAMP_COLUMN_NAME}) FROM ${WalletConstants.TABLE_NAME}"
         const val SET_DELETED =
-            "UPDATE ${WalletConstants.TABLE_NAME} SET ${WalletConstants.SYNC_STATUS_COLUMN_NAME} = ${SyncStatusConstants.TO_DELETE_CODE} WHERE ${WalletConstants.ID_COLUMN_NAME} = :id"
+            "UPDATE ${WalletConstants.TABLE_NAME} SET ${CommonConstants.SYNC_STATUS_COLUMN_NAME} = ${SyncStatusConstants.TO_DELETE_CODE} WHERE ${WalletConstants.ID_COLUMN_NAME} = :id"
     }
 
     @Query(GET_ALL_WALLETS)
