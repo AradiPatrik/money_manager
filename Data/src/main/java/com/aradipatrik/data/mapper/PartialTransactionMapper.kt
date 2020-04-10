@@ -1,12 +1,13 @@
 package com.aradipatrik.data.mapper
 
-import com.aradipatrik.data.model.TransactionPartialEntity
+import com.aradipatrik.data.model.TransactionWithIds
 import com.aradipatrik.domain.model.Transaction
 
 class PartialTransactionMapper {
-    fun mapToEntity(domain: Transaction) = TransactionPartialEntity(
+    fun mapToEntity(domain: Transaction) = TransactionWithIds(
         id = domain.id,
         categoryId = domain.category.id,
+        walletId = "",
         amount = domain.amount,
         memo = domain.memo,
         date = domain.date,

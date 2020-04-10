@@ -32,6 +32,7 @@ class CategoryMappingTest {
         assertEqualsDomainEntity(testDomain, entity)
         expectThat(entity.updatedTimeStamp).isEqualTo(testTimestamp)
         expectThat(entity.syncStatus).isEqualTo(SyncStatus.None)
+        expectThat(entity.walletId).isEqualTo("")
     }
 
     @Test

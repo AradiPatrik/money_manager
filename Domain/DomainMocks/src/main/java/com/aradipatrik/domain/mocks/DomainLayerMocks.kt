@@ -14,7 +14,8 @@ object DomainLayerMocks {
     fun category(
         id: String = string(),
         name: String = string(),
-        iconId: String = string()
+        iconId: String = string(),
+        walletId: String = string()
     ) = Category(
         id = id,
         name = name,
@@ -24,6 +25,7 @@ object DomainLayerMocks {
     fun transaction(
         id: String = string(),
         category: Category = category(),
+        walletId: String = string(),
         amount: Int = int(),
         memo: String = string(),
         date: DateTime = date()

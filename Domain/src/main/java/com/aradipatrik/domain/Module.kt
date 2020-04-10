@@ -8,7 +8,7 @@ import com.aradipatrik.domain.interactor.transaction.DeleteTransactionInteractor
 import com.aradipatrik.domain.interactor.transaction.GetTransactionsInIntervalInteractor
 import com.aradipatrik.domain.interactor.transaction.UpdateTransactionInteractor
 import com.aradipatrik.domain.interactor.wallet.SelectWalletInteractor
-import com.aradipatrik.domain.store.SelectedWalletStore
+import com.aradipatrik.domain.holder.SelectedWalletHolder
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -34,6 +34,6 @@ val domainModule = module {
         SelectWalletInteractor(get(), get())
     }
     single {
-        SelectedWalletStore()
+        SelectedWalletHolder()
     }
 }

@@ -1,16 +1,14 @@
 package com.aradipatrik.local.database.mapper
 
 import com.aradipatrik.data.mapper.SyncStatus
-import com.aradipatrik.data.model.TransactionJoinedEntity
-import com.aradipatrik.data.model.TransactionPartialEntity
+import com.aradipatrik.data.model.TransactionWithIds
 import com.aradipatrik.local.database.transaction.TransactionRow
-import com.aradipatrik.local.database.transaction.TransactionWithCategory
 import org.joda.time.DateTime
 
 class TransactionRowMapper(
     private val categoryRowMapper: CategoryRowMapper
 ) {
-    fun mapToRow(e: TransactionPartialEntity) = TransactionRow(
+    fun mapToRow(e: TransactionWithIds) = TransactionRow(
         uid = e.id,
         categoryId = e.categoryId,
         amount = e.amount,
@@ -20,7 +18,7 @@ class TransactionRowMapper(
         syncStatusCode = e.syncStatus.code
     )
 
-    fun mapToPartialEntity(r: TransactionRow) = TransactionPartialEntity(
+    fun mapToPartialEntity(r: TransactionRow) = TransactionWithIds(
         id = r.uid,
         categoryId = r.categoryId,
         amount = r.amount,
@@ -30,7 +28,7 @@ class TransactionRowMapper(
         syncStatus = SyncStatus.fromCode(r.syncStatusCode)
     )
 
-    fun mapToJoinedEntity(r: TransactionWithCategory) = TransactionJoinedEntity(
+    fun mapToJoinedEntity(r: TransactionWithCategory) = com.aradipatrik.data.model.TransactionWithCategory(
         id = r.transaction.uid,
         amount = r.transaction.amount,
         date = DateTime(r.transaction.date),

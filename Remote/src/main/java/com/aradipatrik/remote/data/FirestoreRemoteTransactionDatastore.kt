@@ -2,7 +2,7 @@ package com.aradipatrik.remote.data
 
 import com.aradipatrik.data.datastore.transaction.RemoteTransactionDatastore
 import com.aradipatrik.data.mapper.SyncStatus
-import com.aradipatrik.data.model.TransactionPartialEntity
+import com.aradipatrik.data.model.TransactionWithIds
 import com.aradipatrik.remote.TEST_USER_ID
 import com.aradipatrik.remote.UPDATED_TIMESTAMP_KEY
 import com.aradipatrik.remote.payloadfactory.TransactionPayloadFactory
@@ -32,7 +32,7 @@ class FirestoreRemoteTransactionDatastore(
         .document(userId)
         .collection(TRANSACTIONS_COLLECTION_KEY)
 
-    override fun updateWith(items: List<TransactionPartialEntity>) = Completable.defer {
+    override fun updateWith(items: List<TransactionWithIds>) = Completable.defer {
         Completable.create { emitter ->
             val toUpdate = items.filter { it.syncStatus == SyncStatus.ToUpdate }
             val toAdd = items.filter { it.syncStatus == SyncStatus.ToAdd }
@@ -51,7 +51,7 @@ class FirestoreRemoteTransactionDatastore(
         }
     }
 
-    private fun WriteBatch.doUpdate(items: List<TransactionPartialEntity>) {
+    private fun WriteBatch.doUpdate(items: List<TransactionWithIds>) {
         items.forEach { transaction ->
             update(
                 transactionCollection.document(transaction.id),
@@ -60,7 +60,7 @@ class FirestoreRemoteTransactionDatastore(
         }
     }
 
-    private fun WriteBatch.doAdd(items: List<TransactionPartialEntity>) {
+    private fun WriteBatch.doAdd(items: List<TransactionWithIds>) {
         items.forEach { transaction ->
             set(
                 transactionCollection.document(),
@@ -69,7 +69,7 @@ class FirestoreRemoteTransactionDatastore(
         }
     }
 
-    private fun WriteBatch.doDelete(items: List<TransactionPartialEntity>) {
+    private fun WriteBatch.doDelete(items: List<TransactionWithIds>) {
         items.forEach { transaction ->
             set(
                 transactionCollection.document(transaction.id),
@@ -81,8 +81,8 @@ class FirestoreRemoteTransactionDatastore(
     override fun getAfter(
         time: Long,
         backtrackSeconds: Long
-    ): Single<List<TransactionPartialEntity>> =
-        Single.create<List<TransactionPartialEntity>> { emitter ->
+    ): Single<List<TransactionWithIds>> =
+        Single.create<List<TransactionWithIds>> { emitter ->
             transactionCollection.whereGreaterThan(
                 UPDATED_TIMESTAMP_KEY, Timestamp(
                     DateTime(time - backtrackSeconds * 1000).toDate()

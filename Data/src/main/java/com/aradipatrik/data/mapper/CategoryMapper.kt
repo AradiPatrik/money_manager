@@ -8,7 +8,7 @@ class CategoryMapper {
         Category(entity.id, entity.name, entity.iconId)
 
     fun mapToEntity(domain: Category) = CategoryEntity(
-        domain.id, domain.name, domain.iconId,
+        id = domain.id, name = domain.name, iconId = domain.iconId, walletId = "",
         updatedTimeStamp = TimestampProvider.now(), syncStatus = SyncStatus.None
     )
 }

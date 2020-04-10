@@ -1,7 +1,7 @@
 package com.aradipatrik.remote.test
 
 import com.aradipatrik.data.mapper.SyncStatus
-import com.aradipatrik.data.model.TransactionPartialEntity
+import com.aradipatrik.data.model.TransactionWithIds
 import com.aradipatrik.remote.*
 import com.aradipatrik.remote.payloadfactory.TransactionResponseConverter
 import com.aradipatrik.testing.CommonMocks.boolean
@@ -42,13 +42,13 @@ class TransactionResponseConverterTest {
         )
 
         expectThat(result) {
-            get(TransactionPartialEntity::updatedTimeStamp).isEqualTo(updateTimestamp.toDate().time)
-            get(TransactionPartialEntity::id).isEqualTo(mockId)
-            get(TransactionPartialEntity::categoryId).isEqualTo(categoryId)
-            get(TransactionPartialEntity::memo).isEqualTo(memo)
-            get(TransactionPartialEntity::date).isEqualTo(date)
-            get(TransactionPartialEntity::amount).isEqualTo(amount.toInt())
-            get(TransactionPartialEntity::syncStatus).isEqualTo(
+            get(TransactionWithIds::updatedTimeStamp).isEqualTo(updateTimestamp.toDate().time)
+            get(TransactionWithIds::id).isEqualTo(mockId)
+            get(TransactionWithIds::categoryId).isEqualTo(categoryId)
+            get(TransactionWithIds::memo).isEqualTo(memo)
+            get(TransactionWithIds::date).isEqualTo(date)
+            get(TransactionWithIds::amount).isEqualTo(amount.toInt())
+            get(TransactionWithIds::syncStatus).isEqualTo(
                 if (deleted) {
                     SyncStatus.ToDelete
                 } else {

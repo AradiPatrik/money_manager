@@ -2,8 +2,8 @@ package com.aradipatrik.data.mocks
 
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.CategoryEntity
-import com.aradipatrik.data.model.TransactionJoinedEntity
-import com.aradipatrik.data.model.TransactionPartialEntity
+import com.aradipatrik.data.model.TransactionWithCategory
+import com.aradipatrik.data.model.TransactionWithIds
 import com.aradipatrik.data.model.WalletEntity
 import com.aradipatrik.testing.CommonMocks.date
 import com.aradipatrik.testing.CommonMocks.int
@@ -17,6 +17,7 @@ object DataLayerMocks {
         id: String = string(),
         name: String = string(),
         iconId: String = string(),
+        walletId: String = string(),
         updatedTimeStamp: Long = long(),
         syncStatus: SyncStatus = SyncStatus.None
     ) = CategoryEntity(
@@ -24,38 +25,43 @@ object DataLayerMocks {
         name = name,
         iconId = iconId,
         updatedTimeStamp = updatedTimeStamp,
+        walletId = walletId,
         syncStatus = syncStatus
     )
 
-    fun transactionJoinedEntity(
+    fun transactionWithCategory(
         id: String = string(),
         category: CategoryEntity = categoryEntity(),
         amount: Int = int(),
+        walletId: String = string(),
         memo: String = string(),
         date: DateTime = date(),
         updatedTimeStamp: Long = long(),
         syncStatus: SyncStatus = SyncStatus.None
-    ) = TransactionJoinedEntity(
+    ) = TransactionWithCategory(
         id = id,
         category = category,
         amount = amount,
         memo = memo,
         date = date,
+        walletId = walletId,
         updatedTimeStamp = updatedTimeStamp,
         syncStatus = syncStatus
     )
 
-    fun transactionPartialEntity(
+    fun transactionWithIds(
         id: String = string(),
         categoryId: String = string(),
+        walletId: String = string(),
         amount: Int = int(),
         memo: String = string(),
         date: DateTime = date(),
         updatedTimeStamp: Long = long(),
         syncStatus: SyncStatus = SyncStatus.None
-    ) = TransactionPartialEntity(
+    ) = TransactionWithIds(
         id = id,
         categoryId = categoryId,
+        walletId = walletId,
         amount = amount,
         memo = memo,
         date = date,

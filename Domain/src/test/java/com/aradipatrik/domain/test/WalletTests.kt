@@ -5,7 +5,7 @@ import com.aradipatrik.domain.interactor.wallet.SelectWalletInteractor
 import com.aradipatrik.domain.interfaces.data.WalletRepository
 import com.aradipatrik.domain.mocks.DomainLayerMocks.wallet
 import com.aradipatrik.domain.model.Wallet
-import com.aradipatrik.domain.store.SelectedWalletStore
+import com.aradipatrik.domain.holder.SelectedWalletHolder
 import io.mockk.every
 import io.mockk.mockk
 import io.reactivex.Single
@@ -23,12 +23,12 @@ typealias WalletParams = SelectWalletInteractor.Params
 class WalletTests : KoinTest {
     private val module = module {
         single { SelectWalletInteractor(get(), get()) }
-        single { SelectedWalletStore() }
+        single { SelectedWalletHolder() }
         single<WalletRepository> { mockk() }
     }
 
     private val selectWallet: SelectWalletInteractor by inject()
-    private val selectedWalletStore: SelectedWalletStore by inject()
+    private val selectedWalletHolder: SelectedWalletHolder by inject()
     private val mockWalletRepository: WalletRepository by inject()
 
     @Before

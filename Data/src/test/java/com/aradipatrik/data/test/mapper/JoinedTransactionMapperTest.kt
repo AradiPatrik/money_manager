@@ -5,8 +5,8 @@ import com.aradipatrik.data.mapper.JoinedTransactionMapper
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.mapper.TimestampProvider
 import com.aradipatrik.data.mocks.DataLayerMocks.categoryEntity
-import com.aradipatrik.data.mocks.DataLayerMocks.transactionJoinedEntity
-import com.aradipatrik.data.model.TransactionJoinedEntity
+import com.aradipatrik.data.mocks.DataLayerMocks.transactionWithCategory
+import com.aradipatrik.data.model.TransactionWithCategory
 import com.aradipatrik.domain.mocks.DomainLayerMocks.category
 import com.aradipatrik.domain.mocks.DomainLayerMocks.transaction
 import com.aradipatrik.domain.model.Transaction
@@ -39,7 +39,7 @@ class JoinedTransactionMapperTest {
 
     @Test
     fun mapFromEntityMapsData() {
-        val testEntity = transactionJoinedEntity()
+        val testEntity = transactionWithCategory()
         val domain = transactionMapper.mapFromEntity(testEntity)
         assertEqualsDomainEntity(domain, testEntity)
         expectThat(domain.category).isEqualTo(testCategory)
@@ -53,15 +53,16 @@ class JoinedTransactionMapperTest {
         expectThat(entity.category).isEqualTo(testCategoryEntity)
         expectThat(entity.updatedTimeStamp).isEqualTo(testTimestamp)
         expectThat(entity.syncStatus).isEqualTo(SyncStatus.None)
+        expectThat(entity.walletId).isEqualTo("")
     }
 
     private fun assertEqualsDomainEntity(
         domain: Transaction,
-        joinedEntity: TransactionJoinedEntity
+        withCategory: TransactionWithCategory
     ) {
-        expectThat(domain.amount).isEqualTo(joinedEntity.amount)
-        expectThat(domain.date).isEqualTo(joinedEntity.date)
-        expectThat(domain.id).isEqualTo(joinedEntity.id)
-        expectThat(domain.memo).isEqualTo(joinedEntity.memo)
+        expectThat(domain.amount).isEqualTo(withCategory.amount)
+        expectThat(domain.date).isEqualTo(withCategory.date)
+        expectThat(domain.id).isEqualTo(withCategory.id)
+        expectThat(domain.memo).isEqualTo(withCategory.memo)
     }
 }

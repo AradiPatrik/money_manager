@@ -1,8 +1,8 @@
-package com.aradipatrik.domain.store
+package com.aradipatrik.domain.holder
 
 import com.aradipatrik.domain.model.Wallet
 import io.reactivex.processors.BehaviorProcessor
 
-class SelectedWalletStore {
+class SelectedWalletHolder {
     val selectedWalletProcessor = BehaviorProcessor.create<Wallet>()
 }

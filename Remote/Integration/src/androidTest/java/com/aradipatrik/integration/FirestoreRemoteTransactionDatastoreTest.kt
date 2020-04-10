@@ -2,8 +2,8 @@ package com.aradipatrik.integration
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.aradipatrik.data.mapper.SyncStatus
-import com.aradipatrik.data.mocks.DataLayerMocks.transactionPartialEntity
-import com.aradipatrik.data.model.TransactionPartialEntity
+import com.aradipatrik.data.mocks.DataLayerMocks.transactionWithIds
+import com.aradipatrik.data.model.TransactionWithIds
 import com.aradipatrik.integration.firebase.utils.FirestoreUtils
 import com.aradipatrik.remote.data.FirestoreRemoteTransactionDatastore
 import com.aradipatrik.remote.data.FirestoreRemoteTransactionDatastore.Companion.TRANSACTIONS_COLLECTION_KEY
@@ -54,20 +54,20 @@ class FirestoreRemoteTransactionDatastoreTest {
     @Test
     fun updateWithToAdd() {
         val itemsToAdd = listOf(
-            transactionPartialEntity(memo = "A", syncStatus = SyncStatus.ToAdd),
-            transactionPartialEntity(memo = "B", syncStatus = SyncStatus.ToAdd)
+            transactionWithIds(memo = "A", syncStatus = SyncStatus.ToAdd),
+            transactionWithIds(memo = "B", syncStatus = SyncStatus.ToAdd)
         )
 
         val beforeUpdateTime = System.currentTimeMillis()
         datastore.updateWith(itemsToAdd).blockingAwait()
         val resultEntities = FirestoreUtils.getTransactionsOfUser(TEST_USER_DOCUMENT_KEY)
             .map(responseConverter::mapResponseToEntity)
-            .sortedBy(TransactionPartialEntity::memo)
+            .sortedBy(TransactionWithIds::memo)
         val afterUpdateTime = System.currentTimeMillis()
 
         expectThat(resultEntities).hasSize(itemsToAdd.size)
         expectThat(resultEntities).all {
-            get(TransactionPartialEntity::updatedTimeStamp)
+            get(TransactionWithIds::updatedTimeStamp)
                 .isLessThan(afterUpdateTime)
                 .isGreaterThan(beforeUpdateTime - TIMESTAMP_TOLERANCE)
         }
@@ -79,13 +79,13 @@ class FirestoreRemoteTransactionDatastoreTest {
     @Test
     fun updateWithToUpdate() {
         val toAdd = listOf(
-            transactionPartialEntity(memo = "A", syncStatus = SyncStatus.ToAdd),
-            transactionPartialEntity(memo = "B", syncStatus = SyncStatus.ToAdd)
+            transactionWithIds(memo = "A", syncStatus = SyncStatus.ToAdd),
+            transactionWithIds(memo = "B", syncStatus = SyncStatus.ToAdd)
         )
         datastore.updateWith(toAdd).blockingAwait()
         val addResultEntities = FirestoreUtils.getTransactionsOfUser(TEST_USER_DOCUMENT_KEY)
             .map(responseConverter::mapResponseToEntity)
-            .sortedBy(TransactionPartialEntity::id)
+            .sortedBy(TransactionWithIds::id)
         val toUpdate = toAdd.zip(addResultEntities).map { (original, result) ->
             original.copy(id = result.id, memo = "C", syncStatus = SyncStatus.ToUpdate)
         }
@@ -96,11 +96,11 @@ class FirestoreRemoteTransactionDatastoreTest {
 
         val updateResultEntities = FirestoreUtils.getTransactionsOfUser(TEST_USER_DOCUMENT_KEY)
             .map(responseConverter::mapResponseToEntity)
-            .sortedBy(TransactionPartialEntity::id)
+            .sortedBy(TransactionWithIds::id)
 
         expectThat(updateResultEntities).hasSize(2)
         expectThat(updateResultEntities).all {
-            get(TransactionPartialEntity::updatedTimeStamp)
+            get(TransactionWithIds::updatedTimeStamp)
                 .isLessThan(afterUpdateTime)
                 .isGreaterThan(beforeUpdateTime - TIMESTAMP_TOLERANCE)
         }
@@ -117,8 +117,8 @@ class FirestoreRemoteTransactionDatastoreTest {
     @Test
     fun updateWithToDelete() {
         val toAdd = listOf(
-            transactionPartialEntity(memo = "A", syncStatus = SyncStatus.ToAdd),
-            transactionPartialEntity(memo = "B", syncStatus = SyncStatus.ToAdd)
+            transactionWithIds(memo = "A", syncStatus = SyncStatus.ToAdd),
+            transactionWithIds(memo = "B", syncStatus = SyncStatus.ToAdd)
         )
         datastore.updateWith(toAdd).blockingAwait()
         val addResultEntities = FirestoreUtils.getTransactionsOfUser(TEST_USER_DOCUMENT_KEY)
@@ -129,13 +129,13 @@ class FirestoreRemoteTransactionDatastoreTest {
         val result = FirestoreUtils.getTransactionsOfUser(TEST_USER_DOCUMENT_KEY)
             .map(responseConverter::mapResponseToEntity)
         expectThat(result).all {
-            get(TransactionPartialEntity::syncStatus).isEqualTo(SyncStatus.ToDelete)
+            get(TransactionWithIds::syncStatus).isEqualTo(SyncStatus.ToDelete)
         }
     }
 
     @Test
     fun getAfterWhenNothingToGet() {
-        val toAdd = generateSequence { transactionPartialEntity() }.take(2).toList()
+        val toAdd = generateSequence { transactionWithIds() }.take(2).toList()
         datastore.updateWith(toAdd).blockingAwait()
 
         val result = datastore.getAfter(System.currentTimeMillis()).blockingGet()
@@ -146,13 +146,13 @@ class FirestoreRemoteTransactionDatastoreTest {
     fun getAfterWhenWeShouldGetAll() {
         val beforeAdd = System.currentTimeMillis()
         val toAdd = listOf(
-            transactionPartialEntity(memo = "A", syncStatus = SyncStatus.ToAdd),
-            transactionPartialEntity(memo = "B", syncStatus = SyncStatus.ToAdd)
+            transactionWithIds(memo = "A", syncStatus = SyncStatus.ToAdd),
+            transactionWithIds(memo = "B", syncStatus = SyncStatus.ToAdd)
         )
         datastore.updateWith(toAdd).blockingAwait()
 
         val result = datastore.getAfter(beforeAdd).blockingGet()
-            .sortedBy(TransactionPartialEntity::memo)
+            .sortedBy(TransactionWithIds::memo)
         expectThat(result).hasSize(2)
         toAdd.zip(result).forEach { (original, result) ->
             assertAddResultSynced(original, result)
@@ -160,8 +160,8 @@ class FirestoreRemoteTransactionDatastoreTest {
     }
 
     private fun assertAddResultSynced(
-        original: TransactionPartialEntity,
-        result: TransactionPartialEntity
+        original: TransactionWithIds,
+        result: TransactionWithIds
     ) {
         expectThat(original.amount).isEqualTo(result.amount)
         expectThat(original.categoryId).isEqualTo(result.categoryId)
@@ -183,8 +183,8 @@ class FirestoreRemoteTransactionDatastoreTest {
     @Test
     fun deleteUserShouldWork() {
         val itemsToAdd = listOf(
-            transactionPartialEntity(memo = "A", syncStatus = SyncStatus.ToAdd),
-            transactionPartialEntity(memo = "B", syncStatus = SyncStatus.ToAdd)
+            transactionWithIds(memo = "A", syncStatus = SyncStatus.ToAdd),
+            transactionWithIds(memo = "B", syncStatus = SyncStatus.ToAdd)
         )
 
         datastore.updateWith(itemsToAdd).blockingAwait()

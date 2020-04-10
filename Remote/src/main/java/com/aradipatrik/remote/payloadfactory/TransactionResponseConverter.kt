@@ -1,7 +1,7 @@
 package com.aradipatrik.remote.payloadfactory
 
 import com.aradipatrik.data.mapper.SyncStatus
-import com.aradipatrik.data.model.TransactionPartialEntity
+import com.aradipatrik.data.model.TransactionWithIds
 import com.aradipatrik.remote.AMOUNT_KEY
 import com.aradipatrik.remote.CATEGORY_ID_KEY
 import com.aradipatrik.remote.DATE_KEY
@@ -16,8 +16,8 @@ import java.io.IOException
 data class WrongFieldTypeException(val fieldId: String) : IOException("Wrong type $fieldId")
 
 class TransactionResponseConverter {
-    fun mapResponseToEntity(document: DocumentSnapshot): TransactionPartialEntity =
-        TransactionPartialEntity(
+    fun mapResponseToEntity(document: DocumentSnapshot): TransactionWithIds =
+        TransactionWithIds(
             id = getIdFrom(document),
             categoryId = getCategoryFrom(document),
             amount = getAmountFrom(document),

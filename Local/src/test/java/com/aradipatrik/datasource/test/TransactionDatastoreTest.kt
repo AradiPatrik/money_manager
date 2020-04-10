@@ -7,8 +7,8 @@ import com.aradipatrik.data.datastore.category.LocalCategoryDatastore
 import com.aradipatrik.data.datastore.transaction.LocalTransactionDatastore
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.mocks.DataLayerMocks.categoryEntity
-import com.aradipatrik.data.mocks.DataLayerMocks.transactionPartialEntity
-import com.aradipatrik.data.model.TransactionJoinedEntity
+import com.aradipatrik.data.mocks.DataLayerMocks.transactionWithIds
+import com.aradipatrik.data.model.TransactionWithCategory
 import com.aradipatrik.local.database.RoomLocalCategoryDatastore
 import com.aradipatrik.local.database.RoomLocalTransactionDatastore
 import com.aradipatrik.local.database.TransactionDatabase
@@ -43,7 +43,7 @@ class TransactionDatastoreTest {
     private val categoryRowMapper = CategoryRowMapper()
     private val transactionRowMapper = TransactionRowMapper(categoryRowMapper)
     private val transactionEntitiesWithAllSyncStatus =
-        EnumSet.allOf(SyncStatus::class.java).map { transactionPartialEntity(syncStatus = it) }
+        EnumSet.allOf(SyncStatus::class.java).map { transactionWithIds(syncStatus = it) }
 
     @Before
     fun setup() {
@@ -64,7 +64,7 @@ class TransactionDatastoreTest {
         val testCategory = categoryEntity()
         val transactions =
             listOf(1, 2, 3, 4, 5).map { day ->
-                transactionPartialEntity(
+                transactionWithIds(
                     categoryId = testCategory.id,
                     syncStatus = SyncStatus.Synced,
                     date = DateTime(testYear, testMonth, day, hour(), minute())
@@ -85,7 +85,7 @@ class TransactionDatastoreTest {
             .test()
             .assertValue(
                 transactions.subList(queryBeginIndex, queryEndIndex + 1).map {
-                    TransactionJoinedEntity(
+                    TransactionWithCategory(
                         id = it.id,
                         date = it.date,
                         category = testCategory,
@@ -142,7 +142,7 @@ class TransactionDatastoreTest {
     fun `Last sync time should return last sync time`() {
         val syncTimes = listOf<Long>(1, 2, 3, 4, 5)
         val syncedTransactions =
-            syncTimes.map { transactionPartialEntity(updatedTimeStamp = it) }
+            syncTimes.map { transactionWithIds(updatedTimeStamp = it) }
         transactionDatastore.updateWith(syncedTransactions).blockingAwait()
 
         transactionDatastore.getLastSyncTime()
@@ -186,7 +186,7 @@ class TransactionDatastoreTest {
 
     @Test
     fun `Delete should set sync status to delete`() {
-        val transaction = transactionPartialEntity()
+        val transaction = transactionWithIds()
         transactionDatastore.add(transaction).blockingAwait()
         transactionDatastore.delete(transaction.id)
             .test()

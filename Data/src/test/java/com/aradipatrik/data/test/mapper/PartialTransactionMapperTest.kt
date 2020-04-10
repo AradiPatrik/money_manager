@@ -3,7 +3,7 @@ package com.aradipatrik.data.test.mapper
 import com.aradipatrik.data.mapper.PartialTransactionMapper
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.mapper.TimestampProvider
-import com.aradipatrik.data.model.TransactionPartialEntity
+import com.aradipatrik.data.model.TransactionWithIds
 import com.aradipatrik.domain.mocks.DomainLayerMocks.transaction
 import com.aradipatrik.testing.CommonMocks.long
 import io.mockk.every
@@ -22,13 +22,14 @@ class PartialTransactionMapperTest {
         val mapper = PartialTransactionMapper()
         val entity = mapper.mapToEntity(transaction)
         expectThat(entity) {
-            get(TransactionPartialEntity::amount).isEqualTo(transaction.amount)
-            get(TransactionPartialEntity::categoryId).isEqualTo(transaction.category.id)
-            get(TransactionPartialEntity::date).isEqualTo(transaction.date)
-            get(TransactionPartialEntity::id).isEqualTo(transaction.id)
-            get(TransactionPartialEntity::memo).isEqualTo(transaction.memo)
-            get(TransactionPartialEntity::syncStatus).isEqualTo(SyncStatus.None)
-            get(TransactionPartialEntity::updatedTimeStamp).isEqualTo(timestamp)
+            get(TransactionWithIds::amount).isEqualTo(transaction.amount)
+            get(TransactionWithIds::categoryId).isEqualTo(transaction.category.id)
+            get(TransactionWithIds::date).isEqualTo(transaction.date)
+            get(TransactionWithIds::id).isEqualTo(transaction.id)
+            get(TransactionWithIds::memo).isEqualTo(transaction.memo)
+            get(TransactionWithIds::walletId).isEqualTo("")
+            get(TransactionWithIds::syncStatus).isEqualTo(SyncStatus.None)
+            get(TransactionWithIds::updatedTimeStamp).isEqualTo(timestamp)
         }
     }
 }
