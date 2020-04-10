@@ -12,7 +12,7 @@ import com.aradipatrik.presentation.mapper.TransactionPresentationMapper
 import com.aradipatrik.presentation.presentations.TransactionPresentation
 import com.aradipatrik.presentation.viewmodels.history.TransactionHistoryState
 import com.aradipatrik.presentation.viewmodels.history.TransactionHistoryViewModel
-import com.aradipatrik.testing.DomainLayerMocks.transaction
+import com.aradipatrik.testing.CommonMocks.transaction
 import io.mockk.*
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable

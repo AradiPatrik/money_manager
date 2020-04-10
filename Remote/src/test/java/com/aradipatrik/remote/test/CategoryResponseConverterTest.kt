@@ -7,8 +7,8 @@ import com.aradipatrik.remote.DELETED_KEY
 import com.aradipatrik.remote.ICON_ID_KEY
 import com.aradipatrik.remote.UPDATED_TIMESTAMP_KEY
 import com.aradipatrik.remote.payloadfactory.CategoryResponseConverter
-import com.aradipatrik.testing.DomainLayerMocks.boolean
-import com.aradipatrik.testing.DomainLayerMocks.string
+import com.aradipatrik.testing.CommonMocks.boolean
+import com.aradipatrik.testing.CommonMocks.string
 import com.google.firebase.Timestamp
 import io.mockk.every
 import io.mockk.mockk

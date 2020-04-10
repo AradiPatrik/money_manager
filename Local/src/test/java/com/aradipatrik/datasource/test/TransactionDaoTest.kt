@@ -3,13 +3,13 @@ package com.aradipatrik.datasource.test
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.aradipatrik.datasource.test.TransactionRowFactory.categoryRow
-import com.aradipatrik.datasource.test.TransactionRowFactory.transactionRow
-import com.aradipatrik.datasource.test.TransactionRowFactory.transactionWithCategory
 import com.aradipatrik.local.database.TransactionDatabase
 import com.aradipatrik.local.database.common.SyncStatusConstants
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_DELETE_CODE
-import com.aradipatrik.testing.DomainLayerMocks.string
+import com.aradipatrik.local.mocks.LocalDataLayerMocks.categoryRow
+import com.aradipatrik.local.mocks.LocalDataLayerMocks.transactionRow
+import com.aradipatrik.local.mocks.LocalDataLayerMocks.transactionWithCategory
+import com.aradipatrik.testing.CommonMocks.string
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test

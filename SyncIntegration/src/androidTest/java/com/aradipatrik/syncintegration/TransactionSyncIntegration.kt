@@ -11,6 +11,8 @@ import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.repository.CategoryRepositoryImpl
 import com.aradipatrik.data.repository.Syncer
 import com.aradipatrik.data.repository.TransactionRepositoryImpl
+import com.aradipatrik.domain.mocks.DomainLayerMocks.category
+import com.aradipatrik.domain.mocks.DomainLayerMocks.transaction
 import com.aradipatrik.domain.model.Category
 import com.aradipatrik.local.database.RoomLocalCategoryDatastore
 import com.aradipatrik.local.database.RoomLocalTransactionDatastore
@@ -24,8 +26,6 @@ import com.aradipatrik.remote.payloadfactory.CategoryPayloadFactory
 import com.aradipatrik.remote.payloadfactory.CategoryResponseConverter
 import com.aradipatrik.remote.payloadfactory.TransactionPayloadFactory
 import com.aradipatrik.remote.payloadfactory.TransactionResponseConverter
-import com.aradipatrik.testing.DomainLayerMocks.category
-import com.aradipatrik.testing.DomainLayerMocks.transaction
 import org.joda.time.DateTime
 import org.joda.time.YearMonth
 import org.junit.After

@@ -5,10 +5,10 @@ import com.aradipatrik.domain.interactor.transaction.DeleteTransactionInteractor
 import com.aradipatrik.domain.interactor.transaction.GetTransactionsInIntervalInteractor
 import com.aradipatrik.domain.interactor.transaction.UpdateTransactionInteractor
 import com.aradipatrik.domain.interfaces.data.TransactionRepository
+import com.aradipatrik.domain.mocks.DomainLayerMocks.transaction
 import com.aradipatrik.domain.model.Transaction
-import com.aradipatrik.testing.DomainLayerMocks.interval
-import com.aradipatrik.testing.DomainLayerMocks.string
-import com.aradipatrik.testing.DomainLayerMocks.transaction
+import com.aradipatrik.testing.CommonMocks.interval
+import com.aradipatrik.testing.CommonMocks.string
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

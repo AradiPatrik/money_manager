@@ -7,11 +7,11 @@ import com.aradipatrik.data.mapper.PartialTransactionMapper
 import com.aradipatrik.data.repository.Syncer
 import com.aradipatrik.data.repository.TransactionRepositoryImpl
 import com.aradipatrik.data.test.common.MethodStubFactory
-import com.aradipatrik.testing.DataLayerMocks.joinedTransactionEntity
-import com.aradipatrik.testing.DataLayerMocks.partialTransactionEntity
-import com.aradipatrik.testing.DomainLayerMocks.interval
-import com.aradipatrik.testing.DomainLayerMocks.string
-import com.aradipatrik.testing.DomainLayerMocks.transaction
+import com.aradipatrik.testing.CommonMocks.interval
+import com.aradipatrik.testing.CommonMocks.string
+import com.aradipatrik.data.mocks.DataLayerMocks.transactionJoinedEntity
+import com.aradipatrik.data.mocks.DataLayerMocks.transactionPartialEntity
+import com.aradipatrik.domain.mocks.DomainLayerMocks.transaction
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -22,8 +22,8 @@ import org.junit.Test
 class TransactionRepositoryImplTest {
     companion object {
         private val DEFAULT_DOMAIN_TRANSACTION = transaction()
-        private val DEFAULT_JOINED_ENTITY = joinedTransactionEntity()
-        private val DEFAULT_PARTIAL_ENTITY = partialTransactionEntity()
+        private val DEFAULT_JOINED_ENTITY = transactionJoinedEntity()
+        private val DEFAULT_PARTIAL_ENTITY = transactionPartialEntity()
     }
 
     private val mockPartialMapper = mockk<PartialTransactionMapper>()
@@ -98,7 +98,7 @@ class TransactionRepositoryImplTest {
     @Test
     fun `Get in interval should sync, then get in interval from local`() {
         setupStubs()
-        val transactions = listOf(joinedTransactionEntity())
+        val transactions = listOf(transactionJoinedEntity())
         val interval = interval()
         every { mockLocal.getInInterval(any()) } returns Observable.just(transactions)
         repository.getInInterval(interval).test().assertValue { it.size == 1 }

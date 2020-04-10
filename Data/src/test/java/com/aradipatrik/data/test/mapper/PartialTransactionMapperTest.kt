@@ -4,8 +4,8 @@ import com.aradipatrik.data.mapper.PartialTransactionMapper
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.mapper.TimestampProvider
 import com.aradipatrik.data.model.TransactionPartialEntity
-import com.aradipatrik.testing.DomainLayerMocks.long
-import com.aradipatrik.testing.DomainLayerMocks.transaction
+import com.aradipatrik.domain.mocks.DomainLayerMocks.transaction
+import com.aradipatrik.testing.CommonMocks.long
 import io.mockk.every
 import io.mockk.mockkObject
 import org.junit.Test

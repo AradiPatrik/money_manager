@@ -14,8 +14,8 @@ import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionVie
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.MemoChange
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewModel
 import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.SingleValue
-import com.aradipatrik.testing.DomainLayerMocks.category
-import com.aradipatrik.testing.DomainLayerMocks.date
+import com.aradipatrik.testing.CommonMocks.category
+import com.aradipatrik.testing.CommonMocks.date
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic

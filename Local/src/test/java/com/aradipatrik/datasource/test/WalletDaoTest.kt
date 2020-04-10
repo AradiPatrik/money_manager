@@ -3,12 +3,12 @@ package com.aradipatrik.datasource.test
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.aradipatrik.datasource.test.TransactionRowFactory.walletRow
 import com.aradipatrik.local.database.TransactionDatabase
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_ADD_CODE
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_DELETE_CODE
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_UPDATE_CODE
 import com.aradipatrik.local.database.wallet.WalletRow
+import com.aradipatrik.local.mocks.LocalDataLayerMocks.walletRow
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test

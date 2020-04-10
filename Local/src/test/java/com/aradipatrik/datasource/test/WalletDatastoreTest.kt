@@ -5,7 +5,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.aradipatrik.data.datastore.wallet.LocalWalletDatastore
 import com.aradipatrik.data.mapper.SyncStatus
-import com.aradipatrik.datasource.test.EntityFactory.walletEntity
+import com.aradipatrik.data.mocks.DataLayerMocks.walletEntity
 import com.aradipatrik.local.database.RoomLocalWalletDatastore
 import com.aradipatrik.local.database.TransactionDatabase
 import com.aradipatrik.local.database.mapper.WalletRowMapper
@@ -86,7 +86,7 @@ class WalletDatastoreTest {
     @Test
     fun `Last sync time should return last sync time`() {
         val syncTimes = listOf<Long>(1, 2, 3, 4, 5)
-        val syncedWallets = syncTimes.map { walletEntity(updateTimestamp = it) }
+        val syncedWallets = syncTimes.map { walletEntity(updatedTimeStamp = it) }
         datasource.updateWith(syncedWallets).blockingAwait()
 
         datasource.getLastSyncTime()

@@ -5,7 +5,7 @@ import com.aradipatrik.data.mapper.TimestampProvider
 import com.aradipatrik.data.mapper.WalletMapper
 import com.aradipatrik.data.model.WalletEntity
 import com.aradipatrik.domain.model.Wallet
-import com.aradipatrik.testing.DomainLayerMocks.long
+import com.aradipatrik.testing.CommonMocks.long
 import io.mockk.every
 import io.mockk.mockkObject
 import org.junit.Test

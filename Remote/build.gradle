@@ -36,8 +36,8 @@ dependencies {
 
     implementation project(":Domain")
     implementation project(":Data")
-    testImplementation project(":TestingCommons")
-    androidTestImplementation project(":TestingCommons")
+    testImplementation project(':CommonMocks')
+    testImplementation project(':Data:DataMocks')
 
     implementation moduleDependencies.javaxInject
     implementation moduleDependencies.rxJava

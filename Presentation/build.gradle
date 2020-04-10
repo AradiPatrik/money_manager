@@ -32,7 +32,7 @@ dependencies {
     def moduleTestDependencies = rootProject.ext.presentationTestDependencies
 
     implementation project(':Domain')
-    testImplementation project(':TestingCommons')
+    testImplementation project(':CommonMocks')
 
     kapt moduleDependencies.lifecycleCompiler
     implementation moduleDependencies.koinAndroid

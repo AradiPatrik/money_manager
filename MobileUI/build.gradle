@@ -44,7 +44,7 @@ dependencies {
     implementation project(':Data')
     implementation project(':Remote')
     implementation project(':Local')
-    testImplementation project(':TestingCommons')
+    testImplementation project(':CommonMocks')
 
     kapt moduleDependencies.lifecycleCompiler
 

@@ -9,7 +9,7 @@ import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionSta
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.*
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewModel
 import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.*
-import com.aradipatrik.testing.DomainLayerMocks.category
+import com.aradipatrik.testing.CommonMocks.category
 import io.mockk.every
 import io.mockk.mockk
 import io.reactivex.Completable

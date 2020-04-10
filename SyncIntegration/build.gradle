@@ -30,7 +30,9 @@ dependencies {
     implementation project(':Data')
     implementation project(':Remote')
     implementation project(':Local')
-    implementation project(':TestingCommons')
+    implementation project(':CommonMocks')
+    implementation project(':Data:DataMocks')
+    implementation project(':Domain:DomainMocks')
 
     implementation moduleDependencies.rxJava
     implementation moduleDependencies.rxKotlin

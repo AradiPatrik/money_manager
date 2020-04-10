@@ -4,7 +4,7 @@ import com.aradipatrik.data.common.CrudDatastore
 import com.aradipatrik.data.common.LocalTimestampedDatastore
 import com.aradipatrik.data.common.RemoteTimestampedChildDatastore
 import com.aradipatrik.data.common.RemoteTimestampedDatastore
-import com.aradipatrik.testing.DomainLayerMocks.long
+import com.aradipatrik.testing.CommonMocks.long
 import io.mockk.every
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -65,6 +65,4 @@ object MethodStubFactory {
         every { localTimestampedDataStore.updateWith(any()) } returns updateWithResponse
         every { localTimestampedDataStore.clearPending() } returns setSyncedResponse
     }
-
-
 }

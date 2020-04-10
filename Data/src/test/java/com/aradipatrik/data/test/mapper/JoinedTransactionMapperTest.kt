@@ -4,13 +4,14 @@ import com.aradipatrik.data.mapper.CategoryMapper
 import com.aradipatrik.data.mapper.JoinedTransactionMapper
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.mapper.TimestampProvider
+import com.aradipatrik.data.mocks.DataLayerMocks.categoryEntity
+import com.aradipatrik.data.mocks.DataLayerMocks.transactionJoinedEntity
 import com.aradipatrik.data.model.TransactionJoinedEntity
+import com.aradipatrik.domain.mocks.DomainLayerMocks.category
+import com.aradipatrik.domain.mocks.DomainLayerMocks.transaction
 import com.aradipatrik.domain.model.Transaction
-import com.aradipatrik.testing.DataLayerMocks.categoryEntity
-import com.aradipatrik.testing.DataLayerMocks.joinedTransactionEntity
-import com.aradipatrik.testing.DomainLayerMocks.category
-import com.aradipatrik.testing.DomainLayerMocks.long
-import com.aradipatrik.testing.DomainLayerMocks.transaction
+import com.aradipatrik.testing.CommonMocks.long
+
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
@@ -38,7 +39,7 @@ class JoinedTransactionMapperTest {
 
     @Test
     fun mapFromEntityMapsData() {
-        val testEntity = joinedTransactionEntity()
+        val testEntity = transactionJoinedEntity()
         val domain = transactionMapper.mapFromEntity(testEntity)
         assertEqualsDomainEntity(domain, testEntity)
         expectThat(domain.category).isEqualTo(testCategory)

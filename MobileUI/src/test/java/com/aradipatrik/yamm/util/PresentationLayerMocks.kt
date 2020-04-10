@@ -7,9 +7,9 @@ import com.aradipatrik.presentation.presentations.TransactionPresentation
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionState
 import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState
 import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.SingleValue
-import com.aradipatrik.testing.DomainLayerMocks.date
-import com.aradipatrik.testing.DomainLayerMocks.int
-import com.aradipatrik.testing.DomainLayerMocks.string
+import com.aradipatrik.testing.CommonMocks.date
+import com.aradipatrik.testing.CommonMocks.int
+import com.aradipatrik.testing.CommonMocks.string
 import org.joda.time.DateTime
 
 object PresentationLayerMocks {

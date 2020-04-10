@@ -3,7 +3,7 @@ package com.aradipatrik.domain.test
 import com.aradipatrik.domain.interactor.category.GetCategoriesInteractor
 import com.aradipatrik.domain.interfaces.data.CategoryRepository
 import com.aradipatrik.domain.model.Category
-import com.aradipatrik.testing.DomainLayerMocks.category
+import com.aradipatrik.domain.mocks.DomainLayerMocks.category
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

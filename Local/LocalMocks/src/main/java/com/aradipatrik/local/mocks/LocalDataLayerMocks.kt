@@ -1,20 +1,20 @@
-package com.aradipatrik.datasource.test
+package com.aradipatrik.local.mocks
 
 import com.aradipatrik.local.database.category.CategoryRow
 import com.aradipatrik.local.database.common.SyncStatusConstants
 import com.aradipatrik.local.database.transaction.TransactionRow
 import com.aradipatrik.local.database.transaction.TransactionWithCategory
 import com.aradipatrik.local.database.wallet.WalletRow
-import com.aradipatrik.testing.DomainLayerMocks.int
-import com.aradipatrik.testing.DomainLayerMocks.long
-import com.aradipatrik.testing.DomainLayerMocks.string
+import com.aradipatrik.testing.CommonMocks
+import com.aradipatrik.testing.CommonMocks.long
+import com.aradipatrik.testing.CommonMocks.string
 
-object TransactionRowFactory {
+object LocalDataLayerMocks {
     fun transactionRow(
         uid: String = string(),
         updateTimestamp: Long = long(),
         memo: String = string(),
-        amount: Int = int(),
+        amount: Int = CommonMocks.int(),
         date: Long = long(),
         categoryId: String = string(),
         syncStatusCode: Int = SyncStatusConstants.SYNCED_CODE

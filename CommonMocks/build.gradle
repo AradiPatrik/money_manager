@@ -5,9 +5,6 @@ plugins {
 dependencies {
     def moduleDependencies = rootProject.ext.testingDependencies
 
-    implementation project(":Domain")
-    implementation project(":Data")
-
     implementation moduleDependencies.rxJava
     implementation moduleDependencies.rxKotlin
     implementation moduleDependencies.kotlinStdLib

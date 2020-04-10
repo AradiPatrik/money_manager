@@ -3,6 +3,7 @@ package com.aradipatrik.integration
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.aradipatrik.data.mapper.SyncStatus
+import com.aradipatrik.data.mocks.DataLayerMocks.categoryEntity
 import com.aradipatrik.data.model.CategoryEntity
 import com.aradipatrik.integration.firebase.utils.FirestoreUtils
 import com.aradipatrik.remote.data.FirestoreRemoteCategoryDatastore
@@ -10,7 +11,6 @@ import com.aradipatrik.remote.data.FirestoreRemoteCategoryDatastore.Companion.CA
 import com.aradipatrik.remote.data.FirestoreRemoteCategoryDatastore.Companion.USERS_COLLECTION_KEY
 import com.aradipatrik.remote.payloadfactory.CategoryPayloadFactory
 import com.aradipatrik.remote.payloadfactory.CategoryResponseConverter
-import com.aradipatrik.testing.DataLayerMocks.categoryEntity
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore

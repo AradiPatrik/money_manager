@@ -34,7 +34,9 @@ dependencies {
 
     implementation project(':Data')
     implementation project(':Domain')
-    testImplementation project(':TestingCommons')
+    testImplementation project(':CommonMocks')
+    testImplementation project(':Local:LocalMocks')
+    testImplementation project(':Data:DataMocks')
 
     implementation moduleDependencies.rxJava
     implementation moduleDependencies.rxKotlin

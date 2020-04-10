@@ -6,8 +6,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.aradipatrik.data.mapper.CategoryMapper
 import com.aradipatrik.data.mapper.SyncStatus
+import com.aradipatrik.data.mocks.DataLayerMocks.categoryEntity
 import com.aradipatrik.data.repository.CategoryRepositoryImpl
 import com.aradipatrik.data.repository.Syncer
+import com.aradipatrik.domain.mocks.DomainLayerMocks.category
 import com.aradipatrik.local.database.RoomLocalCategoryDatastore
 import com.aradipatrik.local.database.RoomLocalTransactionDatastore
 import com.aradipatrik.local.database.TransactionDatabase
@@ -20,8 +22,6 @@ import com.aradipatrik.remote.payloadfactory.CategoryPayloadFactory
 import com.aradipatrik.remote.payloadfactory.CategoryResponseConverter
 import com.aradipatrik.remote.payloadfactory.TransactionPayloadFactory
 import com.aradipatrik.remote.payloadfactory.TransactionResponseConverter
-import com.aradipatrik.testing.DataLayerMocks.categoryEntity
-import com.aradipatrik.testing.DomainLayerMocks.category
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test

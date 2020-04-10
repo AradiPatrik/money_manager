@@ -4,9 +4,9 @@ import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.TransactionPartialEntity
 import com.aradipatrik.remote.*
 import com.aradipatrik.remote.payloadfactory.TransactionResponseConverter
-import com.aradipatrik.testing.DomainLayerMocks.boolean
-import com.aradipatrik.testing.DomainLayerMocks.long
-import com.aradipatrik.testing.DomainLayerMocks.string
+import com.aradipatrik.testing.CommonMocks.boolean
+import com.aradipatrik.testing.CommonMocks.long
+import com.aradipatrik.testing.CommonMocks.string
 import com.google.firebase.Timestamp
 import io.mockk.every
 import io.mockk.mockk

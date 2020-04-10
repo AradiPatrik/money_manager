@@ -2,6 +2,7 @@ package com.aradipatrik.integration
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.aradipatrik.data.mapper.SyncStatus
+import com.aradipatrik.data.mocks.DataLayerMocks.transactionPartialEntity
 import com.aradipatrik.data.model.TransactionPartialEntity
 import com.aradipatrik.integration.firebase.utils.FirestoreUtils
 import com.aradipatrik.remote.data.FirestoreRemoteTransactionDatastore
@@ -9,7 +10,6 @@ import com.aradipatrik.remote.data.FirestoreRemoteTransactionDatastore.Companion
 import com.aradipatrik.remote.data.FirestoreRemoteTransactionDatastore.Companion.USERS_COLLECTION_KEY
 import com.aradipatrik.remote.payloadfactory.TransactionPayloadFactory
 import com.aradipatrik.remote.payloadfactory.TransactionResponseConverter
-import com.aradipatrik.testing.DataLayerMocks.partialTransactionEntity
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -54,8 +54,8 @@ class FirestoreRemoteTransactionDatastoreTest {
     @Test
     fun updateWithToAdd() {
         val itemsToAdd = listOf(
-            partialTransactionEntity(memo = "A", syncStatus = SyncStatus.ToAdd),
-            partialTransactionEntity(memo = "B", syncStatus = SyncStatus.ToAdd)
+            transactionPartialEntity(memo = "A", syncStatus = SyncStatus.ToAdd),
+            transactionPartialEntity(memo = "B", syncStatus = SyncStatus.ToAdd)
         )
 
         val beforeUpdateTime = System.currentTimeMillis()
@@ -79,8 +79,8 @@ class FirestoreRemoteTransactionDatastoreTest {
     @Test
     fun updateWithToUpdate() {
         val toAdd = listOf(
-            partialTransactionEntity(memo = "A", syncStatus = SyncStatus.ToAdd),
-            partialTransactionEntity(memo = "B", syncStatus = SyncStatus.ToAdd)
+            transactionPartialEntity(memo = "A", syncStatus = SyncStatus.ToAdd),
+            transactionPartialEntity(memo = "B", syncStatus = SyncStatus.ToAdd)
         )
         datastore.updateWith(toAdd).blockingAwait()
         val addResultEntities = FirestoreUtils.getTransactionsOfUser(TEST_USER_DOCUMENT_KEY)
@@ -117,8 +117,8 @@ class FirestoreRemoteTransactionDatastoreTest {
     @Test
     fun updateWithToDelete() {
         val toAdd = listOf(
-            partialTransactionEntity(memo = "A", syncStatus = SyncStatus.ToAdd),
-            partialTransactionEntity(memo = "B", syncStatus = SyncStatus.ToAdd)
+            transactionPartialEntity(memo = "A", syncStatus = SyncStatus.ToAdd),
+            transactionPartialEntity(memo = "B", syncStatus = SyncStatus.ToAdd)
         )
         datastore.updateWith(toAdd).blockingAwait()
         val addResultEntities = FirestoreUtils.getTransactionsOfUser(TEST_USER_DOCUMENT_KEY)
@@ -135,7 +135,7 @@ class FirestoreRemoteTransactionDatastoreTest {
 
     @Test
     fun getAfterWhenNothingToGet() {
-        val toAdd = generateSequence { partialTransactionEntity() }.take(2).toList()
+        val toAdd = generateSequence { transactionPartialEntity() }.take(2).toList()
         datastore.updateWith(toAdd).blockingAwait()
 
         val result = datastore.getAfter(System.currentTimeMillis()).blockingGet()
@@ -146,8 +146,8 @@ class FirestoreRemoteTransactionDatastoreTest {
     fun getAfterWhenWeShouldGetAll() {
         val beforeAdd = System.currentTimeMillis()
         val toAdd = listOf(
-            partialTransactionEntity(memo = "A", syncStatus = SyncStatus.ToAdd),
-            partialTransactionEntity(memo = "B", syncStatus = SyncStatus.ToAdd)
+            transactionPartialEntity(memo = "A", syncStatus = SyncStatus.ToAdd),
+            transactionPartialEntity(memo = "B", syncStatus = SyncStatus.ToAdd)
         )
         datastore.updateWith(toAdd).blockingAwait()
 
@@ -183,8 +183,8 @@ class FirestoreRemoteTransactionDatastoreTest {
     @Test
     fun deleteUserShouldWork() {
         val itemsToAdd = listOf(
-            partialTransactionEntity(memo = "A", syncStatus = SyncStatus.ToAdd),
-            partialTransactionEntity(memo = "B", syncStatus = SyncStatus.ToAdd)
+            transactionPartialEntity(memo = "A", syncStatus = SyncStatus.ToAdd),
+            transactionPartialEntity(memo = "B", syncStatus = SyncStatus.ToAdd)
         )
 
         datastore.updateWith(itemsToAdd).blockingAwait()

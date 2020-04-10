@@ -5,10 +5,10 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.aradipatrik.data.datastore.category.LocalCategoryDatastore
 import com.aradipatrik.data.mapper.SyncStatus
+import com.aradipatrik.data.mocks.DataLayerMocks.categoryEntity
 import com.aradipatrik.local.database.RoomLocalCategoryDatastore
 import com.aradipatrik.local.database.TransactionDatabase
 import com.aradipatrik.local.database.mapper.CategoryRowMapper
-import com.aradipatrik.testing.DataLayerMocks.categoryEntity
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -86,7 +86,7 @@ class CategoryDatastoreTest {
     @Test
     fun `Last sync time should return last sync time`() {
         val syncTimes = listOf<Long>(1, 2, 3, 4, 5)
-        val syncedCategories = syncTimes.map { categoryEntity(lastUpdateTimestamp = it) }
+        val syncedCategories = syncTimes.map { categoryEntity(updatedTimeStamp = it) }
         datasource.updateWith(syncedCategories).blockingAwait()
 
         datasource.getLastSyncTime()

@@ -6,16 +6,16 @@ import androidx.test.core.app.ApplicationProvider
 import com.aradipatrik.data.datastore.category.LocalCategoryDatastore
 import com.aradipatrik.data.datastore.transaction.LocalTransactionDatastore
 import com.aradipatrik.data.mapper.SyncStatus
+import com.aradipatrik.data.mocks.DataLayerMocks.categoryEntity
+import com.aradipatrik.data.mocks.DataLayerMocks.transactionPartialEntity
 import com.aradipatrik.data.model.TransactionJoinedEntity
 import com.aradipatrik.local.database.RoomLocalCategoryDatastore
 import com.aradipatrik.local.database.RoomLocalTransactionDatastore
 import com.aradipatrik.local.database.TransactionDatabase
 import com.aradipatrik.local.database.mapper.CategoryRowMapper
 import com.aradipatrik.local.database.mapper.TransactionRowMapper
-import com.aradipatrik.testing.DataLayerMocks.categoryEntity
-import com.aradipatrik.testing.DataLayerMocks.partialTransactionEntity
-import com.aradipatrik.testing.DomainLayerMocks.hour
-import com.aradipatrik.testing.DomainLayerMocks.minute
+import com.aradipatrik.testing.CommonMocks.hour
+import com.aradipatrik.testing.CommonMocks.minute
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.junit.After
@@ -43,7 +43,7 @@ class TransactionDatastoreTest {
     private val categoryRowMapper = CategoryRowMapper()
     private val transactionRowMapper = TransactionRowMapper(categoryRowMapper)
     private val transactionEntitiesWithAllSyncStatus =
-        EnumSet.allOf(SyncStatus::class.java).map { partialTransactionEntity(syncStatus = it) }
+        EnumSet.allOf(SyncStatus::class.java).map { transactionPartialEntity(syncStatus = it) }
 
     @Before
     fun setup() {
@@ -64,7 +64,7 @@ class TransactionDatastoreTest {
         val testCategory = categoryEntity()
         val transactions =
             listOf(1, 2, 3, 4, 5).map { day ->
-                partialTransactionEntity(
+                transactionPartialEntity(
                     categoryId = testCategory.id,
                     syncStatus = SyncStatus.Synced,
                     date = DateTime(testYear, testMonth, day, hour(), minute())
@@ -142,7 +142,7 @@ class TransactionDatastoreTest {
     fun `Last sync time should return last sync time`() {
         val syncTimes = listOf<Long>(1, 2, 3, 4, 5)
         val syncedTransactions =
-            syncTimes.map { partialTransactionEntity(lastUpdateTimestamp = it) }
+            syncTimes.map { transactionPartialEntity(updatedTimeStamp = it) }
         transactionDatastore.updateWith(syncedTransactions).blockingAwait()
 
         transactionDatastore.getLastSyncTime()
@@ -186,7 +186,7 @@ class TransactionDatastoreTest {
 
     @Test
     fun `Delete should set sync status to delete`() {
-        val transaction = partialTransactionEntity()
+        val transaction = transactionPartialEntity()
         transactionDatastore.add(transaction).blockingAwait()
         transactionDatastore.delete(transaction.id)
             .test()

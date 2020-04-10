@@ -3,6 +3,7 @@ package com.aradipatrik.domain.test
 import com.aradipatrik.domain.exceptions.wallet.WalletNotFoundException
 import com.aradipatrik.domain.interactor.wallet.SelectWalletInteractor
 import com.aradipatrik.domain.interfaces.data.WalletRepository
+import com.aradipatrik.domain.mocks.DomainLayerMocks.wallet
 import com.aradipatrik.domain.model.Wallet
 import com.aradipatrik.domain.store.SelectedWalletStore
 import io.mockk.every
@@ -47,15 +48,16 @@ class WalletTests : KoinTest {
 
     @Test
     fun `selectWallet should complete if requested existing wallet id`() {
-        stubGetWalletsResponse(Single.just(listOf(Wallet("id", "name"))))
-        selectWallet.get(WalletParams.forWallet("id"))
+        val testWallet = wallet()
+        stubGetWalletsResponse(Single.just(listOf(testWallet)))
+        selectWallet.get(WalletParams.forWallet(testWallet.id))
             .test()
             .assertComplete()
     }
 
     @Test
     fun `selectWallet should result in error if there were no such wallets in the repository`() {
-        stubGetWalletsResponse(Single.just(listOf(Wallet("id", "name"))))
+        stubGetWalletsResponse(Single.just(listOf(wallet())))
         selectWallet.get(WalletParams.forWallet("nonExistentId"))
             .test()
             .assertError(WalletNotFoundException::class.java)

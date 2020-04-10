@@ -7,7 +7,7 @@ import com.aradipatrik.data.datastore.category.RemoteCategoryDatastore
 import com.aradipatrik.data.datastore.transaction.LocalTransactionDatastore
 import com.aradipatrik.data.datastore.transaction.RemoteTransactionDatastore
 import com.aradipatrik.data.repository.Syncer
-import com.aradipatrik.testing.DomainLayerMocks.string
+import com.aradipatrik.testing.CommonMocks.string
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

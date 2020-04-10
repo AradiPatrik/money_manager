@@ -21,7 +21,7 @@ import strikt.assertions.isEqualTo
 
 @RunWith(RobolectricTestRunner::class)
 class LocalUserDatastoreTest : KoinTest {
-    val module = module {
+    private val module = module {
         single {
             RxSharedPreferences.create(
                 PreferenceManager.getDefaultSharedPreferences(
@@ -32,7 +32,7 @@ class LocalUserDatastoreTest : KoinTest {
         single<LocalUserDatastore> { RxPreferencesUserDatastore(get()) }
     }
 
-    val localDatastore: LocalUserDatastore by inject()
+    private val localDatastore: LocalUserDatastore by inject()
 
     @Before
     fun setup() {

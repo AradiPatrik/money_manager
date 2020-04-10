@@ -7,10 +7,10 @@ dependencies {
     def moduleTestDependencies = rootProject.ext.dataTestDependencies
 
     implementation project(":Domain")
-    testImplementation project(':TestingCommons')
+    testImplementation project(':CommonMocks')
+    testImplementation project(':Data:DataMocks')
+    testImplementation project(':Domain:DomainMocks')
 
-    implementation moduleDependencies.javaxAnnotation
-    implementation moduleDependencies.javaxInject
     implementation moduleDependencies.rxJava
     implementation moduleDependencies.rxKotlin
     implementation moduleDependencies.kotlinStdLib

@@ -4,8 +4,8 @@ import com.aradipatrik.presentation.mapper.CategoryPresentationMapper
 import com.aradipatrik.presentation.mapper.TransactionPresentationMapper
 import com.aradipatrik.presentation.presentations.CategoryPresentation
 import com.aradipatrik.presentation.presentations.TransactionPresentation
-import com.aradipatrik.testing.DomainLayerMocks.category
-import com.aradipatrik.testing.DomainLayerMocks.transaction
+import com.aradipatrik.testing.CommonMocks.category
+import com.aradipatrik.testing.CommonMocks.transaction
 import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
