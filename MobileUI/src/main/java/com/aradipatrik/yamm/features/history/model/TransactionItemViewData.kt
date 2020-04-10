@@ -3,7 +3,6 @@ package com.aradipatrik.yamm.features.history.model
 import com.aradipatrik.presentation.presentations.TransactionPresentation
 import org.joda.time.LocalDate
 
-
 sealed class TransactionViewData
 
 data class TransactionItemViewData(

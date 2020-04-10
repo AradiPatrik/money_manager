@@ -1,9 +1,13 @@
 package com.aradipatrik.domain.mocks
 
-import com.aradipatrik.domain.model.*
+import com.aradipatrik.domain.model.Category
+import com.aradipatrik.domain.model.Transaction
+import com.aradipatrik.domain.model.User
+import com.aradipatrik.domain.model.UserCredentials
+import com.aradipatrik.domain.model.Wallet
+import com.aradipatrik.testing.CommonMocks.date
 import com.aradipatrik.testing.CommonMocks.int
 import com.aradipatrik.testing.CommonMocks.string
-import com.aradipatrik.testing.CommonMocks.date
 import org.joda.time.DateTime
 
 object DomainLayerMocks {

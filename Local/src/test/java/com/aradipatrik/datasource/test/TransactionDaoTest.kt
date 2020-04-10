@@ -6,9 +6,9 @@ import androidx.test.core.app.ApplicationProvider
 import com.aradipatrik.local.database.TransactionDatabase
 import com.aradipatrik.local.database.common.SyncStatusConstants
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_DELETE_CODE
-import com.aradipatrik.local.mocks.LocalDataLayerMocks.categoryRow
-import com.aradipatrik.local.mocks.LocalDataLayerMocks.transactionRow
-import com.aradipatrik.local.mocks.LocalDataLayerMocks.transactionWithCategory
+import com.aradipatrik.local.mocks.LocalMocks.categoryRow
+import com.aradipatrik.local.mocks.LocalMocks.transactionRow
+import com.aradipatrik.local.mocks.LocalMocks.transactionWithCategory
 import com.aradipatrik.testing.CommonMocks.string
 import org.junit.After
 import org.junit.Rule

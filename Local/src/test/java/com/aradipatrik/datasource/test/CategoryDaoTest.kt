@@ -8,7 +8,7 @@ import com.aradipatrik.local.database.category.CategoryRow
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_ADD_CODE
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_DELETE_CODE
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_UPDATE_CODE
-import com.aradipatrik.local.mocks.LocalDataLayerMocks.categoryRow
+import com.aradipatrik.local.mocks.LocalMocks.categoryRow
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test

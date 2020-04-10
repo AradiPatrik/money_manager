@@ -10,7 +10,12 @@ import com.aradipatrik.remote.data.FirestoreRemoteTransactionDatastore
 import com.aradipatrik.remote.data.FirestoreRemoteWalletDatastore
 import com.aradipatrik.remote.mapper.FirebaseErrorMapper
 import com.aradipatrik.remote.mapper.FirebaseUserMapper
-import com.aradipatrik.remote.payloadfactory.*
+import com.aradipatrik.remote.payloadfactory.CategoryPayloadFactory
+import com.aradipatrik.remote.payloadfactory.CategoryResponseConverter
+import com.aradipatrik.remote.payloadfactory.TransactionPayloadFactory
+import com.aradipatrik.remote.payloadfactory.TransactionResponseConverter
+import com.aradipatrik.remote.payloadfactory.WalletPayloadFactory
+import com.aradipatrik.remote.payloadfactory.WalletResponseConverter
 import org.koin.dsl.module
 
 val remoteModule = module {

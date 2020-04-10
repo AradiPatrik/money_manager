@@ -1,3 +1,15 @@
 complexity:
   TooManyFunctions:
     ignorePrivate: true
+
+comments:
+  UndocumentedPublicClass:
+    active: false
+  UndocumentedPublicFunction:
+    active: false
+  UndocumentedPublicProperty:
+    active: false
+
+naming:
+  FunctionMaxLength:
+    active: false

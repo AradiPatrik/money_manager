@@ -11,6 +11,7 @@ import com.aradipatrik.testing.CommonMocks.long
 import com.aradipatrik.testing.CommonMocks.string
 import org.joda.time.DateTime
 
+@SuppressWarnings("LongParameterList") // As these are mock factory methods
 object DataLayerMocks {
     fun categoryEntity(
         id: String = string(),

@@ -27,14 +27,14 @@ class CategoryResponseConverter {
     }
 
     private fun getTimestampFrom(document: DocumentSnapshot) =
-        (document.getTimestamp(UPDATED_TIMESTAMP_KEY)?.toDate()?.time
-            ?: throw WrongFieldTypeException(UPDATED_TIMESTAMP_KEY))
+        document.getTimestamp(UPDATED_TIMESTAMP_KEY)?.toDate()?.time
+            ?: throw WrongFieldTypeException(UPDATED_TIMESTAMP_KEY)
 
     private fun getNameFrom(document: DocumentSnapshot) =
-        (document.getString(CATEGORY_NAME_KEY)
-            ?: throw WrongFieldTypeException(CATEGORY_NAME_KEY))
+        document.getString(CATEGORY_NAME_KEY)
+            ?: throw WrongFieldTypeException(CATEGORY_NAME_KEY)
 
     private fun getIconIdFrom(document: DocumentSnapshot) =
-        (document.getString(ICON_ID_KEY)
-            ?: throw WrongFieldTypeException(ICON_ID_KEY))
+        document.getString(ICON_ID_KEY)
+            ?: throw WrongFieldTypeException(ICON_ID_KEY)
 }

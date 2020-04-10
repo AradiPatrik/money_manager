@@ -1,6 +1,10 @@
 package com.aradipatrik.local.database.transaction
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
 import com.aradipatrik.local.database.common.CommonConstants.SYNC_STATUS_COLUMN_NAME
 import com.aradipatrik.local.database.common.CommonConstants.UPDATE_TIMESTAMP_COLUMN_NAME
 import com.aradipatrik.local.database.common.SyncStatusConstants.SYNCED_CODE

@@ -2,7 +2,12 @@ package com.aradipatrik.remote.payloadfactory
 
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.model.TransactionPartialEntity
-import com.aradipatrik.remote.*
+import com.aradipatrik.remote.AMOUNT_KEY
+import com.aradipatrik.remote.CATEGORY_ID_KEY
+import com.aradipatrik.remote.DATE_KEY
+import com.aradipatrik.remote.DELETED_KEY
+import com.aradipatrik.remote.MEMO_KEY
+import com.aradipatrik.remote.UPDATED_TIMESTAMP_KEY
 import com.google.firebase.firestore.DocumentSnapshot
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -31,24 +36,23 @@ class TransactionResponseConverter {
     }
 
     private fun getTimestampFrom(document: DocumentSnapshot) =
-        (document.getTimestamp(UPDATED_TIMESTAMP_KEY)?.toDate()?.time
-            ?: throw WrongFieldTypeException(UPDATED_TIMESTAMP_KEY))
+        document.getTimestamp(UPDATED_TIMESTAMP_KEY)?.toDate()?.time
+            ?: throw WrongFieldTypeException(UPDATED_TIMESTAMP_KEY)
 
-    private fun getDateFrom(document: DocumentSnapshot): DateTime {
-        return document.getLong(DATE_KEY)?.let {
+    private fun getDateFrom(document: DocumentSnapshot) =
+        document.getLong(DATE_KEY)?.let {
             DateTime(it, DateTimeZone.getDefault())
         } ?: throw WrongFieldTypeException(DATE_KEY)
-    }
 
     private fun getMemoFrom(document: DocumentSnapshot) =
-        (document.getString(MEMO_KEY)
-            ?: throw WrongFieldTypeException(MEMO_KEY))
+        document.getString(MEMO_KEY)
+            ?: throw WrongFieldTypeException(MEMO_KEY)
 
     private fun getAmountFrom(document: DocumentSnapshot) =
-        (document.getLong(AMOUNT_KEY)?.toInt()
-            ?: throw WrongFieldTypeException(AMOUNT_KEY))
+        document.getLong(AMOUNT_KEY)?.toInt()
+            ?: throw WrongFieldTypeException(AMOUNT_KEY)
 
     private fun getCategoryFrom(document: DocumentSnapshot) =
-        (document.getString(CATEGORY_ID_KEY)
-            ?: throw WrongFieldTypeException(CATEGORY_ID_KEY))
+        document.getString(CATEGORY_ID_KEY)
+            ?: throw WrongFieldTypeException(CATEGORY_ID_KEY)
 }

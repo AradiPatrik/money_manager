@@ -7,7 +7,6 @@ import com.aradipatrik.data.model.TransactionPartialEntity
 import io.reactivex.Observable
 import org.joda.time.Interval
 
-
 interface LocalTransactionDatastore :
     LocalTimestampedDatastore<TransactionPartialEntity>,
     CrudDatastore<TransactionPartialEntity, String> {

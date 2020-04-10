@@ -2,7 +2,6 @@ package com.aradipatrik.yamm
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import com.airbnb.mvrx.BaseMvRxFragment
 import com.aradipatrik.yamm.MainFragmentUiEffect.FabClick
@@ -11,7 +10,9 @@ import com.aradipatrik.yamm.common.viewext.showAsBottomSheet
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
-import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.fragment_main.calculator_sheet
+import kotlinx.android.synthetic.main.fragment_main.fab
+import kotlinx.android.synthetic.main.fragment_main.sum_sheet_container
 
 sealed class MainFragmentUiEffect {
     object FabClick : MainFragmentUiEffect()
@@ -26,9 +27,7 @@ class MainFragment : BaseMvRxFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_main, container, false)
-    }
+    ) = inflater.inflate(R.layout.fragment_main, container, false)
 
     override fun onResume() {
         super.onResume()
@@ -55,8 +54,6 @@ class MainFragment : BaseMvRxFragment() {
     private fun showCalculator() = calculator_sheet.showAsBottomSheet()
 
     private fun hideCalculator() = calculator_sheet.hideAsBottomSheet()
-
-    private fun showSumSheet() = sum_sheet_container.showAsBottomSheet()
 
     private fun hideSumSheet() = sum_sheet_container.hideAsBottomSheet()
 

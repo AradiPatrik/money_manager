@@ -4,7 +4,11 @@ import com.aradipatrik.data.mapper.CategoryMapper
 import com.aradipatrik.data.mapper.JoinedTransactionMapper
 import com.aradipatrik.data.mapper.PartialTransactionMapper
 import com.aradipatrik.data.mapper.WalletMapper
-import com.aradipatrik.data.repository.*
+import com.aradipatrik.data.repository.CategoryRepositoryImpl
+import com.aradipatrik.data.repository.Syncer
+import com.aradipatrik.data.repository.TransactionRepositoryImpl
+import com.aradipatrik.data.repository.UserRepositoryImpl
+import com.aradipatrik.data.repository.WalletRepositoryImpl
 import com.aradipatrik.domain.interfaces.data.CategoryRepository
 import com.aradipatrik.domain.interfaces.data.TransactionRepository
 import com.aradipatrik.domain.interfaces.data.UserRepository

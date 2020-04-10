@@ -9,7 +9,8 @@ import com.aradipatrik.testing.CommonMocks
 import com.aradipatrik.testing.CommonMocks.long
 import com.aradipatrik.testing.CommonMocks.string
 
-object LocalDataLayerMocks {
+@SuppressWarnings("LongParameterList") // As these are factory methods
+object LocalMocks {
     fun transactionRow(
         uid: String = string(),
         updateTimestamp: Long = long(),

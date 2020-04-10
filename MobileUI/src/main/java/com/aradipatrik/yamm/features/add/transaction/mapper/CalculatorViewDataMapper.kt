@@ -1,7 +1,9 @@
 package com.aradipatrik.yamm.features.add.transaction.mapper
 
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionState
-import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.*
+import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.AddOperation
+import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.SingleValue
+import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.SubtractOperation
 import com.aradipatrik.yamm.features.add.transaction.model.CalculatorAction
 import com.aradipatrik.yamm.features.add.transaction.model.CalculatorViewData
 import com.aradipatrik.yamm.features.add.transaction.model.TransactionType

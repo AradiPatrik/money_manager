@@ -32,9 +32,9 @@ allprojects {
     apply plugin: 'io.gitlab.arturbosch.detekt'
 
     detekt {
-        failFast = false
+        failFast = true
         config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
-        baseline = file("${rootProject.projectDir}/config/baseline.xml")
+//        baseline = file("${rootProject.projectDir}/config/baseline.xml")
     }
 }
 
