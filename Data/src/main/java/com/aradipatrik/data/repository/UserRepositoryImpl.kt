@@ -10,4 +10,6 @@ class UserRepositoryImpl(private val localUserDatastore: LocalUserDatastore) : U
     override fun setSignedInUser(user: User): Completable = localUserDatastore.setUser(user)
 
     override fun getSignedInUser(): Single<User> = localUserDatastore.getUser()
+
+    override fun isUserSignedIn() = localUserDatastore.isUserPresent()
 }

@@ -58,6 +58,6 @@ class MainFragment : BaseMvRxFragment() {
     private fun hideSumSheet() = sum_sheet_container.hideAsBottomSheet()
 
     override fun invalidate() {
-        // intentionally left blank
+
     }
 }

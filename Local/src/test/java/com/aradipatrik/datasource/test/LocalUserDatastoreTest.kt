@@ -50,4 +50,19 @@ class LocalUserDatastoreTest : KoinTest {
         val result = localDatastore.getUser().blockingGet()
         expectThat(result).isEqualTo(User("testId"))
     }
+
+    @Test
+    fun `isUserPresent should return false if user is not present`() {
+        localDatastore.isUserPresent()
+            .test()
+            .assertValue(false)
+    }
+
+    @Test
+    fun `isUserPresent should be true if user has been initialized`() {
+        localDatastore.setUser(User("testId")).blockingAwait()
+        localDatastore.isUserPresent()
+            .test()
+            .assertValue(true)
+    }
 }

@@ -7,4 +7,5 @@ import io.reactivex.Single
 interface LocalUserDatastore {
     fun setUser(user: User): Completable
     fun getUser(): Single<User>
+    fun isUserPresent(): Single<Boolean>
 }

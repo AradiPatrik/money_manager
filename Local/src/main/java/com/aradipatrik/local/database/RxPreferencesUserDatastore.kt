@@ -22,4 +22,10 @@ class RxPreferencesUserDatastore(private val rxPreferences: RxSharedPreferences)
             .asObservable()
             .firstOrError()
             .map { id -> User(id) }
+
+    override fun isUserPresent(): Single<Boolean> =
+        rxPreferences.getString(USER_ID_KEY)
+            .asObservable()
+            .firstOrError()
+            .map(String::isNotEmpty)
 }

@@ -7,4 +7,5 @@ import io.reactivex.Single
 interface UserRepository {
     fun setSignedInUser(user: User): Completable
     fun getSignedInUser(): Single<User>
+    fun isUserSignedIn(): Single<Boolean>
 }
