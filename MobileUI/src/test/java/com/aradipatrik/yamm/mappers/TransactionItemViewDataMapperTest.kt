@@ -18,14 +18,14 @@ class TransactionItemViewDataMapperTest {
     @Test
     fun `mapToItemViewData should work`() {
         val p =
-            transactionPresentation(categoryPresentation = categoryPresentation(iconId = "Groceries"))
+            transactionPresentation(categoryPresentationModel = categoryPresentation(iconId = "Groceries"))
         val expectedViewData = TransactionItemViewData(
             memo = p.memo,
-            categoryIconResId = iconMapper.mapToResource(p.category.iconId),
+            categoryIconResId = iconMapper.mapToResource(p.categoryModel.iconId),
             amount = p.amount,
             colorResId = 0,
-            categoryName = p.category.name,
-            presentationRef = p
+            categoryName = p.categoryModel.name,
+            presentationModelRef = p
         )
         expectThat(transactionViewDataMapper.mapToItemViewData(p)).isEqualTo(expectedViewData)
     }

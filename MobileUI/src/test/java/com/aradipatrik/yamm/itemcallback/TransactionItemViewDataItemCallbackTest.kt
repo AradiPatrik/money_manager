@@ -15,12 +15,12 @@ class TransactionItemViewDataItemCallbackTest {
     @Test
     fun `Transaction items are the same when their presentation id is the same`() {
         val sameIdsResult = TransactionViewDataItemCallback.areItemsTheSame(
-            transactionItemViewData(presentationRef = transactionPresentation(id = "A")),
-            transactionItemViewData(presentationRef = transactionPresentation(id = "A"))
+            transactionItemViewData(presentationModelRef = transactionPresentation(id = "A")),
+            transactionItemViewData(presentationModelRef = transactionPresentation(id = "A"))
         )
         val differentIdsResult = TransactionViewDataItemCallback.areItemsTheSame(
-            transactionItemViewData(presentationRef = transactionPresentation(id = "A")),
-            transactionItemViewData(presentationRef = transactionPresentation(id = "B"))
+            transactionItemViewData(presentationModelRef = transactionPresentation(id = "A")),
+            transactionItemViewData(presentationModelRef = transactionPresentation(id = "B"))
         )
 
         expectThat(sameIdsResult).isTrue()
@@ -32,7 +32,7 @@ class TransactionItemViewDataItemCallbackTest {
         val itemOne = transactionItemViewData()
         val sameAsItemOne = itemOne.copy()
         val sameAsItemOneButWithDifferentId = itemOne.copy(
-            presentationRef = itemOne.presentationRef.copy(id = string())
+            presentationModelRef = itemOne.presentationModelRef.copy(id = string())
         )
 
         val deeplyEqualResult = TransactionViewDataItemCallback.areContentsTheSame(

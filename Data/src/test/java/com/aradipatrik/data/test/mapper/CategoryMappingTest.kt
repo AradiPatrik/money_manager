@@ -4,7 +4,7 @@ import com.aradipatrik.data.mapper.CategoryMapper
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.mapper.TimestampProvider
 import com.aradipatrik.data.mocks.DataLayerMocks.categoryEntity
-import com.aradipatrik.data.model.CategoryEntity
+import com.aradipatrik.data.model.CategoryDataModel
 import com.aradipatrik.domain.mocks.DomainLayerMocks.category
 import com.aradipatrik.domain.model.Category
 import com.aradipatrik.testing.CommonMocks.long
@@ -32,7 +32,6 @@ class CategoryMappingTest {
         assertEqualsDomainEntity(testDomain, entity)
         expectThat(entity.updatedTimeStamp).isEqualTo(testTimestamp)
         expectThat(entity.syncStatus).isEqualTo(SyncStatus.None)
-        expectThat(entity.walletId).isEqualTo("")
     }
 
     @Test
@@ -42,9 +41,10 @@ class CategoryMappingTest {
         assertEqualsDomainEntity(domain, testEntity)
     }
 
-    private fun assertEqualsDomainEntity(domain: Category, entity: CategoryEntity) {
-        expectThat(domain.iconId).isEqualTo(entity.iconId)
-        expectThat(domain.id).isEqualTo(entity.id)
-        expectThat(domain.name).isEqualTo(entity.name)
+    private fun assertEqualsDomainEntity(domain: Category, dataModel: CategoryDataModel) {
+        expectThat(domain.iconId).isEqualTo(dataModel.iconId)
+        expectThat(domain.id).isEqualTo(dataModel.id)
+        expectThat(domain.name).isEqualTo(dataModel.name)
+        expectThat(domain.walletId).isEqualTo(dataModel.walletId)
     }
 }

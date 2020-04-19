@@ -14,9 +14,9 @@ class CategoryItemViewDataItemCallbackTest {
     fun `Items should be the same if presentation ids are the same`() {
         // Arrange
         val presentation = categoryPresentation()
-        val item = categoryViewData(presentationRef = presentation)
-        val sameItem = categoryViewData(presentationRef = presentation)
-        val idDifferent = categoryViewData(presentationRef = presentation.copy(id = string()))
+        val item = categoryViewData(presentationModelRef = presentation)
+        val sameItem = categoryViewData(presentationModelRef = presentation)
+        val idDifferent = categoryViewData(presentationModelRef = presentation.copy(id = string()))
 
         // Act
         val itemSameResult = CategoryItemViewDataItemCallback.areItemsTheSame(item, sameItem)

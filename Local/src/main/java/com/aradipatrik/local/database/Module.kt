@@ -20,14 +20,10 @@ val localModule = module {
         RoomLocalCategoryDatastore(get(), get())
     }
     single<LocalWalletDatastore> {
-        RoomLocalWalletDatastore(get(), get())
+        RoomLocalWalletDatastore(get(), get(), get())
     }
     single<LocalUserDatastore> {
-        RxPreferencesUserDatastore(
-            RxSharedPreferences.create(
-                PreferenceManager.getDefaultSharedPreferences(androidContext())
-            )
-        )
+        RxPreferencesUserDatastore(get())
     }
     single { TransactionDatabase.getInstance(androidContext()) }
     single { get<TransactionDatabase>().transactionDao() }
@@ -36,4 +32,12 @@ val localModule = module {
     single { CategoryRowMapper() }
     single { TransactionRowMapper(get()) }
     single { WalletRowMapper() }
+}
+
+val rxPreferencesModule = module {
+    single {
+        RxSharedPreferences.create(
+            PreferenceManager.getDefaultSharedPreferences(androidContext())
+        )
+    }
 }

@@ -2,8 +2,8 @@ package com.aradipatrik.presentation
 
 import com.aradipatrik.presentation.mapper.CategoryPresentationMapper
 import com.aradipatrik.presentation.mapper.TransactionPresentationMapper
-import com.aradipatrik.presentation.presentations.CategoryPresentation
-import com.aradipatrik.presentation.presentations.TransactionPresentation
+import com.aradipatrik.presentation.presentations.CategoryPresentationModel
+import com.aradipatrik.presentation.presentations.TransactionPresentationModel
 import com.aradipatrik.testing.CommonMocks.category
 import com.aradipatrik.testing.CommonMocks.transaction
 import org.junit.Test
@@ -21,12 +21,12 @@ class PresentationMappingTest {
             )
         val testCategory = category()
         val testCategoryPresentation =
-            CategoryPresentation(
+            CategoryPresentationModel(
                 testCategory.id, testCategory.name, testCategory.iconId
             )
         val testTransaction = transaction(category = testCategory)
         val testTransactionPresentation =
-            TransactionPresentation(
+            TransactionPresentationModel(
                 testTransaction.id, testTransaction.amount,
                 testCategoryPresentation, testTransaction.date, testTransaction.memo
             )

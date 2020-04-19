@@ -3,7 +3,7 @@ package com.aradipatrik.data.test.mapper
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.mapper.TimestampProvider
 import com.aradipatrik.data.mapper.WalletMapper
-import com.aradipatrik.data.model.WalletEntity
+import com.aradipatrik.data.model.WalletDataModel
 import com.aradipatrik.domain.model.Wallet
 import com.aradipatrik.testing.CommonMocks.long
 import io.mockk.every
@@ -20,7 +20,7 @@ class WalletMapperTest {
         every { TimestampProvider.now() } returns testTimestamp
 
         val domain = Wallet("testId", "testName")
-        val entity = WalletEntity("testId", "testName", testTimestamp, SyncStatus.None)
+        val entity = WalletDataModel("testId", "testName", testTimestamp, SyncStatus.None)
 
         val mappedDomain = WalletMapper().mapFromEntity(entity)
         val mappedEntity = WalletMapper().mapToEntity(domain)

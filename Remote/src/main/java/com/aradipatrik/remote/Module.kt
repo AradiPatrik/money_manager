@@ -20,18 +20,10 @@ import org.koin.dsl.module
 
 val remoteModule = module {
     single<RemoteTransactionDatastore> {
-        FirestoreRemoteTransactionDatastore(
-            TEST_USER_ID,
-            get(),
-            get()
-        )
+        FirestoreRemoteTransactionDatastore(get(), get())
     }
     single<RemoteCategoryDatastore> {
-        FirestoreRemoteCategoryDatastore(
-            TEST_USER_ID,
-            get(),
-            get()
-        )
+        FirestoreRemoteCategoryDatastore(get(), get())
     }
     single<Authenticator> {
         FirebaseAuthenticator(get(), get())

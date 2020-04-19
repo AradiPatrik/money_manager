@@ -1,6 +1,6 @@
 package com.aradipatrik.yamm.mappers
 
-import com.aradipatrik.presentation.presentations.CategoryPresentation
+import com.aradipatrik.presentation.presentations.CategoryPresentationModel
 import com.aradipatrik.yamm.common.mapper.IconMapper
 import com.aradipatrik.yamm.features.add.transaction.mapper.CategoryItemViewDataMapper
 import org.junit.Test
@@ -13,7 +13,7 @@ class CategoryItemViewDataMapperTest {
         // Arrange
         val iconMapper = IconMapper()
         val mapper = CategoryItemViewDataMapper(iconMapper)
-        val presentation = CategoryPresentation(
+        val presentation = CategoryPresentationModel(
             id = "testId",
             name = "testName",
             iconId = "Groceries"
@@ -22,7 +22,7 @@ class CategoryItemViewDataMapperTest {
         val viewData = mapper.mapToItemViewData(presentation, true)
 
         // Assert
-        expectThat(viewData.presentationRef).isEqualTo(presentation)
+        expectThat(viewData.presentationModelRef).isEqualTo(presentation)
         expectThat(viewData.categoryName).isEqualTo("testName")
         expectThat(viewData.iconResId).isEqualTo(iconMapper.mapToResource(presentation.iconId))
         expectThat(viewData.colorResId).isEqualTo(0)

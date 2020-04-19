@@ -1,6 +1,6 @@
 package com.aradipatrik.yamm.features.history.model
 
-import com.aradipatrik.presentation.presentations.TransactionPresentation
+import com.aradipatrik.presentation.presentations.TransactionPresentationModel
 import org.joda.time.LocalDate
 
 sealed class TransactionViewData
@@ -11,7 +11,7 @@ data class TransactionItemViewData(
     val amount: Int,
     val colorResId: Int,
     val categoryName: String,
-    val presentationRef: TransactionPresentation
+    val presentationModelRef: TransactionPresentationModel
 ) : TransactionViewData()
 
 data class TransactionHeaderViewData(val localDateRef: LocalDate) : TransactionViewData() {

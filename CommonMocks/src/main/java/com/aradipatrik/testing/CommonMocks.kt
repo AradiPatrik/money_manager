@@ -12,7 +12,7 @@ object CommonMocks {
     private const val MAX_YEAR = 2500
     private const val MIN_MONTH = 1
     private const val MAX_MONTH = 12
-    private const val MIN_DAY_OF_MONTH = 0
+    private const val MIN_DAY_OF_MONTH = 1
     private const val MAX_DAY_OF_MONTH = 28
     private const val MIN_HOUR = 0
     private const val MAX_HOUR = 24

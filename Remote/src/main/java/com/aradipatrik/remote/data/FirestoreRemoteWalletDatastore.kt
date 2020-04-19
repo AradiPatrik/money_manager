@@ -2,7 +2,7 @@ package com.aradipatrik.remote.data
 
 import com.aradipatrik.data.datastore.wallet.RemoteWalletDatastore
 import com.aradipatrik.data.mapper.SyncStatus
-import com.aradipatrik.data.model.WalletEntity
+import com.aradipatrik.data.model.WalletDataModel
 import com.aradipatrik.remote.UPDATED_TIMESTAMP_KEY
 import com.aradipatrik.remote.USERS_FIRESTORE_KEY
 import com.aradipatrik.remote.WALLETS_FIRESTORE_KEY
@@ -29,15 +29,15 @@ class FirestoreRemoteWalletDatastore(
 
     private val walletsCollection = Firebase.firestore.collection(WALLETS_FIRESTORE_KEY)
 
-    override fun updateWith(elements: List<WalletEntity>, parentId: String) =
+    override fun updateWith(elements: List<WalletDataModel>, userId: String) =
         Completable.create { emitter ->
             val toUpdate = elements.filter { it.syncStatus == SyncStatus.ToUpdate }
             val toAdd = elements.filter { it.syncStatus == SyncStatus.ToAdd }
             val toDelete = elements.filter { it.syncStatus == SyncStatus.ToDelete }
             Firebase.firestore.runBatch { batch ->
-                batch.doUpdate(toUpdate, parentId)
-                batch.doAdd(toAdd, parentId)
-                batch.doDelete(toDelete, parentId)
+                batch.doUpdate(toUpdate, userId)
+                batch.doAdd(toAdd, userId)
+                batch.doDelete(toDelete, userId)
             }.addOnSuccessListener {
                 emitter.onComplete()
             }.addOnFailureListener { cause ->
@@ -47,7 +47,7 @@ class FirestoreRemoteWalletDatastore(
             }
         }
 
-    private fun WriteBatch.doUpdate(items: List<WalletEntity>, parentId: String) {
+    private fun WriteBatch.doUpdate(items: List<WalletDataModel>, parentId: String) {
         items.forEach { wallet ->
             update(
                 walletsCollection.document(wallet.id),
@@ -60,7 +60,7 @@ class FirestoreRemoteWalletDatastore(
         }
     }
 
-    private fun WriteBatch.doAdd(items: List<WalletEntity>, parentId: String) {
+    private fun WriteBatch.doAdd(items: List<WalletDataModel>, parentId: String) {
         items.forEach { wallet ->
             val walletId = walletsCollection.document().id
             set(
@@ -74,7 +74,7 @@ class FirestoreRemoteWalletDatastore(
         }
     }
 
-    private fun WriteBatch.doDelete(items: List<WalletEntity>, parentId: String) {
+    private fun WriteBatch.doDelete(items: List<WalletDataModel>, parentId: String) {
         items.forEach { wallet ->
             set(
                 walletsCollection.document(wallet.id),
@@ -89,10 +89,10 @@ class FirestoreRemoteWalletDatastore(
 
     override fun getAfter(
         time: Long,
-        backTrackSeconds: Long,
-        parentId: String
-    ): Single<List<WalletEntity>> = Single.create { emitter ->
-        userWallets(parentId).whereGreaterThan(
+        userId: String,
+        backTrackSeconds: Long
+    ) = Single.create<List<WalletDataModel>> { emitter ->
+        userWallets(userId).whereGreaterThan(
             UPDATED_TIMESTAMP_KEY, Timestamp(
                 DateTime(time - backTrackSeconds * 1000).toDate()
             )

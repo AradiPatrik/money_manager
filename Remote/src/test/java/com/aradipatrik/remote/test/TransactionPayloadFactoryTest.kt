@@ -20,6 +20,7 @@ class TransactionPayloadFactoryTest {
             .hasEntry(DATE_KEY, entity.date.millis)
             .hasEntry(AMOUNT_KEY, entity.amount)
             .hasEntry(CATEGORY_ID_KEY, entity.categoryId)
+            .hasEntry(WALLET_ID_KEY, entity.walletId)
         expectThat(payload[UPDATED_TIMESTAMP_KEY])
             .isA<Timestamp>()
     }

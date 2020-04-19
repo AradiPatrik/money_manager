@@ -15,12 +15,12 @@ object CategoryItemViewDataItemCallback : DiffUtil.ItemCallback<CategoryItemView
     override fun areItemsTheSame(
         oldItem: CategoryItemViewData,
         newItem: CategoryItemViewData
-    ) = oldItem.presentationRef.id == newItem.presentationRef.id
+    ) = oldItem.presentationModelRef.id == newItem.presentationModelRef.id
 
     override fun areContentsTheSame(
         oldItem: CategoryItemViewData,
         newItem: CategoryItemViewData
-    ) = oldItem.presentationRef == newItem.presentationRef
+    ) = oldItem.presentationModelRef == newItem.presentationModelRef
             && oldItem.isSelected == newItem.isSelected
 }
 

@@ -7,8 +7,7 @@ import com.aradipatrik.domain.interactor.transaction.AddTransactionInteractor
 import com.aradipatrik.domain.interactor.transaction.DeleteTransactionInteractor
 import com.aradipatrik.domain.interactor.transaction.GetTransactionsInIntervalInteractor
 import com.aradipatrik.domain.interactor.transaction.UpdateTransactionInteractor
-import com.aradipatrik.domain.interactor.wallet.SelectWalletInteractor
-import com.aradipatrik.domain.holder.SelectedWalletHolder
+import com.aradipatrik.domain.interactor.wallet.SelectFirstWalletInteractor
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -31,9 +30,6 @@ val domainModule = module {
         SignUpWithEmailAndPasswordInteractor(get(), get())
     }
     single {
-        SelectWalletInteractor(get(), get())
-    }
-    single {
-        SelectedWalletHolder()
+        SelectFirstWalletInteractor(get())
     }
 }

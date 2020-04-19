@@ -5,7 +5,7 @@ import android.view.View
 import com.airbnb.mvrx.BaseMvRxFragment
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
-import com.aradipatrik.presentation.presentations.TransactionPresentation
+import com.aradipatrik.presentation.presentations.TransactionPresentationModel
 import com.aradipatrik.presentation.viewmodels.history.TransactionHistoryViewModel
 import com.aradipatrik.yamm.R
 import com.aradipatrik.yamm.features.history.adapter.HistoryAdapter
@@ -30,7 +30,7 @@ class HistoryFragment : BaseMvRxFragment(R.layout.fragment_history) {
     }
 
     private fun flattenDateCategorisedItemsToViewDataList(
-        items: SortedMap<LocalDate, SortedSet<TransactionPresentation>>
+        items: SortedMap<LocalDate, SortedSet<TransactionPresentationModel>>
     ) = items.flatMap { (date, transactionsInDate) ->
         listOf(viewDataMapper.mapToHeaderViewData(date)) +
                 transactionsInDate.map(viewDataMapper::mapToItemViewData)

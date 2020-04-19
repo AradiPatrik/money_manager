@@ -1,11 +1,12 @@
 package com.aradipatrik.remote.test
 
 import com.aradipatrik.data.mapper.SyncStatus
-import com.aradipatrik.data.model.CategoryEntity
+import com.aradipatrik.data.model.CategoryDataModel
 import com.aradipatrik.remote.CATEGORY_NAME_KEY
 import com.aradipatrik.remote.DELETED_KEY
 import com.aradipatrik.remote.ICON_ID_KEY
 import com.aradipatrik.remote.UPDATED_TIMESTAMP_KEY
+import com.aradipatrik.remote.WALLET_ID_KEY
 import com.aradipatrik.remote.payloadfactory.CategoryResponseConverter
 import com.aradipatrik.testing.CommonMocks.boolean
 import com.aradipatrik.testing.CommonMocks.string
@@ -27,6 +28,7 @@ class CategoryResponseConverterTest {
         val deleted = boolean()
         val name = string()
         val iconId = string()
+        val walletId = string()
         val updateTimestamp = Timestamp(DateTime(abs(mockTimestamp).toLong()).toDate())
         val result = converter.mapResponseToEntity(
             mockk {
@@ -35,21 +37,23 @@ class CategoryResponseConverterTest {
                 every { getString(ICON_ID_KEY) } returns iconId
                 every { getBoolean(DELETED_KEY) } returns deleted
                 every { getTimestamp(UPDATED_TIMESTAMP_KEY) } returns updateTimestamp
+                every { getString(WALLET_ID_KEY) } returns walletId
             }
         )
 
         expectThat(result) {
-            get(CategoryEntity::updatedTimeStamp).isEqualTo(updateTimestamp.toDate().time)
-            get(CategoryEntity::id).isEqualTo(mockId)
-            get(CategoryEntity::name).isEqualTo(name)
-            get(CategoryEntity::iconId).isEqualTo(iconId)
-            get(CategoryEntity::syncStatus).isEqualTo(
+            get(CategoryDataModel::updatedTimeStamp).isEqualTo(updateTimestamp.toDate().time)
+            get(CategoryDataModel::id).isEqualTo(mockId)
+            get(CategoryDataModel::name).isEqualTo(name)
+            get(CategoryDataModel::iconId).isEqualTo(iconId)
+            get(CategoryDataModel::syncStatus).isEqualTo(
                 if (deleted) {
                     SyncStatus.ToDelete
                 } else {
                     SyncStatus.Synced
                 }
             )
+            get(CategoryDataModel::walletId).isEqualTo(walletId)
         }
     }
 }

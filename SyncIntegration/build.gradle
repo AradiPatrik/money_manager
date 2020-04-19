@@ -33,6 +33,7 @@ dependencies {
     implementation project(':CommonMocks')
     implementation project(':Data:DataMocks')
     implementation project(':Domain:DomainMocks')
+    implementation project(':Remote:Integration')
 
     implementation moduleDependencies.rxJava
     implementation moduleDependencies.rxKotlin
@@ -43,6 +44,9 @@ dependencies {
     implementation moduleDependencies.roomKtx
     implementation moduleDependencies.roomRxJava
     implementation moduleDependencies.kotlinStdLib
+    implementation moduleDependencies.rxPreferences
+    implementation moduleDependencies.firestore
+    implementation moduleDependencies.firebaseAuth
 
     androidTestImplementation moduleTestDependencies.espressoCore
     androidTestImplementation moduleTestDependencies.junitExt

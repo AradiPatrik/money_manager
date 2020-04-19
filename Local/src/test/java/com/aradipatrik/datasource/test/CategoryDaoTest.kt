@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.aradipatrik.local.database.TransactionDatabase
-import com.aradipatrik.local.database.category.CategoryRow
+import com.aradipatrik.local.database.model.category.CategoryRow
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_ADD_CODE
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_DELETE_CODE
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_UPDATE_CODE
@@ -108,6 +108,14 @@ class CategoryDaoTest {
         categoryDao.setDeleted(categoryToDelete.uid).blockingAwait()
         assertDeletedCategoryBecamePendingWithDeletedSyncCode()
         assertGetAllCategoriesContainsDeletedCategory()
+    }
+
+    @Test
+    fun `getCategoriesInWallet should return wallets with the correct wallet id`() {
+        initDbWithCategories(randomCategories + testCategory)
+        categoryDao.getCategoriesInsideWallet(testCategory.walletId)
+            .test()
+            .assertValue(listOf(testCategory))
     }
 
     private fun assertGetAllCategoriesContainsDeletedCategory() {

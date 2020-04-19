@@ -1,73 +1,93 @@
 package com.aradipatrik.integration
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import com.aradipatrik.data.datastore.transaction.RemoteTransactionDatastore
+import com.aradipatrik.data.datastore.wallet.RemoteWalletDatastore
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.mocks.DataLayerMocks.transactionWithIds
-import com.aradipatrik.data.model.TransactionWithIds
+import com.aradipatrik.data.mocks.DataLayerMocks.walletDataModel
+import com.aradipatrik.data.model.TransactionWithIdsDataModel
+import com.aradipatrik.domain.interfaces.auth.Authenticator
+import com.aradipatrik.domain.model.UserCredentials
 import com.aradipatrik.integration.firebase.utils.FirestoreUtils
 import com.aradipatrik.remote.data.FirestoreRemoteTransactionDatastore
-import com.aradipatrik.remote.data.FirestoreRemoteTransactionDatastore.Companion.TRANSACTIONS_COLLECTION_KEY
-import com.aradipatrik.remote.data.FirestoreRemoteTransactionDatastore.Companion.USERS_COLLECTION_KEY
-import com.aradipatrik.remote.payloadfactory.TransactionPayloadFactory
-import com.aradipatrik.remote.payloadfactory.TransactionResponseConverter
+import com.aradipatrik.remote.remoteModule
+import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import io.reactivex.Completable
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.test.KoinTest
+import org.koin.test.inject
 import strikt.api.expectThat
-import strikt.assertions.*
+import strikt.assertions.all
+import strikt.assertions.hasSize
+import strikt.assertions.isEmpty
+import strikt.assertions.isEqualTo
+import strikt.assertions.isGreaterThan
+import strikt.assertions.isLessThan
+import strikt.assertions.isNotEmpty
+import strikt.assertions.isNotEqualTo
 
 @RunWith(AndroidJUnit4::class)
-class FirestoreRemoteTransactionDatastoreTest {
+class FirestoreRemoteTransactionDatastoreTest : KoinTest {
     companion object {
-        private const val TEST_USER_DOCUMENT_KEY = "testUser"
         private const val TIMESTAMP_TOLERANCE = 10
     }
 
-    private val testUserDocument = Firebase.firestore
-        .collection(USERS_COLLECTION_KEY)
-        .document(TEST_USER_DOCUMENT_KEY)
+    private val transactionDatastore: RemoteTransactionDatastore by inject()
+    private val walletDatastore: RemoteWalletDatastore by inject()
+    private val authenticator: Authenticator by inject()
 
-    private val transactionCollection = testUserDocument.collection(TRANSACTIONS_COLLECTION_KEY)
-
-    private val payloadFactory = TransactionPayloadFactory()
-    private val responseConverter = TransactionResponseConverter()
-    private val datastore =
-        FirestoreRemoteTransactionDatastore(
-            TEST_USER_DOCUMENT_KEY, payloadFactory, responseConverter
-        )
+    private lateinit var userId: String
+    private var walletA = walletDataModel(name = "walletA", syncStatus = SyncStatus.ToAdd)
+    private var walletB = walletDataModel(name = "walletB", syncStatus = SyncStatus.ToAdd)
 
     @Before
     fun setup() {
-        transactionCollection.delete()
+        startKoin { modules(remoteModule) }
+        FirebaseApp.initializeApp(InstrumentationRegistry.getInstrumentation().context)
+        userId = authenticator.registerUserWithCredentials(
+            UserCredentials("aradipatrik2@gmail.com", "Almafa123")
+        ).blockingGet().id
+        walletDatastore.updateWith(listOf(walletA, walletB), userId).blockingAwait()
+        val list = walletDatastore.getAfter(0, userId).blockingGet()
+        walletA = walletA.copy(id = list.first { it.name == walletA.name }.id)
+        walletB = walletB.copy(id = list.first { it.name == walletB.name }.id)
     }
 
     @After
     fun teardown() {
-        transactionCollection.delete()
+        (transactionDatastore as FirestoreRemoteTransactionDatastore)
+            .blockingCleanupUserTransactions(userId)
+        FirestoreUtils.deleteWalletsOfUser(userId)
+        FirestoreUtils.deleteUserById(userId)
+        FirestoreUtils.removeAuthenticatedUser()
+        stopKoin()
     }
 
     @Test
     fun updateWithToAdd() {
         val itemsToAdd = listOf(
-            transactionWithIds(memo = "A", syncStatus = SyncStatus.ToAdd),
-            transactionWithIds(memo = "B", syncStatus = SyncStatus.ToAdd)
+            transactionWithIds(memo = "A", syncStatus = SyncStatus.ToAdd, walletId = walletA.id),
+            transactionWithIds(memo = "B", syncStatus = SyncStatus.ToAdd, walletId = walletB.id)
         )
 
         val beforeUpdateTime = System.currentTimeMillis()
-        datastore.updateWith(itemsToAdd).blockingAwait()
-        val resultEntities = FirestoreUtils.getTransactionsOfUser(TEST_USER_DOCUMENT_KEY)
-            .map(responseConverter::mapResponseToEntity)
-            .sortedBy(TransactionWithIds::memo)
+        transactionDatastore.updateWith(itemsToAdd, userId).blockingAwait()
+        val resultEntities = transactionDatastore.getAfter(0, userId)
+            .blockingGet()
+            .sortedBy(TransactionWithIdsDataModel::memo)
         val afterUpdateTime = System.currentTimeMillis()
 
         expectThat(resultEntities).hasSize(itemsToAdd.size)
         expectThat(resultEntities).all {
-            get(TransactionWithIds::updatedTimeStamp)
+            get(TransactionWithIdsDataModel::updatedTimeStamp)
                 .isLessThan(afterUpdateTime)
                 .isGreaterThan(beforeUpdateTime - TIMESTAMP_TOLERANCE)
         }
@@ -79,28 +99,28 @@ class FirestoreRemoteTransactionDatastoreTest {
     @Test
     fun updateWithToUpdate() {
         val toAdd = listOf(
-            transactionWithIds(memo = "A", syncStatus = SyncStatus.ToAdd),
-            transactionWithIds(memo = "B", syncStatus = SyncStatus.ToAdd)
+            transactionWithIds(memo = "A", syncStatus = SyncStatus.ToAdd, walletId = walletA.id),
+            transactionWithIds(memo = "B", syncStatus = SyncStatus.ToAdd, walletId = walletA.id)
         )
-        datastore.updateWith(toAdd).blockingAwait()
-        val addResultEntities = FirestoreUtils.getTransactionsOfUser(TEST_USER_DOCUMENT_KEY)
-            .map(responseConverter::mapResponseToEntity)
-            .sortedBy(TransactionWithIds::id)
+        transactionDatastore.updateWith(toAdd, userId).blockingAwait()
+        val addResultEntities = transactionDatastore.getAfter(0, userId)
+            .blockingGet()
+            .sortedBy(TransactionWithIdsDataModel::id)
         val toUpdate = toAdd.zip(addResultEntities).map { (original, result) ->
             original.copy(id = result.id, memo = "C", syncStatus = SyncStatus.ToUpdate)
         }
 
         val beforeUpdateTime = System.currentTimeMillis()
-        datastore.updateWith(toUpdate).blockingAwait()
+        transactionDatastore.updateWith(toUpdate, userId).blockingAwait()
         val afterUpdateTime = System.currentTimeMillis()
 
-        val updateResultEntities = FirestoreUtils.getTransactionsOfUser(TEST_USER_DOCUMENT_KEY)
-            .map(responseConverter::mapResponseToEntity)
-            .sortedBy(TransactionWithIds::id)
+        val updateResultEntities = transactionDatastore.getAfter(0, userId)
+            .blockingGet()
+            .sortedBy(TransactionWithIdsDataModel::id)
 
         expectThat(updateResultEntities).hasSize(2)
         expectThat(updateResultEntities).all {
-            get(TransactionWithIds::updatedTimeStamp)
+            get(TransactionWithIdsDataModel::updatedTimeStamp)
                 .isLessThan(afterUpdateTime)
                 .isGreaterThan(beforeUpdateTime - TIMESTAMP_TOLERANCE)
         }
@@ -117,28 +137,32 @@ class FirestoreRemoteTransactionDatastoreTest {
     @Test
     fun updateWithToDelete() {
         val toAdd = listOf(
-            transactionWithIds(memo = "A", syncStatus = SyncStatus.ToAdd),
-            transactionWithIds(memo = "B", syncStatus = SyncStatus.ToAdd)
+            transactionWithIds(memo = "A", syncStatus = SyncStatus.ToAdd, walletId = walletA.id),
+            transactionWithIds(memo = "B", syncStatus = SyncStatus.ToAdd, walletId = walletB.id)
         )
-        datastore.updateWith(toAdd).blockingAwait()
-        val addResultEntities = FirestoreUtils.getTransactionsOfUser(TEST_USER_DOCUMENT_KEY)
-            .map(responseConverter::mapResponseToEntity)
+        transactionDatastore.updateWith(toAdd, userId).blockingAwait()
+        val addResultEntities = transactionDatastore.getAfter(0, userId)
+            .blockingGet()
 
-        datastore.updateWith(addResultEntities.map { it.copy(syncStatus = SyncStatus.ToDelete) })
+        transactionDatastore.updateWith(
+            addResultEntities.map { it.copy(syncStatus = SyncStatus.ToDelete) },
+            userId
+        )
             .blockingAwait()
-        val result = FirestoreUtils.getTransactionsOfUser(TEST_USER_DOCUMENT_KEY)
-            .map(responseConverter::mapResponseToEntity)
+        val result = transactionDatastore.getAfter(0, userId)
+            .blockingGet()
         expectThat(result).all {
-            get(TransactionWithIds::syncStatus).isEqualTo(SyncStatus.ToDelete)
+            get(TransactionWithIdsDataModel::syncStatus).isEqualTo(SyncStatus.ToDelete)
         }
     }
 
     @Test
     fun getAfterWhenNothingToGet() {
-        val toAdd = generateSequence { transactionWithIds() }.take(2).toList()
-        datastore.updateWith(toAdd).blockingAwait()
+        val toAdd = generateSequence { transactionWithIds(walletId = walletA.id) }.take(2).toList()
+        transactionDatastore.updateWith(toAdd, userId).blockingAwait()
 
-        val result = datastore.getAfter(System.currentTimeMillis()).blockingGet()
+        val result =
+            transactionDatastore.getAfter(System.currentTimeMillis(), userId).blockingGet()
         expectThat(result).isEmpty()
     }
 
@@ -146,13 +170,13 @@ class FirestoreRemoteTransactionDatastoreTest {
     fun getAfterWhenWeShouldGetAll() {
         val beforeAdd = System.currentTimeMillis()
         val toAdd = listOf(
-            transactionWithIds(memo = "A", syncStatus = SyncStatus.ToAdd),
-            transactionWithIds(memo = "B", syncStatus = SyncStatus.ToAdd)
+            transactionWithIds(memo = "A", syncStatus = SyncStatus.ToAdd, walletId = walletA.id),
+            transactionWithIds(memo = "B", syncStatus = SyncStatus.ToAdd, walletId = walletA.id)
         )
-        datastore.updateWith(toAdd).blockingAwait()
+        transactionDatastore.updateWith(toAdd, userId).blockingAwait()
 
-        val result = datastore.getAfter(beforeAdd).blockingGet()
-            .sortedBy(TransactionWithIds::memo)
+        val result = transactionDatastore.getAfter(beforeAdd, userId).blockingGet()
+            .sortedBy(TransactionWithIdsDataModel::memo)
         expectThat(result).hasSize(2)
         toAdd.zip(result).forEach { (original, result) ->
             assertAddResultSynced(original, result)
@@ -160,8 +184,8 @@ class FirestoreRemoteTransactionDatastoreTest {
     }
 
     private fun assertAddResultSynced(
-        original: TransactionWithIds,
-        result: TransactionWithIds
+        original: TransactionWithIdsDataModel,
+        result: TransactionWithIdsDataModel
     ) {
         expectThat(original.amount).isEqualTo(result.amount)
         expectThat(original.categoryId).isEqualTo(result.categoryId)
@@ -169,6 +193,7 @@ class FirestoreRemoteTransactionDatastoreTest {
         expectThat(original.id).isNotEqualTo(result.id).isNotEmpty()
         expectThat(original.memo).isEqualTo(result.memo)
         expectThat(result.syncStatus).isEqualTo(SyncStatus.Synced)
+        expectThat(original.walletId).isEqualTo(result.walletId)
     }
 
     private fun CollectionReference.delete() = Completable.create { con ->
@@ -179,20 +204,4 @@ class FirestoreRemoteTransactionDatastoreTest {
             con.onComplete()
         }
     }.blockingAwait()
-
-    @Test
-    fun deleteUserShouldWork() {
-        val itemsToAdd = listOf(
-            transactionWithIds(memo = "A", syncStatus = SyncStatus.ToAdd),
-            transactionWithIds(memo = "B", syncStatus = SyncStatus.ToAdd)
-        )
-
-        datastore.updateWith(itemsToAdd).blockingAwait()
-        val addResult = FirestoreUtils.getTransactionsOfUser(TEST_USER_DOCUMENT_KEY)
-        expectThat(addResult).isNotEmpty()
-
-        datastore.deleteAllForTestUser()
-        val afterDelete = FirestoreUtils.getTransactionsOfUser(TEST_USER_DOCUMENT_KEY)
-        expectThat(afterDelete.isEmpty())
-    }
 }

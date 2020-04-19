@@ -8,7 +8,7 @@ import com.aradipatrik.presentation.common.MvRxViewModel
 import com.aradipatrik.presentation.common.appendDigit
 import com.aradipatrik.presentation.common.withLastDigitRemoved
 import com.aradipatrik.presentation.mapper.CategoryPresentationMapper
-import com.aradipatrik.presentation.presentations.CategoryPresentation
+import com.aradipatrik.presentation.presentations.CategoryPresentationModel
 import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.*
 import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.*
 import io.reactivex.schedulers.Schedulers
@@ -44,10 +44,10 @@ data class AddTransactionState(
     val isExpense: Boolean = true,
     val memo: String = "",
     val selectedDate: DateTime = DateTime.now(),
-    val categoryList: List<CategoryPresentation> = emptyList(),
-    val categoryListRequest: Async<List<CategoryPresentation>> = Uninitialized,
+    val categoryListModel: List<CategoryPresentationModel> = emptyList(),
+    val categoryListRequestModel: Async<List<CategoryPresentationModel>> = Uninitialized,
     val addTransactionRequest: Async<Unit> = Uninitialized,
-    val selectedCategory: CategoryPresentation? = null
+    val selectedCategoryModel: CategoryPresentationModel? = null
 ) : MvRxState
 
 class AddTransactionViewModel(
@@ -77,9 +77,9 @@ class AddTransactionViewModel(
             .subscribeOn(Schedulers.io())
             .execute {
                 copy(
-                    categoryListRequest = it,
-                    categoryList = it() ?: emptyList(),
-                    selectedCategory = it()?.get(0)
+                    categoryListRequestModel = it,
+                    categoryListModel = it() ?: emptyList(),
+                    selectedCategoryModel = it()?.get(0)
                 )
             }
     }
@@ -181,13 +181,13 @@ class AddTransactionViewModel(
     }
 
     private fun addTransaction(state: AddTransactionState) {
-        if (state.selectedCategory != null) {
+        if (state.selectedCategoryModel != null) {
             require(state.calculatorState is SingleValue)
             addTransactionInteractor.get(
                 AddTransactionInteractor.Params.forTransaction(
                     Transaction(
                         id = "",
-                        category = mapper.mapFromPresentation(state.selectedCategory),
+                        category = mapper.mapFromPresentation(state.selectedCategoryModel),
                         amount = state.calculatorState.value,
                         memo = state.memo,
                         date = state.selectedDate

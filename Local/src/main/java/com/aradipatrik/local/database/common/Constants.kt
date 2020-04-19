@@ -3,6 +3,7 @@ package com.aradipatrik.local.database.common
 object CommonConstants {
     const val UPDATE_TIMESTAMP_COLUMN_NAME = "update_timestamp"
     const val SYNC_STATUS_COLUMN_NAME = "sync_status"
+    const val WALLET_ID_COLUMN_NAME = "wallet_id"
 }
 
 object TransactionConstants {

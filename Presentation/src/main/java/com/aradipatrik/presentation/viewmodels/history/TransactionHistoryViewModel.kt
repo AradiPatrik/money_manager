@@ -4,7 +4,7 @@ import com.airbnb.mvrx.*
 import com.aradipatrik.domain.interactor.transaction.GetTransactionsInIntervalInteractor
 import com.aradipatrik.presentation.common.MvRxViewModel
 import com.aradipatrik.presentation.mapper.TransactionPresentationMapper
-import com.aradipatrik.presentation.presentations.TransactionPresentation
+import com.aradipatrik.presentation.presentations.TransactionPresentationModel
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
 import io.reactivex.schedulers.Schedulers
@@ -14,13 +14,13 @@ import org.koin.android.ext.android.inject
 
 data class TransactionHistoryState(
     val selectedMonth: YearMonth = YearMonth.now(),
-    val transactionsOfSelectedMonth: List<TransactionPresentation> = emptyList(),
-    val request: Async<List<TransactionPresentation>> = Uninitialized
+    val transactionsOfSelectedMonth: List<TransactionPresentationModel> = emptyList(),
+    val request: Async<List<TransactionPresentationModel>> = Uninitialized
 ) : MvRxState {
     val selectedMonthAsInterval: Interval = selectedMonth.toInterval()
     val datesToTransactions = transactionsOfSelectedMonth
         .groupBy { it.date.toLocalDate() }
-        .mapValues { (_, value) -> value.toSortedSet(compareBy(TransactionPresentation::date)) }
+        .mapValues { (_, value) -> value.toSortedSet(compareBy(TransactionPresentationModel::date)) }
         .toSortedMap()
 }
 

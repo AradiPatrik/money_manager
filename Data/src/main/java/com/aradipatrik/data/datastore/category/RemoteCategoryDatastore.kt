@@ -1,6 +1,6 @@
 package com.aradipatrik.data.datastore.category
 
 import com.aradipatrik.data.common.RemoteTimestampedDatastore
-import com.aradipatrik.data.model.CategoryEntity
+import com.aradipatrik.data.model.CategoryDataModel
 
-interface RemoteCategoryDatastore : RemoteTimestampedDatastore<CategoryEntity>
+interface RemoteCategoryDatastore : RemoteTimestampedDatastore<CategoryDataModel>

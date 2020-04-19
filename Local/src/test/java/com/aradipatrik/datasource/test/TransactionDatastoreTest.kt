@@ -7,8 +7,9 @@ import com.aradipatrik.data.datastore.category.LocalCategoryDatastore
 import com.aradipatrik.data.datastore.transaction.LocalTransactionDatastore
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.mocks.DataLayerMocks.categoryEntity
+import com.aradipatrik.data.mocks.DataLayerMocks.transactionWithCategory
 import com.aradipatrik.data.mocks.DataLayerMocks.transactionWithIds
-import com.aradipatrik.data.model.TransactionWithCategory
+import com.aradipatrik.data.model.TransactionWithCategoryDataModel
 import com.aradipatrik.local.database.RoomLocalCategoryDatastore
 import com.aradipatrik.local.database.RoomLocalTransactionDatastore
 import com.aradipatrik.local.database.TransactionDatabase
@@ -16,6 +17,7 @@ import com.aradipatrik.local.database.mapper.CategoryRowMapper
 import com.aradipatrik.local.database.mapper.TransactionRowMapper
 import com.aradipatrik.testing.CommonMocks.hour
 import com.aradipatrik.testing.CommonMocks.minute
+import com.aradipatrik.testing.CommonMocks.string
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.junit.After
@@ -61,13 +63,15 @@ class TransactionDatastoreTest {
     fun `Get in interval should return transactions in given interval, left right inclusive`() {
         val testYear = 2000
         val testMonth = 10
+        val walletId = string()
         val testCategory = categoryEntity()
         val transactions =
             listOf(1, 2, 3, 4, 5).map { day ->
                 transactionWithIds(
                     categoryId = testCategory.id,
                     syncStatus = SyncStatus.Synced,
-                    date = DateTime(testYear, testMonth, day, hour(), minute())
+                    date = DateTime(testYear, testMonth, day, hour(), minute()),
+                    walletId = walletId
                 )
             }
 
@@ -80,19 +84,21 @@ class TransactionDatastoreTest {
             Interval(
                 transactions[queryBeginIndex].date.toInstant(),
                 transactions[queryEndIndex].date.toInstant()
-            )
+            ),
+            walletId = walletId
         )
             .test()
             .assertValue(
                 transactions.subList(queryBeginIndex, queryEndIndex + 1).map {
-                    TransactionWithCategory(
+                    TransactionWithCategoryDataModel(
                         id = it.id,
                         date = it.date,
                         category = testCategory,
                         syncStatus = it.syncStatus,
                         amount = it.amount,
                         memo = it.memo,
-                        updatedTimeStamp = it.updatedTimeStamp
+                        updatedTimeStamp = it.updatedTimeStamp,
+                        walletId = it.walletId
                     )
                 }
             )

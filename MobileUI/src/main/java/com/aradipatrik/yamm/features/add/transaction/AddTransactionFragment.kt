@@ -76,8 +76,8 @@ class AddTransactionFragment : BaseMvRxFragment(R.layout.fragment_calculator_she
             number_pad_action.icon = context?.getDrawable(R.drawable.ic_check_24dp)
             number_pad_action.text = ""
         }
-        adapter.submitList(state.categoryList.map {
-            categoryItemViewDataMapper.mapToItemViewData(it, it == state.selectedCategory)
+        adapter.submitList(state.categoryListModel.map {
+            categoryItemViewDataMapper.mapToItemViewData(it, it == state.selectedCategoryModel)
         })
     }
 }

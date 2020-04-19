@@ -9,4 +9,6 @@ interface WalletRepository {
     fun updateWallet(wallet: Wallet): Completable
     fun deleteWallet(walletId: String): Completable
     fun getWallets(): Single<List<Wallet>>
+    fun setSelectedWallet(wallet: Wallet): Completable
+    fun getSelectedWallet(): Single<Wallet>
 }

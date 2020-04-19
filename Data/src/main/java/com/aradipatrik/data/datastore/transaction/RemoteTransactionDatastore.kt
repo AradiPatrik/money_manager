@@ -1,6 +1,6 @@
 package com.aradipatrik.data.datastore.transaction
 
 import com.aradipatrik.data.common.RemoteTimestampedDatastore
-import com.aradipatrik.data.model.TransactionWithIds
+import com.aradipatrik.data.model.TransactionWithIdsDataModel
 
-interface RemoteTransactionDatastore : RemoteTimestampedDatastore<TransactionWithIds>
+interface RemoteTransactionDatastore : RemoteTimestampedDatastore<TransactionWithIdsDataModel>

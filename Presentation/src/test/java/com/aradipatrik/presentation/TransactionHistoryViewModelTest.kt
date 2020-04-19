@@ -9,7 +9,7 @@ import com.aradipatrik.domain.interactor.transaction.GetTransactionsInIntervalIn
 import com.aradipatrik.presentation.datahelpers.MockDataFactory.transactionPresentation
 import com.aradipatrik.presentation.mapper.CategoryPresentationMapper
 import com.aradipatrik.presentation.mapper.TransactionPresentationMapper
-import com.aradipatrik.presentation.presentations.TransactionPresentation
+import com.aradipatrik.presentation.presentations.TransactionPresentationModel
 import com.aradipatrik.presentation.viewmodels.history.TransactionHistoryState
 import com.aradipatrik.presentation.viewmodels.history.TransactionHistoryViewModel
 import com.aradipatrik.testing.CommonMocks.transaction
@@ -90,7 +90,7 @@ class TransactionHistoryViewModelTest : KoinTest {
         // Assert
         withState(transactionHistoryViewModel) { state ->
             expectThat(state.request)
-                .isA<Success<List<TransactionPresentation>>>()
+                .isA<Success<List<TransactionPresentationModel>>>()
             expectThat(state.request())
                 .isNotNull()
                 .hasSize(1)

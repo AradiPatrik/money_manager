@@ -1,7 +1,7 @@
 package com.aradipatrik.yamm.util
 
-import com.aradipatrik.presentation.presentations.CategoryPresentation
-import com.aradipatrik.presentation.presentations.TransactionPresentation
+import com.aradipatrik.presentation.presentations.CategoryPresentationModel
+import com.aradipatrik.presentation.presentations.TransactionPresentationModel
 import com.aradipatrik.testing.CommonMocks.boolean
 import com.aradipatrik.testing.CommonMocks.int
 import com.aradipatrik.testing.CommonMocks.string
@@ -17,24 +17,24 @@ object ViewDataMocks {
         amount: Int = int(),
         colorResId: Int = int(),
         categoryName: String = string(),
-        presentationRef: TransactionPresentation = transactionPresentation()
+        presentationModelRef: TransactionPresentationModel = transactionPresentation()
     ) = TransactionItemViewData(
         memo = memo,
         categoryIconResId = categoryIconResId,
         amount = amount,
         colorResId = colorResId,
         categoryName = categoryName,
-        presentationRef = presentationRef
+        presentationModelRef = presentationModelRef
     )
 
     fun categoryViewData(
-        presentationRef: CategoryPresentation = categoryPresentation(),
+        presentationModelRef: CategoryPresentationModel = categoryPresentation(),
         iconResId: Int = int(),
         colorResId: Int = int(),
         name: String = string(),
         isSelected: Boolean = boolean()
     ) = CategoryItemViewData(
-        presentationRef = presentationRef,
+        presentationModelRef = presentationModelRef,
         categoryName = name,
         colorResId = colorResId,
         iconResId = iconResId,

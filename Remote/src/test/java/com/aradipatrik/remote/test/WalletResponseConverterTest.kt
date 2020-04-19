@@ -1,7 +1,7 @@
 package com.aradipatrik.remote.test
 
 import com.aradipatrik.data.mapper.SyncStatus
-import com.aradipatrik.data.model.WalletEntity
+import com.aradipatrik.data.model.WalletDataModel
 import com.aradipatrik.remote.DELETED_KEY
 import com.aradipatrik.remote.UPDATED_TIMESTAMP_KEY
 import com.aradipatrik.remote.WALLET_NAME_KEY
@@ -37,10 +37,10 @@ class WalletResponseConverterTest {
         )
 
         expectThat(result) {
-            get(WalletEntity::updatedTimeStamp).isEqualTo(updateTimestamp.toDate().time)
-            get(WalletEntity::id).isEqualTo(mockId)
-            get(WalletEntity::name).isEqualTo(name)
-            get(WalletEntity::syncStatus).isEqualTo(
+            get(WalletDataModel::updatedTimeStamp).isEqualTo(updateTimestamp.toDate().time)
+            get(WalletDataModel::id).isEqualTo(mockId)
+            get(WalletDataModel::name).isEqualTo(name)
+            get(WalletDataModel::syncStatus).isEqualTo(
                 if (deleted) {
                     SyncStatus.ToDelete
                 } else {

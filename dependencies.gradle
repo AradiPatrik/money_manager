@@ -79,7 +79,7 @@ ext {
             junit      : "junit:junit:${junitVersion}",
             strikt     : "io.strikt:strikt-core:${striktVersion}",
             mockk      : "io.mockk:mockk:${mockkVersion}",
-            koinTesting: "org.koin:koin-test:${koinVersion}"
+            koinTesting: "org.koin:koin-test:${koinVersion}",
     ]
 
     remoteDependencies = [
@@ -202,7 +202,10 @@ ext {
             roomKtx        : "androidx.room:room-ktx:${roomVersion}",
             roomKapt       : "androidx.room:room-compiler:${roomVersion}",
             roomRxJava     : "androidx.room:room-rxjava2:${roomVersion}",
-            kotlinStdLib   : "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            kotlinStdLib   : "org.jetbrains.kotlin:kotlin-stdlib-jdk8",
+            rxPreferences  : "com.f2prateek.rx.preferences2:rx-preferences:${rxPreferencesVersion}",
+            firebaseAuth   : "com.google.firebase:firebase-auth:${firebaseAuthVersion}",
+            firestore      : "com.google.firebase:firebase-firestore:${firestoreVersion}",
     ]
 
     syncIntegrationTestDependencies = [

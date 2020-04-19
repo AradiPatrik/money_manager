@@ -1,7 +1,7 @@
 package com.aradipatrik.remote.test
 
 import com.aradipatrik.data.mapper.SyncStatus
-import com.aradipatrik.data.model.TransactionWithIds
+import com.aradipatrik.data.model.TransactionWithIdsDataModel
 import com.aradipatrik.remote.*
 import com.aradipatrik.remote.payloadfactory.TransactionResponseConverter
 import com.aradipatrik.testing.CommonMocks.boolean
@@ -29,6 +29,7 @@ class TransactionResponseConverterTest {
         val updateTimestamp = Timestamp(DateTime(abs(mockTimestamp).toLong()).toDate())
         val categoryId = string()
         val amount = long()
+        val walletId = string()
         val result = converter.mapResponseToEntity(
             mockk {
                 every { id } returns mockId
@@ -38,23 +39,25 @@ class TransactionResponseConverterTest {
                 every { getTimestamp(UPDATED_TIMESTAMP_KEY) } returns updateTimestamp
                 every { getString(CATEGORY_ID_KEY) } returns categoryId
                 every { getLong(AMOUNT_KEY) } returns amount
+                every { getString(WALLET_ID_KEY) } returns walletId
             }
         )
 
         expectThat(result) {
-            get(TransactionWithIds::updatedTimeStamp).isEqualTo(updateTimestamp.toDate().time)
-            get(TransactionWithIds::id).isEqualTo(mockId)
-            get(TransactionWithIds::categoryId).isEqualTo(categoryId)
-            get(TransactionWithIds::memo).isEqualTo(memo)
-            get(TransactionWithIds::date).isEqualTo(date)
-            get(TransactionWithIds::amount).isEqualTo(amount.toInt())
-            get(TransactionWithIds::syncStatus).isEqualTo(
+            get(TransactionWithIdsDataModel::updatedTimeStamp).isEqualTo(updateTimestamp.toDate().time)
+            get(TransactionWithIdsDataModel::id).isEqualTo(mockId)
+            get(TransactionWithIdsDataModel::categoryId).isEqualTo(categoryId)
+            get(TransactionWithIdsDataModel::memo).isEqualTo(memo)
+            get(TransactionWithIdsDataModel::date).isEqualTo(date)
+            get(TransactionWithIdsDataModel::amount).isEqualTo(amount.toInt())
+            get(TransactionWithIdsDataModel::syncStatus).isEqualTo(
                 if (deleted) {
                     SyncStatus.ToDelete
                 } else {
                     SyncStatus.Synced
                 }
             )
+            get(TransactionWithIdsDataModel::walletId).isEqualTo(walletId)
         }
     }
 }

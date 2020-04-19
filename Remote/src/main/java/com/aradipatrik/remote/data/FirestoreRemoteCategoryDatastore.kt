@@ -2,13 +2,16 @@ package com.aradipatrik.remote.data
 
 import com.aradipatrik.data.datastore.category.RemoteCategoryDatastore
 import com.aradipatrik.data.mapper.SyncStatus
-import com.aradipatrik.data.model.CategoryEntity
-import com.aradipatrik.remote.TEST_USER_ID
+import com.aradipatrik.data.model.CategoryDataModel
+import com.aradipatrik.remote.CATEGORIES_FIRESTORE_KEY
 import com.aradipatrik.remote.UPDATED_TIMESTAMP_KEY
+import com.aradipatrik.remote.WALLETS_FIRESTORE_KEY
+import com.aradipatrik.remote.data.FirestoreRemoteTransactionDatastore.Companion.USERS_COLLECTION_KEY
 import com.aradipatrik.remote.payloadfactory.CategoryPayloadFactory
 import com.aradipatrik.remote.payloadfactory.CategoryResponseConverter
-import com.aradipatrik.remote.utils.delete
+import com.aradipatrik.remote.utils.blockingDelete
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.WriteBatch
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -17,25 +20,25 @@ import io.reactivex.Single
 import org.joda.time.DateTime
 
 class FirestoreRemoteCategoryDatastore(
-    private val userId: String,
     private val categoryPayloadFactory: CategoryPayloadFactory,
     private val categoryResponseConverter: CategoryResponseConverter
 ) : RemoteCategoryDatastore {
-    companion object {
-        const val USERS_COLLECTION_KEY = "users"
-        const val CATEGORIES_COLLECTION_KEY = "categories"
-    }
 
-
-    private val categoriesCollection = Firebase.firestore.collection(USERS_COLLECTION_KEY)
+    private fun getUserWalletsCollection(userId: String) = Firebase.firestore
+        .collection(USERS_COLLECTION_KEY)
         .document(userId)
-        .collection(CATEGORIES_COLLECTION_KEY)
+        .collection(WALLETS_FIRESTORE_KEY)
 
-    override fun updateWith(items: List<CategoryEntity>) = Completable.defer {
+    private fun getCategoriesCollectionInsideWallet(walletId: String) =
+        Firebase.firestore.collection(WALLETS_FIRESTORE_KEY)
+            .document(walletId)
+            .collection(CATEGORIES_FIRESTORE_KEY)
+
+    override fun updateWith(elements: List<CategoryDataModel>, userId: String) =
         Completable.create { emitter ->
-            val toUpdate = items.filter { it.syncStatus == SyncStatus.ToUpdate }
-            val toAdd = items.filter { it.syncStatus == SyncStatus.ToAdd }
-            val toDelete = items.filter { it.syncStatus == SyncStatus.ToDelete }
+            val toUpdate = elements.filter { it.syncStatus == SyncStatus.ToUpdate }
+            val toAdd = elements.filter { it.syncStatus == SyncStatus.ToAdd }
+            val toDelete = elements.filter { it.syncStatus == SyncStatus.ToDelete }
             Firebase.firestore.runBatch { batch ->
                 batch.doUpdate(toUpdate)
                 batch.doAdd(toAdd)
@@ -48,30 +51,29 @@ class FirestoreRemoteCategoryDatastore(
                 emitter.onError(CanceledException)
             }
         }
-    }
 
-    private fun WriteBatch.doUpdate(items: List<CategoryEntity>) {
+    private fun WriteBatch.doUpdate(items: List<CategoryDataModel>) {
         items.forEach { category ->
             update(
-                categoriesCollection.document(category.id),
+                getCategoriesCollectionInsideWallet(category.walletId).document(category.id),
                 categoryPayloadFactory.createPayloadFrom(category)
             )
         }
     }
 
-    private fun WriteBatch.doAdd(items: List<CategoryEntity>) {
+    private fun WriteBatch.doAdd(items: List<CategoryDataModel>) {
         items.forEach { category ->
             set(
-                categoriesCollection.document(),
+                getCategoriesCollectionInsideWallet(category.walletId).document(),
                 categoryPayloadFactory.createPayloadFrom(category)
             )
         }
     }
 
-    private fun WriteBatch.doDelete(items: List<CategoryEntity>) {
+    private fun WriteBatch.doDelete(items: List<CategoryDataModel>) {
         items.forEach { category ->
             set(
-                categoriesCollection.document(category.id),
+                getCategoriesCollectionInsideWallet(category.walletId).document(category.id),
                 categoryPayloadFactory.createPayloadFrom(category)
             )
         }
@@ -79,35 +81,82 @@ class FirestoreRemoteCategoryDatastore(
 
     override fun getAfter(
         time: Long,
-        backtrackSeconds: Long
-    ): Single<List<CategoryEntity>> =
-        Single.create<List<CategoryEntity>> { emitter ->
-            categoriesCollection.whereGreaterThan(
-                UPDATED_TIMESTAMP_KEY, Timestamp(
-                    DateTime(time - backtrackSeconds * 1000).toDate()
-                )
-            ).get()
-                .addOnSuccessListener { querySnapshot ->
-                    emitter.onSuccess(
-                        querySnapshot.documents.map(
-                            categoryResponseConverter::mapResponseToEntity
-                        )
-                    )
-                }
-                .addOnFailureListener { cause ->
-                    emitter.onError(cause)
-                }
-                .addOnCanceledListener {
-                    emitter.onError(CanceledException)
-                }
+        userId: String,
+        backTrackSeconds: Long
+    ) = getWalletIdsOfUser(userId)
+        .map { walletIds ->
+            walletIds.map { walletId ->
+                getAfterInsideWallet(time, backTrackSeconds, walletId)
+            }
         }
+        .flatMap { getCategoryOperations ->
+            Single.zip(getCategoryOperations) { categoryResults ->
+                @Suppress("UNCHECKED_CAST")
+                val results = categoryResults.map { it as List<CategoryDataModel> }
+                results.flatten()
+            }
+        }
+
+    private fun getWalletIdsOfUser(userId: String) = Single.create<List<String>> { emitter ->
+        getUserWalletsCollection(userId).get()
+            .addOnSuccessListener { querySnapshot ->
+                emitter.onSuccess(
+                    querySnapshot.documents.map(DocumentSnapshot::getId)
+                )
+            }
+            .addOnFailureListener { cause ->
+                emitter.onError(cause)
+            }
+            .addOnCanceledListener {
+                emitter.onError(CanceledException)
+            }
+    }
+
+    private fun getAfterInsideWallet(
+        time: Long,
+        backtrackSeconds: Long,
+        walletId: String
+    ) = Single.create<List<CategoryDataModel>> { emitter ->
+        getCategoriesCollectionInsideWallet(walletId).whereGreaterThan(
+            UPDATED_TIMESTAMP_KEY, Timestamp(
+                DateTime(time - backtrackSeconds * 1000).toDate()
+            )
+        ).get()
+            .addOnSuccessListener { querySnapshot ->
+                emitter.onSuccess(
+                    querySnapshot.documents.map(
+                        categoryResponseConverter::mapResponseToEntity
+                    )
+                )
+            }
+            .addOnFailureListener { cause ->
+                emitter.onError(cause)
+            }
+            .addOnCanceledListener {
+                emitter.onError(CanceledException)
+            }
+    }
 
     /**
      * This is just here for testing, don't use in production
-     * @throws IllegalStateException if user is not test user
      */
-    fun deleteAllForTestUser() {
-        check(userId == TEST_USER_ID) { "Usage of this method for real user is prohibited" }
-        categoriesCollection.delete()
+    fun blockingCleanupUserCategories(userId: String) {
+        val walletIds = getWalletIdsOfUser(userId).blockingGet()
+        walletIds.forEach(::blockingCleanupCategoriesInsideWallet)
+        walletIds.forEach {
+            Firebase.firestore.collection(WALLETS_FIRESTORE_KEY)
+                .document(it)
+                .blockingDelete()
+        }
+    }
+
+    /**
+     * This is just here for testing, don't use in production
+     */
+    fun blockingCleanupCategoriesInsideWallet(walletId: String) {
+        Firebase.firestore.collection(WALLETS_FIRESTORE_KEY)
+            .document(walletId)
+            .collection(CATEGORIES_FIRESTORE_KEY)
+            .blockingDelete()
     }
 }

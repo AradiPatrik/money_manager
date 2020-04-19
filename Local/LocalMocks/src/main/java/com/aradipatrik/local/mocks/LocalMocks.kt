@@ -1,10 +1,10 @@
 package com.aradipatrik.local.mocks
 
-import com.aradipatrik.local.database.category.CategoryRow
+import com.aradipatrik.local.database.model.category.CategoryRow
 import com.aradipatrik.local.database.common.SyncStatusConstants
-import com.aradipatrik.local.database.transaction.TransactionRow
-import com.aradipatrik.local.database.transaction.TransactionWithCategory
-import com.aradipatrik.local.database.wallet.WalletRow
+import com.aradipatrik.local.database.model.transaction.TransactionRow
+import com.aradipatrik.local.database.model.transaction.TransactionWithCategory
+import com.aradipatrik.local.database.model.wallet.WalletRow
 import com.aradipatrik.testing.CommonMocks
 import com.aradipatrik.testing.CommonMocks.long
 import com.aradipatrik.testing.CommonMocks.string
@@ -13,6 +13,7 @@ import com.aradipatrik.testing.CommonMocks.string
 object LocalMocks {
     fun transactionRow(
         uid: String = string(),
+        walletId: String = string(),
         updateTimestamp: Long = long(),
         memo: String = string(),
         amount: Int = CommonMocks.int(),
@@ -21,6 +22,7 @@ object LocalMocks {
         syncStatusCode: Int = SyncStatusConstants.SYNCED_CODE
     ) = TransactionRow(
         uid = uid,
+        walletId = walletId,
         updateTimestamp = updateTimestamp,
         memo = memo,
         date = date,
@@ -32,11 +34,13 @@ object LocalMocks {
     fun categoryRow(
         uid: String = string(),
         syncStatusCode: Int = SyncStatusConstants.SYNCED_CODE,
+        walletId: String = string(),
         updateTimestamp: Long = long(),
         name: String = string(),
         iconId: String = string()
     ) = CategoryRow(
         uid = uid,
+        walletId = walletId,
         syncStatusCode = syncStatusCode,
         updateTimestamp = updateTimestamp,
         name = name,

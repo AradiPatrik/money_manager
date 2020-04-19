@@ -1,16 +1,16 @@
 package com.aradipatrik.yamm.features.add.transaction.mapper
 
-import com.aradipatrik.presentation.presentations.CategoryPresentation
+import com.aradipatrik.presentation.presentations.CategoryPresentationModel
 import com.aradipatrik.yamm.common.mapper.IconMapper
 import com.aradipatrik.yamm.features.add.transaction.model.CategoryItemViewData
 
 class CategoryItemViewDataMapper(private val iconMapper: IconMapper) {
-    fun mapToItemViewData(categoryPresentation: CategoryPresentation, isSelected: Boolean) =
+    fun mapToItemViewData(categoryPresentationModel: CategoryPresentationModel, isSelected: Boolean) =
         CategoryItemViewData(
-            presentationRef = categoryPresentation,
+            presentationModelRef = categoryPresentationModel,
             isSelected = isSelected,
-            categoryName = categoryPresentation.name,
-            iconResId = iconMapper.mapToResource(categoryPresentation.iconId),
+            categoryName = categoryPresentationModel.name,
+            iconResId = iconMapper.mapToResource(categoryPresentationModel.iconId),
             colorResId = 0
         )
 }

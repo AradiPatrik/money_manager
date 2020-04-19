@@ -10,6 +10,7 @@ internal const val AMOUNT_KEY = "amount"
 internal const val CATEGORY_NAME_KEY = "name"
 internal const val WALLET_NAME_KEY = "name"
 internal const val ICON_ID_KEY = "iconId"
+internal const val WALLET_ID_KEY = "walletId"
 
 const val TEST_USER_ID = "testUser"
 

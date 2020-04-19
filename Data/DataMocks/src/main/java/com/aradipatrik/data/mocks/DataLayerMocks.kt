@@ -1,10 +1,10 @@
 package com.aradipatrik.data.mocks
 
 import com.aradipatrik.data.mapper.SyncStatus
-import com.aradipatrik.data.model.CategoryEntity
-import com.aradipatrik.data.model.TransactionWithCategory
-import com.aradipatrik.data.model.TransactionWithIds
-import com.aradipatrik.data.model.WalletEntity
+import com.aradipatrik.data.model.CategoryDataModel
+import com.aradipatrik.data.model.TransactionWithCategoryDataModel
+import com.aradipatrik.data.model.TransactionWithIdsDataModel
+import com.aradipatrik.data.model.WalletDataModel
 import com.aradipatrik.testing.CommonMocks.date
 import com.aradipatrik.testing.CommonMocks.int
 import com.aradipatrik.testing.CommonMocks.long
@@ -20,7 +20,7 @@ object DataLayerMocks {
         walletId: String = string(),
         updatedTimeStamp: Long = long(),
         syncStatus: SyncStatus = SyncStatus.None
-    ) = CategoryEntity(
+    ) = CategoryDataModel(
         id = id,
         name = name,
         iconId = iconId,
@@ -31,14 +31,14 @@ object DataLayerMocks {
 
     fun transactionWithCategory(
         id: String = string(),
-        category: CategoryEntity = categoryEntity(),
+        category: CategoryDataModel = categoryEntity(),
         amount: Int = int(),
         walletId: String = string(),
         memo: String = string(),
         date: DateTime = date(),
         updatedTimeStamp: Long = long(),
         syncStatus: SyncStatus = SyncStatus.None
-    ) = TransactionWithCategory(
+    ) = TransactionWithCategoryDataModel(
         id = id,
         category = category,
         amount = amount,
@@ -58,7 +58,7 @@ object DataLayerMocks {
         date: DateTime = date(),
         updatedTimeStamp: Long = long(),
         syncStatus: SyncStatus = SyncStatus.None
-    ) = TransactionWithIds(
+    ) = TransactionWithIdsDataModel(
         id = id,
         categoryId = categoryId,
         walletId = walletId,
@@ -69,12 +69,12 @@ object DataLayerMocks {
         syncStatus = syncStatus
     )
 
-    fun walletEntity(
+    fun walletDataModel(
         id: String = string(),
         name: String = string(),
         updatedTimeStamp: Long = long(),
         syncStatus: SyncStatus = SyncStatus.None
-    ) = WalletEntity(
+    ) = WalletDataModel(
         id = id,
         name = name,
         updatedTimeStamp = updatedTimeStamp,

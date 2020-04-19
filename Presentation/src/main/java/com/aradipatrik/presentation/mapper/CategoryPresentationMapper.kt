@@ -1,19 +1,19 @@
 package com.aradipatrik.presentation.mapper
 
 import com.aradipatrik.domain.model.Category
-import com.aradipatrik.presentation.presentations.CategoryPresentation
+import com.aradipatrik.presentation.presentations.CategoryPresentationModel
 
 class CategoryPresentationMapper {
     fun mapToPresentation(category: Category) =
-        CategoryPresentation(
+        CategoryPresentationModel(
             id = category.id,
             iconId = category.iconId,
             name = category.name
         )
 
-    fun mapFromPresentation(presentation: CategoryPresentation) = Category(
-        id = presentation.id,
-        iconId = presentation.iconId,
-        name = presentation.name
+    fun mapFromPresentation(presentationModel: CategoryPresentationModel) = Category(
+        id = presentationModel.id,
+        iconId = presentationModel.iconId,
+        name = presentationModel.name
     )
 }

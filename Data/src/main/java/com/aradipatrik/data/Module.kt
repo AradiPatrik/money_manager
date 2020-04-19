@@ -16,11 +16,11 @@ import com.aradipatrik.domain.interfaces.data.WalletRepository
 import org.koin.dsl.module
 
 val dataModule = module {
-    single<TransactionRepository> { TransactionRepositoryImpl(get(), get(), get(), get()) }
+    single<TransactionRepository> { TransactionRepositoryImpl(get(), get(), get(), get(), get()) }
     single<CategoryRepository> { CategoryRepositoryImpl(get(), get(), get()) }
     single<UserRepository> { UserRepositoryImpl(get()) }
-    single<WalletRepository> { WalletRepositoryImpl(get(), get(), get(), get(), get()) }
-    single { Syncer(get(), get(), get(), get()) }
+    single<WalletRepository> { WalletRepositoryImpl(get(), get(), get(), get()) }
+    single { Syncer(get(), get(), get(), get(), get(), get(), get()) }
     single { JoinedTransactionMapper(get()) }
     single { PartialTransactionMapper() }
     single { CategoryMapper() }

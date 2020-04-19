@@ -7,7 +7,7 @@ import com.aradipatrik.local.database.TransactionDatabase
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_ADD_CODE
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_DELETE_CODE
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_UPDATE_CODE
-import com.aradipatrik.local.database.wallet.WalletRow
+import com.aradipatrik.local.database.model.wallet.WalletRow
 import com.aradipatrik.local.mocks.LocalMocks.walletRow
 import org.junit.After
 import org.junit.Rule
@@ -107,6 +107,14 @@ class WalletDaoTest {
         dao.setDeleted(rowToDelete.uid).blockingAwait()
         assertDeletedWalletBecamePendingWithDeletedSyncCode()
         assertGetAllWalletsContainsDeletedWallet()
+    }
+
+    @Test
+    fun `getWalletById should return the wallet with correct id`() {
+        initDbWithRows(randomRows + testRow)
+        dao.getWalletById(testRow.uid)
+            .test()
+            .assertValue(testRow)
     }
 
     private fun assertGetAllWalletsContainsDeletedWallet() {

@@ -62,15 +62,19 @@ class TransactionDaoTest {
     @Test
     fun `Get in interval should return transactions in interval`() {
         val category = categoryRow(string())
+        val walletId = "testWalletId"
         val transactionsBeforeQueried = listOf(0L, 1L, 2L).map {
-            transactionRow(date = it, categoryId = category.uid)
+            transactionRow(date = it, categoryId = category.uid, walletId = walletId)
         }
         val transactionsInsideQueried = listOf(3L, 4L, 5L).map {
-            transactionRow(date = it, categoryId = category.uid)
+            transactionRow(date = it, categoryId = category.uid, walletId = walletId)
         }
         val transactionsAfterQueried = listOf(6L, 7L, 8L).map {
-            transactionRow(date = it, categoryId = category.uid)
+            transactionRow(date = it, categoryId = category.uid, walletId = walletId)
         }
+        val transactionInsideQueriedButNotInWallet = transactionRow(
+            date = 4L, categoryId = category.uid, walletId = string()
+        )
 
         val inInterval = transactionsInsideQueried.map {
             transactionWithCategory(it, category)
@@ -81,8 +85,11 @@ class TransactionDaoTest {
         database.transactionDao().insert(transactionsAfterQueried).blockingAwait()
         database.transactionDao().insert(transactionsInsideQueried).blockingAwait()
         database.transactionDao().insert(transactionsBeforeQueried).blockingAwait()
+        database.transactionDao().insert(listOf(transactionInsideQueriedButNotInWallet))
+            .blockingAwait()
 
-        val testObserver = database.transactionDao().getInInterval(3L, 5L).test()
+        val testObserver = database.transactionDao()
+            .getInInterval(3L, 5L, walletId).test()
         testObserver.assertValue(inInterval)
     }
 
@@ -134,5 +141,18 @@ class TransactionDaoTest {
             .assertValue(
                 transactions + transactionToDelete.copy(syncStatusCode = TO_DELETE_CODE)
             )
+    }
+
+    @Test
+    fun `Get inside wallet should return transactions inside wallet`() {
+        val category = categoryRow(string())
+        val transaction = transactionRow(categoryId = category.uid)
+        val transaction2 = transactionRow(categoryId= category.uid)
+
+        database.categoryDao().insert(listOf(category)).blockingAwait()
+        database.transactionDao().insert(listOf(transaction, transaction2)).blockingAwait()
+        database.transactionDao().getInWallet(transaction.walletId)
+            .test()
+            .assertValue(listOf(transactionWithCategory(transaction, category)))
     }
 }

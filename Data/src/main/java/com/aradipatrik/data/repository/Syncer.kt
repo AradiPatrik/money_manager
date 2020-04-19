@@ -6,72 +6,52 @@ import com.aradipatrik.data.datastore.category.LocalCategoryDatastore
 import com.aradipatrik.data.datastore.category.RemoteCategoryDatastore
 import com.aradipatrik.data.datastore.transaction.LocalTransactionDatastore
 import com.aradipatrik.data.datastore.transaction.RemoteTransactionDatastore
+import com.aradipatrik.data.datastore.wallet.LocalWalletDatastore
+import com.aradipatrik.data.datastore.wallet.RemoteWalletDatastore
+import com.aradipatrik.domain.interfaces.data.UserRepository
 import io.reactivex.Completable
-import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.Semaphore
 
 class Syncer(
-    private val remoteTransactionDatastore: RemoteTransactionDatastore,
-    private val localTransactionDatastore: LocalTransactionDatastore,
+    private val userRepository: UserRepository,
+    private val localCategoryDatastore: LocalCategoryDatastore,
     private val remoteCategoryDatastore: RemoteCategoryDatastore,
-    private val localCategoryDatastore: LocalCategoryDatastore
+    private val localTransactionDatastore: LocalTransactionDatastore,
+    private val remoteTransactionDatastore: RemoteTransactionDatastore,
+    private val localWalletDatastore: LocalWalletDatastore,
+    private val remoteWalletDatastore: RemoteWalletDatastore
 ) {
     private val semaphore = Semaphore(1)
 
-    fun syncAll(): Completable = sync(localCategoryDatastore, remoteCategoryDatastore)
-        .andThen(sync(localTransactionDatastore, remoteTransactionDatastore))
+    fun syncAll() = userRepository.getSignedInUser()
+        .flatMapCompletable { user ->
+            sync(localWalletDatastore, remoteWalletDatastore, user.id)
+                .andThen(sync(localCategoryDatastore, remoteCategoryDatastore, user.id))
+                .andThen(sync(localTransactionDatastore, remoteTransactionDatastore, user.id))
+        }
 
-    fun <E> sync(
+    private fun <E> sync(
         local: LocalTimestampedDatastore<E>,
-        remote: RemoteTimestampedDatastore<E>
+        remote: RemoteTimestampedDatastore<E>,
+        userId: String
     ): Completable =
         local.getLastSyncTime()
             .flatMap { localLastSyncTime ->
                 semaphore.acquire()
-                remote.getAfter(localLastSyncTime)
+                remote.getAfter(localLastSyncTime, userId)
             }
             .observeOn(Schedulers.io())
             .flatMap { freshDataFromRemote ->
                 local.updateWith(freshDataFromRemote)
                     .andThen(local.getPending())
             }
-            .flatMapCompletable { pendingItemsFromLocal -> remote.updateWith(pendingItemsFromLocal) }
+            .flatMapCompletable { pendingItemsFromLocal -> remote.updateWith(pendingItemsFromLocal, userId) }
             .observeOn(Schedulers.io())
             .andThen(local.clearPending())
             .andThen(local.getLastSyncTime())
-            .flatMap { localLastSyncTime -> remote.getAfter(localLastSyncTime) }
+            .flatMap { localLastSyncTime -> remote.getAfter(localLastSyncTime, userId) }
             .observeOn(Schedulers.io())
             .flatMapCompletable { freshDataFromRemote -> local.updateWith(freshDataFromRemote) }
             .doOnComplete { semaphore.release() }
-
-    fun <E> functionalSync(
-        getLastSyncTimeOfLocal: () -> Single<Long>,
-        updateRemoteWithFreshData: (freshData: List<E>) -> Completable,
-        updateLocalWithFreshData: (freshData: List<E>) -> Completable,
-        getFromRemoteAfterTimestamp: (timestamp: Long) -> Single<List<E>>,
-        getPendingDataFromLocal: () -> Single<List<E>>,
-        clearPendingFromLocal: () -> Completable
-    ) = getLastSyncTimeOfLocal()
-        .flatMap { localLastSyncTime ->
-            semaphore.acquire()
-            getFromRemoteAfterTimestamp(localLastSyncTime)
-        }
-        .observeOn(Schedulers.io())
-        .flatMap { freshDataFromRemote ->
-            updateLocalWithFreshData(freshDataFromRemote)
-                .andThen(getPendingDataFromLocal())
-        }
-        .flatMapCompletable { pendingItemsFromLocal ->
-            updateRemoteWithFreshData(
-                pendingItemsFromLocal
-            )
-        }
-        .observeOn(Schedulers.io())
-        .andThen(clearPendingFromLocal())
-        .andThen(getLastSyncTimeOfLocal())
-        .flatMap { localLastSyncTime -> getFromRemoteAfterTimestamp(localLastSyncTime) }
-        .observeOn(Schedulers.io())
-        .flatMapCompletable { freshDataFromRemote -> updateLocalWithFreshData(freshDataFromRemote) }
-        .doOnComplete { semaphore.release() }
 }

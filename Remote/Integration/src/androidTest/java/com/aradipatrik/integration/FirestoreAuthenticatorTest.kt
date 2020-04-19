@@ -32,7 +32,7 @@ class FirestoreAuthenticatorTest : KoinTest {
     @After
     fun teardown() {
         stopKoin()
-        FirestoreUtils.deleteCurrentUser()
+        FirestoreUtils.removeAuthenticatedUser()
     }
 
     private val authenticator: Authenticator by inject()
@@ -44,5 +44,11 @@ class FirestoreAuthenticatorTest : KoinTest {
         ).blockingGet()
 
         expectThat(user.id).isNotEmpty()
+    }
+
+    @Test
+    fun signInWithEmailAndPasswordShouldReturnUserCredentials() {
+//        val user = authenticator.loginUserWithCredentials(TEST_CREDENTIALS).blockingGet()
+//        expectThat(user.id).isNotEmpty()
     }
 }

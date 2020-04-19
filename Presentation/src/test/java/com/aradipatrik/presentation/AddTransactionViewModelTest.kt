@@ -72,14 +72,14 @@ class AddTransactionViewModelTest : KoinTest {
         val state = AddTransactionState()
 
         expectThat(state.addTransactionRequest).isEqualTo(Uninitialized)
-        expectThat(state.categoryListRequest).isEqualTo(Uninitialized)
-        expectThat(state.categoryList).isEqualTo(emptyList())
+        expectThat(state.categoryListRequestModel).isEqualTo(Uninitialized)
+        expectThat(state.categoryListModel).isEqualTo(emptyList())
         expectThat(state.isExpense).isTrue()
         expectThat(state.calculatorState)
             .isA<SingleValue>()
             .get(SingleValue::value).isEqualTo(0)
         expectThat(state.selectedDate).isEqualTo(testDate)
-        expectThat(state.selectedCategory).isNull()
+        expectThat(state.selectedCategoryModel).isNull()
         expectThat(state.memo).isEqualTo("")
     }
 
@@ -102,10 +102,10 @@ class AddTransactionViewModelTest : KoinTest {
             mockGetCategoriesInteractor.get(any())
         }
         withState(addTransactionViewModel) { state ->
-            expectThat(state.categoryListRequest).isA<Success<*>>()
-            expectThat(state.categoryList)
+            expectThat(state.categoryListRequestModel).isA<Success<*>>()
+            expectThat(state.categoryListModel)
                 .isEqualTo(testCategories.map(categoryMapper::mapToPresentation))
-            expectThat(state.selectedCategory)
+            expectThat(state.selectedCategoryModel)
                 .isEqualTo(testCategories.map(categoryMapper::mapToPresentation)[0])
         }
     }
@@ -128,9 +128,9 @@ class AddTransactionViewModelTest : KoinTest {
             mockGetCategoriesInteractor.get(any())
         }
         withState(addTransactionViewModel) { state ->
-            expectThat(state.categoryListRequest).isA<Fail<*>>()
-            expectThat(state.categoryList).isEmpty()
-            expectThat(state.selectedCategory).isNull()
+            expectThat(state.categoryListRequestModel).isA<Fail<*>>()
+            expectThat(state.categoryListModel).isEmpty()
+            expectThat(state.selectedCategoryModel).isNull()
         }
     }
 

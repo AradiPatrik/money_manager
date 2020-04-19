@@ -1,15 +1,15 @@
 package com.aradipatrik.remote.payloadfactory
 
 import com.aradipatrik.data.mapper.SyncStatus
-import com.aradipatrik.data.model.WalletEntity
+import com.aradipatrik.data.model.WalletDataModel
 import com.aradipatrik.remote.CATEGORY_NAME_KEY
 import com.aradipatrik.remote.DELETED_KEY
 import com.aradipatrik.remote.UPDATED_TIMESTAMP_KEY
 import com.google.firebase.firestore.DocumentSnapshot
 
 class WalletResponseConverter {
-    fun mapResponseToEntity(document: DocumentSnapshot): WalletEntity =
-        WalletEntity(
+    fun mapResponseToEntity(document: DocumentSnapshot): WalletDataModel =
+        WalletDataModel(
             id = getIdFrom(document),
             syncStatus = getSyncStatusFrom(document),
             name = getNameFrom(document),

@@ -1,7 +1,7 @@
 package com.aradipatrik.presentation.datahelpers
 
-import com.aradipatrik.presentation.presentations.CategoryPresentation
-import com.aradipatrik.presentation.presentations.TransactionPresentation
+import com.aradipatrik.presentation.presentations.CategoryPresentationModel
+import com.aradipatrik.presentation.presentations.TransactionPresentationModel
 import com.aradipatrik.testing.CommonMocks.date
 import com.aradipatrik.testing.CommonMocks.int
 import com.aradipatrik.testing.CommonMocks.string
@@ -12,7 +12,7 @@ object MockDataFactory {
         id: String = string(),
         name: String = string(),
         iconId: String = string()
-    ) = CategoryPresentation(
+    ) = CategoryPresentationModel(
         id = id,
         name = name,
         iconId = iconId
@@ -21,13 +21,13 @@ object MockDataFactory {
     fun transactionPresentation(
         id: String = string(),
         amount: Int = int(),
-        category: CategoryPresentation = categoryPresentation(),
+        categoryModel: CategoryPresentationModel = categoryPresentation(),
         date: DateTime = date(),
         memo: String = string()
-    ) = TransactionPresentation(
+    ) = TransactionPresentationModel(
         id = id,
         amount = amount,
-        category = category,
+        categoryModel = categoryModel,
         date = date,
         memo = memo
     )

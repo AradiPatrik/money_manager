@@ -1,0 +1,54 @@
+{
+  "users": [
+    {
+      "user_id_1": {
+        "wallets": [
+          { "wallet_id_1": true },
+          { "wallet_id_2": true }
+        ]
+      },
+      "user_id_2": {
+        "wallets": [
+          { "wallet_id_1": true }
+        ]
+      }
+    }
+  ],
+  "wallets": [
+    {
+      "wallet_id_1": {
+        "categories": [
+          {
+            "category_id_1": {
+              "name": "Groceries",
+              "icon_id": "groceries_icon",
+              "update_timestamp": "38437848378417823471823474384374",
+              "delete": "false"
+            }
+          },
+          {
+            "category_id_2": {
+              "name": "Transportation",
+              "icon_id": "train_icon",
+              "update_timestamp": "38437848378417823471823474384899",
+              "delete": "true"
+            }
+          }
+        ],
+        "transactions": [
+          {
+            "transaction_id_1": {
+              "categoryId": "category_id_1",
+              "memo": "Finomsagok",
+              "amount": 800,
+              "update_timestamp": "38437848378417823471823474384374",
+              "date": "2020-01-28",
+              "deleted": "false"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
+

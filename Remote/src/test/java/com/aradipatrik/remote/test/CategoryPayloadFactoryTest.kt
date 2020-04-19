@@ -6,6 +6,7 @@ import com.aradipatrik.remote.CATEGORY_NAME_KEY
 import com.aradipatrik.remote.DELETED_KEY
 import com.aradipatrik.remote.ICON_ID_KEY
 import com.aradipatrik.remote.UPDATED_TIMESTAMP_KEY
+import com.aradipatrik.remote.WALLET_ID_KEY
 import com.aradipatrik.remote.payloadfactory.CategoryPayloadFactory
 import com.google.firebase.Timestamp
 import org.junit.Test
@@ -21,6 +22,7 @@ class CategoryPayloadFactoryTest {
         expectThat(payload)
             .hasEntry(ICON_ID_KEY, entity.iconId)
             .hasEntry(CATEGORY_NAME_KEY, entity.name)
+            .hasEntry(WALLET_ID_KEY, entity.walletId)
         expectThat(payload[UPDATED_TIMESTAMP_KEY])
             .isA<Timestamp>()
     }

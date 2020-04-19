@@ -4,12 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.aradipatrik.local.database.category.CategoryDao
-import com.aradipatrik.local.database.category.CategoryRow
-import com.aradipatrik.local.database.transaction.TransactionDao
-import com.aradipatrik.local.database.transaction.TransactionRow
-import com.aradipatrik.local.database.wallet.WalletDao
-import com.aradipatrik.local.database.wallet.WalletRow
+import com.aradipatrik.local.database.model.category.CategoryDao
+import com.aradipatrik.local.database.model.category.CategoryRow
+import com.aradipatrik.local.database.model.transaction.TransactionDao
+import com.aradipatrik.local.database.model.transaction.TransactionRow
+import com.aradipatrik.local.database.model.wallet.WalletDao
+import com.aradipatrik.local.database.model.wallet.WalletRow
 
 const val DATABASE_NAME = "transaction.db"
 

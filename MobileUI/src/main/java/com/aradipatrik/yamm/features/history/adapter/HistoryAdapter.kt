@@ -22,7 +22,7 @@ object TransactionViewDataItemCallback : DiffUtil.ItemCallback<TransactionViewDa
         newItem: TransactionViewData
     ) = when {
         oldItem is TransactionItemViewData && newItem is TransactionItemViewData ->
-            oldItem.presentationRef.id == newItem.presentationRef.id
+            oldItem.presentationModelRef.id == newItem.presentationModelRef.id
         oldItem is TransactionHeaderViewData && newItem is TransactionHeaderViewData ->
             oldItem.localDateRef == newItem.localDateRef
         else -> false
