@@ -52,7 +52,7 @@ class JoinedTransactionMapperTest {
         expectThat(entity.category).isEqualTo(testCategoryEntity)
         expectThat(entity.updatedTimeStamp).isEqualTo(testTimestamp)
         expectThat(entity.syncStatus).isEqualTo(SyncStatus.None)
-        expectThat(entity.walletId).isEqualTo(testDomain.walletId)
+        expectThat(entity.walletId).isEqualTo("")
     }
 
     private fun assertEqualsDomainEntity(
@@ -63,6 +63,5 @@ class JoinedTransactionMapperTest {
         expectThat(domain.date).isEqualTo(withCategoryDataModel.date)
         expectThat(domain.id).isEqualTo(withCategoryDataModel.id)
         expectThat(domain.memo).isEqualTo(withCategoryDataModel.memo)
-        expectThat(domain.walletId).isEqualTo(withCategoryDataModel.walletId)
     }
 }

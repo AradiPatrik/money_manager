@@ -1,11 +1,12 @@
 package com.aradipatrik.presentation
 
+import com.aradipatrik.domain.mocks.DomainLayerMocks.category
+import com.aradipatrik.domain.mocks.DomainLayerMocks.transaction
 import com.aradipatrik.presentation.mapper.CategoryPresentationMapper
 import com.aradipatrik.presentation.mapper.TransactionPresentationMapper
 import com.aradipatrik.presentation.presentations.CategoryPresentationModel
 import com.aradipatrik.presentation.presentations.TransactionPresentationModel
-import com.aradipatrik.testing.CommonMocks.category
-import com.aradipatrik.testing.CommonMocks.transaction
+
 import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo

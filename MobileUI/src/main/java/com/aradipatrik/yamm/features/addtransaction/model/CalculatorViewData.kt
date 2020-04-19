@@ -1,4 +1,4 @@
-package com.aradipatrik.yamm.features.add.transaction.model
+package com.aradipatrik.yamm.features.addtransaction.model
 
 enum class CalculatorAction { CalculateResult, AddTransaction }
 enum class TransactionType { Income, Expense }

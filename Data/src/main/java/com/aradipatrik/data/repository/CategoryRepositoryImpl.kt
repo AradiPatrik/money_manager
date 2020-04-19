@@ -11,17 +11,17 @@ class CategoryRepositoryImpl(
     private val mapper: CategoryMapper,
     private val localDatastore: LocalCategoryDatastore
 ) : CategoryRepository {
-    override fun getAll() = synchronise().andThen(
-        localDatastore.getAll()
+    override fun getAll(walletId: String) = synchronise().andThen(
+        localDatastore.getCategoriesInWallet(walletId)
             .map { it.map(mapper::mapFromEntity) }
     )
 
-    override fun add(category: Category): Completable =
-        localDatastore.add(mapper.mapToEntity(category))
+    override fun add(category: Category, walletId: String) =
+        localDatastore.add(mapper.mapToEntity(category).copy(walletId = walletId))
             .andThen(synchronise())
 
-    override fun update(category: Category): Completable =
-        localDatastore.update(mapper.mapToEntity(category))
+    override fun update(category: Category, walletId: String): Completable =
+        localDatastore.update(mapper.mapToEntity(category).copy(walletId = walletId))
             .andThen(synchronise())
 
     override fun delete(id: String): Completable =

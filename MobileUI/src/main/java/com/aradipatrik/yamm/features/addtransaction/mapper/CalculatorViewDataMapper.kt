@@ -1,12 +1,12 @@
-package com.aradipatrik.yamm.features.add.transaction.mapper
+package com.aradipatrik.yamm.features.addtransaction.mapper
 
-import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionState
-import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.AddOperation
-import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.SingleValue
-import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.SubtractOperation
-import com.aradipatrik.yamm.features.add.transaction.model.CalculatorAction
-import com.aradipatrik.yamm.features.add.transaction.model.CalculatorViewData
-import com.aradipatrik.yamm.features.add.transaction.model.TransactionType
+import com.aradipatrik.presentation.viewmodels.addtransaction.AddTransactionState
+import com.aradipatrik.presentation.viewmodels.addtransaction.CalculatorState.AddOperation
+import com.aradipatrik.presentation.viewmodels.addtransaction.CalculatorState.SingleValue
+import com.aradipatrik.presentation.viewmodels.addtransaction.CalculatorState.SubtractOperation
+import com.aradipatrik.yamm.features.addtransaction.model.CalculatorAction
+import com.aradipatrik.yamm.features.addtransaction.model.CalculatorViewData
+import com.aradipatrik.yamm.features.addtransaction.model.TransactionType
 
 class CalculatorViewDataMapper {
     fun mapToViewData(state: AddTransactionState) = CalculatorViewData(

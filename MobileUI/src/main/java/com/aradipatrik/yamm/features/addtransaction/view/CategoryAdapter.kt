@@ -1,4 +1,4 @@
-package com.aradipatrik.yamm.features.add.transaction.adapter
+package com.aradipatrik.yamm.features.addtransaction.view
 
 import android.view.View
 import android.view.ViewGroup
@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.aradipatrik.yamm.R
 import com.aradipatrik.yamm.common.viewext.inflate
-import com.aradipatrik.yamm.features.add.transaction.adapter.CategoryAdapter.ViewHolder
-import com.aradipatrik.yamm.features.add.transaction.model.CategoryItemViewData
+import com.aradipatrik.yamm.features.addtransaction.view.CategoryAdapter.ViewHolder
+import com.aradipatrik.yamm.features.addtransaction.model.CategoryItemViewData
 import kotlinx.android.synthetic.main.list_item_category.view.*
 
 object CategoryItemViewDataItemCallback : DiffUtil.ItemCallback<CategoryItemViewData>() {

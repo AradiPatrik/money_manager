@@ -32,6 +32,7 @@ dependencies {
     def moduleTestDependencies = rootProject.ext.presentationTestDependencies
 
     implementation project(':Domain')
+    testImplementation project(':Domain:DomainMocks')
     testImplementation project(':CommonMocks')
 
     kapt moduleDependencies.lifecycleCompiler

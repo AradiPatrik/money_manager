@@ -1,4 +1,4 @@
-package com.aradipatrik.yamm.features.add.transaction.model
+package com.aradipatrik.yamm.features.addtransaction.model
 
 import com.aradipatrik.presentation.presentations.CategoryPresentationModel
 

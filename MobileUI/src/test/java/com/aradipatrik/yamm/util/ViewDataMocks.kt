@@ -5,7 +5,7 @@ import com.aradipatrik.presentation.presentations.TransactionPresentationModel
 import com.aradipatrik.testing.CommonMocks.boolean
 import com.aradipatrik.testing.CommonMocks.int
 import com.aradipatrik.testing.CommonMocks.string
-import com.aradipatrik.yamm.features.add.transaction.model.CategoryItemViewData
+import com.aradipatrik.yamm.features.addtransaction.model.CategoryItemViewData
 import com.aradipatrik.yamm.features.history.model.TransactionItemViewData
 import com.aradipatrik.yamm.util.PresentationLayerMocks.categoryPresentation
 import com.aradipatrik.yamm.util.PresentationLayerMocks.transactionPresentation

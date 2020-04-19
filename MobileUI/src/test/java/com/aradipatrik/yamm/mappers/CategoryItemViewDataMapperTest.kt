@@ -2,7 +2,7 @@ package com.aradipatrik.yamm.mappers
 
 import com.aradipatrik.presentation.presentations.CategoryPresentationModel
 import com.aradipatrik.yamm.common.mapper.IconMapper
-import com.aradipatrik.yamm.features.add.transaction.mapper.CategoryItemViewDataMapper
+import com.aradipatrik.yamm.features.addtransaction.mapper.CategoryItemViewDataMapper
 import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo

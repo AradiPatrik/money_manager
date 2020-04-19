@@ -11,29 +11,25 @@ import org.joda.time.Interval
 
 class TransactionRepositoryImpl(
     private val syncer: Syncer,
-    private val walletRepository: WalletRepository,
     private val partialTransactionMapper: PartialTransactionMapper,
     private val joinedTransactionMapper: JoinedTransactionMapper,
     private val localTransactionDatastore: LocalTransactionDatastore
 ) : TransactionRepository {
-    override fun getInInterval(interval: Interval) = syncer.syncAll().andThen(
-        walletRepository.getSelectedWallet()
-            .flatMapObservable { selectedWallet ->
-                localTransactionDatastore.getInInterval(interval, selectedWallet.id)
-                    .map { transactions ->
-                        transactions.map(joinedTransactionMapper::mapFromEntity)
-                    }
+    override fun getInInterval(interval: Interval, walletId: String) = syncer.syncAll().andThen(
+        localTransactionDatastore.getInInterval(interval, walletId)
+            .map { transactions ->
+                transactions.map(joinedTransactionMapper::mapFromEntity)
             }
     )
 
-    override fun add(transaction: Transaction): Completable =
+    override fun add(transaction: Transaction, walletId: String): Completable =
         localTransactionDatastore.add(
-            partialTransactionMapper.mapToEntity(transaction)
+            partialTransactionMapper.mapToEntity(transaction).copy(walletId = walletId)
         ).andThen(syncer.syncAll())
 
-    override fun update(transaction: Transaction): Completable =
+    override fun update(transaction: Transaction, walletId: String): Completable =
         localTransactionDatastore.update(
-            partialTransactionMapper.mapToEntity(transaction)
+            partialTransactionMapper.mapToEntity(transaction).copy(walletId = walletId)
         ).andThen(syncer.syncAll())
 
     override fun delete(id: String): Completable =

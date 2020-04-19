@@ -27,7 +27,7 @@ class PartialTransactionMapperTest {
             get(TransactionWithIdsDataModel::date).isEqualTo(transaction.date)
             get(TransactionWithIdsDataModel::id).isEqualTo(transaction.id)
             get(TransactionWithIdsDataModel::memo).isEqualTo(transaction.memo)
-            get(TransactionWithIdsDataModel::walletId).isEqualTo(transaction.walletId)
+            get(TransactionWithIdsDataModel::walletId).isEqualTo("")
             get(TransactionWithIdsDataModel::syncStatus).isEqualTo(SyncStatus.None)
             get(TransactionWithIdsDataModel::updatedTimeStamp).isEqualTo(timestamp)
         }

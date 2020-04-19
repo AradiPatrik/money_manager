@@ -12,19 +12,19 @@ import org.koin.dsl.module
 
 val domainModule = module {
     factory {
-        GetTransactionsInIntervalInteractor(get())
+        GetTransactionsInIntervalInteractor(get(), get())
     }
     factory {
-        AddTransactionInteractor(get())
+        AddTransactionInteractor(get(), get())
     }
     factory {
-        UpdateTransactionInteractor(get())
+        UpdateTransactionInteractor(get(), get())
     }
     factory {
         DeleteTransactionInteractor(get())
     }
     factory {
-        GetCategoriesInteractor(get())
+        GetCategoriesInteractor(get(), get())
     }
     factory {
         SignUpWithEmailAndPasswordInteractor(get(), get())

@@ -4,12 +4,12 @@ import com.airbnb.mvrx.test.MvRxTestRule
 import com.airbnb.mvrx.withState
 import com.aradipatrik.domain.interactor.category.GetCategoriesInteractor
 import com.aradipatrik.domain.interactor.transaction.AddTransactionInteractor
+import com.aradipatrik.domain.mocks.DomainLayerMocks.category
 import com.aradipatrik.presentation.mapper.CategoryPresentationMapper
-import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionState
-import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.*
-import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewModel
-import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.*
-import com.aradipatrik.testing.CommonMocks.category
+import com.aradipatrik.presentation.viewmodels.addtransaction.AddTransactionState
+import com.aradipatrik.presentation.viewmodels.addtransaction.AddTransactionViewEvent.*
+import com.aradipatrik.presentation.viewmodels.addtransaction.AddTransactionViewModel
+import com.aradipatrik.presentation.viewmodels.addtransaction.CalculatorState.*
 import io.mockk.every
 import io.mockk.mockk
 import io.reactivex.Completable
@@ -32,7 +32,12 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     private val addTransactionTestModule = module {
         single { (initialState: AddTransactionState) ->
-            AddTransactionViewModel(initialState, get(), get(), get())
+            AddTransactionViewModel(
+                initialState,
+                get(),
+                get(),
+                get()
+            )
         }
         single<AddTransactionInteractor> {
             mockk {
@@ -81,7 +86,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `On add click SingleValue should become AddOperation, with value as lhs`() {
-        val initialState = AddTransactionState(calculatorState = SingleValue(2))
+        val initialState =
+            AddTransactionState(
+                calculatorState = SingleValue(2)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(PlusClick)
@@ -98,7 +106,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `On add click AddOperation should become AddOperation, with value as lhs`() {
-        val initialState = AddTransactionState(calculatorState = AddOperation(1, 2))
+        val initialState =
+            AddTransactionState(
+                calculatorState = AddOperation(1, 2)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(PlusClick)
@@ -115,7 +126,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `On add click SubtractOperation should become AddOperation, with value as lhs`() {
-        val initialState = AddTransactionState(calculatorState = SubtractOperation(3, 1))
+        val initialState =
+            AddTransactionState(
+                calculatorState = SubtractOperation(3, 1)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(PlusClick)
@@ -132,7 +146,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `On minus click SingleValue should become SubtractOperation, with value as lhs`() {
-        val initialState = AddTransactionState(calculatorState = SingleValue(3))
+        val initialState =
+            AddTransactionState(
+                calculatorState = SingleValue(3)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(MinusClick)
@@ -149,7 +166,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `On minus click SubtractOperation should become SubtractOperation, with value as lhs`() {
-        val initialState = AddTransactionState(calculatorState = SubtractOperation(3, 1))
+        val initialState =
+            AddTransactionState(
+                calculatorState = SubtractOperation(3, 1)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(MinusClick)
@@ -166,7 +186,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `On minus click AddOperation should become SubtractOperation, with value as lhs`() {
-        val initialState = AddTransactionState(calculatorState = AddOperation(3, 1))
+        val initialState =
+            AddTransactionState(
+                calculatorState = AddOperation(3, 1)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(MinusClick)
@@ -183,7 +206,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `DeleteOne on SingleValue with only one digit, should become SingleValue of 0`() {
-        val initialState = AddTransactionState(calculatorState = SingleValue(5))
+        val initialState =
+            AddTransactionState(
+                calculatorState = SingleValue(5)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(DeleteOneClick)
@@ -197,7 +223,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `Delete one on SingleValue with more then one digit, should become SingleValue with last digit removed`() {
-        val initialState = AddTransactionState(calculatorState = SingleValue(52))
+        val initialState =
+            AddTransactionState(
+                calculatorState = SingleValue(52)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(DeleteOneClick)
@@ -211,7 +240,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `Delete one on AddOperation with initial state, should become SingleValue with lhs as value`() {
-        val initialState = AddTransactionState(calculatorState = AddOperation(5, null))
+        val initialState =
+            AddTransactionState(
+                calculatorState = AddOperation(5, null)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(DeleteOneClick)
@@ -225,7 +257,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `Delete one on AddOperation with only one digit, should become AddOperation with initial state`() {
-        val initialState = AddTransactionState(calculatorState = AddOperation(5, 2))
+        val initialState =
+            AddTransactionState(
+                calculatorState = AddOperation(5, 2)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(DeleteOneClick)
@@ -242,7 +277,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `Delete one on AddOperation with more then one digit rhs, should become AddOperation with an rhs with last digit removed`() {
-        val initialState = AddTransactionState(calculatorState = AddOperation(5, 23))
+        val initialState =
+            AddTransactionState(
+                calculatorState = AddOperation(5, 23)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(DeleteOneClick)
@@ -259,7 +297,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `Delete one on SubtractOperation with initial state, should become SingleValue with lhs as value`() {
-        val initialState = AddTransactionState(calculatorState = SubtractOperation(5, null))
+        val initialState =
+            AddTransactionState(
+                calculatorState = SubtractOperation(5, null)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(DeleteOneClick)
@@ -273,7 +314,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `Delete one on SubtractOperation with only one digit, should become SubtractOperation with initial state`() {
-        val initialState = AddTransactionState(calculatorState = SubtractOperation(5, 2))
+        val initialState =
+            AddTransactionState(
+                calculatorState = SubtractOperation(5, 2)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(DeleteOneClick)
@@ -290,7 +334,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `Delete one on SubtractOperation with more then one digit rhs, should become SubtractOperation with an rhs with last digit removed`() {
-        val initialState = AddTransactionState(calculatorState = SubtractOperation(5, 23))
+        val initialState =
+            AddTransactionState(
+                calculatorState = SubtractOperation(5, 23)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(DeleteOneClick)
@@ -307,7 +354,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `0 click on SingleValue of 0 should have no effect`() {
-        val initialState = AddTransactionState(calculatorState = SingleValue(0))
+        val initialState =
+            AddTransactionState(
+                calculatorState = SingleValue(0)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(NumberClick(0))
@@ -321,7 +371,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `0 click on SingleValue with single digit other than 0 should append digit to value`() {
-        val initialState = AddTransactionState(calculatorState = SingleValue(1))
+        val initialState =
+            AddTransactionState(
+                calculatorState = SingleValue(1)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(NumberClick(0))
@@ -335,7 +388,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `Any click on SingleValue with more than one digits should append digit to value`() {
-        val initialState = AddTransactionState(calculatorState = SingleValue(15))
+        val initialState =
+            AddTransactionState(
+                calculatorState = SingleValue(15)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(NumberClick(2))
@@ -349,7 +405,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `AddOperation with rhs null should have digit overriden`() {
-        val initialState = AddTransactionState(calculatorState = AddOperation(5, null))
+        val initialState =
+            AddTransactionState(
+                calculatorState = AddOperation(5, null)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(NumberClick(0))
@@ -366,7 +425,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `AddOperation with rhs 0 should have digit overriden`() {
-        val initialState = AddTransactionState(calculatorState = AddOperation(5, 0))
+        val initialState =
+            AddTransactionState(
+                calculatorState = AddOperation(5, 0)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(NumberClick(3))
@@ -383,7 +445,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `AddOperation with rhs with value other than 0 or null, should be appended with digit on number click`() {
-        val initialState = AddTransactionState(calculatorState = AddOperation(5, 1))
+        val initialState =
+            AddTransactionState(
+                calculatorState = AddOperation(5, 1)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(NumberClick(3))
@@ -400,7 +465,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `SubtractOperation with rhs null should have digit overriden`() {
-        val initialState = AddTransactionState(calculatorState = SubtractOperation(5, null))
+        val initialState =
+            AddTransactionState(
+                calculatorState = SubtractOperation(5, null)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(NumberClick(0))
@@ -417,7 +485,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `SubtractOperation with rhs 0 should have digit overriden`() {
-        val initialState = AddTransactionState(calculatorState = SubtractOperation(5, 0))
+        val initialState =
+            AddTransactionState(
+                calculatorState = SubtractOperation(5, 0)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(NumberClick(3))
@@ -434,7 +505,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `SubtractOperation with rhs with value other than 0 or null, should be appended with digit on number click`() {
-        val initialState = AddTransactionState(calculatorState = SubtractOperation(5, 1))
+        val initialState =
+            AddTransactionState(
+                calculatorState = SubtractOperation(5, 1)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(NumberClick(3))
@@ -451,7 +525,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `Equals on AddOperation should transform calculator state into SingleValue, with value of the AddOperation`() {
-        val initialState = AddTransactionState(calculatorState = AddOperation(5, 1))
+        val initialState =
+            AddTransactionState(
+                calculatorState = AddOperation(5, 1)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(ActionClick)
@@ -464,7 +541,10 @@ class CalculatorStateTransitionsTest : KoinTest {
 
     @Test
     fun `Equals on SubtractOperation should transform calculator state into SingleValue, with value of the SubtractOperation`() {
-        val initialState = AddTransactionState(calculatorState = SubtractOperation(5, 1))
+        val initialState =
+            AddTransactionState(
+                calculatorState = SubtractOperation(5, 1)
+            )
         val viewModel: AddTransactionViewModel = getKoin().get { parametersOf(initialState) }
 
         viewModel.processEvent(ActionClick)

@@ -1,4 +1,4 @@
-package com.aradipatrik.presentation.viewmodels.add.transaction
+package com.aradipatrik.presentation.viewmodels.addtransaction
 
 import com.airbnb.mvrx.*
 import com.aradipatrik.domain.interactor.category.GetCategoriesInteractor
@@ -9,8 +9,8 @@ import com.aradipatrik.presentation.common.appendDigit
 import com.aradipatrik.presentation.common.withLastDigitRemoved
 import com.aradipatrik.presentation.mapper.CategoryPresentationMapper
 import com.aradipatrik.presentation.presentations.CategoryPresentationModel
-import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.*
-import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.*
+import com.aradipatrik.presentation.viewmodels.addtransaction.AddTransactionViewEvent.*
+import com.aradipatrik.presentation.viewmodels.addtransaction.CalculatorState.*
 import io.reactivex.schedulers.Schedulers
 import org.joda.time.DateTime
 import org.koin.android.ext.android.inject
@@ -196,7 +196,8 @@ class AddTransactionViewModel(
             )
                 .subscribeOn(Schedulers.io())
                 .execute {
-                    val initialState = AddTransactionState()
+                    val initialState =
+                        AddTransactionState()
                     copy(
                         addTransactionRequest = it,
                         selectedDate = initialState.selectedDate,

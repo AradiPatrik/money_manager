@@ -1,9 +1,9 @@
 package com.aradipatrik.yamm.mappers
 
-import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionState
-import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.*
-import com.aradipatrik.yamm.features.add.transaction.mapper.CalculatorViewDataMapper
-import com.aradipatrik.yamm.features.add.transaction.model.CalculatorAction
+import com.aradipatrik.presentation.viewmodels.addtransaction.AddTransactionState
+import com.aradipatrik.presentation.viewmodels.addtransaction.CalculatorState.*
+import com.aradipatrik.yamm.features.addtransaction.mapper.CalculatorViewDataMapper
+import com.aradipatrik.yamm.features.addtransaction.model.CalculatorAction
 import com.aradipatrik.yamm.util.PresentationLayerMocks.addTransactionState
 import org.junit.Test
 import strikt.api.expectThat
@@ -53,7 +53,10 @@ class CalculatorViewDataMapperTest {
     fun `Subtract operation should map correctly if rhs is null`() {
         // Arrange
         val mapper = CalculatorViewDataMapper()
-        val state = AddTransactionState(calculatorState = SubtractOperation(15, null))
+        val state =
+            AddTransactionState(
+                calculatorState = SubtractOperation(15, null)
+            )
 
         // Act
         val viewData = mapper.mapToViewData(state)
@@ -66,7 +69,10 @@ class CalculatorViewDataMapperTest {
     fun `Subtract operation should map correctly if rhs is not null`() {
         // Arrange
         val mapper = CalculatorViewDataMapper()
-        val state = AddTransactionState(calculatorState = SubtractOperation(15, 8))
+        val state =
+            AddTransactionState(
+                calculatorState = SubtractOperation(15, 8)
+            )
 
         // Act
         val viewData = mapper.mapToViewData(state)
@@ -79,7 +85,10 @@ class CalculatorViewDataMapperTest {
     fun `Action should be add transaction if calculatorState is SingleValue`() {
         // Arrange
         val mapper = CalculatorViewDataMapper()
-        val state = AddTransactionState(calculatorState = SingleValue(5))
+        val state =
+            AddTransactionState(
+                calculatorState = SingleValue(5)
+            )
 
         // Act
         val viewData = mapper.mapToViewData(state)
@@ -92,7 +101,10 @@ class CalculatorViewDataMapperTest {
     fun `Action should be calculate if calculatorState is AddOperation`() {
         // Arrange
         val mapper = CalculatorViewDataMapper()
-        val state = AddTransactionState(calculatorState = AddOperation(1, 2))
+        val state =
+            AddTransactionState(
+                calculatorState = AddOperation(1, 2)
+            )
 
         // Act
         val viewData = mapper.mapToViewData(state)
@@ -105,7 +117,10 @@ class CalculatorViewDataMapperTest {
     fun `Action should be calculate if calculatorState is SubtractOperation`() {
         // Arrange
         val mapper = CalculatorViewDataMapper()
-        val state = AddTransactionState(calculatorState = SubtractOperation(1, 2))
+        val state =
+            AddTransactionState(
+                calculatorState = SubtractOperation(1, 2)
+            )
 
         // Act
         val viewData = mapper.mapToViewData(state)
@@ -118,7 +133,10 @@ class CalculatorViewDataMapperTest {
     fun `Memo should be just mapped`() {
         // Arrange
         val mapper = CalculatorViewDataMapper()
-        val state = AddTransactionState(memo = "testMemo")
+        val state =
+            AddTransactionState(
+                memo = "testMemo"
+            )
 
         // Act
         val viewData = mapper.mapToViewData(state)

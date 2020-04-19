@@ -1,4 +1,4 @@
-package com.aradipatrik.presentation.viewmodels.add.transaction
+package com.aradipatrik.presentation.viewmodels.addtransaction
 
 sealed class AddTransactionViewEvent {
     data class NumberClick(val number: Int) : AddTransactionViewEvent()

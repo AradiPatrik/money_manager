@@ -1,7 +1,7 @@
 package com.aradipatrik.yamm.itemcallback
 
 import com.aradipatrik.testing.CommonMocks.string
-import com.aradipatrik.yamm.features.add.transaction.adapter.CategoryItemViewDataItemCallback
+import com.aradipatrik.yamm.features.addtransaction.view.CategoryItemViewDataItemCallback
 import com.aradipatrik.yamm.util.PresentationLayerMocks.categoryPresentation
 import com.aradipatrik.yamm.util.ViewDataMocks.categoryViewData
 import org.junit.Test

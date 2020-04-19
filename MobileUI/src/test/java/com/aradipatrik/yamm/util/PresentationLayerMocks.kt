@@ -4,9 +4,9 @@ import com.airbnb.mvrx.Async
 import com.airbnb.mvrx.Uninitialized
 import com.aradipatrik.presentation.presentations.CategoryPresentationModel
 import com.aradipatrik.presentation.presentations.TransactionPresentationModel
-import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionState
-import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState
-import com.aradipatrik.presentation.viewmodels.add.transaction.CalculatorState.SingleValue
+import com.aradipatrik.presentation.viewmodels.addtransaction.AddTransactionState
+import com.aradipatrik.presentation.viewmodels.addtransaction.CalculatorState
+import com.aradipatrik.presentation.viewmodels.addtransaction.CalculatorState.SingleValue
 import com.aradipatrik.testing.CommonMocks.date
 import com.aradipatrik.testing.CommonMocks.int
 import com.aradipatrik.testing.CommonMocks.string
@@ -35,14 +35,15 @@ object PresentationLayerMocks {
         categoryListRequestModel: Async<List<CategoryPresentationModel>> = Uninitialized,
         isExpense: Boolean = false,
         selectedCategoryModel: CategoryPresentationModel? = null
-    ) = AddTransactionState(
-        calculatorState = calculatorState,
-        memo = memo,
-        addTransactionRequest = addTransactionRequest,
-        categoryListModel = categoryListModel,
-        categoryListRequestModel = categoryListRequestModel,
-        isExpense = isExpense,
-        selectedCategoryModel = selectedCategoryModel,
-        selectedDate = date()
-    )
+    ) =
+        AddTransactionState(
+            calculatorState = calculatorState,
+            memo = memo,
+            addTransactionRequest = addTransactionRequest,
+            categoryListModel = categoryListModel,
+            categoryListRequestModel = categoryListRequestModel,
+            isExpense = isExpense,
+            selectedCategoryModel = selectedCategoryModel,
+            selectedDate = date()
+        )
 }

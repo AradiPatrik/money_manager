@@ -125,7 +125,7 @@ class CategorySyncIntegration : KoinTest {
 
     @Test
     fun afterAddThereShouldBeNoMorePendingCategoriesLeft() {
-        categoryRepository.add(category(walletId = walletA.id)).blockingAwait()
+        categoryRepository.add(category(), walletId = walletA.id).blockingAwait()
 
         val pendingCategories = localCategoryDatastore.getPending().blockingGet()
 
@@ -134,7 +134,7 @@ class CategorySyncIntegration : KoinTest {
 
     @Test
     fun afterAddThereShouldBeOneEntityInLocalAndRemoteDatabases() {
-        categoryRepository.add(category(walletId = walletA.id)).blockingAwait()
+        categoryRepository.add(category(), walletId = walletA.id).blockingAwait()
 
         val allLocal = localCategoryDatastore.getAll().test().awaitCount(1).values().first()
         expectThat(allLocal).hasSize(1)
@@ -144,8 +144,8 @@ class CategorySyncIntegration : KoinTest {
 
     @Test
     fun afterAddTheRemoteAndTheLocalEntityShouldBeTheSame() {
-        val originalCategory = category(walletId = walletA.id)
-        categoryRepository.add(originalCategory).blockingAwait()
+        val originalCategory = category()
+        categoryRepository.add(originalCategory, walletId = walletA.id).blockingAwait()
 
         val localResult =
             localCategoryDatastore.getAll().test().awaitCount(1).values().first().first()
@@ -156,24 +156,24 @@ class CategorySyncIntegration : KoinTest {
 
     @Test
     fun ifOtherDeviceAddedACategoryItShouldBeReflectedInLocalAfterRefresh() {
-        val localCategory = category(name = "original", walletId = walletA.id)
-        val otherDevicesCategory = category(name = "remote", walletId = walletA.id)
-        categoryRepository.add(localCategory).blockingAwait()
-        val testObserver = categoryRepository.getAll().test()
+        val localCategory = category(name = "original")
+        val otherDevicesCategory = category(name = "remote")
+        categoryRepository.add(localCategory, walletId = walletA.id).blockingAwait()
+        val testObserver = categoryRepository.getAll(walletA.id).test()
         val afterLocalAdd = testObserver.awaitCount(1).values().first()
         expectThat(afterLocalAdd).hasSize(1)
 
         remoteCategoryDatastore.updateWith(
             listOf(
                 categoryMapper.mapToEntity(otherDevicesCategory).copy(
-                    syncStatus = SyncStatus.ToAdd
+                    syncStatus = SyncStatus.ToAdd, walletId = walletA.id
                 )
             ),
             userId
         ).blockingAwait()
 
         val afterRemoteChangeAndSync =
-            categoryRepository.getAll().test().awaitCount(1).values().first()
+            categoryRepository.getAll(walletA.id).test().awaitCount(1).values().first()
         val lastValue = testObserver.values().last()
         expectThat(afterRemoteChangeAndSync).hasSize(2)
         expectThat(lastValue).hasSize(2)
@@ -181,9 +181,9 @@ class CategorySyncIntegration : KoinTest {
 
     @Test
     fun ifOtherDeviceUpdatedACategoryItShouldBeReflectedInLocalAfterRefresh() {
-        val localCategory = category(name = "original", walletId = walletA.id)
-        categoryRepository.add(localCategory).blockingAwait()
-        val testObserver = categoryRepository.getAll().test()
+        val localCategory = category(name = "original")
+        categoryRepository.add(localCategory, walletId = walletA.id).blockingAwait()
+        val testObserver = categoryRepository.getAll(walletA.id).test()
         val afterLocalAdd = testObserver.awaitCount(1).values().first()
         expectThat(afterLocalAdd).hasSize(1)
         val originalId = afterLocalAdd.first().id
@@ -201,7 +201,7 @@ class CategorySyncIntegration : KoinTest {
         ).blockingAwait()
 
         val afterRemoteChangeAndSync =
-            categoryRepository.getAll().test().awaitCount(1).values().first()
+            categoryRepository.getAll(walletA.id).test().awaitCount(1).values().first()
         val lastValue = testObserver.values().last()
         expectThat(afterRemoteChangeAndSync).hasSize(1)
         expectThat(lastValue).hasSize(1)
@@ -211,9 +211,9 @@ class CategorySyncIntegration : KoinTest {
 
     @Test
     fun ifOtherDeviceDeletedAnItemItShouldBeReflectedInLocalAfterRefresh() {
-        val localCategory = category(name = "original", walletId = walletA.id)
-        categoryRepository.add(localCategory).blockingAwait()
-        val testObserver = categoryRepository.getAll().test()
+        val localCategory = category(name = "original")
+        categoryRepository.add(localCategory, walletA.id).blockingAwait()
+        val testObserver = categoryRepository.getAll(walletA.id).test()
         val afterLocalAdd = testObserver.awaitCount(1).values().first()
         expectThat(afterLocalAdd).hasSize(1)
         val originalId = afterLocalAdd.first().id
@@ -230,7 +230,7 @@ class CategorySyncIntegration : KoinTest {
         ).blockingAwait()
 
         val afterRemoteChangeAndSync =
-            categoryRepository.getAll().test().awaitCount(1).values().first()
+            categoryRepository.getAll(walletA.id).test().awaitCount(1).values().first()
         val lastValue = testObserver.values().last()
         expectThat(afterRemoteChangeAndSync).hasSize(1)
         expectThat(lastValue).hasSize(1)

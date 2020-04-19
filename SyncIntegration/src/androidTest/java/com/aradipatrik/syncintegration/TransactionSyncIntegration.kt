@@ -127,8 +127,8 @@ class TransactionSyncIntegration : KoinTest {
         val list = remoteWalletDatastore.getAfter(0, userId).blockingGet()
         walletA = walletA.copy(id = list.first { it.name == walletA.name }.id)
         walletB = walletB.copy(id = list.first { it.name == walletB.name }.id)
-        repeat(2) { categoryRepository.add(category(walletId = walletA.id)).blockingAwait() }
-        defaultCategories = categoryRepository.getAll().blockingFirst()
+        repeat(2) { categoryRepository.add(category(), walletId = walletA.id).blockingAwait() }
+        defaultCategories = categoryRepository.getAll(walletA.id).blockingFirst()
         walletRepository.setSelectedWallet(walletMapper.mapFromEntity(walletA)).blockingAwait()
     }
 
@@ -158,8 +158,8 @@ class TransactionSyncIntegration : KoinTest {
 
     @Test
     fun afterAddThereShouldBeNoMorePendingTransactionsLeft() {
-        val transactionToAdd = transaction(category = defaultCategories[0], walletId = walletA.id)
-        transactionRepository.add(transactionToAdd).blockingAwait()
+        val transactionToAdd = transaction(category = defaultCategories[0])
+        transactionRepository.add(transactionToAdd, walletId = walletA.id).blockingAwait()
 
         val pendingTransactions = localTransactionDatastore.getPending().blockingGet()
 
@@ -169,10 +169,8 @@ class TransactionSyncIntegration : KoinTest {
     @Test
     fun afterAddThereShouldBeOneEntityInLocalAndRemoteDatabases() {
         transactionRepository.add(
-            transaction(
-                category = defaultCategories[0],
-                walletId = walletA.id
-            )
+            transaction(category = defaultCategories[0]),
+            walletId = walletA.id
         ).blockingAwait()
 
         val allLocal = localTransactionDatastore.getAll()
@@ -189,10 +187,9 @@ class TransactionSyncIntegration : KoinTest {
     @Test
     fun afterAddTheRemoteAndTheLocalEntityShouldBeTheSame() {
         val originalTransaction = transaction(
-            category = defaultCategories[0],
-            walletId = walletA.id
+            category = defaultCategories[0]
         )
-        transactionRepository.add(originalTransaction).blockingAwait()
+        transactionRepository.add(originalTransaction, walletId = walletA.id).blockingAwait()
 
         val localResult =
             localTransactionDatastore.getAll().test().awaitCount(1).values().first().first()
@@ -206,31 +203,30 @@ class TransactionSyncIntegration : KoinTest {
         val localTransaction = transaction(
             memo = "original",
             date = DateTime.now(),
-            category = defaultCategories[0],
-            walletId = walletA.id
+            category = defaultCategories[0]
         )
         val otherDevicesTransaction = transaction(
             memo = "remote",
             date = DateTime.now(),
-            category = defaultCategories[1],
-            walletId = walletA.id
+            category = defaultCategories[1]
         )
-        transactionRepository.add(localTransaction).blockingAwait()
-        val testObserver = transactionRepository.getInInterval(YearMonth.now().toInterval()).test()
+        transactionRepository.add(localTransaction, walletA.id).blockingAwait()
+        val testObserver = transactionRepository
+            .getInInterval(YearMonth.now().toInterval(), walletA.id).test()
         val afterLocalAdd = testObserver.awaitCount(1).values().first()
         expectThat(afterLocalAdd).hasSize(1)
 
         remoteTransactionDatastore.updateWith(
             listOf(
                 partialTransactionMapper.mapToEntity(otherDevicesTransaction).copy(
-                    syncStatus = SyncStatus.ToAdd
+                    syncStatus = SyncStatus.ToAdd, walletId = walletA.id
                 )
             ),
             userId
         ).blockingAwait()
 
         val afterRemoteChangeAndSync = transactionRepository
-            .getInInterval(YearMonth.now().toInterval())
+            .getInInterval(YearMonth.now().toInterval(), walletA.id)
             .test()
             .awaitCount(1)
             .values()
@@ -246,11 +242,11 @@ class TransactionSyncIntegration : KoinTest {
         val localTransaction = transaction(
             memo = "original",
             date = DateTime.now(),
-            category = defaultCategories[0],
-            walletId = walletA.id
+            category = defaultCategories[0]
         )
-        transactionRepository.add(localTransaction).blockingAwait()
-        val testObserver = transactionRepository.getInInterval(YearMonth.now().toInterval()).test()
+        transactionRepository.add(localTransaction, walletA.id).blockingAwait()
+        val testObserver = transactionRepository
+            .getInInterval(YearMonth.now().toInterval(), walletA.id).test()
         val afterLocalAdd = testObserver.awaitCount(1).values().first()
         expectThat(afterLocalAdd).hasSize(1)
 
@@ -259,13 +255,18 @@ class TransactionSyncIntegration : KoinTest {
         remoteTransactionDatastore.updateWith(
             listOf(
                 partialTransactionMapper.mapToEntity(localTransaction)
-                    .copy(id = originalId, memo = "updated", syncStatus = SyncStatus.ToUpdate)
+                    .copy(
+                        id = originalId,
+                        memo = "updated",
+                        syncStatus = SyncStatus.ToUpdate,
+                        walletId = walletA.id
+                    )
             ),
             userId
         ).blockingAwait()
 
         val afterRemoteChangeAndSync = transactionRepository
-            .getInInterval(YearMonth.now().toInterval())
+            .getInInterval(YearMonth.now().toInterval(), walletA.id)
             .test()
             .awaitCount(1)
             .values()
@@ -283,12 +284,12 @@ class TransactionSyncIntegration : KoinTest {
         val localTransaction = transaction(
             memo = "original",
             date = DateTime.now(),
-            category = defaultCategories[0],
-            walletId = walletA.id
+            category = defaultCategories[0]
         )
 
-        transactionRepository.add(localTransaction).blockingAwait()
-        val testObserver = transactionRepository.getInInterval(YearMonth.now().toInterval()).test()
+        transactionRepository.add(localTransaction, walletA.id).blockingAwait()
+        val testObserver = transactionRepository
+            .getInInterval(YearMonth.now().toInterval(), walletA.id).test()
         val afterLocalAdd = testObserver.awaitCount(1).values().first()
         expectThat(afterLocalAdd).hasSize(1)
         val originalId = afterLocalAdd.first().id
@@ -296,13 +297,13 @@ class TransactionSyncIntegration : KoinTest {
         remoteTransactionDatastore.updateWith(
             listOf(
                 partialTransactionMapper.mapToEntity(localTransaction)
-                    .copy(id = originalId, syncStatus = SyncStatus.ToDelete)
+                    .copy(id = originalId, syncStatus = SyncStatus.ToDelete, walletId = walletA.id)
             ),
             userId
         ).blockingAwait()
 
         val afterRemoteChangeAndSync = transactionRepository
-            .getInInterval(YearMonth.now().toInterval())
+            .getInInterval(YearMonth.now().toInterval(), walletA.id)
             .test()
             .awaitCount(1)
             .values()
@@ -320,14 +321,14 @@ class TransactionSyncIntegration : KoinTest {
     fun getInIntervalShouldJoinTransactionAndCategoryCorrectly() {
         val transactionToAdd = transaction(
             category = defaultCategories[0],
-            date = DateTime.now(),
-            walletId = walletA.id
+            date = DateTime.now()
         )
 
-        transactionRepository.add(transactionToAdd).blockingAwait()
+        transactionRepository.add(transactionToAdd, walletA.id).blockingAwait()
 
         val joinedTransactions =
-            transactionRepository.getInInterval(YearMonth.now().toInterval()).blockingFirst()
+            transactionRepository.getInInterval(YearMonth.now().toInterval(), walletA.id)
+                .blockingFirst()
 
         expectThat(joinedTransactions).hasSize(1)
         expectThat(joinedTransactions.first().category).isEqualTo(defaultCategories[0])
@@ -338,14 +339,13 @@ class TransactionSyncIntegration : KoinTest {
         val transactionA = transaction(
             memo = "original",
             date = DateTime.now(),
-            category = defaultCategories[0],
-            walletId = walletA.id
+            category = defaultCategories[0]
         )
 
         remoteTransactionDatastore.updateWith(
             listOf(
                 partialTransactionMapper.mapToEntity(transactionA).copy(
-                    syncStatus = SyncStatus.ToAdd
+                    syncStatus = SyncStatus.ToAdd, walletId = walletA.id
                 )
             ),
             userId

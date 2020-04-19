@@ -7,7 +7,7 @@ class PartialTransactionMapper {
     fun mapToEntity(domain: Transaction) = TransactionWithIdsDataModel(
         id = domain.id,
         categoryId = domain.category.id,
-        walletId = domain.walletId,
+        walletId = "",
         amount = domain.amount,
         memo = domain.memo,
         date = domain.date,

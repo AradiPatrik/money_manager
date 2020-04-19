@@ -6,13 +6,13 @@ import com.airbnb.mvrx.Uninitialized
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.airbnb.mvrx.withState
 import com.aradipatrik.domain.interactor.transaction.GetTransactionsInIntervalInteractor
+import com.aradipatrik.domain.mocks.DomainLayerMocks.transaction
 import com.aradipatrik.presentation.datahelpers.MockDataFactory.transactionPresentation
 import com.aradipatrik.presentation.mapper.CategoryPresentationMapper
 import com.aradipatrik.presentation.mapper.TransactionPresentationMapper
 import com.aradipatrik.presentation.presentations.TransactionPresentationModel
 import com.aradipatrik.presentation.viewmodels.history.TransactionHistoryState
 import com.aradipatrik.presentation.viewmodels.history.TransactionHistoryViewModel
-import com.aradipatrik.testing.CommonMocks.transaction
 import io.mockk.*
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -71,8 +71,7 @@ class TransactionHistoryViewModelTest : KoinTest {
     @Test
     fun `fetchCurrentMonth should call getTransactionsInInterval use case with selectedMonthAsInterval, and return the result as success`() {
         // Arrange
-        val initialState =
-            TransactionHistoryState()
+        val initialState = TransactionHistoryState()
         val transaction = transaction()
         every {
             mockGetTransactionsInIntervalInteractor.get(

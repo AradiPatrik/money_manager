@@ -1,17 +1,16 @@
-package com.aradipatrik.yamm.features.add.transaction
+package com.aradipatrik.yamm.features.addtransaction.view
 
 import android.os.Bundle
 import android.view.View
 import com.airbnb.mvrx.BaseMvRxFragment
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
-import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewEvent.*
-import com.aradipatrik.presentation.viewmodels.add.transaction.AddTransactionViewModel
+import com.aradipatrik.presentation.viewmodels.addtransaction.AddTransactionViewEvent.*
+import com.aradipatrik.presentation.viewmodels.addtransaction.AddTransactionViewModel
 import com.aradipatrik.yamm.R
-import com.aradipatrik.yamm.features.add.transaction.adapter.CategoryAdapter
-import com.aradipatrik.yamm.features.add.transaction.mapper.CalculatorViewDataMapper
-import com.aradipatrik.yamm.features.add.transaction.mapper.CategoryItemViewDataMapper
-import com.aradipatrik.yamm.features.add.transaction.model.CalculatorAction
+import com.aradipatrik.yamm.features.addtransaction.mapper.CalculatorViewDataMapper
+import com.aradipatrik.yamm.features.addtransaction.mapper.CategoryItemViewDataMapper
+import com.aradipatrik.yamm.features.addtransaction.model.CalculatorAction
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.Observable

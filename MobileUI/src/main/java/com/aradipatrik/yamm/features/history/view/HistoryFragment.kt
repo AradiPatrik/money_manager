@@ -1,4 +1,4 @@
-package com.aradipatrik.yamm.features.history
+package com.aradipatrik.yamm.features.history.view
 
 import android.os.Bundle
 import android.view.View
@@ -8,7 +8,6 @@ import com.airbnb.mvrx.withState
 import com.aradipatrik.presentation.presentations.TransactionPresentationModel
 import com.aradipatrik.presentation.viewmodels.history.TransactionHistoryViewModel
 import com.aradipatrik.yamm.R
-import com.aradipatrik.yamm.features.history.adapter.HistoryAdapter
 import com.aradipatrik.yamm.features.history.mapper.TransactionViewDataMapper
 import kotlinx.android.synthetic.main.fragment_history.view.*
 import org.joda.time.LocalDate

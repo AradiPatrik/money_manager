@@ -1,4 +1,4 @@
-package com.aradipatrik.yamm.features.history.adapter
+package com.aradipatrik.yamm.features.history.view
 
 import android.annotation.SuppressLint
 import android.view.View
@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.aradipatrik.yamm.R
 import com.aradipatrik.yamm.common.viewext.inflate
-import com.aradipatrik.yamm.features.history.adapter.HistoryAdapter.ViewHolder.TransactionHeaderViewHolder
-import com.aradipatrik.yamm.features.history.adapter.HistoryAdapter.ViewHolder.TransactionItemViewHolder
+import com.aradipatrik.yamm.features.history.view.HistoryAdapter.ViewHolder.TransactionHeaderViewHolder
+import com.aradipatrik.yamm.features.history.view.HistoryAdapter.ViewHolder.TransactionItemViewHolder
 import com.aradipatrik.yamm.features.history.model.TransactionHeaderViewData
 import com.aradipatrik.yamm.features.history.model.TransactionItemViewData
 import com.aradipatrik.yamm.features.history.model.TransactionViewData
@@ -45,7 +45,9 @@ object TransactionViewDataItemCallback : DiffUtil.ItemCallback<TransactionViewDa
 }
 
 class HistoryAdapter
-    : ListAdapter<TransactionViewData, HistoryAdapter.ViewHolder>(TransactionViewDataItemCallback) {
+    : ListAdapter<TransactionViewData, HistoryAdapter.ViewHolder>(
+    TransactionViewDataItemCallback
+) {
     companion object {
         const val TRANSACTION_HEADER = 0
         const val TRANSACTION_ITEM = 1

@@ -9,10 +9,7 @@ class DeleteTransactionInteractor(
 ) : CompletableUseCase<DeleteTransactionInteractor.Params> {
     data class Params(val transactionId: String) {
         companion object {
-            fun forTransaction(transactionId: String) =
-                Params(
-                    transactionId
-                )
+            fun forTransaction(transactionId: String) = Params(transactionId)
         }
     }
 

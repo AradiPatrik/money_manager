@@ -4,7 +4,6 @@ import org.joda.time.DateTime
 
 data class Transaction(
     val id: String,
-    val walletId: String,
     val category: Category,
     val amount: Int,
     val memo: String,
