@@ -6,6 +6,7 @@ import android.app.Application
 import com.aradipatrik.data.dataModule
 import com.aradipatrik.domain.domainModule
 import com.aradipatrik.local.database.localModule
+import com.aradipatrik.local.database.rxPreferencesModule
 import com.aradipatrik.presentation.presentationModule
 import com.aradipatrik.remote.remoteModule
 import org.koin.android.ext.koin.androidContext
@@ -25,7 +26,8 @@ class YammApplication : Application() {
                     dataModule,
                     remoteModule,
                     localModule,
-                    mobileUiModule
+                    mobileUiModule,
+                    rxPreferencesModule
                 )
             )
         }

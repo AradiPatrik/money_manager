@@ -43,7 +43,7 @@ class AddTransactionFragment : BaseMvRxFragment(R.layout.fragment_calculator_she
                 number_pad_delete_one.clicks().map { DeleteOneClick },
                 number_pad_number_plus.clicks().map { PlusClick },
                 number_pad_number_minus.clicks().map { MinusClick },
-                memo_edit_Text.textChanges()
+                memo_edit_text.textChanges()
                     .map { MemoChange(it.toString()) }
                     .distinctUntilChanged()
             )
@@ -68,6 +68,8 @@ class AddTransactionFragment : BaseMvRxFragment(R.layout.fragment_calculator_she
     override fun invalidate() = withState(viewModel) { state ->
         val calculatorViewData = calculatorViewDataMapper.mapToViewData(state)
         expression_display.text = calculatorViewData.numberDisplay
+        memo_edit_text.setText(state.memo)
+
         if (calculatorViewData.calculatorAction === CalculatorAction.CalculateResult) {
             number_pad_action.icon = null
             number_pad_action.text = "="

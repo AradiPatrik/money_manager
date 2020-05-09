@@ -49,7 +49,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/calculator_sheet"
-        android:name="com.aradipatrik.yamm.features.add.transaction.AddTransactionFragment"
+        android:name="com.aradipatrik.yamm.features.addtransaction.view.AddTransactionFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorSurface"

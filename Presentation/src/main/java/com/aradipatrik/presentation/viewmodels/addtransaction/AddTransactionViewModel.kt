@@ -5,6 +5,7 @@ import com.aradipatrik.domain.interactor.category.GetCategoriesInteractor
 import com.aradipatrik.domain.interactor.transaction.AddTransactionInteractor
 import com.aradipatrik.domain.model.Transaction
 import com.aradipatrik.presentation.common.MvRxViewModel
+import com.aradipatrik.presentation.common.ViewEventProcessor
 import com.aradipatrik.presentation.common.appendDigit
 import com.aradipatrik.presentation.common.withLastDigitRemoved
 import com.aradipatrik.presentation.mapper.CategoryPresentationMapper
@@ -55,7 +56,7 @@ class AddTransactionViewModel(
     getCategoriesInteractor: GetCategoriesInteractor,
     private val addTransactionInteractor: AddTransactionInteractor,
     private val mapper: CategoryPresentationMapper
-) : MvRxViewModel<AddTransactionState>(initialState) {
+) : MvRxViewModel<AddTransactionState>(initialState), ViewEventProcessor<AddTransactionViewEvent> {
     companion object : MvRxViewModelFactory<AddTransactionViewModel, AddTransactionState> {
         override fun create(
             viewModelContext: ViewModelContext,
@@ -84,7 +85,7 @@ class AddTransactionViewModel(
             }
     }
 
-    fun processEvent(event: AddTransactionViewEvent) = when (event) {
+    override fun processEvent(event: AddTransactionViewEvent) = when (event) {
         is NumberClick -> appendDigit(event.number)
         is MemoChange -> updateMemo(event.memo)
         ActionClick -> withState { state ->

@@ -1,6 +1,7 @@
 package com.aradipatrik.domain
 
 
+import com.aradipatrik.domain.interactor.auth.IsUserSignedInInteractor
 import com.aradipatrik.domain.interactor.auth.SignUpWithEmailAndPasswordInteractor
 import com.aradipatrik.domain.interactor.category.GetCategoriesInteractor
 import com.aradipatrik.domain.interactor.transaction.AddTransactionInteractor
@@ -11,25 +12,28 @@ import com.aradipatrik.domain.interactor.wallet.SelectFirstWalletInteractor
 import org.koin.dsl.module
 
 val domainModule = module {
-    factory {
+    single {
         GetTransactionsInIntervalInteractor(get(), get())
     }
-    factory {
+    single {
         AddTransactionInteractor(get(), get())
     }
-    factory {
+    single {
         UpdateTransactionInteractor(get(), get())
     }
-    factory {
+    single {
         DeleteTransactionInteractor(get())
     }
-    factory {
+    single {
         GetCategoriesInteractor(get(), get())
     }
-    factory {
+    single {
         SignUpWithEmailAndPasswordInteractor(get(), get())
     }
     single {
         SelectFirstWalletInteractor(get())
+    }
+    single {
+        IsUserSignedInInteractor(get())
     }
 }
