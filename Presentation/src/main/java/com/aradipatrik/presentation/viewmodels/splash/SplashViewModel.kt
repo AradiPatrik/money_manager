@@ -5,7 +5,7 @@ import com.airbnb.mvrx.MvRxState
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.Uninitialized
 import com.airbnb.mvrx.ViewModelContext
-import com.aradipatrik.domain.interactor.auth.IsUserSignedInInteractor
+import com.aradipatrik.domain.interactor.onboard.IsUserSignedInInteractor
 import com.aradipatrik.presentation.common.MvRxViewModel
 import org.koin.android.ext.android.inject
 

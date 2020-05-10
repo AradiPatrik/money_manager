@@ -16,7 +16,8 @@
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:layout_scrollFlags="noScroll"
-            tools:title="History" />
+            tools:title="History"
+            />
     </com.google.android.material.appbar.AppBarLayout>
 
     <fragment
@@ -38,7 +39,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:fabAlignmentMode="center"
-        app:navigationIcon="@drawable/ic_menu_white_24dp" />
+        app:navigationIcon="@drawable/ic_menu_white_24dp"
+        app:menu="@menu/menu_bottom_nav"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

@@ -1,6 +1,6 @@
 package com.aradipatrik.domain.test
 
-import com.aradipatrik.domain.interactor.auth.IsUserSignedInInteractor
+import com.aradipatrik.domain.interactor.onboard.IsUserSignedInInteractor
 import com.aradipatrik.domain.interfaces.data.UserRepository
 import com.aradipatrik.testing.CommonMocks.boolean
 import io.mockk.every

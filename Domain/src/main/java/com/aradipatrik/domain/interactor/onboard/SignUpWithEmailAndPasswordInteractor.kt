@@ -1,6 +1,6 @@
-package com.aradipatrik.domain.interactor.auth
+package com.aradipatrik.domain.interactor.onboard
 
-import com.aradipatrik.domain.interactor.auth.SignUpWithEmailAndPasswordInteractor.Params
+import com.aradipatrik.domain.interactor.onboard.SignUpWithEmailAndPasswordInteractor.Params
 import com.aradipatrik.domain.interfaces.auth.Authenticator
 import com.aradipatrik.domain.interfaces.data.UserRepository
 import com.aradipatrik.domain.model.UserCredentials

@@ -10,10 +10,13 @@ import io.reactivex.Single
 
 class WalletRepositoryImpl(
     private val localWalletDatastore: LocalWalletDatastore,
-    private val remoteWalletDatastore: RemoteWalletDatastore,
     private val syncer: Syncer,
     private val walletMapper: WalletMapper
 ) : WalletRepository {
+    override fun createWalletWithName(name: String) = addWallet(Wallet("", name))
+        .andThen(getWallets())
+        .map { wallets -> wallets.first { it.name == name } }
+
     override fun addWallet(wallet: Wallet) =
         localWalletDatastore.add(walletMapper.mapToEntity(wallet))
             .andThen(syncer.syncAll())

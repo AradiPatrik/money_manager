@@ -6,5 +6,5 @@
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.aradipatrik.yamm.features.history.view.HistoryFragment"
-        android:label="MainFragment" />
+        android:label="History" />
 </navigation>

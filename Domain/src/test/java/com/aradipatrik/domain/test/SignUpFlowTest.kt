@@ -1,8 +1,8 @@
 package com.aradipatrik.domain.test
 
 import com.aradipatrik.domain.exceptions.auth.PasswordTooShort
-import com.aradipatrik.domain.interactor.auth.SignUpWithEmailAndPasswordInteractor
-import com.aradipatrik.domain.interactor.auth.SignUpWithEmailAndPasswordInteractor.Params.Companion.forEmailAndPassword
+import com.aradipatrik.domain.interactor.onboard.SignUpWithEmailAndPasswordInteractor
+import com.aradipatrik.domain.interactor.onboard.SignUpWithEmailAndPasswordInteractor.Params.Companion.forEmailAndPassword
 import com.aradipatrik.domain.interfaces.auth.Authenticator
 import com.aradipatrik.domain.interfaces.data.UserRepository
 import com.aradipatrik.domain.model.User

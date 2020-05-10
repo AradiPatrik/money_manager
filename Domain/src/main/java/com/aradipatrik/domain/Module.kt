@@ -1,9 +1,10 @@
 package com.aradipatrik.domain
 
 
-import com.aradipatrik.domain.interactor.auth.IsUserSignedInInteractor
-import com.aradipatrik.domain.interactor.auth.SignUpWithEmailAndPasswordInteractor
+import com.aradipatrik.domain.interactor.onboard.IsUserSignedInInteractor
+import com.aradipatrik.domain.interactor.onboard.SignUpWithEmailAndPasswordInteractor
 import com.aradipatrik.domain.interactor.category.GetCategoriesInteractor
+import com.aradipatrik.domain.interactor.onboard.InitializeUserInteractor
 import com.aradipatrik.domain.interactor.transaction.AddTransactionInteractor
 import com.aradipatrik.domain.interactor.transaction.DeleteTransactionInteractor
 import com.aradipatrik.domain.interactor.transaction.GetTransactionsInIntervalInteractor
@@ -35,5 +36,8 @@ val domainModule = module {
     }
     single {
         IsUserSignedInInteractor(get())
+    }
+    single {
+        InitializeUserInteractor(get(), get())
     }
 }

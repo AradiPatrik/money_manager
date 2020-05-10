@@ -4,12 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
+import androidx.navigation.NavHost
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.airbnb.mvrx.BaseMvRxFragment
+import com.aradipatrik.yamm.MainFragmentUiEffect.BottomSheetCollapse
 import com.aradipatrik.yamm.MainFragmentUiEffect.FabClick
+import com.aradipatrik.yamm.common.viewext.asBottomSheet
+import com.aradipatrik.yamm.common.viewext.collapseEvents
 import com.aradipatrik.yamm.common.viewext.hideAsBottomSheet
+import com.aradipatrik.yamm.common.viewext.isExpanded
 import com.aradipatrik.yamm.common.viewext.showAsBottomSheet
 import com.jakewharton.rxbinding3.view.clicks
+import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.fragment_main.calculator_sheet
@@ -18,18 +28,38 @@ import kotlinx.android.synthetic.main.fragment_main.sum_sheet_container
 
 sealed class MainFragmentUiEffect {
     object FabClick : MainFragmentUiEffect()
+    object BottomSheetCollapse: MainFragmentUiEffect()
 }
 
 class MainFragment : BaseMvRxFragment() {
     private val uiEffectsDisposable = CompositeDisposable()
 
-    private val uiEffects get() = fab.clicks().map { FabClick }
+    private val uiEffects get() = Observable.merge(
+        fab.clicks().map { FabClick },
+        calculator_sheet.asBottomSheet().collapseEvents().map { BottomSheetCollapse }
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = inflater.inflate(R.layout.fragment_main, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            hideCalculator()
+            hideSumSheet()
+            showFab()
+        }
+
+        activity!!.onBackPressedDispatcher.addCallback {
+            if (calculator_sheet.asBottomSheet().isExpanded()) {
+                hideCalculator()
+            } else {
+                activity!!.finish()
+            }
+        }
+    }
 
     override fun onResume() {
         super.onResume()
@@ -42,15 +72,11 @@ class MainFragment : BaseMvRxFragment() {
     }
 
     private fun handleUiEffect(effect: MainFragmentUiEffect) = when (effect) {
-        FabClick -> showCalculator()
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        if (savedInstanceState == null) {
-            hideCalculator()
-            hideSumSheet()
+        FabClick -> {
+            showCalculator()
+            hideFab()
         }
+        BottomSheetCollapse -> showFab()
     }
 
     private fun showCalculator() = calculator_sheet.showAsBottomSheet()
@@ -59,7 +85,10 @@ class MainFragment : BaseMvRxFragment() {
 
     private fun hideSumSheet() = sum_sheet_container.hideAsBottomSheet()
 
-    override fun invalidate() {
+    private fun showFab() = fab.show()
 
+    private fun hideFab() = fab.hide()
+
+    override fun invalidate() {
     }
 }

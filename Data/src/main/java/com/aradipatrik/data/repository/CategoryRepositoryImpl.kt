@@ -16,6 +16,13 @@ class CategoryRepositoryImpl(
             .map { it.map(mapper::mapFromEntity) }
     )
 
+    override fun addAll(categories: List<Category>, walletId: String) =
+        Completable.merge(
+            categories
+                .map { mapper.mapToEntity(it).copy(walletId = walletId) }
+                .map(localDatastore::add)
+        ).andThen(synchronise())
+
     override fun add(category: Category, walletId: String) =
         localDatastore.add(mapper.mapToEntity(category).copy(walletId = walletId))
             .andThen(synchronise())

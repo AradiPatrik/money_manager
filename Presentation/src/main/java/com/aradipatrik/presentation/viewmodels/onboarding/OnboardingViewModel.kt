@@ -5,7 +5,8 @@ import com.airbnb.mvrx.MvRxState
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.Uninitialized
 import com.airbnb.mvrx.ViewModelContext
-import com.aradipatrik.domain.interactor.auth.SignUpWithEmailAndPasswordInteractor
+import com.aradipatrik.domain.interactor.onboard.InitializeUserInteractor
+import com.aradipatrik.domain.interactor.onboard.SignUpWithEmailAndPasswordInteractor
 import com.aradipatrik.presentation.common.MvRxViewModel
 import com.aradipatrik.presentation.common.ViewEventProcessor
 import com.aradipatrik.presentation.viewmodels.onboarding.RegisterViewEvent.EmailChange
@@ -21,7 +22,8 @@ data class OnboardingState(
 
 class OnboardingViewModel(
     initialState: OnboardingState,
-    private val signUpWithEmailAndPassword: SignUpWithEmailAndPasswordInteractor
+    private val signUpWithEmailAndPassword: SignUpWithEmailAndPasswordInteractor,
+    private val initializeUserInteractor: InitializeUserInteractor
 ) : MvRxViewModel<OnboardingState>(initialState), ViewEventProcessor<RegisterViewEvent> {
     companion object : MvRxViewModelFactory<OnboardingViewModel, OnboardingState> {
         override fun create(
@@ -29,7 +31,8 @@ class OnboardingViewModel(
             state: OnboardingState
         ) = OnboardingViewModel(
             state,
-            viewModelContext.activity.inject<SignUpWithEmailAndPasswordInteractor>().value
+            viewModelContext.activity.inject<SignUpWithEmailAndPasswordInteractor>().value,
+            viewModelContext.activity.inject<InitializeUserInteractor>().value
         )
     }
 
@@ -53,7 +56,7 @@ class OnboardingViewModel(
             SignUpWithEmailAndPasswordInteractor.Params.forEmailAndPassword(
                 state.email, state.password
             )
-        ).execute {
+        ).andThen(initializeUserInteractor.get()).execute {
             copy(registerOperation = it)
         }
     }

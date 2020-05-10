@@ -5,6 +5,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 interface WalletRepository {
+    fun createWalletWithName(name: String): Single<Wallet>
     fun addWallet(wallet: Wallet): Completable
     fun updateWallet(wallet: Wallet): Completable
     fun deleteWallet(walletId: String): Completable
