@@ -19,6 +19,8 @@ object FirestoreUtils {
             }
     }.blockingAwait()
 
+    fun logoutAuthenticatedUser() = FirebaseAuth.getInstance().signOut()
+
     fun deleteWalletsOfUser(userId: String) =
         Firebase.firestore.collection(USERS_COLLECTION_KEY)
             .document(userId)

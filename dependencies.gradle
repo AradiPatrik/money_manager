@@ -33,7 +33,7 @@ ext {
     constraintLayoutVersion = '1.1.3'
     activityKtxVersion = '1.1.0-rc03'
     fragmentKtxVersion = '1.2.0-rc05'
-    materialVersion = '1.2.0-alpha03'
+    materialVersion = '1.2.0-alpha06'
     navigationVersion = '2.2.0-rc04'
     rxBindingVersion = '3.1.0'
     rxPreferencesVersion = '2.0.0'

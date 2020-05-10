@@ -5,66 +5,102 @@
     android:id="@+id/sum_sheet_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_bottom_sheet"
-    android:elevation="8dp"
-    app:behavior_hideable="true"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="85dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <View
+        android:id="@+id/date_background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="42dp"
+        android:background="@drawable/background_bottom_sheet"
+        android:elevation="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/sum_background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="8dp"
+        android:background="@drawable/background_sum_sheet"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <TextView
         android:id="@+id/year_text_view"
+        android:elevation="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/month_text_view"
+        app:layout_constraintEnd_toEndOf="@+id/right_chevron"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/left_chevron"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="2020"
+        tools:text="2020" />
 
     <ImageView
         android:id="@+id/right_chevron"
+        android:elevation="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:tint="@color/defaultForegroundColor"
         app:layout_constraintBottom_toBottomOf="@+id/month_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/month_text_view"
-        app:layout_constraintTop_toTopOf="@+id/month_text_view"
+        app:layout_constraintTop_toTopOf="@+id/year_text_view"
         app:srcCompat="@drawable/ic_chevron_right_24dp" />
 
     <ImageView
         android:id="@+id/left_chevron"
+        android:elevation="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="2dp"
         android:tint="@color/defaultForegroundColor"
         app:layout_constraintBottom_toBottomOf="@+id/month_text_view"
         app:layout_constraintEnd_toStartOf="@+id/month_text_view"
-        app:layout_constraintTop_toTopOf="@+id/month_text_view"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/date_background"
+        app:layout_constraintTop_toTopOf="@+id/year_text_view"
         app:srcCompat="@drawable/ic_chevron_left_24dp" />
 
     <TextView
         android:id="@+id/month_text_view"
+        android:elevation="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:includeFontPadding="false"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toStartOf="@+id/right_chevron"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/left_chevron"
         app:layout_constraintTop_toBottomOf="@+id/year_text_view"
+        android:text="Jan"
         tools:text="January" />
 
     <View
         android:id="@+id/view"
+        android:elevation="8dp"
         android:layout_width="0dp"
-        android:layout_height="1dp"
+        android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:background="@color/dividerColor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/date_background"
         app:layout_constraintTop_toBottomOf="@id/month_text_view" />
 
     <TextView
         android:id="@+id/total_text_view"
+        android:elevation="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -76,6 +112,7 @@
         tools:text="Total" />
 
     <TextView
+        android:elevation="8dp"
         android:id="@+id/total_amount_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -87,6 +124,7 @@
         tools:text="2 280 000" />
 
     <TextView
+        android:elevation="8dp"
         android:id="@+id/monthly_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -99,6 +137,7 @@
         tools:text="Monthly" />
 
     <TextView
+        android:elevation="8dp"
         android:id="@+id/monthly_amount_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -110,6 +149,7 @@
         tools:text="174 000" />
 
     <TextView
+        android:elevation="8dp"
         android:id="@+id/income_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -121,6 +161,7 @@
         app:layout_constraintTop_toTopOf="@+id/income_amount_text_view" />
 
     <TextView
+        android:elevation="8dp"
         android:id="@+id/income_amount_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -132,6 +173,7 @@
         tools:text="610 000" />
 
     <TextView
+        android:elevation="8dp"
         android:id="@+id/expense_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -143,16 +185,24 @@
         app:layout_constraintTop_toTopOf="@+id/expense_amount_text_view" />
 
     <TextView
+        android:elevation="8dp"
         android:id="@+id/expense_amount_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="100dp"
         android:textAppearance="@style/ListSubtitle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/income_amount_text_view"
         tools:text="420 000" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

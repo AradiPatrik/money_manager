@@ -19,7 +19,7 @@ import strikt.assertions.isNotEmpty
 @RunWith(AndroidJUnit4::class)
 class FirestoreAuthenticatorTest : KoinTest {
     companion object {
-        val TEST_CREDENTIALS = UserCredentials("aradipatrik@gmail.com", "Almafa123")
+        val TEST_CREDENTIALS = UserCredentials("aradipatrik@gmail.com", "Piramis0854")
     }
 
     @Before
@@ -48,7 +48,9 @@ class FirestoreAuthenticatorTest : KoinTest {
 
     @Test
     fun signInWithEmailAndPasswordShouldReturnUserCredentials() {
-//        val user = authenticator.loginUserWithCredentials(TEST_CREDENTIALS).blockingGet()
-//        expectThat(user.id).isNotEmpty()
+        authenticator.registerUserWithCredentials(TEST_CREDENTIALS).blockingGet()
+        FirestoreUtils.logoutAuthenticatedUser()
+        val user = authenticator.loginUserWithCredentials(TEST_CREDENTIALS).blockingGet()
+        expectThat(user.id).isNotEmpty()
     }
 }

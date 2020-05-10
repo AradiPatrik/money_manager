@@ -5,6 +5,7 @@ import com.aradipatrik.domain.interactor.onboard.IsUserSignedInInteractor
 import com.aradipatrik.domain.interactor.onboard.SignUpWithEmailAndPasswordInteractor
 import com.aradipatrik.domain.interactor.category.GetCategoriesInteractor
 import com.aradipatrik.domain.interactor.onboard.InitializeUserInteractor
+import com.aradipatrik.domain.interactor.onboard.LogInWithEmailAndPasswordInteractor
 import com.aradipatrik.domain.interactor.transaction.AddTransactionInteractor
 import com.aradipatrik.domain.interactor.transaction.DeleteTransactionInteractor
 import com.aradipatrik.domain.interactor.transaction.GetTransactionsInIntervalInteractor
@@ -39,5 +40,8 @@ val domainModule = module {
     }
     single {
         InitializeUserInteractor(get(), get())
+    }
+    single {
+        LogInWithEmailAndPasswordInteractor(get(), get())
     }
 }

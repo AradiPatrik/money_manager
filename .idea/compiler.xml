@@ -6,9 +6,12 @@
       <module name="Authentication-Integration" target="1.8" />
       <module name="CommonMocks" target="1.8" />
       <module name="Data" target="1.8" />
+      <module name="DataMocks" target="1.8" />
       <module name="Domain" target="1.8" />
+      <module name="DomainMocks" target="1.8" />
       <module name="Integration" target="1.8" />
       <module name="Local" target="1.8" />
+      <module name="LocalMocks" target="1.8" />
       <module name="MobileUI" target="1.8" />
       <module name="Presentation" target="1.7" />
       <module name="Remote" target="1.8" />

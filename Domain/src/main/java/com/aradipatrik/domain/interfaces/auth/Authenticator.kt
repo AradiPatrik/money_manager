@@ -6,4 +6,5 @@ import io.reactivex.Single
 
 interface Authenticator {
     fun registerUserWithCredentials(userCredentials: UserCredentials): Single<User>
+    fun loginUserWithCredentials(userCredentials: UserCredentials): Single<User>
 }

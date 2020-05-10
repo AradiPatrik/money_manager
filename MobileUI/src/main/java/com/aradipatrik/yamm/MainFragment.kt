@@ -48,7 +48,6 @@ class MainFragment : BaseMvRxFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
             hideCalculator()
-            hideSumSheet()
             showFab()
         }
 

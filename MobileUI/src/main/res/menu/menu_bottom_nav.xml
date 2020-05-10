@@ -12,10 +12,4 @@
         android:icon="@drawable/ic_pie_chart_white_24dp"
         android:title="Diagrams"
         app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/month_switcher"
-        android:icon="@drawable/ic_account_balance_wallet_24dp"
-        android:title="Wallet"
-        app:showAsAction="ifRoom" />
 </menu>

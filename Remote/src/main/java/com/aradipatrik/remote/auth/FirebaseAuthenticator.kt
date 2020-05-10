@@ -29,4 +29,17 @@ class FirebaseAuthenticator(
                 }
                 .addOnCanceledListener { emitter.onError(Exception("Registration cancelled")) }
         }.observeOn(Schedulers.io())
+
+    override fun loginUserWithCredentials(userCredentials: UserCredentials) =
+        Single.create<User> { emitter ->
+            FirebaseAuth.getInstance()
+                .signInWithEmailAndPassword(userCredentials.email, userCredentials.password)
+                .addOnSuccessListener {  result ->
+                    result.user!!.let(firebaseUserMapper::mapFrom).let(emitter::onSuccess)
+                }
+                .addOnFailureListener {
+                    emitter.onError(firebaseErrorMapper.mapFrom(it, userCredentials))
+                }
+                .addOnCanceledListener { emitter.onError(Exception("Login cancelled")) }
+        }
 }

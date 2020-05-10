@@ -33,6 +33,13 @@
         tools:ignore="FragmentTagUsage"
         tools:layout="@layout/fragment_history" />
 
+    <include
+        android:id="@+id/sum_sheet_container"
+        app:behavior_hideable="false"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        layout="@layout/sum_sheet"
+        tools:visibility="visible" />
+
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"
         android:layout_width="match_parent"
@@ -60,9 +67,5 @@
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         tools:layout="@layout/fragment_calculator_sheet" />
 
-    <include
-        android:id="@+id/sum_sheet_container"
-        layout="@layout/sum_sheet"
-        tools:visibility="invisible" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -1,6 +1,5 @@
 package com.aradipatrik.yamm.features.onboarding.view
 
-import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.airbnb.mvrx.BaseMvRxFragment
 import com.airbnb.mvrx.Fail
@@ -16,6 +15,7 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.fragment_onboarding.email_address_text_input_layout
+import kotlinx.android.synthetic.main.fragment_onboarding.login_button
 import kotlinx.android.synthetic.main.fragment_onboarding.password_text_input_layout
 import kotlinx.android.synthetic.main.fragment_onboarding.register_button
 
@@ -31,7 +31,8 @@ class OnboardingFragment : BaseMvRxFragment(R.layout.fragment_onboarding) {
             password_text_input_layout.editText!!.textChangeEvents()
                 .map { RegisterViewEvent.PasswordChange(it.text.toString()) }
                 .distinctUntilChanged(),
-            register_button.clicks().map { RegisterViewEvent.RegisterClick }
+            register_button.clicks().map { RegisterViewEvent.RegisterClick },
+            login_button.clicks().map { RegisterViewEvent.LogInClick }
         )
 
     override fun onResume() {
@@ -45,14 +46,10 @@ class OnboardingFragment : BaseMvRxFragment(R.layout.fragment_onboarding) {
     }
 
     override fun invalidate() = withState(viewModel) { state ->
-        when (state.registerOperation) {
+        when (val operation = state.loginOperation) {
             is Success -> findNavController()
                 .navigate(R.id.action_onboardingFragment_to_mainFragment)
-            is Fail -> Toast.makeText(
-                activity!!,
-                (state.registerOperation as Fail).error.message!!,
-                Toast.LENGTH_LONG
-            ).show()
+            is Fail -> throw operation.error
             else -> {
             }
         }
