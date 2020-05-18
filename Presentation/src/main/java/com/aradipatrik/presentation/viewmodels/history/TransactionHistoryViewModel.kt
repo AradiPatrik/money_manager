@@ -1,6 +1,10 @@
 package com.aradipatrik.presentation.viewmodels.history
 
-import com.airbnb.mvrx.*
+import com.airbnb.mvrx.Async
+import com.airbnb.mvrx.MvRxState
+import com.airbnb.mvrx.MvRxViewModelFactory
+import com.airbnb.mvrx.Uninitialized
+import com.airbnb.mvrx.ViewModelContext
 import com.aradipatrik.domain.interactor.transaction.GetTransactionsInIntervalInteractor
 import com.aradipatrik.presentation.common.MvRxViewModel
 import com.aradipatrik.presentation.mapper.TransactionPresentationMapper
@@ -20,7 +24,7 @@ data class TransactionHistoryState(
     val selectedMonthAsInterval: Interval = selectedMonth.toInterval()
     val datesToTransactions = transactionsOfSelectedMonth
         .groupBy { it.date.toLocalDate() }
-        .mapValues { (_, value) -> value.toSortedSet(compareBy(TransactionPresentationModel::date)) }
+        .mapValues { (_, value) -> value.toSortedSet(compareByDescending { it.date }) }
         .toSortedMap()
 }
 
@@ -38,11 +42,7 @@ class TransactionHistoryViewModel(
         ): TransactionHistoryViewModel? {
             val useCase: GetTransactionsInIntervalInteractor by viewModelContext.activity.inject()
             val mapper: TransactionPresentationMapper by viewModelContext.activity.inject()
-            return TransactionHistoryViewModel(
-                state,
-                mapper,
-                useCase
-            )
+            return TransactionHistoryViewModel(state, mapper, useCase)
         }
     }
 

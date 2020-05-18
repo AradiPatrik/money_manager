@@ -197,15 +197,7 @@ class AddTransactionViewModel(
             )
                 .subscribeOn(Schedulers.io())
                 .execute {
-                    val initialState =
-                        AddTransactionState()
-                    copy(
-                        addTransactionRequest = it,
-                        selectedDate = initialState.selectedDate,
-                        isExpense = initialState.isExpense,
-                        calculatorState = initialState.calculatorState,
-                        memo = initialState.memo
-                    )
+                    copy(addTransactionRequest = it)
                 }
         }
     }

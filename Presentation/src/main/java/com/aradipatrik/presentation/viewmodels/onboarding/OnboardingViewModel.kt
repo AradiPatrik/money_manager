@@ -5,7 +5,6 @@ import com.airbnb.mvrx.MvRxState
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.Uninitialized
 import com.airbnb.mvrx.ViewModelContext
-import com.aradipatrik.domain.interactor.onboard.InitializeUserInteractor
 import com.aradipatrik.domain.interactor.onboard.LogInWithEmailAndPasswordInteractor
 import com.aradipatrik.domain.interactor.onboard.SignUpWithEmailAndPasswordInteractor
 import com.aradipatrik.presentation.common.MvRxViewModel
@@ -14,6 +13,7 @@ import com.aradipatrik.presentation.viewmodels.onboarding.RegisterViewEvent.Emai
 import com.aradipatrik.presentation.viewmodels.onboarding.RegisterViewEvent.LogInClick
 import com.aradipatrik.presentation.viewmodels.onboarding.RegisterViewEvent.PasswordChange
 import com.aradipatrik.presentation.viewmodels.onboarding.RegisterViewEvent.RegisterClick
+import io.reactivex.schedulers.Schedulers
 import org.koin.android.ext.android.inject
 
 data class OnboardingState(
@@ -25,8 +25,7 @@ data class OnboardingState(
 class OnboardingViewModel(
     initialState: OnboardingState,
     private val signUpWithEmailAndPassword: SignUpWithEmailAndPasswordInteractor,
-    private val logInWithEmailAndPasswordInteractor: LogInWithEmailAndPasswordInteractor,
-    private val initializeUserInteractor: InitializeUserInteractor
+    private val logInWithEmailAndPasswordInteractor: LogInWithEmailAndPasswordInteractor
 ) : MvRxViewModel<OnboardingState>(initialState), ViewEventProcessor<RegisterViewEvent> {
     companion object : MvRxViewModelFactory<OnboardingViewModel, OnboardingState> {
         override fun create(
@@ -35,8 +34,7 @@ class OnboardingViewModel(
         ) = OnboardingViewModel(
             state,
             viewModelContext.activity.inject<SignUpWithEmailAndPasswordInteractor>().value,
-            viewModelContext.activity.inject<LogInWithEmailAndPasswordInteractor>().value,
-            viewModelContext.activity.inject<InitializeUserInteractor>().value
+            viewModelContext.activity.inject<LogInWithEmailAndPasswordInteractor>().value
         )
     }
 
@@ -61,9 +59,9 @@ class OnboardingViewModel(
             SignUpWithEmailAndPasswordInteractor.Params.forEmailAndPassword(
                 state.email, state.password
             )
-        ).andThen(initializeUserInteractor.get()).execute {
-            copy(loginOperation = it)
-        }
+        )
+            .subscribeOn(Schedulers.io())
+            .execute { copy(loginOperation = it) }
     }
 
     private fun login() = withState { state ->
@@ -71,6 +69,8 @@ class OnboardingViewModel(
             LogInWithEmailAndPasswordInteractor.Params.forEmailAndPassword(
                 state.email, state.password
             )
-        ).execute { copy(loginOperation = it) }
+        )
+            .subscribeOn(Schedulers.io())
+            .execute { copy(loginOperation = it) }
     }
 }

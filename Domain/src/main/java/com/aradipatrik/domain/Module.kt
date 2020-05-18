@@ -30,7 +30,7 @@ val domainModule = module {
         GetCategoriesInteractor(get(), get())
     }
     single {
-        SignUpWithEmailAndPasswordInteractor(get(), get())
+        SignUpWithEmailAndPasswordInteractor(get(), get(), get())
     }
     single {
         SelectFirstWalletInteractor(get())
@@ -42,6 +42,6 @@ val domainModule = module {
         InitializeUserInteractor(get(), get())
     }
     single {
-        LogInWithEmailAndPasswordInteractor(get(), get())
+        LogInWithEmailAndPasswordInteractor(get(), get(), get())
     }
 }

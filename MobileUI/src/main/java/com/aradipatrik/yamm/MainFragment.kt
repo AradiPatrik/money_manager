@@ -4,19 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.addCallback
-import androidx.navigation.NavHost
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.NavController
 import com.airbnb.mvrx.BaseMvRxFragment
 import com.aradipatrik.yamm.MainFragmentUiEffect.BottomSheetCollapse
 import com.aradipatrik.yamm.MainFragmentUiEffect.FabClick
+import com.aradipatrik.yamm.common.holder.ToolbarHolder
 import com.aradipatrik.yamm.common.viewext.asBottomSheet
 import com.aradipatrik.yamm.common.viewext.collapseEvents
 import com.aradipatrik.yamm.common.viewext.hideAsBottomSheet
-import com.aradipatrik.yamm.common.viewext.isExpanded
 import com.aradipatrik.yamm.common.viewext.showAsBottomSheet
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.Observable
@@ -25,6 +20,8 @@ import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.fragment_main.calculator_sheet
 import kotlinx.android.synthetic.main.fragment_main.fab
 import kotlinx.android.synthetic.main.fragment_main.sum_sheet_container
+import kotlinx.android.synthetic.main.fragment_main.toolbar
+import org.koin.android.ext.android.inject
 
 sealed class MainFragmentUiEffect {
     object FabClick : MainFragmentUiEffect()
@@ -33,6 +30,7 @@ sealed class MainFragmentUiEffect {
 
 class MainFragment : BaseMvRxFragment() {
     private val uiEffectsDisposable = CompositeDisposable()
+    private val toolbarHolder: ToolbarHolder by inject()
 
     private val uiEffects get() = Observable.merge(
         fab.clicks().map { FabClick },
@@ -49,14 +47,7 @@ class MainFragment : BaseMvRxFragment() {
         if (savedInstanceState == null) {
             hideCalculator()
             showFab()
-        }
-
-        activity!!.onBackPressedDispatcher.addCallback {
-            if (calculator_sheet.asBottomSheet().isExpanded()) {
-                hideCalculator()
-            } else {
-                activity!!.finish()
-            }
+            toolbarHolder.setToolbar(toolbar)
         }
     }
 

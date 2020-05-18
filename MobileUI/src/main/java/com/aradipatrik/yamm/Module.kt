@@ -1,5 +1,6 @@
 package com.aradipatrik.yamm
 
+import com.aradipatrik.yamm.common.holder.ToolbarHolder
 import com.aradipatrik.yamm.common.mapper.IconMapper
 import com.aradipatrik.yamm.features.addtransaction.mapper.CalculatorViewDataMapper
 import com.aradipatrik.yamm.features.addtransaction.mapper.CategoryItemViewDataMapper
@@ -15,4 +16,5 @@ val mobileUiModule = module {
     single { IconMapper() }
     single { CalculatorViewDataMapper() }
     single { CategoryItemViewDataMapper(get()) }
+    single { ToolbarHolder() }
 }

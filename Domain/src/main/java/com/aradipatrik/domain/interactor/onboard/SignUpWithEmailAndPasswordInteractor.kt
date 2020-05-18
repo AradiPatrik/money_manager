@@ -10,7 +10,8 @@ import io.reactivex.Completable
 
 class SignUpWithEmailAndPasswordInteractor(
     private val authenticator: Authenticator,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val initializeUserInteractor: InitializeUserInteractor
 ) : CompletableUseCase<Params> {
     data class Params internal constructor(val credentials: UserCredentials) {
         companion object {
@@ -27,6 +28,7 @@ class SignUpWithEmailAndPasswordInteractor(
             authenticator
                 .registerUserWithCredentials(params.credentials)
                 .flatMapCompletable(userRepository::setSignedInUser)
+                .andThen(initializeUserInteractor.get())
         } catch (exception: Exception) {
             Completable.error(exception)
         }

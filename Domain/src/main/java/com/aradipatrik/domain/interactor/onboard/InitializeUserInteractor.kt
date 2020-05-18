@@ -15,7 +15,7 @@ class InitializeUserInteractor(
                 .andThen(categoryRepository.addAll(initialCategories, wallet.id))
         }
 
-    val initialCategories = listOf(
+    private val initialCategories = listOf(
         "Groceries",
         "Food",
         "Gift",

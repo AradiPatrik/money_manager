@@ -41,5 +41,5 @@ class FirebaseAuthenticator(
                     emitter.onError(firebaseErrorMapper.mapFrom(it, userCredentials))
                 }
                 .addOnCanceledListener { emitter.onError(Exception("Login cancelled")) }
-        }
+        }.observeOn(Schedulers.io())
 }
