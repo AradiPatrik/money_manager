@@ -5,7 +5,6 @@ import io.reactivex.Observable
 import org.joda.time.DateTime
 
 interface SelectedMonthRepository {
-    fun init(): Completable
     fun setSelectedMonth(dateTime: DateTime): Completable
     fun getSelectedMonth(): Observable<DateTime>
 }

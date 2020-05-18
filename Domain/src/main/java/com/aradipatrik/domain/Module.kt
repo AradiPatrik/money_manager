@@ -42,6 +42,6 @@ val domainModule = module {
         InitializeUserInteractor(get(), get())
     }
     single {
-        LogInWithEmailAndPasswordInteractor(get(), get(), get())
+        LogInWithEmailAndPasswordInteractor(get(), get(), get(), get())
     }
 }

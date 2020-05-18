@@ -26,7 +26,6 @@ class SplashViewModel(
     }
 
     init {
-        logStateChanges()
         isUserSignedInInteractor.get().execute {
             copy(isUserSignedIn = it)
         }

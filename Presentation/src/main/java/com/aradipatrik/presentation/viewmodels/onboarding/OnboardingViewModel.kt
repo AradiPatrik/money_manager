@@ -38,10 +38,6 @@ class OnboardingViewModel(
         )
     }
 
-    init {
-        logStateChanges()
-    }
-
     override fun processEvent(event: RegisterViewEvent) {
         when (event) {
             is PasswordChange -> updatePassword(event.newValue)

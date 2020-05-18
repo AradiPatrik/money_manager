@@ -16,8 +16,7 @@
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:layout_scrollFlags="noScroll"
-            tools:title="History"
-            />
+            tools:title="History" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <fragment
@@ -26,18 +25,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:defaultNavHost="false"
-        app:layout_anchor="@+id/sum_sheet_container"
+        app:layout_anchor="@+id/sum_sheet"
         app:layout_anchorGravity="top|center"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         app:navGraph="@navigation/nav_graph_content"
         tools:ignore="FragmentTagUsage"
         tools:layout="@layout/fragment_history" />
 
-    <include
-        android:id="@+id/sum_sheet_container"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/sum_sheet"
+        app:behavior_peekHeight="85dp"
+        android:name="com.aradipatrik.yamm.features.sumsheet.view.SumSheetFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:behavior_hideable="false"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-        layout="@layout/sum_sheet"
         tools:visibility="visible" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
@@ -46,8 +48,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:fabAlignmentMode="center"
-        app:navigationIcon="@drawable/ic_menu_white_24dp"
-        app:menu="@menu/menu_bottom_nav"/>
+        app:menu="@menu/menu_bottom_nav"
+        app:navigationIcon="@drawable/ic_menu_white_24dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

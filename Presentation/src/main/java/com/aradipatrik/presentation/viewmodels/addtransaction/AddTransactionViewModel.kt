@@ -72,7 +72,6 @@ class AddTransactionViewModel(
     }
 
     init {
-        logStateChanges()
         getCategoriesInteractor.get()
             .map { it.map(mapper::mapToPresentation) }
             .subscribeOn(Schedulers.io())

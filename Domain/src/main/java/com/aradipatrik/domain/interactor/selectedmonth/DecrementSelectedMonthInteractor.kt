@@ -2,7 +2,6 @@ package com.aradipatrik.domain.interactor.selectedmonth
 
 import com.aradipatrik.domain.interfaces.data.SelectedMonthRepository
 import com.aradipatrik.domain.usecase.CompletableUseCase
-import io.reactivex.Completable
 import org.joda.time.Period
 
 class DecrementSelectedMonthInteractor(

@@ -47,7 +47,6 @@ class TransactionHistoryViewModel(
     }
 
     init {
-        logStateChanges()
         fetchCurrentMonth()
     }
 

@@ -29,10 +29,5 @@ class LogInWithEmailAndPasswordInteractor(
         return authenticator.loginUserWithCredentials(params.credentials)
             .flatMapCompletable(userRepository::setSignedInUser)
             .andThen(selectFirstWalletInteractor.get())
-            .andThen(
-                selectedMonthRepository.setSelectedMonth(
-                    DateTime.now().monthOfYear().dateTime
-                )
-            )
     }
 }

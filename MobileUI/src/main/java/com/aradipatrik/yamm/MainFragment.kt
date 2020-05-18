@@ -19,8 +19,9 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.fragment_main.calculator_sheet
 import kotlinx.android.synthetic.main.fragment_main.fab
-import kotlinx.android.synthetic.main.fragment_main.sum_sheet_container
+import kotlinx.android.synthetic.main.fragment_main.sum_sheet
 import kotlinx.android.synthetic.main.fragment_main.toolbar
+import kotlinx.android.synthetic.main.sum_sheet.view.sum_sheet_container
 import org.koin.android.ext.android.inject
 
 sealed class MainFragmentUiEffect {
@@ -73,7 +74,7 @@ class MainFragment : BaseMvRxFragment() {
 
     private fun hideCalculator() = calculator_sheet.hideAsBottomSheet()
 
-    private fun hideSumSheet() = sum_sheet_container.hideAsBottomSheet()
+    private fun hideSumSheet() = sum_sheet.hideAsBottomSheet()
 
     private fun showFab() = fab.show()
 
