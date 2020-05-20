@@ -1,32 +1,18 @@
 package com.aradipatrik.datasource.test
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
-import com.aradipatrik.local.database.TransactionDatabase
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_ADD_CODE
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_DELETE_CODE
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_UPDATE_CODE
+import com.aradipatrik.local.database.model.wallet.WalletDao
 import com.aradipatrik.local.database.model.wallet.WalletRow
 import com.aradipatrik.local.mocks.LocalMocks.walletRow
-import org.junit.After
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.test.inject
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class WalletDaoTest {
-    @get:Rule
-    val instantTaskExecutionRule = InstantTaskExecutorRule()
-
-    private val database = Room.inMemoryDatabaseBuilder(
-        ApplicationProvider.getApplicationContext(),
-        TransactionDatabase::class.java
-    )
-        .allowMainThreadQueries()
-        .build()
-
+class WalletDaoTest : BaseRoomTest() {
     private val pendingWalletInstances = listOf(
         walletRow(syncStatusCode = TO_DELETE_CODE),
         walletRow(syncStatusCode = TO_ADD_CODE),
@@ -35,14 +21,9 @@ class WalletDaoTest {
 
     private val testRow = walletRow()
     private val syncedRow = walletRow()
-    private val dao get() = database.walletDao()
+    private val dao: WalletDao by inject()
     private val rowToDelete = walletRow()
     private val randomRows = createNRandomWallets(2)
-
-    @After
-    fun teardown() {
-        database.close()
-    }
 
     @Test
     fun `Get all wallets returns data`() {

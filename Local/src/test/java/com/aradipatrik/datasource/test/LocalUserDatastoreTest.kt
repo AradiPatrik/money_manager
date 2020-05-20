@@ -20,29 +20,8 @@ import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
 @RunWith(RobolectricTestRunner::class)
-class LocalUserDatastoreTest : KoinTest {
-    private val module = module {
-        single {
-            RxSharedPreferences.create(
-                PreferenceManager.getDefaultSharedPreferences(
-                    ApplicationProvider.getApplicationContext()
-                )
-            )
-        }
-        single<LocalUserDatastore> { RxPreferencesUserDatastore(get()) }
-    }
-
+class LocalUserDatastoreTest : BaseRoomTest() {
     private val localDatastore: LocalUserDatastore by inject()
-
-    @Before
-    fun setup() {
-        startKoin { modules(module) }
-    }
-
-    @After
-    fun teardown() {
-        stopKoin()
-    }
 
     @Test
     fun `getUser after saveUser should return correct user`() {

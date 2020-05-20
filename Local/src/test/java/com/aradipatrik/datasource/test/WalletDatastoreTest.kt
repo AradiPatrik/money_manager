@@ -16,45 +16,17 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.test.inject
 import org.robolectric.RobolectricTestRunner
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 import java.util.*
 
 @RunWith(RobolectricTestRunner::class)
-class WalletDatastoreTest {
-    @get:Rule
-    val instantTaskExecutionRule = InstantTaskExecutorRule()
-
-    private val database = Room.inMemoryDatabaseBuilder(
-        ApplicationProvider.getApplicationContext(),
-        TransactionDatabase::class.java
-    )
-        .allowMainThreadQueries()
-        .build()
-
-    private lateinit var datasource: LocalWalletDatastore
-    private val walletRowMapper = WalletRowMapper()
+class WalletDatastoreTest : BaseRoomTest() {
+    private val datasource: LocalWalletDatastore by inject()
     private val walletEntitiesWithAllSyncStatuses =
         EnumSet.allOf(SyncStatus::class.java).map { walletDataModel(syncStatus = it) }
-
-    @Before
-    fun setup() {
-        datasource = RoomLocalWalletDatastore(
-            database.walletDao(),
-            walletRowMapper,
-            RxSharedPreferences.create(
-                PreferenceManager.getDefaultSharedPreferences(
-                    ApplicationProvider.getApplicationContext()
-                )
-            )
-        )
-    }
-
-    @After
-    fun teardown() {
-        database.close()
-    }
 
     @Test
     fun `Update with should insert the row representations of the entities passed`() {

@@ -6,6 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.aradipatrik.local.database.TransactionDatabase
 import com.aradipatrik.local.database.common.SyncStatusConstants
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_DELETE_CODE
+import com.aradipatrik.local.database.model.transaction.TransactionDao
 import com.aradipatrik.local.mocks.LocalMocks.categoryRow
 import com.aradipatrik.local.mocks.LocalMocks.transactionRow
 import com.aradipatrik.local.mocks.LocalMocks.transactionWithCategory
@@ -14,37 +15,25 @@ import org.junit.After
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.test.inject
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class TransactionDaoTest {
-    @get:Rule
-    val instantTaskExecutionRule = InstantTaskExecutorRule()
-
-    private val database = Room.inMemoryDatabaseBuilder(
-        ApplicationProvider.getApplicationContext(),
-        TransactionDatabase::class.java
-    )
-        .allowMainThreadQueries()
-        .build()
-
+class TransactionDaoTest : BaseRoomTest() {
     private val allPendingTransactions = listOf(
         transactionRow(syncStatusCode = TO_DELETE_CODE),
         transactionRow(syncStatusCode = SyncStatusConstants.TO_ADD_CODE),
         transactionRow(syncStatusCode = SyncStatusConstants.TO_UPDATE_CODE)
     )
-
-    @After
-    fun teardown() {
-        database.close()
-    }
-
+    
+    private val transactionDao: TransactionDao by inject()
+    
     @Test
     fun `Get all transactions returns data`() {
         val transaction = transactionRow()
-        database.transactionDao().insert(listOf(transaction)).blockingAwait()
+        transactionDao.insert(listOf(transaction)).blockingAwait()
 
-        val testObserver = database.transactionDao().getAllTransactions().test()
+        val testObserver = transactionDao.getAllTransactions().test()
         testObserver.assertValue(listOf(transaction))
     }
 
@@ -52,10 +41,10 @@ class TransactionDaoTest {
     fun `Get pending transactions returns only pending data`() {
         val syncedTransaction = transactionRow()
 
-        database.transactionDao().insert(listOf(syncedTransaction)).blockingAwait()
-        database.transactionDao().insert(allPendingTransactions).blockingAwait()
+        transactionDao.insert(listOf(syncedTransaction)).blockingAwait()
+        transactionDao.insert(allPendingTransactions).blockingAwait()
 
-        val testObserver = database.transactionDao().getPendingTransactions().test()
+        val testObserver = transactionDao.getPendingTransactions().test()
         testObserver.assertValue(allPendingTransactions)
     }
 
@@ -82,13 +71,13 @@ class TransactionDaoTest {
 
         database.categoryDao().insert(listOf(category)).blockingAwait()
 
-        database.transactionDao().insert(transactionsAfterQueried).blockingAwait()
-        database.transactionDao().insert(transactionsInsideQueried).blockingAwait()
-        database.transactionDao().insert(transactionsBeforeQueried).blockingAwait()
-        database.transactionDao().insert(listOf(transactionInsideQueriedButNotInWallet))
+        transactionDao.insert(transactionsAfterQueried).blockingAwait()
+        transactionDao.insert(transactionsInsideQueried).blockingAwait()
+        transactionDao.insert(transactionsBeforeQueried).blockingAwait()
+        transactionDao.insert(listOf(transactionInsideQueriedButNotInWallet))
             .blockingAwait()
 
-        val testObserver = database.transactionDao()
+        val testObserver = transactionDao
             .getInInterval(3L, 5L, walletId).test()
         testObserver.assertValue(inInterval)
     }
@@ -96,14 +85,14 @@ class TransactionDaoTest {
     @Test
     fun `Clear pending should clear all pending transactions`() {
         val syncedTransaction = transactionRow()
-        database.transactionDao().insert(allPendingTransactions + syncedTransaction)
+        transactionDao.insert(allPendingTransactions + syncedTransaction)
             .blockingAwait()
-        database.transactionDao().clearPending().blockingAwait()
+        transactionDao.clearPending().blockingAwait()
 
-        database.transactionDao().getPendingTransactions()
+        transactionDao.getPendingTransactions()
             .test()
             .assertValue(emptyList())
-        database.transactionDao().getAllTransactions()
+        transactionDao.getAllTransactions()
             .test()
             .assertValue(listOf(syncedTransaction))
     }
@@ -112,15 +101,15 @@ class TransactionDaoTest {
     fun `Get last sync time should return last sync time`() {
         val syncTimes = listOf<Long>(1, 2, 3, 4, 5)
         val transactions = syncTimes.map { transactionRow(updateTimestamp = it) }
-        database.transactionDao().insert(transactions).blockingAwait()
-        database.transactionDao().getLastSyncTime()
+        transactionDao.insert(transactions).blockingAwait()
+        transactionDao.getLastSyncTime()
             .test()
             .assertValue(syncTimes.max())
     }
 
     @Test
     fun `Get last sync time should complete when no sync time is the db yet`() {
-        database.transactionDao().getLastSyncTime()
+        transactionDao.getLastSyncTime()
             .test()
             .assertNoValues()
             .assertComplete()
@@ -130,13 +119,13 @@ class TransactionDaoTest {
     fun `Set deleted should set transactions code TO_DELETE`() {
         val transactionToDelete = transactionRow()
         val transactions = listOf(transactionRow(), transactionRow())
-        database.transactionDao().insert(transactions + transactionToDelete).blockingAwait()
-        database.transactionDao().setDeleted(transactionToDelete.uid).blockingAwait()
-        database.transactionDao().getPendingTransactions()
+        transactionDao.insert(transactions + transactionToDelete).blockingAwait()
+        transactionDao.setDeleted(transactionToDelete.uid).blockingAwait()
+        transactionDao.getPendingTransactions()
             .test()
             .assertValue(listOf(transactionToDelete.copy(syncStatusCode = TO_DELETE_CODE)))
 
-        database.transactionDao().getAllTransactions()
+        transactionDao.getAllTransactions()
             .test()
             .assertValue(
                 transactions + transactionToDelete.copy(syncStatusCode = TO_DELETE_CODE)
@@ -150,8 +139,8 @@ class TransactionDaoTest {
         val transaction2 = transactionRow(categoryId= category.uid)
 
         database.categoryDao().insert(listOf(category)).blockingAwait()
-        database.transactionDao().insert(listOf(transaction, transaction2)).blockingAwait()
-        database.transactionDao().getInWallet(transaction.walletId)
+        transactionDao.insert(listOf(transaction, transaction2)).blockingAwait()
+        transactionDao.getInWallet(transaction.walletId)
             .test()
             .assertValue(listOf(transactionWithCategory(transaction, category)))
     }

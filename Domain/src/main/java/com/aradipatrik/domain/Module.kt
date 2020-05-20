@@ -6,6 +6,11 @@ import com.aradipatrik.domain.interactor.onboard.SignUpWithEmailAndPasswordInter
 import com.aradipatrik.domain.interactor.category.GetCategoriesInteractor
 import com.aradipatrik.domain.interactor.onboard.InitializeUserInteractor
 import com.aradipatrik.domain.interactor.onboard.LogInWithEmailAndPasswordInteractor
+import com.aradipatrik.domain.interactor.selectedmonth.DecrementSelectedMonthInteractor
+import com.aradipatrik.domain.interactor.selectedmonth.GetSelectedMonthInteractor
+import com.aradipatrik.domain.interactor.selectedmonth.IncrementSelectedMonthInteractor
+import com.aradipatrik.domain.interactor.stats.GetAllTimeExpenseStatsInteractor
+import com.aradipatrik.domain.interactor.stats.GetMonthlyExpenseStatsInteractor
 import com.aradipatrik.domain.interactor.transaction.AddTransactionInteractor
 import com.aradipatrik.domain.interactor.transaction.DeleteTransactionInteractor
 import com.aradipatrik.domain.interactor.transaction.GetTransactionsInIntervalInteractor
@@ -43,5 +48,20 @@ val domainModule = module {
     }
     single {
         LogInWithEmailAndPasswordInteractor(get(), get(), get(), get())
+    }
+    single {
+        IncrementSelectedMonthInteractor(get())
+    }
+    single {
+        DecrementSelectedMonthInteractor(get())
+    }
+    single {
+        GetAllTimeExpenseStatsInteractor(get(), get())
+    }
+    single {
+        GetSelectedMonthInteractor(get())
+    }
+    single {
+        GetMonthlyExpenseStatsInteractor(get(), get())
     }
 }

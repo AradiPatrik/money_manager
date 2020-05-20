@@ -1,18 +1,13 @@
 package com.aradipatrik.datasource.test
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
 import com.aradipatrik.data.datastore.category.LocalCategoryDatastore
 import com.aradipatrik.data.datastore.transaction.LocalTransactionDatastore
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.mocks.DataLayerMocks.categoryEntity
-import com.aradipatrik.data.mocks.DataLayerMocks.transactionWithCategory
 import com.aradipatrik.data.mocks.DataLayerMocks.transactionWithIds
 import com.aradipatrik.data.model.TransactionWithCategoryDataModel
 import com.aradipatrik.local.database.RoomLocalCategoryDatastore
 import com.aradipatrik.local.database.RoomLocalTransactionDatastore
-import com.aradipatrik.local.database.TransactionDatabase
 import com.aradipatrik.local.database.mapper.CategoryRowMapper
 import com.aradipatrik.local.database.mapper.TransactionRowMapper
 import com.aradipatrik.testing.CommonMocks.hour
@@ -22,42 +17,18 @@ import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.test.inject
 import org.robolectric.RobolectricTestRunner
 import java.util.*
 
 @RunWith(RobolectricTestRunner::class)
-class TransactionDatastoreTest {
-    @get:Rule
-    val instantTaskExecutionRule = InstantTaskExecutorRule()
-
-    private val database = Room.inMemoryDatabaseBuilder(
-        ApplicationProvider.getApplicationContext(),
-        TransactionDatabase::class.java
-    )
-        .allowMainThreadQueries()
-        .build()
-
-    private lateinit var transactionDatastore: LocalTransactionDatastore
-    private lateinit var categoryDatastore: LocalCategoryDatastore
-    private val categoryRowMapper = CategoryRowMapper()
-    private val transactionRowMapper = TransactionRowMapper(categoryRowMapper)
+class TransactionDatastoreTest : BaseRoomTest() {
+    private val transactionDatastore: LocalTransactionDatastore by inject()
+    private val categoryDatastore: LocalCategoryDatastore by inject()
     private val transactionEntitiesWithAllSyncStatus =
         EnumSet.allOf(SyncStatus::class.java).map { transactionWithIds(syncStatus = it) }
-
-    @Before
-    fun setup() {
-        transactionDatastore =
-            RoomLocalTransactionDatastore(database.transactionDao(), transactionRowMapper)
-        categoryDatastore = RoomLocalCategoryDatastore(database.categoryDao(), categoryRowMapper)
-    }
-
-    @After
-    fun teardown() {
-        database.close()
-    }
 
     @Test
     fun `Get in interval should return transactions in given interval, left right inclusive`() {

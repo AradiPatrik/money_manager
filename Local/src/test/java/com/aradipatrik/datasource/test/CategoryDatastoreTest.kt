@@ -1,48 +1,19 @@
 package com.aradipatrik.datasource.test
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
 import com.aradipatrik.data.datastore.category.LocalCategoryDatastore
 import com.aradipatrik.data.mapper.SyncStatus
 import com.aradipatrik.data.mocks.DataLayerMocks.categoryEntity
-import com.aradipatrik.local.database.RoomLocalCategoryDatastore
-import com.aradipatrik.local.database.TransactionDatabase
-import com.aradipatrik.local.database.mapper.CategoryRowMapper
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.test.inject
 import org.robolectric.RobolectricTestRunner
 import java.util.*
 
 @RunWith(RobolectricTestRunner::class)
-class CategoryDatastoreTest {
-    @get:Rule
-    val instantTaskExecutionRule = InstantTaskExecutorRule()
-
-    private val database = Room.inMemoryDatabaseBuilder(
-        ApplicationProvider.getApplicationContext(),
-        TransactionDatabase::class.java
-    )
-        .allowMainThreadQueries()
-        .build()
-
-    private lateinit var datastore: LocalCategoryDatastore
-    private val categoryRowMapper = CategoryRowMapper()
+class CategoryDatastoreTest: BaseRoomTest() {
+    private val datastore: LocalCategoryDatastore by inject()
     private val categoryEntitiesWithAllSyncStatuses =
         EnumSet.allOf(SyncStatus::class.java).map { categoryEntity(syncStatus = it) }
-
-    @Before
-    fun setup() {
-        datastore = RoomLocalCategoryDatastore(database.categoryDao(), categoryRowMapper)
-    }
-
-    @After
-    fun teardown() {
-        database.close()
-    }
 
     @Test
     fun `Update with should insert the row representations of the entities passed`() {

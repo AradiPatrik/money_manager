@@ -1,33 +1,19 @@
 package com.aradipatrik.datasource.test
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
-import com.aradipatrik.local.database.TransactionDatabase
-import com.aradipatrik.local.database.model.category.CategoryRow
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_ADD_CODE
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_DELETE_CODE
 import com.aradipatrik.local.database.common.SyncStatusConstants.TO_UPDATE_CODE
+import com.aradipatrik.local.database.model.category.CategoryDao
+import com.aradipatrik.local.database.model.category.CategoryRow
 import com.aradipatrik.local.mocks.LocalMocks.categoryRow
-import org.junit.After
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.test.inject
 import org.robolectric.RobolectricTestRunner
 
 @Suppress("SameParameterValue")
 @RunWith(RobolectricTestRunner::class)
-class CategoryDaoTest {
-    @get:Rule
-    val instantTaskExecutionRule = InstantTaskExecutorRule()
-
-    private val database = Room.inMemoryDatabaseBuilder(
-        ApplicationProvider.getApplicationContext(),
-        TransactionDatabase::class.java
-    )
-        .allowMainThreadQueries()
-        .build()
-
+class CategoryDaoTest : BaseRoomTest() {
     private val pendingCategoryInstances = listOf(
         categoryRow(syncStatusCode = TO_DELETE_CODE),
         categoryRow(syncStatusCode = TO_ADD_CODE),
@@ -36,14 +22,9 @@ class CategoryDaoTest {
 
     private val testCategory = categoryRow()
     private val syncedCategory = categoryRow()
-    private val categoryDao get() = database.categoryDao()
+    private val categoryDao: CategoryDao by inject()
     private val categoryToDelete = categoryRow()
     private val randomCategories = createNRandomCategories(2)
-
-    @After
-    fun teardown() {
-        database.close()
-    }
 
     @Test
     fun `Get all categories returns data`() {

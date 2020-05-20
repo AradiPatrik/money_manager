@@ -2,6 +2,7 @@ package com.aradipatrik.local.database
 
 import androidx.preference.PreferenceManager
 import com.aradipatrik.data.datastore.category.LocalCategoryDatastore
+import com.aradipatrik.data.datastore.stats.LocalExpenseStatsDatastore
 import com.aradipatrik.data.datastore.transaction.LocalTransactionDatastore
 import com.aradipatrik.data.datastore.user.LocalUserDatastore
 import com.aradipatrik.data.datastore.wallet.LocalWalletDatastore
@@ -25,10 +26,14 @@ val localModule = module {
     single<LocalUserDatastore> {
         RxPreferencesUserDatastore(get())
     }
+    single<LocalExpenseStatsDatastore> {
+        RoomLocalExpenseStatsDatastore(get())
+    }
     single { TransactionDatabase.getInstance(androidContext()) }
     single { get<TransactionDatabase>().transactionDao() }
     single { get<TransactionDatabase>().categoryDao() }
     single { get<TransactionDatabase>().walletDao() }
+    single { get<TransactionDatabase>().expenseStatsDao() }
     single { CategoryRowMapper() }
     single { TransactionRowMapper(get()) }
     single { WalletRowMapper() }

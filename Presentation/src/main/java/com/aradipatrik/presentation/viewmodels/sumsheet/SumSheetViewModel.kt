@@ -2,44 +2,87 @@ package com.aradipatrik.presentation.viewmodels.sumsheet
 
 import com.airbnb.mvrx.Async
 import com.airbnb.mvrx.MvRxState
+import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.Uninitialized
+import com.airbnb.mvrx.ViewModelContext
+import com.aradipatrik.domain.interactor.onboard.LogInWithEmailAndPasswordInteractor
+import com.aradipatrik.domain.interactor.onboard.SignUpWithEmailAndPasswordInteractor
 import com.aradipatrik.domain.interactor.selectedmonth.DecrementSelectedMonthInteractor
 import com.aradipatrik.domain.interactor.selectedmonth.GetSelectedMonthInteractor
 import com.aradipatrik.domain.interactor.selectedmonth.IncrementSelectedMonthInteractor
-import com.aradipatrik.domain.interactor.transaction.GetTransactionsInIntervalInteractor
-import com.aradipatrik.domain.model.Transaction
+import com.aradipatrik.domain.interactor.stats.GetAllTimeExpenseStatsInteractor
+import com.aradipatrik.domain.interactor.stats.GetMonthlyExpenseStatsInteractor
+import com.aradipatrik.domain.interactor.stats.GetMonthlyExpenseStatsInteractor.Params.Companion.forSelectedMonth
 import com.aradipatrik.presentation.common.MvRxViewModel
-import org.joda.time.Interval
+import com.aradipatrik.presentation.viewmodels.onboarding.OnboardingState
+import com.aradipatrik.presentation.viewmodels.onboarding.OnboardingViewModel
 import org.joda.time.YearMonth
+import org.koin.android.ext.android.inject
 
 data class SumSheetState(
-    val getTransactionsOperation: Async<List<Transaction>> = Uninitialized,
-    val incomeThisMonth: Int? = null,
-    val expenseThisMonth: Int? = null,
-    val grandTotal: Int? = null,
-    val monthlyTotal: Int? = null
+    val getSelectedMonthOperation: Async<YearMonth> = Uninitialized,
+    val selectedMonth: YearMonth? = null,
+    val incomeThisMonth: Int = 0,
+    val expenseThisMonth: Int = 0,
+    val grandTotal: Int = 0,
+    val monthlyTotal: Int = 0
 ) : MvRxState
 
 class SumSheetViewModel(
     initialState: SumSheetState,
     getSelectedMonthInteractor: GetSelectedMonthInteractor,
-    incrementSelectedMonthInteractor: IncrementSelectedMonthInteractor,
-    decrementSelectedMonthInteractor: DecrementSelectedMonthInteractor,
-    getTransactionsInIntervalInteractor: GetTransactionsInIntervalInteractor
+    private val incrementSelectedMonthInteractor: IncrementSelectedMonthInteractor,
+    private val decrementSelectedMonthInteractor: DecrementSelectedMonthInteractor,
+    getAllTimeExpenseStatsInteractor: GetAllTimeExpenseStatsInteractor,
+    getMonthlyExpenseStatsInteractor: GetMonthlyExpenseStatsInteractor
 ) : MvRxViewModel<SumSheetState>(initialState) {
+
+    companion object : MvRxViewModelFactory<SumSheetViewModel, SumSheetState> {
+        override fun create(
+            viewModelContext: ViewModelContext,
+            state: SumSheetState
+        ) = SumSheetViewModel(
+            state,
+            viewModelContext.activity.inject<GetSelectedMonthInteractor>().value,
+            viewModelContext.activity.inject<IncrementSelectedMonthInteractor>().value,
+            viewModelContext.activity.inject<DecrementSelectedMonthInteractor>().value,
+            viewModelContext.activity.inject<GetAllTimeExpenseStatsInteractor>().value,
+            viewModelContext.activity.inject<GetMonthlyExpenseStatsInteractor>().value
+        )
+    }
+
     init {
-        getSelectedMonthInteractor.get()
-            .map { Interval(YearMonth(it).toInterval()) }
-            .switchMap { interval ->
-                getTransactionsInIntervalInteractor.get(
-                    GetTransactionsInIntervalInteractor.Params.forInterval(interval)
-                ).map { transactions -> transactions to interval}
-            }
+        val selectedMonthStream = getSelectedMonthInteractor.get()
+            .publish()
+            .refCount()
+
+        selectedMonthStream
             .execute {
                 copy(
-
+                    getSelectedMonthOperation = it,
+                    selectedMonth = it() ?: selectedMonth
                 )
             }
 
+        selectedMonthStream
+            .flatMap {
+                getMonthlyExpenseStatsInteractor.get(forSelectedMonth(it))
+            }
+            .execute {
+                copy(
+                    incomeThisMonth = it()?.income ?: incomeThisMonth,
+                    expenseThisMonth = it()?.expense ?: expenseThisMonth,
+                    monthlyTotal = it()?.total ?: monthlyTotal
+                )
+            }
+
+        getAllTimeExpenseStatsInteractor.get().execute {
+            copy(grandTotal = it()?.total ?: grandTotal)
+        }
+    }
+
+    fun process(viewEvent: SumSheetViewEvent) = when(viewEvent) {
+        SumSheetViewEvent.DecrementClick -> incrementSelectedMonthInteractor.get().execute { this }
+        SumSheetViewEvent.IncrementClick -> decrementSelectedMonthInteractor.get().execute { this }
     }
 }

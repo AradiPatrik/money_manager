@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.aradipatrik.local.database.model.category.CategoryDao
 import com.aradipatrik.local.database.model.category.CategoryRow
+import com.aradipatrik.local.database.model.stats.ExpenseStatsDao
 import com.aradipatrik.local.database.model.transaction.TransactionDao
 import com.aradipatrik.local.database.model.transaction.TransactionRow
 import com.aradipatrik.local.database.model.wallet.WalletDao
@@ -22,6 +23,7 @@ abstract class TransactionDatabase : RoomDatabase() {
     abstract fun transactionDao(): TransactionDao
     abstract fun categoryDao(): CategoryDao
     abstract fun walletDao(): WalletDao
+    abstract fun expenseStatsDao(): ExpenseStatsDao
 
     companion object {
         private var instance: TransactionDatabase? = null
