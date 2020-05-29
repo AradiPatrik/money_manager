@@ -25,10 +25,6 @@ it's reflection-based DI makes compile-times considerably faster.
 
 The `Domain` layer is the center of the architecture, here is where my usecases are defined.
 
-I use `RxJava2` throughout the whole project (every layer depends on it) because I feel like
-Kotlin's `Flow`s are not mature enough. Once they get all the capabilities, and operators that
-`RxJava2` has than I will transition to using `Flow`s.
-
 ## How to build it yourself
 Just import the project in android studio, and click the start button to see the app in action.
 To run all the unit tests in every module run: `gradlew test`
